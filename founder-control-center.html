@@ -1,0 +1,213 @@
+<title>Founder Control Center</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&family=Spline+Sans+Mono:wght@400;500&display=swap');
+
+  :root{
+    --ground:#F5F4F0; --surface:#FFFFFF; --surface2:#EDECE6;
+    --ink:#20242E; --ink2:#5A5F6E; --line:#D9D7CE;
+    --accent:#2B4BC8; --accent-soft:#E4E9FA;
+    --good:#2E7D4F; --good-soft:#E1F0E7;
+    --warn:#A66F0E; --warn-soft:#F6ECD6;
+    --crit:#B03A2E; --crit-soft:#F7E3E0;
+    --chip-ink:#FFFFFF;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#161922; --surface:#1F242F; --surface2:#272D3A;
+      --ink:#E8E9EC; --ink2:#9AA0AF; --line:#343B4A;
+      --accent:#7D95F2; --accent-soft:#26304F;
+      --good:#6CC493; --good-soft:#1E3327;
+      --warn:#DFAE4E; --warn-soft:#3A2F17;
+      --crit:#E58B80; --crit-soft:#3D211E;
+      --chip-ink:#10142B;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#161922; --surface:#1F242F; --surface2:#272D3A;
+    --ink:#E8E9EC; --ink2:#9AA0AF; --line:#343B4A;
+    --accent:#7D95F2; --accent-soft:#26304F;
+    --good:#6CC493; --good-soft:#1E3327;
+    --warn:#DFAE4E; --warn-soft:#3A2F17;
+    --crit:#E58B80; --crit-soft:#3D211E;
+    --chip-ink:#10142B;
+  }
+
+  *{box-sizing:border-box}
+  body{background:var(--ground); color:var(--ink);
+    font-family:'Instrument Sans',system-ui,sans-serif; font-size:15px; line-height:1.5;}
+  .wrap{max-width:880px; margin:0 auto; padding:0 20px 64px;}
+
+  header.mast{position:sticky; top:0; z-index:5; background:var(--ground);
+    border-bottom:1px solid var(--line); padding:14px 0 12px; margin-bottom:24px;}
+  .mast-row{display:flex; align-items:baseline; gap:16px; flex-wrap:wrap;}
+  .mast h1{font-family:'Bricolage Grotesque',Georgia,serif; font-weight:700;
+    font-size:1.5rem; margin:0; letter-spacing:-.01em;}
+  .mast .date{color:var(--ink2); font-size:.9rem;}
+  .budget{margin-left:auto; display:flex; align-items:center; gap:8px; font-size:.8rem; color:var(--ink2);}
+  .budget .bar{width:120px; height:6px; border-radius:3px; background:var(--surface2); overflow:hidden;}
+  .budget .fill{width:0%; height:100%; background:var(--accent);}
+  .mock{display:inline-block; background:var(--warn-soft); color:var(--warn);
+    font-family:'Spline Sans Mono',monospace; font-size:.7rem; letter-spacing:.08em;
+    padding:2px 8px; border-radius:3px; text-transform:uppercase;}
+
+  section{margin-bottom:28px;}
+  .sec-head{display:flex; align-items:baseline; gap:10px; margin-bottom:10px;}
+  .sec-head h2{font-family:'Bricolage Grotesque',Georgia,serif; font-weight:600;
+    font-size:1.05rem; margin:0; text-wrap:balance;}
+  .sec-head .count{font-family:'Spline Sans Mono',monospace; font-size:.75rem;
+    color:var(--accent); background:var(--accent-soft); padding:1px 7px; border-radius:9px;}
+  .sec-head .quiet{color:var(--ink2); font-size:.8rem; margin-left:auto;}
+
+  .card{background:var(--surface); border:1px solid var(--line); border-radius:8px;
+    padding:14px 16px; margin-bottom:10px;}
+  .card .top{display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:6px;}
+  .id{font-family:'Spline Sans Mono',monospace; font-size:.72rem; color:var(--ink2);}
+  .gate{font-size:.7rem; letter-spacing:.06em; text-transform:uppercase;
+    border:1px solid var(--accent); color:var(--accent); border-radius:3px; padding:1px 6px;}
+  .ask{font-weight:600;}
+  .ctx{color:var(--ink2); font-size:.88rem; margin:4px 0 10px;}
+  .rec{font-size:.88rem; margin-bottom:10px;}
+  .rec b{color:var(--accent); font-weight:600;}
+  .actions{display:flex; gap:8px; flex-wrap:wrap;}
+  button{font:inherit; font-size:.82rem; font-weight:600; cursor:pointer;
+    border-radius:6px; padding:6px 14px; border:1px solid var(--line);
+    background:var(--surface2); color:var(--ink);}
+  button.approve{background:var(--accent); border-color:var(--accent); color:var(--chip-ink);}
+  button:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+  button:hover{filter:brightness(1.05);}
+
+  .pill{font-size:.72rem; font-weight:600; letter-spacing:.04em; text-transform:uppercase;
+    padding:2px 8px; border-radius:9px;}
+  .pill.red{background:var(--crit-soft); color:var(--crit);}
+  .pill.amber{background:var(--warn-soft); color:var(--warn);}
+  .pill.green{background:var(--good-soft); color:var(--good);}
+
+  ul.plain{list-style:none; margin:0; padding:0;}
+  ul.plain li{display:flex; gap:10px; align-items:baseline; flex-wrap:wrap;
+    padding:8px 2px; border-bottom:1px solid var(--line); font-size:.9rem;}
+  ul.plain li:last-child{border-bottom:none;}
+  .when{font-family:'Spline Sans Mono',monospace; font-size:.75rem; color:var(--ink2); min-width:86px;}
+  .who{color:var(--ink2); margin-left:auto; font-size:.8rem;}
+
+  .stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px;}
+  .stat{background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:12px 14px;}
+  .stat .label{font-size:.72rem; text-transform:uppercase; letter-spacing:.06em; color:var(--ink2);}
+  .stat .value{font-family:'Bricolage Grotesque',Georgia,serif; font-size:1.35rem; font-weight:600;
+    font-variant-numeric:tabular-nums; margin-top:2px;}
+  .stat .note{font-size:.75rem; color:var(--ink2);}
+  .placeholder{color:var(--warn); font-family:'Spline Sans Mono',monospace; font-size:.85em;}
+
+  footer{color:var(--ink2); font-size:.8rem; border-top:1px solid var(--line); padding-top:14px;}
+  @media (prefers-reduced-motion: reduce){ *{transition:none!important; animation:none!important;} }
+</style>
+
+<div class="wrap">
+  <header class="mast">
+    <div class="mast-row">
+      <h1>Founder Control Center</h1>
+      <span class="date">Tuesday, Sep 1 · compiled 7:00 AM by Orchestrator</span>
+      <span class="budget">15-min budget <span class="bar"><span class="fill" style="width:0%"></span></span> 0:00</span>
+    </div>
+    <div style="margin-top:8px;"><span class="mock">Mockup — all items are synthetic sample data</span></div>
+  </header>
+
+  <section>
+    <div class="sec-head"><h2>1 · Decisions awaiting your approval</h2><span class="count">3 of 5 max</span></div>
+
+    <div class="card">
+      <div class="top"><span class="id">DEC-0412</span><span class="gate">Gate: pricing</span><span class="pill amber">Blocks a quote</span></div>
+      <div class="ask">Supply the hourly/flat rate for senior classes (S3) — quote Q-118 is held on it.</div>
+      <div class="ctx">Community center inquiry, 8-week senior watercolor series. Proposal is written, certified by QA, and waiting only on <span class="placeholder">[AWAITING JEAN: rate]</span>. No number was invented.</div>
+      <div class="rec"><b>Recommendation:</b> add the S3 row to the pricing matrix; the quote sends the same day you do.</div>
+      <div class="actions"><button class="approve">Provide rate</button><button>Discuss</button><button>Decline job</button></div>
+    </div>
+
+    <div class="card">
+      <div class="top"><span class="id">DEC-0413</span><span class="gate">Gate: external publish</span></div>
+      <div class="ask">Approve September newsletter draft (certified: Brand ✓ QA ✓).</div>
+      <div class="ctx">Covers fall class schedule and the studio's mural season recap. No prices quoted. Two-minute read.</div>
+      <div class="rec"><b>Recommendation:</b> approve; Content queues it for send once email is connected (currently manual send).</div>
+      <div class="actions"><button class="approve">Approve</button><button>Edit</button><button>Decline</button></div>
+    </div>
+
+    <div class="card">
+      <div class="top"><span class="id">DEC-0414</span><span class="gate">Gate: client photos</span></div>
+      <div class="ask">Client asked to feature their finished portrait on the site — written consent form is drafted for them.</div>
+      <div class="ctx">Safety Review passed the draft consent language; nothing publishes until the signed form is back and you approve the placement.</div>
+      <div class="rec"><b>Recommendation:</b> approve sending the consent form (template CT-07).</div>
+      <div class="actions"><button class="approve">Send consent form</button><button>Edit</button><button>Skip</button></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>2 · Projects at risk</h2><span class="count">1</span></div>
+    <div class="card">
+      <div class="top"><span class="id">MUR-031</span><span class="pill red">At risk</span></div>
+      <div class="ask">Sample mural project — site visit still unscheduled, client concept review is 6 days stale.</div>
+      <div class="rec"><b>Unblocking action:</b> pick one of the three proposed visit windows in section 4.</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>3 · Qualified opportunities</h2><span class="count">2</span></div>
+    <ul class="plain">
+      <li><span class="when">OPP-088</span> Elementary school asking about a 4-session art program (youth safeguards checklist attached, Safety pre-review: PASS) <span class="pill green">Strong fit</span><span class="who">Instruction Pod</span></li>
+      <li><span class="when">OPP-089</span> Realtor group, lobby mural interest — dimensions and photos received, awaiting your read on concept direction <span class="pill green">Fit</span><span class="who">Murals Pod</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>4 · Upcoming commitments (7 days)</h2></div>
+    <ul class="plain">
+      <li><span class="when">Wed 6:00 PM</span> Private lesson (returning student) <span class="who">confirmed</span></li>
+      <li><span class="when">Thu — pick</span> Mural site visit: Thu 10a / Fri 2p / Mon 9a proposed <span class="pill amber">Needs your pick</span></li>
+      <li><span class="when">Sat 1:00 PM</span> Art party — deposit recorded, supplies list prepared <span class="who">Events Pod</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>5 · Customer issues</h2><span class="count">1</span></div>
+    <ul class="plain">
+      <li><span class="when">ISS-012 · 2d</span> Commission client unsure about proof revision round — reply drafted, waiting your one-line note on the artistic tweak <span class="who">Customer Experience</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>6 · Revenue &amp; capacity</h2></div>
+    <div class="stats">
+      <div class="stat"><div class="label">Recorded bookings (mo.)</div><div class="value">4</div><div class="note">sample data</div></div>
+      <div class="stat"><div class="label">Pipeline at PREPARE</div><div class="value">3 quotes</div><div class="note">1 held on rate</div></div>
+      <div class="stat"><div class="label">Your hours, next 2 wks</div><div class="value">—</div><div class="note">no baseline yet — set availability</div></div>
+      <div class="stat"><div class="label">Founder time today</div><div class="value">~12 min</div><div class="note">3 decisions + 1 pick</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>7 · Content awaiting publication</h2><span class="count">2</span></div>
+    <ul class="plain">
+      <li><span class="when">CNT-201</span> Newsletter (see DEC-0413) <span class="who">Brand ✓ QA ✓</span></li>
+      <li><span class="when">CNT-202</span> Class-schedule page update for artcorner.net — copy ready for you to paste into Hostinger <span class="who">Brand ✓ QA ✓</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>8 · Agent &amp; integration health</h2><span class="quiet">honest report — silence shown as silence</span></div>
+    <ul class="plain">
+      <li><span class="when">OK</span> All governance reviews current; 0 stale P1/P2 items</li>
+      <li><span class="when">NOTE</span> Email connector: not connected — newsletter will be a manual send <span class="pill amber">Needs connection</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>9 · Recommended actions (not approvals)</h2></div>
+    <ul class="plain">
+      <li><span class="when">1</span> State your weekly available studio hours — unlocks capacity checks on every new booking.</li>
+      <li><span class="when">2</span> Populate the S3 (classes) pricing row — one held quote and two likely inquiries depend on it.</li>
+    </ul>
+  </section>
+
+  <footer>
+    ArtCorner Agent Organization · digest spec <span class="id">docs/06-founder-control-center.md</span> ·
+    Buttons in this mockup illustrate the decision flow; in operation, responses are logged by the Orchestrator and nothing external happens without your approval.
+  </footer>
+</div>
