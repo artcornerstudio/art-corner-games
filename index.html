@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+</head>
+<body>
+<title>Spread Out Soccer</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@600;800&display=swap">
+<style>
+  :root{
+    --bg:#12325B; --panel:#1B4478; --panel-2:#245089;
+    --ink:#FFFFFF; --ink-dim:#BCD2EC;
+    --grass:#2F9E44; --grass-2:#37A94E; --line:rgba(255,255,255,.85);
+    --you:#FFC933; --mate:#4DA3FF; --def:#FF5D5D;
+    --good:#7CE577; --bad:#FF8787; --accent:#FFC933;
+    --radius:18px;
+    --display:'Baloo 2','Comic Sans MS','Trebuchet MS',cursive;
+    --body:'Nunito','Segoe UI',system-ui,sans-serif;
+  }
+  html,body{height:100%;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--body); font-size:16px;
+    overflow:hidden;
+  }
+  #app{height:100%; display:flex; flex-direction:column; padding:0 16px;}
+
+  /* ---------- header ---------- */
+  header{
+    display:flex; align-items:center; gap:10px;
+    padding:10px 0 8px;
+  }
+  header h1{
+    font-family:var(--display); font-weight:800; font-size:1.35rem;
+    margin:0; letter-spacing:.5px; flex:1; white-space:nowrap;
+  }
+  .chip{
+    background:var(--panel); border-radius:999px; padding:6px 14px;
+    font-weight:800; font-size:.95rem; white-space:nowrap;
+    font-variant-numeric:tabular-nums;
+  }
+  .chip .lbl{color:var(--ink-dim); font-size:.75rem; letter-spacing:.08em;}
+  button{
+    font-family:var(--body); font-weight:800; border:none; cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+  }
+  button:focus-visible{outline:3px solid var(--accent); outline-offset:2px;}
+  .iconbtn{
+    background:var(--panel); color:var(--ink); border-radius:999px;
+    width:42px; height:42px; font-size:1.15rem; flex:none;
+    display:grid; place-items:center;
+  }
+  .iconbtn:active{transform:scale(.93);}
+
+  /* ---------- home ---------- */
+  #home{
+    flex:1; min-height:0; overflow-y:auto;
+    display:flex; flex-direction:column; align-items:center; gap:14px;
+    padding-block:8px 24px;
+  }
+  .hero{text-align:center; margin-top:2vh;}
+  .hero .ball{font-size:3rem; display:block; animation:bob 2.4s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  .hero h2{
+    font-family:var(--display); font-weight:800; font-size:2.2rem; margin:.1em 0 0;
+    text-wrap:balance;
+  }
+  .hero p{color:var(--ink-dim); margin:.3em 0 0; font-size:1.05rem;}
+  .modes{display:flex; flex-wrap:wrap; gap:14px; justify-content:center; width:100%; max-width:640px;}
+  .modecard{
+    flex:1 1 260px; max-width:320px; text-align:left;
+    background:var(--panel); color:var(--ink);
+    border-radius:var(--radius); padding:18px;
+    display:flex; flex-direction:column; gap:6px;
+    border:3px solid transparent;
+    transition:transform .12s ease, border-color .12s ease;
+  }
+  .modecard:hover, .modecard:focus-visible{transform:translateY(-3px); border-color:var(--accent);}
+  .modecard .big{font-size:2rem;}
+  .modecard h3{font-family:var(--display); font-size:1.35rem; margin:0;}
+  .modecard p{margin:0; color:var(--ink-dim); font-weight:600; line-height:1.35;}
+  .modecard .best{margin-top:6px; color:var(--accent); font-size:.85rem; letter-spacing:.05em;}
+  .howto{
+    width:100%; max-width:640px; background:var(--panel);
+    border-radius:var(--radius); padding:4px 18px 6px;
+  }
+  .howto summary{
+    cursor:pointer; font-family:var(--display); font-size:1.05rem;
+    padding:10px 0; list-style-position:inside;
+  }
+  .howto p{color:var(--ink-dim); line-height:1.5; margin:.4em 0 .9em; font-weight:600;}
+  .howto b{color:var(--ink);}
+
+  /* ---------- game ---------- */
+  #game{flex:1; min-height:0; display:flex; flex-direction:column;}
+  #fieldwrap{
+    position:relative; flex:1; min-height:0;
+    display:flex; align-items:center; justify-content:center;
+    padding-bottom:8px;
+  }
+  canvas{display:block; border-radius:14px; touch-action:none; max-width:100%;}
+  #hint{
+    position:absolute; left:50%; bottom:18px; transform:translateX(-50%);
+    background:rgba(10,26,48,.88); border-radius:999px;
+    padding:8px 18px; font-weight:800; font-size:.95rem;
+    white-space:nowrap; max-width:92%; overflow:hidden; text-overflow:ellipsis;
+    pointer-events:none; transition:background .2s ease;
+  }
+  #hint.good{background:rgba(31,122,54,.92);}
+  #toast{
+    position:absolute; left:50%; top:14%; transform:translateX(-50%) scale(1);
+    background:var(--accent); color:#20304A;
+    font-family:var(--display); font-weight:800; font-size:1.3rem;
+    padding:10px 22px; border-radius:999px; white-space:nowrap;
+    pointer-events:none; box-shadow:0 6px 24px rgba(0,0,0,.35);
+  }
+  #toast[hidden]{display:none!important;}
+  @media (prefers-reduced-motion: no-preference){
+    #toast{animation:pop .45s cubic-bezier(.2,1.6,.4,1);}
+    @keyframes pop{from{transform:translateX(-50%) scale(.4); opacity:0;}}
+  }
+  [hidden]{display:none!important;}
+</style>
+
+<div id="app">
+  <header>
+    <button class="iconbtn" id="backBtn" hidden aria-label="Back to menu">⬅️</button>
+    <h1>⚽ Spread Out!</h1>
+    <span class="chip" id="scoreChip" hidden><span class="lbl">SCORE </span><span id="scoreVal">0</span></span>
+    <button class="iconbtn" id="muteBtn" aria-label="Sound on or off">🔊</button>
+  </header>
+
+  <main id="home">
+    <div class="hero">
+      <span class="ball" aria-hidden="true">⚽</span>
+      <h2>Spread Out!</h2>
+      <p>Learn soccer's secret skills: get open &amp; pass smart.</p>
+    </div>
+    <div class="modes">
+      <button class="modecard" id="playGetOpen">
+        <span class="big" aria-hidden="true">🏃💨</span>
+        <h3>Get Open!</h3>
+        <p>Defenders chase you. Move to open grass so your teammate can pass to YOU.</p>
+        <span class="best" id="bestGetOpen">BEST: 0</span>
+      </button>
+      <button class="modecard" id="playPickPass">
+        <span class="big" aria-hidden="true">🎯⚽</span>
+        <h3>Pick the Pass!</h3>
+        <p>You have the ball. Tap the teammate nobody is guarding.</p>
+        <span class="best" id="bestPickPass">BEST: 0</span>
+      </button>
+    </div>
+    <details class="howto">
+      <summary>🧑‍🏫 How to play (for grown-ups too)</summary>
+      <p><b>Get Open!</b> — Drag your gold player (or use arrow keys). Stay away
+      from the red defenders, keep out of their way between you and the ball,
+      and don't hug the ball-carrier — <b>spread out!</b> When your ring turns
+      green, hold your spot and the pass comes to you.</p>
+      <p><b>Pick the Pass!</b> — Look before you kick! Tap the teammate who is
+      open. If a defender is in the passing lane or guarding them, they'll
+      steal it — and the game shows you why, so you learn for next time.</p>
+      <p>No account, no ads, nothing collected. Just soccer smarts. 💚</p>
+    </details>
+  </main>
+
+  <main id="game" hidden>
+    <div id="fieldwrap">
+      <canvas id="field" aria-label="Soccer field game area"></canvas>
+      <div id="hint" hidden></div>
+      <div id="toast" hidden></div>
+    </div>
+  </main>
+</div>
+
+<script>
+'use strict';
+/* ================= helpers ================= */
+const $ = id => document.getElementById(id);
+const clamp = (v,a,b)=>Math.max(a,Math.min(b,v));
+const dist = (a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
+const lerp = (a,b,t)=>a+(b-a)*t;
+const rand = (a,b)=>a+Math.random()*(b-a);
+const pick = arr=>arr[Math.floor(Math.random()*arr.length)];
+function distToSeg(p,a,b){
+  const dx=b.x-a.x, dy=b.y-a.y, L2=dx*dx+dy*dy;
+  let t = L2 ? ((p.x-a.x)*dx+(p.y-a.y)*dy)/L2 : 0;
+  t = clamp(t,0,1);
+  const q = {x:a.x+dx*t, y:a.y+dy*t};
+  return {d:Math.hypot(p.x-q.x,p.y-q.y), t, q};
+}
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ================= safe storage ================= */
+const store = {
+  get(k, fb){ try{ const v=localStorage.getItem(k); return v===null?fb:JSON.parse(v);}catch(e){ return fb; } },
+  set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+
+/* ================= sound ================= */
+let audioCtx=null, muted=store.get('sp_muted', false);
+function ensureAudio(){ if(!audioCtx){ try{ audioCtx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } }
+function beep(freq, dur, delay, type, vol){
+  if(muted||!audioCtx) return;
+  try{
+    const t0=audioCtx.currentTime+(delay||0);
+    const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+    o.type=type||'triangle'; o.frequency.value=freq;
+    g.gain.setValueAtTime(vol||0.12,t0);
+    g.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(t0); o.stop(t0+dur+0.02);
+  }catch(e){}
+}
+const sfx = {
+  cheer(){ [523,659,784,1047].forEach((f,i)=>beep(f,.18,i*.09,'triangle',.14)); },
+  kick(){ beep(180,.08,0,'square',.1); beep(320,.06,.02,'triangle',.08); },
+  whoops(){ beep(330,.15,0,'sawtooth',.08); beep(220,.25,.12,'sawtooth',.08); },
+  tick(){ beep(880,.05,0,'sine',.05); },
+  levelup(){ [392,523,659,784,1047].forEach((f,i)=>beep(f,.16,i*.07,'square',.09)); }
+};
+function updateMuteBtn(){ $('muteBtn').textContent = muted ? '🔇' : '🔊'; }
+$('muteBtn').addEventListener('click',()=>{ ensureAudio(); muted=!muted; store.set('sp_muted',muted); updateMuteBtn(); if(!muted) sfx.tick(); });
+updateMuteBtn();
+
+/* ================= layout / canvas ================= */
+const FIELD_W=600, FIELD_H=800;
+const canvas=$('field'), ctx=canvas.getContext('2d');
+let scale=1;
+function resize(){
+  const wrap=$('fieldwrap');
+  const availW=Math.max(200,wrap.clientWidth), availH=Math.max(200,wrap.clientHeight-8);
+  scale=Math.min(availW/FIELD_W, availH/FIELD_H);
+  const dpr=Math.min(window.devicePixelRatio||1,2);
+  canvas.style.width=(FIELD_W*scale)+'px';
+  canvas.style.height=(FIELD_H*scale)+'px';
+  canvas.width=Math.round(FIELD_W*scale*dpr);
+  canvas.height=Math.round(FIELD_H*scale*dpr);
+}
+window.addEventListener('resize',resize);
+
+/* ================= shared state ================= */
+const state={ screen:'home', mode:null, score:0, level:1, round:1 };
+const best={ getopen:store.get('sp_best_getopen',0), pickpass:store.get('sp_best_pickpass',0) };
+function refreshBest(){
+  $('bestGetOpen').textContent='BEST: '+best.getopen;
+  $('bestPickPass').textContent='BEST: '+best.pickpass;
+}
+refreshBest();
+function setScore(n){
+  state.score=n; $('scoreVal').textContent=n;
+  const key=state.mode;
+  if(key && n>best[key]){ best[key]=n; store.set('sp_best_'+key,n); refreshBest(); }
+}
+
+/* confetti */
+let confetti=[];
+function burst(x,y,n){
+  if(reduceMotion) n=Math.min(n,8);
+  const colors=['#FFC933','#4DA3FF','#7CE577','#FF8FB3','#FFFFFF'];
+  for(let i=0;i<n;i++){
+    const a=rand(0,Math.PI*2), s=rand(60,260);
+    confetti.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-120,life:rand(.6,1.1),t:0,c:pick(colors),r:rand(3,6)});
+  }
+}
+function updateConfetti(dt){
+  confetti=confetti.filter(p=>(p.t+=dt)<p.life);
+  for(const p of confetti){ p.x+=p.vx*dt; p.y+=p.vy*dt; p.vy+=420*dt; }
+}
+function drawConfetti(){
+  for(const p of confetti){
+    ctx.globalAlpha=clamp(1-p.t/p.life,0,1);
+    ctx.fillStyle=p.c;
+    ctx.fillRect(p.x-p.r/2,p.y-p.r/2,p.r,p.r);
+  }
+  ctx.globalAlpha=1;
+}
+
+/* toast + hint */
+let toastTimer=null;
+function toast(txt,ms){
+  const el=$('toast'); el.textContent=txt; el.hidden=false;
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>{el.hidden=true;}, ms||1400);
+}
+function hint(txt,good){
+  const el=$('hint');
+  if(!txt){ el.hidden=true; return; }
+  el.hidden=false;
+  if(el.textContent!==txt) el.textContent=txt;
+  el.classList.toggle('good',!!good);
+}
+
+const TIPS=[
+  '🧠 Tip: a bunched-up team is easy to guard. Spread out!',
+  '🧠 Tip: open grass = easy pass. Look for space!',
+  '🧠 Tip: don’t chase the ball — be where it’s going!',
+  '🧠 Tip: look BEFORE you kick. Who is open?',
+  '🧠 Tip: move sideways to sneak out of a defender’s shadow!'
+];
+
+/* ================= field drawing ================= */
+function drawField(){
+  ctx.fillStyle='#2F9E44';
+  ctx.fillRect(0,0,FIELD_W,FIELD_H);
+  ctx.fillStyle='#37A94E';
+  for(let i=0;i<8;i+=2) ctx.fillRect(0,i*100,FIELD_W,100);
+  ctx.strokeStyle='rgba(255,255,255,.85)';
+  ctx.lineWidth=4;
+  ctx.strokeRect(20,20,FIELD_W-40,FIELD_H-40);
+  ctx.beginPath(); ctx.moveTo(20,FIELD_H/2); ctx.lineTo(FIELD_W-20,FIELD_H/2); ctx.stroke();
+  ctx.beginPath(); ctx.arc(FIELD_W/2,FIELD_H/2,70,0,Math.PI*2); ctx.stroke();
+  ctx.strokeRect(FIELD_W/2-110,20,220,80);
+  ctx.strokeRect(FIELD_W/2-110,FIELD_H-100,220,80);
+}
+function drawBall(x,y,r){
+  ctx.fillStyle='#FFFFFF';
+  ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle='#20304A'; ctx.lineWidth=2; ctx.stroke();
+  ctx.fillStyle='#20304A';
+  ctx.beginPath(); ctx.arc(x,y,r*0.32,0,Math.PI*2); ctx.fill();
+  for(let i=0;i<5;i++){
+    const a=i*Math.PI*2/5-Math.PI/2;
+    ctx.beginPath(); ctx.arc(x+Math.cos(a)*r*0.72,y+Math.sin(a)*r*0.72,r*0.16,0,Math.PI*2); ctx.fill();
+  }
+}
+function drawPlayer(p,color,label,num){
+  ctx.fillStyle='rgba(0,0,0,.22)';
+  ctx.beginPath(); ctx.ellipse(p.x,p.y+20,16,6,0,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle=color;
+  ctx.beginPath(); ctx.arc(p.x,p.y,20,0,Math.PI*2); ctx.fill();
+  ctx.lineWidth=3; ctx.strokeStyle='rgba(0,0,0,.35)'; ctx.stroke();
+  ctx.fillStyle='#20304A';
+  ctx.font='800 16px Nunito, sans-serif';
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText(num,p.x,p.y+1);
+  if(label){
+    ctx.font='800 13px Nunito, sans-serif';
+    ctx.fillStyle='#FFFFFF';
+    ctx.strokeStyle='rgba(0,0,0,.5)'; ctx.lineWidth=3;
+    ctx.strokeText(label,p.x,p.y-32);
+    ctx.fillText(label,p.x,p.y-32);
+  }
+}
+function drawRing(p,r,frac,color){
+  ctx.lineWidth=6; ctx.strokeStyle='rgba(255,255,255,.25)';
+  ctx.beginPath(); ctx.arc(p.x,p.y,r,0,Math.PI*2); ctx.stroke();
+  if(frac>0){
+    ctx.strokeStyle=color;
+    ctx.beginPath(); ctx.arc(p.x,p.y,r,-Math.PI/2,-Math.PI/2+frac*Math.PI*2); ctx.stroke();
+  }
+}
+
+/* ================= mode: Get Open! ================= */
+const OPEN_NEED=1.15;           // seconds you must stay open
+const getopen={
+  player:null, carrier:null, defs:[], ballFly:null, meter:0, roundsPerLevel:4,
+  keys:{},
+  start(){
+    state.level=1; state.round=1; this.meter=0; this.ballFly=null;
+    setScore(0);
+    this.player={x:FIELD_W/2,y:FIELD_H-140,tx:FIELD_W/2,ty:FIELD_H-140};
+    this.newRound(true);
+    toast('🏃 Find open space!');
+    hint('Drag your gold player to open grass!');
+  },
+  defCount(){ return Math.min(2+ (state.level-1), 5); },
+  defSpeed(){ return 42 + state.level*10; },
+  newRound(keepMsg){
+    this.carrier={x:rand(90,FIELD_W-90), y:rand(90,300)};
+    this.defs=[];
+    const n=this.defCount();
+    let guard=0;
+    while(this.defs.length<n && guard++<200){
+      const d={x:rand(60,FIELD_W-60), y:rand(240,FIELD_H-240), wob:rand(0,6.28), bias:rand(0.25,0.75)};
+      if(dist(d,this.player)>130 && dist(d,this.carrier)>110 && this.defs.every(o=>dist(o,d)>70)) this.defs.push(d);
+    }
+    this.meter=0; this.ballFly=null;
+  },
+  openness(){
+    const p=this.player, c=this.carrier;
+    const dCarrier=dist(p,c);
+    if(dCarrier<170) return {ok:false, why:'Too close! Spread out, move away from the ball!'};
+    let nearest=1e9, laneMin=1e9;
+    for(const d of this.defs){
+      nearest=Math.min(nearest,dist(d,p));
+      laneMin=Math.min(laneMin,distToSeg(d,c,p).d);
+    }
+    if(nearest<95) return {ok:false, why:'You’re covered! Run to open grass!'};
+    if(laneMin<55) return {ok:false, why:'Defender in the way! Move sideways!'};
+    return {ok:true, why:'You’re OPEN! Hold your spot…'};
+  },
+  update(dt){
+    const p=this.player;
+    // keyboard
+    const k=this.keys, sp=260*dt;
+    if(k.ArrowLeft){p.tx=p.x-sp*3;} if(k.ArrowRight){p.tx=p.x+sp*3;}
+    if(k.ArrowUp){p.ty=p.y-sp*3;} if(k.ArrowDown){p.ty=p.y+sp*3;}
+    // glide toward target
+    const dx=p.tx-p.x, dy=p.ty-p.y, dd=Math.hypot(dx,dy);
+    if(dd>2){ const v=Math.min(dd, 300*dt); p.x+=dx/dd*v; p.y+=dy/dd*v; }
+    p.x=clamp(p.x,42,FIELD_W-42); p.y=clamp(p.y,42,FIELD_H-42);
+    p.tx=clamp(p.tx,42,FIELD_W-42); p.ty=clamp(p.ty,42,FIELD_H-42);
+
+    // defenders chase a blend of you and the passing lane
+    const c=this.carrier, spd=this.defSpeed();
+    for(const d of this.defs){
+      d.wob+=dt*2;
+      const mid={x:lerp(c.x,p.x,0.55), y:lerp(c.y,p.y,0.55)};
+      const goal={x:lerp(mid.x,p.x,d.bias)+Math.sin(d.wob)*26, y:lerp(mid.y,p.y,d.bias)+Math.cos(d.wob*0.8)*26};
+      const gx=goal.x-d.x, gy=goal.y-d.y, gd=Math.hypot(gx,gy)||1;
+      d.x+=gx/gd*spd*dt; d.y+=gy/gd*spd*dt;
+      for(const o of this.defs){
+        if(o===d) continue;
+        const ox=d.x-o.x, oy=d.y-o.y, od=Math.hypot(ox,oy);
+        if(od>0 && od<56){ d.x+=ox/od*40*dt; d.y+=oy/od*40*dt; }
+      }
+      d.x=clamp(d.x,40,FIELD_W-40); d.y=clamp(d.y,40,FIELD_H-40);
+    }
+
+    // ball flight
+    if(this.ballFly){
+      const f=this.ballFly; f.t+=dt/f.dur;
+      if(f.t>=1){
+        this.ballFly=null;
+        setScore(state.score+1);
+        burst(p.x,p.y,26); sfx.cheer();
+        state.round++;
+        if(state.round>this.roundsPerLevel){
+          state.round=1; state.level++;
+          sfx.levelup();
+          toast('⭐ LEVEL '+state.level+'! More defenders!',1800);
+          setTimeout(()=>{ if(state.mode==='getopen') toast(pick(TIPS),2600); },1900);
+        } else {
+          toast(pick(['🎉 Great job getting open!','🙌 Perfect pass!','💚 Nice spacing!']));
+        }
+        this.newRound();
+      }
+      return;
+    }
+
+    // openness meter
+    const o=this.openness();
+    if(o.ok){ this.meter+=dt; if(Math.random()<dt*3) sfx.tick(); }
+    else this.meter=Math.max(0,this.meter-dt*2);
+    hint(o.why,o.ok);
+    if(this.meter>=OPEN_NEED){
+      this.ballFly={from:{x:c.x,y:c.y},t:0,dur:0.5};
+      sfx.kick();
+      hint('Pass is coming… catch it! ⚽',true);
+      this.meter=0;
+    }
+  },
+  draw(){
+    drawField();
+    const p=this.player,c=this.carrier;
+    // meter ring
+    const o=this.openness();
+    drawRing(p,34,clamp(this.meter/OPEN_NEED,0,1), o.ok?'#7CE577':'#FFC933');
+    drawPlayer(c,'#4DA3FF','TEAMMATE','7');
+    for(const d of this.defs) drawPlayer(d,'#FF5D5D','','X');
+    drawPlayer(p,'#FFC933','YOU','9');
+    if(this.ballFly){
+      const f=this.ballFly, t=f.t;
+      const bx=lerp(f.from.x,p.x,t), by=lerp(f.from.y,p.y,t);
+      drawBall(bx,by,11+Math.sin(t*Math.PI)*5);
+    } else drawBall(c.x+26,c.y+8,11);
+    drawConfetti();
+  },
+  pointer(type,x,y){
+    if(type==='down'||type==='move'){ this.player.tx=x; this.player.ty=y; }
+  }
+};
+
+/* ================= mode: Pick the Pass! ================= */
+const LANE_BLOCK=48, MARK_R=80;
+const pickpass={
+  you:null, mates:[], defs:[], ballFly:null, showLanes:0, lastWrong:null, locked:false,
+  start(){
+    state.level=1; state.round=1;
+    setScore(0);
+    this.newScenario();
+    toast('🎯 Tap the OPEN teammate!');
+    hint('Look before you kick — who is open?');
+  },
+  mateOpen(m){
+    for(const d of this.defs){
+      if(distToSeg(d,this.you,m).d<LANE_BLOCK) return false;
+      if(dist(d,m)<MARK_R) return false;
+    }
+    return true;
+  },
+  newScenario(){
+    this.you={x:FIELD_W/2,y:FIELD_H-130};
+    this.ballFly=null; this.showLanes=0; this.lastWrong=null; this.locked=false;
+    const nDefs=Math.min(2+Math.floor((state.round-1)/4),4);
+    let tries=0;
+    while(tries++<120){
+      // three teammates, spread out
+      this.mates=[];
+      const slots=[[70,210],[230,370],[390,530]].sort(()=>Math.random()-0.5);
+      for(let i=0;i<3;i++){
+        this.mates.push({x:rand(slots[i][0],slots[i][1]), y:rand(120,430), bob:rand(0,6.28)});
+      }
+      if(this.mates.some((m,i)=>this.mates.some((o,j)=>j>i&&dist(m,o)<130))) continue;
+      // defenders
+      this.defs=[];
+      let ok=true;
+      for(let i=0;i<nDefs;i++){
+        const target=pick(this.mates);
+        let d;
+        if(Math.random()<0.5){
+          const t=rand(0.35,0.7);
+          d={x:lerp(this.you.x,target.x,t)+rand(-18,18), y:lerp(this.you.y,target.y,t)+rand(-18,18)};
+        } else {
+          const a=rand(0,Math.PI*2);
+          d={x:target.x+Math.cos(a)*rand(40,65), y:target.y+Math.sin(a)*rand(40,65)};
+        }
+        d.x=clamp(d.x,45,FIELD_W-45); d.y=clamp(d.y,80,FIELD_H-200); d.bob=rand(0,6.28);
+        if(this.defs.some(o=>dist(o,d)<60)||dist(d,this.you)<110){ ok=false; break; }
+        this.defs.push(d);
+      }
+      if(!ok) continue;
+      const open=this.mates.filter(m=>this.mateOpen(m));
+      if(open.length>=1 && open.length<=2) break;   // must have a right answer AND a trap
+    }
+  },
+  update(dt){
+    for(const m of this.mates) m.bob+=dt*3;
+    for(const d of this.defs) d.bob+=dt*3;
+    if(this.showLanes>0) this.showLanes-=dt;
+    if(this.ballFly){
+      const f=this.ballFly; f.t+=dt/f.dur;
+      if(f.t>=1){
+        this.ballFly=null;
+        if(f.good){
+          setScore(state.score+1);
+          burst(f.to.x,f.to.y,26); sfx.cheer();
+          toast(pick(['🎉 Great pass!','🙌 Perfect choice!','⚽ What a pass!']));
+          state.round++;
+          this.locked=true;
+          setTimeout(()=>{ if(state.mode==='pickpass') this.newScenario(); },900);
+        } else {
+          sfx.whoops();
+          burst(f.to.x,f.to.y,10);
+          toast('🧤 Stolen! That one was covered.',1600);
+          hint('Red lines = blocked. Try the GREEN lane!');
+          this.showLanes=2.2;
+          this.lastWrong=f.mate;
+          this.locked=true;
+          setTimeout(()=>{ if(state.mode==='pickpass'){ this.locked=false; hint('Now tap the open teammate!'); } },1200);
+        }
+      }
+    }
+  },
+  draw(){
+    drawField();
+    // teaching lanes
+    if(this.showLanes>0){
+      ctx.lineWidth=5; ctx.setLineDash([12,10]);
+      for(const m of this.mates){
+        ctx.strokeStyle=this.mateOpen(m)?'rgba(124,229,119,.9)':'rgba(255,135,135,.9)';
+        ctx.beginPath(); ctx.moveTo(this.you.x,this.you.y); ctx.lineTo(m.x,m.y); ctx.stroke();
+      }
+      ctx.setLineDash([]);
+    }
+    for(const d of this.defs){
+      drawPlayer({x:d.x,y:d.y+Math.sin(d.bob)*2},'#FF5D5D','','X');
+    }
+    this.mates.forEach((m,i)=>{
+      drawPlayer({x:m.x,y:m.y+Math.sin(m.bob)*3},'#4DA3FF','TAP ME',''+(i+2));
+    });
+    drawPlayer(this.you,'#FFC933','YOU','9');
+    if(this.ballFly){
+      const f=this.ballFly, t=f.t;
+      drawBall(lerp(this.you.x,f.to.x,t), lerp(this.you.y,f.to.y,t), 11+Math.sin(t*Math.PI)*5);
+    } else drawBall(this.you.x+26,this.you.y+8,11);
+    drawConfetti();
+  },
+  pointer(type,x,y){
+    if(type!=='down'||this.ballFly||this.locked) return;
+    let target=null,bd=1e9;
+    for(const m of this.mates){
+      const d=Math.hypot(m.x-x,m.y-y);
+      if(d<55&&d<bd){bd=d;target=m;}
+    }
+    if(!target) return;
+    ensureAudio(); sfx.kick();
+    const good=this.mateOpen(target);
+    let to={x:target.x,y:target.y};
+    if(!good){
+      // find where it gets stolen
+      let stealer=null,sb=1e9;
+      for(const d of this.defs){
+        const s=distToSeg(d,this.you,target);
+        const score=Math.min(s.d, dist(d,target));
+        if((s.d<LANE_BLOCK||dist(d,target)<MARK_R)&&score<sb){sb=score;stealer=d;}
+      }
+      if(stealer){
+        const s=distToSeg(stealer,this.you,target);
+        const t=(s.d<LANE_BLOCK)?clamp(s.t,0.2,0.9):0.85;
+        to={x:lerp(this.you.x,target.x,t), y:lerp(this.you.y,target.y,t)};
+      }
+    }
+    this.ballFly={to,t:0,dur:0.45,good,mate:target};
+    hint(good?'Great eyes! 👀':'Uh oh…');
+  }
+};
+
+/* ================= navigation ================= */
+const modes={getopen,pickpass};
+function show(screen){
+  state.screen=screen;
+  $('home').hidden = screen!=='home';
+  $('game').hidden = screen!=='game';
+  $('backBtn').hidden = screen==='home';
+  $('scoreChip').hidden = screen==='home';
+  if(screen==='game'){ resize(); }
+  else { hint(null); $('toast').hidden=true; confetti=[]; }
+}
+function startMode(key){
+  ensureAudio();
+  state.mode=key;
+  show('game');
+  modes[key].start();
+}
+$('playGetOpen').addEventListener('click',()=>startMode('getopen'));
+$('playPickPass').addEventListener('click',()=>startMode('pickpass'));
+$('backBtn').addEventListener('click',()=>{ state.mode=null; show('home'); });
+
+/* ================= input ================= */
+function pt(e){
+  const r=canvas.getBoundingClientRect();
+  return {x:(e.clientX-r.left)/r.width*FIELD_W, y:(e.clientY-r.top)/r.height*FIELD_H};
+}
+let dragging=false;
+canvas.addEventListener('pointerdown',e=>{
+  if(!state.mode) return;
+  e.preventDefault(); dragging=true;
+  try{canvas.setPointerCapture(e.pointerId);}catch(err){}
+  const p=pt(e); modes[state.mode].pointer('down',p.x,p.y);
+});
+canvas.addEventListener('pointermove',e=>{
+  if(!state.mode||!dragging) return;
+  e.preventDefault();
+  const p=pt(e); modes[state.mode].pointer('move',p.x,p.y);
+});
+window.addEventListener('pointerup',()=>{dragging=false;});
+window.addEventListener('keydown',e=>{
+  if(state.mode==='getopen'&&['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)){
+    e.preventDefault(); getopen.keys[e.key]=true;
+  }
+});
+window.addEventListener('keyup',e=>{ delete getopen.keys[e.key]; });
+
+/* ================= main loop ================= */
+let last=performance.now();
+function frame(ts){
+  const dt=clamp((ts-last)/1000,0,0.05); last=ts;
+  if(state.screen==='game'&&state.mode){
+    ctx.setTransform(canvas.width/FIELD_W,0,0,canvas.height/FIELD_H,0,0);
+    modes[state.mode].update(dt);
+    modes[state.mode].draw();
+    updateConfetti(dt);
+  }
+  requestAnimationFrame(frame);
+}
+
+/* ================= boot (with hot-reload state carry) ================= */
+function boot(saved){
+  resize();
+  if(saved&&saved.mode&&modes[saved.mode]){
+    startMode(saved.mode);
+    setScore(saved.score||0);
+    state.level=saved.level||1;
+  } else show('home');
+  requestAnimationFrame(t=>{last=t;requestAnimationFrame(frame);});
+}
+window.__debug={state,modes,best};   // used by automated tests only
+try{
+  if(window.claude&&window.claude.hot){
+    window.claude.hot.snapshot(()=>({mode:state.mode,score:state.score,level:state.level}));
+    if(window.claude.hot.ready) window.claude.hot.ready(boot); else boot(window.claude.hot.data||null);
+  } else boot(null);
+}catch(e){ boot(null); }
+</script>
+</body>
+</html>
