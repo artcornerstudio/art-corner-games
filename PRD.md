@@ -62,11 +62,18 @@ a game can show visually, over and over, with cheering and points.
 - **Test:** page loads with no errors, all buttons work, gameplay works by
   touch, mouse, and arrow keys.
 
-### Phase 2 — Make it stickier (next)
-- Star rewards and streaks ("3 great passes in a row!").
-- More level variety: defenders with different personalities (chaser, lane-blocker).
-- A "Positions" lesson mode: defense, midfield, striker zones lit up on the field.
-- Better celebrations and character customization (pick your jersey color/number).
+### ✅ Phase 2 — Make it stickier (DONE)
+- ⭐ Star rewards: earn a star for every level you finish, and for **3 great
+  passes in a row** in Pick the Pass. Stars are saved on the device.
+- Defender personalities in Get Open!: dark-red **chasers (!)** hunt the
+  player; orange **blockers (X)** guard the passing lane.
+- New mode — **Where Do I Stand?**: the field lights up into striker ⚡,
+  midfield 🔗, and defense 🛡️ zones. Kids run to their position; from
+  level 2, they also learn to slide left/right with the ball, like a
+  shifting team.
+- Jersey customization: pick your color and number on the home screen —
+  it appears in every mode.
+- Bigger celebrations (more confetti, star bursts).
 
 ### Phase 3 — Mini match
 - A tiny 3-vs-3 match where the kid's spacing and pass choices actually win games.

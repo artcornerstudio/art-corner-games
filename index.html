@@ -91,6 +91,35 @@
   .howto p{color:var(--ink-dim); line-height:1.5; margin:.4em 0 .9em; font-weight:600;}
   .howto b{color:var(--ink);}
 
+  /* ---------- jersey picker ---------- */
+  .jerseybox{
+    width:100%; max-width:640px; background:var(--panel);
+    border-radius:var(--radius); padding:12px 18px;
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  }
+  .jerseybox .who{font-family:var(--display); font-size:1.05rem;}
+  .preview{
+    width:40px; height:40px; border-radius:50%;
+    display:grid; place-items:center; font-weight:800; color:#20304A;
+    border:3px solid rgba(0,0,0,.35); flex:none;
+  }
+  .swatches{display:flex; gap:8px; flex-wrap:wrap;}
+  .swatch{
+    width:32px; height:32px; border-radius:50%;
+    border:3px solid rgba(0,0,0,.3); transition:transform .1s ease;
+  }
+  .swatch[aria-pressed="true"]{border-color:#FFFFFF; transform:scale(1.15);}
+  .numpick{display:flex; align-items:center; gap:6px; margin-left:auto;}
+  .numpick button{
+    background:var(--panel-2); color:var(--ink); border-radius:10px;
+    width:34px; height:34px; font-size:1.2rem;
+  }
+  .numpick button:active{transform:scale(.9);}
+  #jerseyNum{
+    font-family:var(--display); font-size:1.25rem; min-width:2.2ch;
+    text-align:center; font-variant-numeric:tabular-nums;
+  }
+
   /* ---------- game ---------- */
   #game{flex:1; min-height:0; display:flex; flex-direction:column;}
   #fieldwrap{
@@ -101,9 +130,9 @@
   canvas{display:block; border-radius:14px; touch-action:none; max-width:100%;}
   #hint{
     position:absolute; left:50%; bottom:18px; transform:translateX(-50%);
-    background:rgba(10,26,48,.88); border-radius:999px;
+    background:rgba(10,26,48,.88); border-radius:18px;
     padding:8px 18px; font-weight:800; font-size:.95rem;
-    white-space:nowrap; max-width:92%; overflow:hidden; text-overflow:ellipsis;
+    text-align:center; line-height:1.3; max-width:92%; width:max-content;
     pointer-events:none; transition:background .2s ease;
   }
   #hint.good{background:rgba(31,122,54,.92);}
@@ -127,6 +156,7 @@
     <button class="iconbtn" id="backBtn" hidden aria-label="Back to menu">⬅️</button>
     <h1>⚽ Spread Out!</h1>
     <span class="chip" id="scoreChip" hidden><span class="lbl">SCORE </span><span id="scoreVal">0</span></span>
+    <span class="chip" id="starChip">⭐ <span id="starVal">0</span></span>
     <button class="iconbtn" id="muteBtn" aria-label="Sound on or off">🔊</button>
   </header>
 
@@ -149,6 +179,22 @@
         <p>You have the ball. Tap the teammate nobody is guarding.</p>
         <span class="best" id="bestPickPass">BEST: 0</span>
       </button>
+      <button class="modecard" id="playPositions">
+        <span class="big" aria-hidden="true">🗺️🛡️</span>
+        <h3>Where Do I Stand?</h3>
+        <p>Learn where strikers, midfielders, and defenders play — and slide with the ball!</p>
+        <span class="best" id="bestPositions">BEST: 0</span>
+      </button>
+    </div>
+    <div class="jerseybox">
+      <span class="who">👕 Your jersey:</span>
+      <span class="preview" id="jerseyPreview">9</span>
+      <span class="swatches" id="swatches"></span>
+      <span class="numpick">
+        <button id="numDown" aria-label="Jersey number down">−</button>
+        <span id="jerseyNum">9</span>
+        <button id="numUp" aria-label="Jersey number up">+</button>
+      </span>
     </div>
     <details class="howto">
       <summary>🧑‍🏫 How to play (for grown-ups too)</summary>
@@ -158,7 +204,15 @@
       green, hold your spot and the pass comes to you.</p>
       <p><b>Pick the Pass!</b> — Look before you kick! Tap the teammate who is
       open. If a defender is in the passing lane or guarding them, they'll
-      steal it — and the game shows you why, so you learn for next time.</p>
+      steal it — and the game shows you why, so you learn for next time.
+      Get passes right <b>3 in a row</b> to earn a star! ⭐</p>
+      <p><b>Where Do I Stand?</b> — The field lights up into three zones:
+      defense 🛡️ (protect our goal), midfield 🔗 (the middle), and striker ⚡
+      (up by their goal). Run to your position — and when the ball moves to
+      one side, slide over with it, just like a real team!</p>
+      <p><b>Watch the defenders:</b> dark-red chasers (!) hunt YOU — sprint
+      away from them. Orange blockers (X) stand in the passing lane — slide
+      sideways to open a new lane.</p>
       <p>No account, no ads, nothing collected. Just soccer smarts. 💚</p>
     </details>
   </main>
@@ -239,13 +293,52 @@ function resize(){
 window.addEventListener('resize',resize);
 
 /* ================= shared state ================= */
-const state={ screen:'home', mode:null, score:0, level:1, round:1 };
-const best={ getopen:store.get('sp_best_getopen',0), pickpass:store.get('sp_best_pickpass',0) };
+const state={ screen:'home', mode:null, score:0, level:1, round:1, streak:0 };
+const best={
+  getopen:store.get('sp_best_getopen',0),
+  pickpass:store.get('sp_best_pickpass',0),
+  positions:store.get('sp_best_positions',0)
+};
 function refreshBest(){
   $('bestGetOpen').textContent='BEST: '+best.getopen;
   $('bestPickPass').textContent='BEST: '+best.pickpass;
+  $('bestPositions').textContent='BEST: '+best.positions;
 }
 refreshBest();
+
+/* stars (earned across all modes, saved on device) */
+let stars=store.get('sp_stars',0);
+function renderStars(){ $('starVal').textContent=stars; }
+renderStars();
+function addStar(msg,x,y){
+  stars++; store.set('sp_stars',stars); renderStars();
+  burst(x||FIELD_W/2, y||FIELD_H/2, 46);
+  sfx.levelup();
+  toast(msg||'⭐ Star earned!',1900);
+}
+
+/* jersey customization (saved on device) */
+const JERSEY_COLORS=['#FFC933','#FF9F1C','#FF8FB3','#7CE577','#6EDFF6','#FFFFFF'];
+const jersey=Object.assign({color:'#FFC933',num:9}, store.get('sp_jersey',{}));
+function renderJersey(){
+  $('jerseyNum').textContent=jersey.num;
+  const pv=$('jerseyPreview');
+  pv.style.background=jersey.color; pv.textContent=jersey.num;
+  document.querySelectorAll('.swatch').forEach(b=>{
+    b.setAttribute('aria-pressed', b.dataset.c===jersey.color ? 'true' : 'false');
+  });
+}
+function saveJersey(){ store.set('sp_jersey',jersey); renderJersey(); }
+JERSEY_COLORS.forEach(c=>{
+  const b=document.createElement('button');
+  b.className='swatch'; b.style.background=c; b.dataset.c=c;
+  b.setAttribute('aria-label','Jersey color '+c);
+  b.addEventListener('click',()=>{ ensureAudio(); jersey.color=c; saveJersey(); sfx.tick(); });
+  $('swatches').appendChild(b);
+});
+$('numUp').addEventListener('click',()=>{ jersey.num=jersey.num%99+1; saveJersey(); });
+$('numDown').addEventListener('click',()=>{ jersey.num=(jersey.num+97)%99+1; saveJersey(); });
+renderJersey();
 function setScore(n){
   state.score=n; $('scoreVal').textContent=n;
   const key=state.mode;
@@ -258,8 +351,8 @@ function burst(x,y,n){
   if(reduceMotion) n=Math.min(n,8);
   const colors=['#FFC933','#4DA3FF','#7CE577','#FF8FB3','#FFFFFF'];
   for(let i=0;i<n;i++){
-    const a=rand(0,Math.PI*2), s=rand(60,260);
-    confetti.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-120,life:rand(.6,1.1),t:0,c:pick(colors),r:rand(3,6)});
+    const a=rand(0,Math.PI*2), s=rand(60,280);
+    confetti.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-120,life:rand(.6,1.2),t:0,c:pick(colors),r:rand(3,7),circle:Math.random()<0.35});
   }
 }
 function updateConfetti(dt){
@@ -270,7 +363,8 @@ function drawConfetti(){
   for(const p of confetti){
     ctx.globalAlpha=clamp(1-p.t/p.life,0,1);
     ctx.fillStyle=p.c;
-    ctx.fillRect(p.x-p.r/2,p.y-p.r/2,p.r,p.r);
+    if(p.circle){ ctx.beginPath(); ctx.arc(p.x,p.y,p.r/2,0,Math.PI*2); ctx.fill(); }
+    else ctx.fillRect(p.x-p.r/2,p.y-p.r/2,p.r,p.r);
   }
   ctx.globalAlpha=1;
 }
@@ -352,9 +446,9 @@ function drawRing(p,r,frac,color){
 
 /* ================= mode: Get Open! ================= */
 const OPEN_NEED=1.15;           // seconds you must stay open
+const keys={};                  // arrow keys, shared by movement modes
 const getopen={
   player:null, carrier:null, defs:[], ballFly:null, meter:0, roundsPerLevel:4,
-  keys:{},
   start(){
     state.level=1; state.round=1; this.meter=0; this.ballFly=null;
     setScore(0);
@@ -369,9 +463,15 @@ const getopen={
     this.carrier={x:rand(90,FIELD_W-90), y:rand(90,300)};
     this.defs=[];
     const n=this.defCount();
+    const chasers=Math.min(1+Math.floor((state.level-1)/2), n-1);   // rest are lane-blockers
     let guard=0;
     while(this.defs.length<n && guard++<200){
-      const d={x:rand(60,FIELD_W-60), y:rand(240,FIELD_H-240), wob:rand(0,6.28), bias:rand(0.25,0.75)};
+      const type=this.defs.length<chasers ? 'chaser' : 'blocker';
+      const d={
+        x:rand(60,FIELD_W-60), y:rand(240,FIELD_H-240),
+        wob:rand(0,6.28), type,
+        bias: type==='chaser' ? rand(0.85,0.98) : rand(0.1,0.3)
+      };
       if(dist(d,this.player)>130 && dist(d,this.carrier)>110 && this.defs.every(o=>dist(o,d)>70)) this.defs.push(d);
     }
     this.meter=0; this.ballFly=null;
@@ -380,19 +480,20 @@ const getopen={
     const p=this.player, c=this.carrier;
     const dCarrier=dist(p,c);
     if(dCarrier<170) return {ok:false, why:'Too close! Spread out, move away from the ball!'};
-    let nearest=1e9, laneMin=1e9;
+    let nearest=1e9, laneMin=1e9, nearType='blocker';
     for(const d of this.defs){
-      nearest=Math.min(nearest,dist(d,p));
+      const dd=dist(d,p);
+      if(dd<nearest){ nearest=dd; nearType=d.type; }
       laneMin=Math.min(laneMin,distToSeg(d,c,p).d);
     }
-    if(nearest<95) return {ok:false, why:'You’re covered! Run to open grass!'};
-    if(laneMin<55) return {ok:false, why:'Defender in the way! Move sideways!'};
+    if(nearest<95) return {ok:false, why: nearType==='chaser' ? 'A chaser is hunting you! Sprint away! 💨' : 'You’re covered! Run to open grass!'};
+    if(laneMin<55) return {ok:false, why:'A blocker guards the lane! Move sideways!'};
     return {ok:true, why:'You’re OPEN! Hold your spot…'};
   },
   update(dt){
     const p=this.player;
     // keyboard
-    const k=this.keys, sp=260*dt;
+    const k=keys, sp=260*dt;
     if(k.ArrowLeft){p.tx=p.x-sp*3;} if(k.ArrowRight){p.tx=p.x+sp*3;}
     if(k.ArrowUp){p.ty=p.y-sp*3;} if(k.ArrowDown){p.ty=p.y+sp*3;}
     // glide toward target
@@ -408,7 +509,8 @@ const getopen={
       const mid={x:lerp(c.x,p.x,0.55), y:lerp(c.y,p.y,0.55)};
       const goal={x:lerp(mid.x,p.x,d.bias)+Math.sin(d.wob)*26, y:lerp(mid.y,p.y,d.bias)+Math.cos(d.wob*0.8)*26};
       const gx=goal.x-d.x, gy=goal.y-d.y, gd=Math.hypot(gx,gy)||1;
-      d.x+=gx/gd*spd*dt; d.y+=gy/gd*spd*dt;
+      const mul=d.type==='chaser'?1.2:0.9;
+      d.x+=gx/gd*spd*mul*dt; d.y+=gy/gd*spd*mul*dt;
       for(const o of this.defs){
         if(o===d) continue;
         const ox=d.x-o.x, oy=d.y-o.y, od=Math.hypot(ox,oy);
@@ -427,9 +529,8 @@ const getopen={
         state.round++;
         if(state.round>this.roundsPerLevel){
           state.round=1; state.level++;
-          sfx.levelup();
-          toast('⭐ LEVEL '+state.level+'! More defenders!',1800);
-          setTimeout(()=>{ if(state.mode==='getopen') toast(pick(TIPS),2600); },1900);
+          addStar('⭐ LEVEL '+state.level+'! Star earned!',p.x,p.y);
+          setTimeout(()=>{ if(state.mode==='getopen') toast(pick(TIPS),2600); },2000);
         } else {
           toast(pick(['🎉 Great job getting open!','🙌 Perfect pass!','💚 Nice spacing!']));
         }
@@ -457,8 +558,11 @@ const getopen={
     const o=this.openness();
     drawRing(p,34,clamp(this.meter/OPEN_NEED,0,1), o.ok?'#7CE577':'#FFC933');
     drawPlayer(c,'#4DA3FF','TEAMMATE','7');
-    for(const d of this.defs) drawPlayer(d,'#FF5D5D','','X');
-    drawPlayer(p,'#FFC933','YOU','9');
+    for(const d of this.defs){
+      if(d.type==='chaser') drawPlayer(d,'#E8455A','','!');
+      else drawPlayer(d,'#FF9E64','','X');
+    }
+    drawPlayer(p,jersey.color,'YOU',''+jersey.num);
     if(this.ballFly){
       const f=this.ballFly, t=f.t;
       const bx=lerp(f.from.x,p.x,t), by=lerp(f.from.y,p.y,t);
@@ -476,7 +580,7 @@ const LANE_BLOCK=48, MARK_R=80;
 const pickpass={
   you:null, mates:[], defs:[], ballFly:null, showLanes:0, lastWrong:null, locked:false,
   start(){
-    state.level=1; state.round=1;
+    state.level=1; state.round=1; state.streak=0;
     setScore(0);
     this.newScenario();
     toast('🎯 Tap the OPEN teammate!');
@@ -534,13 +638,16 @@ const pickpass={
         this.ballFly=null;
         if(f.good){
           setScore(state.score+1);
-          burst(f.to.x,f.to.y,26); sfx.cheer();
-          toast(pick(['🎉 Great pass!','🙌 Perfect choice!','⚽ What a pass!']));
+          state.streak++;
+          burst(f.to.x,f.to.y,30); sfx.cheer();
+          if(state.streak>0 && state.streak%3===0) addStar('🔥 '+state.streak+' in a row! +1 ⭐',f.to.x,f.to.y);
+          else toast(pick(['🎉 Great pass!','🙌 Perfect choice!','⚽ What a pass!']));
           state.round++;
           this.locked=true;
           setTimeout(()=>{ if(state.mode==='pickpass') this.newScenario(); },900);
         } else {
           sfx.whoops();
+          state.streak=0;
           burst(f.to.x,f.to.y,10);
           toast('🧤 Stolen! That one was covered.',1600);
           hint('Red lines = blocked. Try the GREEN lane!');
@@ -569,7 +676,7 @@ const pickpass={
     this.mates.forEach((m,i)=>{
       drawPlayer({x:m.x,y:m.y+Math.sin(m.bob)*3},'#4DA3FF','TAP ME',''+(i+2));
     });
-    drawPlayer(this.you,'#FFC933','YOU','9');
+    drawPlayer(this.you,jersey.color,'YOU',''+jersey.num);
     if(this.ballFly){
       const f=this.ballFly, t=f.t;
       drawBall(lerp(this.you.x,f.to.x,t), lerp(this.you.y,f.to.y,t), 11+Math.sin(t*Math.PI)*5);
@@ -606,8 +713,113 @@ const pickpass={
   }
 };
 
+/* ================= mode: Where Do I Stand? ================= */
+const ZONES={
+  striker:{y0:40, y1:FIELD_H/3, label:'⚡ STRIKERS', tip:'⚡ Striker: run up top!'},
+  mid:{y0:FIELD_H/3, y1:FIELD_H*2/3, label:'🔗 MIDFIELD', tip:'🔗 Midfielder: hold the middle!'},
+  defender:{y0:FIELD_H*2/3, y1:FIELD_H-40, label:'🛡️ DEFENSE', tip:'🛡️ Defender: guard our goal!'}
+};
+const HOLD_NEED=0.9;
+const positions={
+  player:null, prompt:null, hold:0, wrongTime:0, guide:false, ballDot:null, pulse:0, roundsPerLevel:3,
+  start(){
+    state.level=1; state.round=1;
+    setScore(0);
+    this.player={x:FIELD_W/2,y:FIELD_H/2,tx:FIELD_W/2,ty:FIELD_H/2};
+    this.newPrompt();
+    toast('🗺️ Run to your position!');
+  },
+  newPrompt(){
+    let role=pick(['striker','mid','defender']);
+    if(this.prompt && role===this.prompt.role) role=pick(['striker','mid','defender']);
+    let side=null;
+    if(state.level>=2 && Math.random()<0.75) side=pick(['left','right']);
+    this.prompt={role,side};
+    this.hold=0; this.wrongTime=0; this.guide=false;
+    this.ballDot = side ? {x: side==='left'?80:FIELD_W-80, y:rand(180,620)} : null;
+  },
+  promptTip(){
+    const z=ZONES[this.prompt.role];
+    return z.tip + (this.prompt.side ? (' Ball is '+this.prompt.side.toUpperCase()+' — slide over!') : '');
+  },
+  inTarget(){
+    const z=ZONES[this.prompt.role], p=this.player;
+    if(p.y<z.y0||p.y>z.y1) return false;
+    if(this.prompt.side==='left'  && p.x>FIELD_W/2-10) return false;
+    if(this.prompt.side==='right' && p.x<FIELD_W/2+10) return false;
+    return true;
+  },
+  update(dt){
+    this.pulse+=dt;
+    const p=this.player, sp=260*dt;
+    if(keys.ArrowLeft){p.tx=p.x-sp*3;} if(keys.ArrowRight){p.tx=p.x+sp*3;}
+    if(keys.ArrowUp){p.ty=p.y-sp*3;} if(keys.ArrowDown){p.ty=p.y+sp*3;}
+    const dx=p.tx-p.x, dy=p.ty-p.y, dd=Math.hypot(dx,dy);
+    if(dd>2){ const v=Math.min(dd,300*dt); p.x+=dx/dd*v; p.y+=dy/dd*v; }
+    p.x=clamp(p.x,42,FIELD_W-42); p.y=clamp(p.y,42,FIELD_H-42);
+    p.tx=clamp(p.tx,42,FIELD_W-42); p.ty=clamp(p.ty,42,FIELD_H-42);
+
+    if(this.inTarget()){
+      this.hold+=dt; this.wrongTime=0;
+      hint('Perfect spot! Hold it…',true);
+      if(this.hold>=HOLD_NEED){
+        setScore(state.score+1);
+        burst(p.x,p.y,30); sfx.cheer();
+        state.round++;
+        if(state.round>this.roundsPerLevel){
+          state.round=1; state.level++;
+          addStar(state.level===2 ? '⭐ LEVEL 2! Now slide with the ball!' : '⭐ LEVEL '+state.level+'! Star earned!', p.x, p.y);
+        } else {
+          toast(pick(['🎉 That’s your spot!','🙌 Great positioning!','💚 Just like a pro!']));
+        }
+        this.newPrompt();
+      }
+    } else {
+      this.hold=Math.max(0,this.hold-dt*2);
+      this.wrongTime+=dt;
+      if(this.wrongTime>2.5 && !this.guide){ this.guide=true; sfx.tick(); }
+      hint(this.promptTip());
+    }
+  },
+  draw(){
+    drawField();
+    ctx.font='800 20px Nunito, sans-serif'; ctx.textAlign='left'; ctx.textBaseline='top';
+    for(const key of ['striker','mid','defender']){
+      const z=ZONES[key];
+      if(this.prompt && this.prompt.role===key){
+        const a = this.guide ? 0.22+Math.sin(this.pulse*5)*0.08 : 0.12;
+        ctx.fillStyle='rgba(255,201,51,'+a.toFixed(3)+')';
+        let x=24, w=FIELD_W-48;
+        if(this.prompt.side==='left') w=FIELD_W/2-34;
+        if(this.prompt.side==='right'){ x=FIELD_W/2+10; w=FIELD_W/2-34; }
+        ctx.fillRect(x,z.y0,w,z.y1-z.y0);
+      }
+      ctx.fillStyle='rgba(255,255,255,.75)';
+      ctx.fillText(z.label,32,z.y0+8);
+      if(key!=='defender'){
+        ctx.strokeStyle='rgba(255,255,255,.35)'; ctx.lineWidth=2; ctx.setLineDash([10,12]);
+        ctx.beginPath(); ctx.moveTo(24,z.y1); ctx.lineTo(FIELD_W-24,z.y1); ctx.stroke();
+        ctx.setLineDash([]);
+      }
+    }
+    if(this.prompt && this.prompt.side){
+      ctx.strokeStyle='rgba(255,255,255,.35)'; ctx.lineWidth=2; ctx.setLineDash([10,12]);
+      ctx.beginPath(); ctx.moveTo(FIELD_W/2,40); ctx.lineTo(FIELD_W/2,FIELD_H-40); ctx.stroke();
+      ctx.setLineDash([]);
+    }
+    if(this.ballDot) drawBall(this.ballDot.x,this.ballDot.y,11);
+    const p=this.player;
+    drawRing(p,34,clamp(this.hold/HOLD_NEED,0,1), this.inTarget()?'#7CE577':'#FFC933');
+    drawPlayer(p,jersey.color,'YOU',''+jersey.num);
+    drawConfetti();
+  },
+  pointer(type,x,y){
+    if(type==='down'||type==='move'){ this.player.tx=x; this.player.ty=y; }
+  }
+};
+
 /* ================= navigation ================= */
-const modes={getopen,pickpass};
+const modes={getopen,pickpass,positions};
 function show(screen){
   state.screen=screen;
   $('home').hidden = screen!=='home';
@@ -625,6 +837,7 @@ function startMode(key){
 }
 $('playGetOpen').addEventListener('click',()=>startMode('getopen'));
 $('playPickPass').addEventListener('click',()=>startMode('pickpass'));
+$('playPositions').addEventListener('click',()=>startMode('positions'));
 $('backBtn').addEventListener('click',()=>{ state.mode=null; show('home'); });
 
 /* ================= input ================= */
@@ -646,11 +859,11 @@ canvas.addEventListener('pointermove',e=>{
 });
 window.addEventListener('pointerup',()=>{dragging=false;});
 window.addEventListener('keydown',e=>{
-  if(state.mode==='getopen'&&['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)){
-    e.preventDefault(); getopen.keys[e.key]=true;
+  if((state.mode==='getopen'||state.mode==='positions')&&['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)){
+    e.preventDefault(); keys[e.key]=true;
   }
 });
-window.addEventListener('keyup',e=>{ delete getopen.keys[e.key]; });
+window.addEventListener('keyup',e=>{ delete keys[e.key]; });
 
 /* ================= main loop ================= */
 let last=performance.now();
