@@ -144,6 +144,32 @@
     pointer-events:none; box-shadow:0 6px 24px rgba(0,0,0,.35);
   }
   #toast[hidden]{display:none!important;}
+  #matchHud{
+    position:absolute; left:50%; top:14px; transform:translateX(-50%);
+    background:rgba(10,26,48,.88); border-radius:999px;
+    padding:7px 18px; font-weight:800; font-size:.95rem;
+    white-space:nowrap; pointer-events:none;
+    font-variant-numeric:tabular-nums;
+  }
+  #matchOverlay{
+    position:absolute; inset:0; z-index:5;
+    display:grid; place-items:center;
+    background:rgba(10,26,48,.55); border-radius:14px;
+  }
+  .ovcard{
+    background:var(--panel); border-radius:var(--radius);
+    padding:22px 26px; text-align:center; max-width:86%;
+    box-shadow:0 10px 40px rgba(0,0,0,.4);
+  }
+  .ovcard h3{font-family:var(--display); font-size:1.6rem; margin:0 0 8px;}
+  .ovcard p{color:var(--ink-dim); font-weight:600; line-height:1.5; margin:0 0 10px;}
+  #ovBadges{font-size:1.15rem; letter-spacing:3px; margin-bottom:12px; min-height:1.3em;}
+  #ovBtn{
+    background:var(--accent); color:#20304A;
+    font-family:var(--display); font-size:1.2rem;
+    border-radius:999px; padding:12px 28px;
+  }
+  #ovBtn:active{transform:scale(.95);}
   @media (prefers-reduced-motion: no-preference){
     #toast{animation:pop .45s cubic-bezier(.2,1.6,.4,1);}
     @keyframes pop{from{transform:translateX(-50%) scale(.4); opacity:0;}}
@@ -185,6 +211,12 @@
         <p>Learn where strikers, midfielders, and defenders play — and slide with the ball!</p>
         <span class="best" id="bestPositions">BEST: 0</span>
       </button>
+      <button class="modecard" id="playMatch">
+        <span class="big" aria-hidden="true">🏟️🔥</span>
+        <h3>Mini Match!</h3>
+        <p>3-on-3! Use ALL your skills — spread out, pass smart, steal, and score goals to win.</p>
+        <span class="best" id="bestMatch">WINS: 0</span>
+      </button>
     </div>
     <div class="jerseybox">
       <span class="who">👕 Your jersey:</span>
@@ -213,6 +245,11 @@
       <p><b>Watch the defenders:</b> dark-red chasers (!) hunt YOU — sprint
       away from them. Orange blockers (X) stand in the passing lane — slide
       sideways to open a new lane.</p>
+      <p><b>Mini Match!</b> — A real 3-on-3 game. Drag to run. When YOU have
+      the ball: tap a blue teammate to pass, or tap the top goal to shoot.
+      When your team has it: get open and the pass comes to you. When the
+      red team has it: run at the ball to steal it! Win a match to unlock
+      the next one — each is a little tougher. 🏆</p>
       <p>No account, no ads, nothing collected. Just soccer smarts. 💚</p>
     </details>
   </main>
@@ -222,6 +259,15 @@
       <canvas id="field" aria-label="Soccer field game area"></canvas>
       <div id="hint" hidden></div>
       <div id="toast" hidden></div>
+      <div id="matchHud" hidden>US 0 – 0 THEM</div>
+      <div id="matchOverlay" hidden>
+        <div class="ovcard">
+          <h3 id="ovTitle">Match 1</h3>
+          <p id="ovBody"></p>
+          <div id="ovBadges" aria-label="Matches won"></div>
+          <button id="ovBtn">⚽ Kick off!</button>
+        </div>
+      </div>
     </div>
   </main>
 </div>
@@ -297,12 +343,14 @@ const state={ screen:'home', mode:null, score:0, level:1, round:1, streak:0 };
 const best={
   getopen:store.get('sp_best_getopen',0),
   pickpass:store.get('sp_best_pickpass',0),
-  positions:store.get('sp_best_positions',0)
+  positions:store.get('sp_best_positions',0),
+  match:store.get('sp_match_wins',0)          // matches won, not a high score
 };
 function refreshBest(){
   $('bestGetOpen').textContent='BEST: '+best.getopen;
   $('bestPickPass').textContent='BEST: '+best.pickpass;
   $('bestPositions').textContent='BEST: '+best.positions;
+  $('bestMatch').textContent='WINS: '+best.match;
 }
 refreshBest();
 
@@ -342,7 +390,7 @@ renderJersey();
 function setScore(n){
   state.score=n; $('scoreVal').textContent=n;
   const key=state.mode;
-  if(key && n>best[key]){ best[key]=n; store.set('sp_best_'+key,n); refreshBest(); }
+  if(key && key!=='match' && n>best[key]){ best[key]=n; store.set('sp_best_'+key,n); refreshBest(); }
 }
 
 /* confetti */
@@ -818,8 +866,350 @@ const positions={
   }
 };
 
+/* ================= mode: Mini Match! ================= */
+const GOAL_W=150, GOAL_X=FIELD_W/2;
+let ovCallback=null;
+function showOverlay(title,bodyHTML,btnLabel,cb){
+  $('ovTitle').textContent=title;
+  $('ovBody').innerHTML=bodyHTML;
+  $('ovBadges').textContent = best.match>0 ? '🏆'.repeat(Math.min(best.match,10)) : '';
+  $('ovBtn').textContent=btnLabel;
+  ovCallback=cb;
+  $('matchOverlay').hidden=false;
+}
+$('ovBtn').addEventListener('click',()=>{
+  $('matchOverlay').hidden=true;
+  ensureAudio();
+  if(ovCallback) ovCallback();
+});
+
+const match={
+  us:[], them:[], kid:null, ball:null,
+  phase:'pre', t:0, duration:90, scoreUs:0, scoreThem:0,
+  decideT:0, hintT:0, tackleT:0, protect:null, protectT:0, goalT:0, nextStartUs:true,
+  num(){ return best.match+1; },
+  oppSpd(){ return Math.min(62+9*this.num(), 125); },
+  passSmart(){ return Math.min(0.45+0.1*this.num(), 0.9); },
+  start(){
+    state.level=this.num();
+    this.scoreUs=0; this.scoreThem=0; this.t=0; this.phase='pre';
+    setScore(0);
+    this.kickoff(true);
+    $('matchHud').hidden=false; this.updateHud();
+    showOverlay('Match '+this.num(),
+      'Today’s team shape: <b>TRIANGLE 🔺</b><br>'+
+      'Defender low, YOU in the middle, striker high.<br>'+
+      'A triangle always gives your team <b>two ways to pass</b>!',
+      '⚽ Kick off!',
+      ()=>{ this.phase='play'; hint('Spread out! Get open, pass smart, score up top! 🥅'); });
+  },
+  kickoff(weStart){
+    const mk=(x,y,team,n,role)=>({x,y,tx:x,ty:y,team,n,role});
+    this.kid=mk(FIELD_W/2,470,'us',jersey.num,'kid');
+    this.us=[this.kid, mk(150,640,'us',5,'mateD'), mk(450,270,'us',7,'mateS')];
+    this.them=[mk(FIELD_W/2,190,'them',2,'oppD'), mk(170,330,'them',3,'oppM'), mk(430,560,'them',4,'oppA')];
+    const holder = weStart ? this.kid : this.them[1];
+    this.ball={state:'held', holder, x:holder.x, y:holder.y, vx:0, vy:0, fly:null};
+    this.protect=holder; this.protectT=1;
+    this.tackleT=0; this.decideT=0; this.hintT=1;
+  },
+  updateHud(){
+    const left=Math.max(0,Math.ceil(this.duration-this.t));
+    const mm=Math.floor(left/60), ss=('0'+left%60).slice(-2);
+    $('matchHud').textContent='US '+this.scoreUs+' – '+this.scoreThem+' THEM · ⏱ '+mm+':'+ss;
+  },
+  moveToward(e,goal,spd,dt){
+    const dx=goal.x-e.x, dy=goal.y-e.y, d=Math.hypot(dx,dy);
+    if(d>3){ const v=Math.min(d,spd*dt); e.x+=dx/d*v; e.y+=dy/d*v; }
+    e.x=clamp(e.x,36,FIELD_W-36); e.y=clamp(e.y,36,FIELD_H-36);
+  },
+  give(e){
+    const b=this.ball;
+    b.state='held'; b.holder=e; b.fly=null;
+    this.protect=e; this.protectT=0.6; this.decideT=0;
+  },
+  pass(from,to){
+    const b=this.ball;
+    b.holder=null; b.state='fly';
+    b.fly={from:{x:from.x,y:from.y}, to:{x:to.x,y:to.y}, t:0,
+           dur:Math.max(0.25,dist(from,to)/460), receiver:to, shot:false};
+    sfx.kick();
+  },
+  shoot(from,team){
+    const b=this.ball, atTop=(team==='us');
+    const target={x:GOAL_X+rand(-GOAL_W/2+22,GOAL_W/2-22), y:atTop?18:FIELD_H-18};
+    // blocked by a body in the way?
+    let blocked=null;
+    for(const e of (team==='us'?this.them:this.us)){
+      const s=distToSeg(e,from,target);
+      if(s.d<26 && s.t<0.72){ blocked=s.q; break; }
+    }
+    const d=dist(from,target);
+    const goal = !blocked && (d<190 ? Math.random()<0.92 : d<300 ? Math.random()<0.7 : Math.random()<0.35);
+    b.holder=null; b.state='fly';
+    b.fly={from:{x:from.x,y:from.y}, to:blocked||target, t:0,
+           dur:Math.max(0.2,dist(from,blocked||target)/560),
+           shot:true, goal, team, blocked:!!blocked};
+    sfx.kick();
+  },
+  resolveShot(f){
+    const b=this.ball;
+    if(f.blocked){
+      b.state='loose'; b.vx=rand(-120,120); b.vy=(f.team==='us')?rand(60,140):rand(-140,-60);
+      if(f.team==='us') hint('Blocked! Pass around defenders next time!');
+      return;
+    }
+    if(f.goal){
+      if(f.team==='us'){
+        this.scoreUs++; setScore(this.scoreUs);
+        burst(f.to.x,f.to.y,50); sfx.cheer();
+        toast('⚽ GOOOOAL!!! '+this.scoreUs+' – '+this.scoreThem,1900);
+        this.nextStartUs=false;
+      } else {
+        this.scoreThem++;
+        sfx.whoops();
+        toast('😅 They scored. Win it back!',1700);
+        this.nextStartUs=true;
+      }
+      this.updateHud();
+      this.phase='goal'; this.goalT=1.8;
+    } else {
+      b.state='loose';
+      b.x=f.to.x; b.y=clamp(f.to.y,40,FIELD_H-40);
+      b.vx=rand(-100,100); b.vy=(f.team==='us')?rand(80,150):rand(-150,-80);
+      if(f.team==='us') toast('So close! 😮');
+    }
+  },
+  openFor(target,from){
+    for(const e of this.them){
+      if(dist(e,target)<75) return false;
+      if(distToSeg(e,from,target).d<45) return false;
+    }
+    return true;
+  },
+  aiUs(dt){
+    const b=this.ball, kid=this.kid, mateD=this.us[1], mateS=this.us[2];
+    const anchor=b.holder||b;
+    const themHold=b.holder&&b.holder.team==='them';
+    // off-ball mates keep the triangle: striker high & opposite the kid, defender low
+    for(const m of [mateD,mateS]){
+      if(b.holder===m) continue;
+      let t;
+      if(themHold){
+        t = (m===mateD) ? {x:GOAL_X,y:FIELD_H-170}
+                        : {x:clamp(anchor.x,150,FIELD_W-150), y:clamp(anchor.y-60,140,FIELD_H-200)};
+        if(m===mateS && dist(m,anchor)<200) t=anchor;      // striker presses too
+      } else {
+        t = (m===mateS) ? {x: kid.x<FIELD_W/2 ? FIELD_W-150 : 150, y:clamp(anchor.y-190,110,FIELD_H-220)}
+                        : {x:clamp(anchor.x,140,FIELD_W-140), y:clamp(anchor.y+190,200,FIELD_H-120)};
+        if(dist(t,kid)<150) t={x:t.x, y:clamp(t.y+(m===mateD?80:-80),100,FIELD_H-100)};
+      }
+      this.moveToward(m,t,100,dt);
+      // steal on touch
+      if(themHold && dist(m,b.holder)<26 && !(this.protect===b.holder&&this.protectT>0)) this.give(m);
+    }
+    // AI carrier decisions
+    if(b.holder&&b.holder.team==='us'&&b.holder!==kid){
+      const c=b.holder;
+      this.moveToward(c,{x:lerp(c.x,GOAL_X,0.25),y:c.y-46},92,dt);
+      this.decideT+=dt;
+      if(this.decideT>0.75){
+        this.decideT=0;
+        if(c.y<270){ this.shoot(c,'us'); return; }
+        const other=(c===mateD)?mateS:mateD;
+        if(this.openFor(kid,c) && kid.y<c.y+120){ this.pass(c,kid); hint('The pass is coming to YOU! ⚽',true); }
+        else if(this.openFor(other,c) && other.y<c.y){ this.pass(c,other); }
+      }
+    }
+  },
+  aiThem(dt){
+    const b=this.ball, kid=this.kid, spd=this.oppSpd();
+    const usHold=b.holder&&b.holder.team==='us';
+    const themCarrier=(b.holder&&b.holder.team==='them')?b.holder:null;
+    let chaser=null,bd=1e9;
+    for(const e of this.them){ const d=dist(e,b); if(d<bd){bd=d;chaser=e;} }
+    for(const e of this.them){
+      if(e===themCarrier){
+        this.moveToward(e,{x:lerp(e.x,GOAL_X,0.2),y:e.y+44},spd,dt);
+        this.decideT+=dt;
+        if(this.decideT>1.1){
+          this.decideT=0;
+          if(e.y>FIELD_H-280){ this.shoot(e,'them'); return; }
+          if(Math.random()<this.passSmart()){
+            for(const m of this.them){
+              if(m===e) continue;
+              let clear=true;
+              for(const u of this.us){ if(distToSeg(u,e,m).d<42||dist(u,m)<65){clear=false;break;} }
+              if(clear && m.y>e.y-40){ this.pass(e,m); break; }
+            }
+          }
+        }
+      } else if(e===chaser && !themCarrier){
+        this.moveToward(e, b.holder||b, spd, dt);
+      } else if(themCarrier){
+        const t=(e.role==='oppD') ? {x:GOAL_X,y:170}
+              : {x: themCarrier.x<FIELD_W/2 ? FIELD_W-160:160, y:clamp(themCarrier.y+150,200,FIELD_H-150)};
+        this.moveToward(e,t,spd*0.9,dt);
+      } else if(e.role==='oppD'){
+        // last defender guards the goal mouth — sluggish early, sharper each match
+        this.moveToward(e,{x:clamp(b.x,GOAL_X-85,GOAL_X+85),y:150},spd*(0.45+0.07*this.num()),dt);
+      } else {
+        const markable=this.us.filter(u=>u!==b.holder);
+        let mk=markable[0],md=1e9;
+        for(const u of markable){ const d=dist(e,u); if(d<md){md=d;mk=u;} }
+        this.moveToward(e,{x:mk.x+20,y:mk.y-20},spd*0.85,dt);
+      }
+    }
+    // tackling the kid (takes a moment — kids get a fair chance)
+    if(b.holder===kid){
+      const near=this.them.some(e=>dist(e,kid)<30);
+      if(near){
+        this.tackleT+=dt;
+        if(this.tackleT>0.55){
+          this.tackleT=0;
+          b.state='loose'; b.holder=null;
+          b.vx=rand(-160,160); b.vy=rand(-160,160);
+          this.protect=kid; this.protectT=0.8;
+          hint('They poked it away! Chase it! 💨');
+        }
+      } else this.tackleT=0;
+    } else this.tackleT=0;
+  },
+  ballUpdate(dt){
+    const b=this.ball;
+    if(b.state==='held'&&b.holder){
+      b.x=b.holder.x+15; b.y=b.holder.y+(b.holder.team==='us'?-8:8);
+    } else if(b.state==='fly'){
+      const f=b.fly; f.t+=dt/f.dur;
+      const t=Math.min(f.t,1);
+      b.x=lerp(f.from.x,f.to.x,t); b.y=lerp(f.from.y,f.to.y,t);
+      if(!f.shot){
+        for(const e of (f.receiver.team==='us'?this.them:this.us)){
+          if(dist(e,b)<24){
+            this.give(e);
+            if(f.receiver.team==='us') hint('Intercepted! That lane was blocked — look first! 👀');
+            return;
+          }
+        }
+        if(f.t>=1) this.give(f.receiver);
+      } else if(f.t>=1) this.resolveShot(f);
+    } else {
+      b.x+=b.vx*dt; b.y+=b.vy*dt;
+      b.vx-=b.vx*2.2*dt; b.vy-=b.vy*2.2*dt;
+      b.x=clamp(b.x,30,FIELD_W-30); b.y=clamp(b.y,30,FIELD_H-30);
+      for(const e of [...this.us,...this.them]){
+        if(e===this.protect&&this.protectT>0) continue;
+        if(dist(e,b)<24){ this.give(e); break; }
+      }
+    }
+  },
+  hints(dt){
+    this.hintT-=dt;
+    if(this.hintT>0) return;
+    this.hintT=2.4;
+    const b=this.ball;
+    if(b.holder===this.kid){
+      hint(this.kid.y<310 ? 'You’re close — tap their goal to SHOOT! 🥅'
+                          : 'Dribble up the field, or tap a teammate to pass!');
+    } else if(b.holder&&b.holder.team==='us'){
+      hint(this.openFor(this.kid,b.holder) ? 'You’re OPEN! The pass is coming…'
+                                           : 'Get OPEN — run to space so they can pass to you!',
+           this.openFor(this.kid,b.holder));
+    } else if(b.holder){
+      hint('Defend! Run at the ball and steal it! 💪');
+    } else {
+      hint('Loose ball — go get it! 🏃');
+    }
+  },
+  endMatch(){
+    this.phase='end';
+    const a=this.scoreUs, b=this.scoreThem;
+    if(a>b){
+      best.match++; store.set('sp_match_wins',best.match); refreshBest();
+      addStar('🏆 YOU WIN '+a+'–'+b+'! +1 ⭐');
+      showOverlay('🏆 You win!',
+        'Final score: <b>US '+a+' – '+b+' THEM</b>.<br>Spreading out and smart passes did that!<br>The next team is a little tougher…',
+        'Next match ▶', ()=>this.start());
+    } else if(a===b){
+      showOverlay('🤝 It’s a draw!',
+        'Final score: <b>US '+a+' – '+b+' THEM</b>.<br>Tip: when your team has the ball, sprint to open grass — passes find open players!',
+        'Play again 🔄', ()=>this.start());
+    } else {
+      showOverlay('😮 They got us this time!',
+        'Final score: <b>US '+a+' – '+b+' THEM</b>.<br>Tip: steal the ball by running right at it, then pass to your striker up high!',
+        'Rematch! 🔄', ()=>this.start());
+    }
+  },
+  update(dt){
+    if(this.phase==='pre'||this.phase==='end') return;
+    if(this.phase==='goal'){
+      this.goalT-=dt;
+      if(this.goalT<=0){ this.kickoff(this.nextStartUs); this.phase='play'; }
+      return;
+    }
+    this.t+=dt;
+    if(this.t>=this.duration){ this.endMatch(); return; }
+    this.protectT=Math.max(0,this.protectT-dt);
+    this.updateHud();
+    // kid movement: drag target + arrow keys
+    const kid=this.kid, sp=260*dt;
+    if(keys.ArrowLeft){kid.tx=kid.x-sp*3;} if(keys.ArrowRight){kid.tx=kid.x+sp*3;}
+    if(keys.ArrowUp){kid.ty=kid.y-sp*3;} if(keys.ArrowDown){kid.ty=kid.y+sp*3;}
+    kid.tx=clamp(kid.tx,36,FIELD_W-36); kid.ty=clamp(kid.ty,36,FIELD_H-36);
+    this.moveToward(kid,{x:kid.tx,y:kid.ty}, this.ball.holder===kid?205:300, dt);
+    // kid steals on touch
+    const b=this.ball;
+    if(b.holder&&b.holder.team==='them'&&dist(kid,b.holder)<30&&!(this.protect===b.holder&&this.protectT>0)){
+      this.give(kid); toast('💪 Great steal!'); sfx.tick();
+    }
+    this.aiUs(dt); this.aiThem(dt); this.ballUpdate(dt); this.hints(dt);
+  },
+  draw(){
+    drawField();
+    // goals
+    ctx.fillStyle='rgba(255,255,255,.2)';
+    ctx.fillRect(GOAL_X-GOAL_W/2,4,GOAL_W,18);
+    ctx.fillRect(GOAL_X-GOAL_W/2,FIELD_H-22,GOAL_W,18);
+    ctx.strokeStyle='rgba(255,255,255,.85)'; ctx.lineWidth=3;
+    ctx.strokeRect(GOAL_X-GOAL_W/2,4,GOAL_W,18);
+    ctx.strokeRect(GOAL_X-GOAL_W/2,FIELD_H-22,GOAL_W,18);
+    ctx.font='800 13px Nunito, sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillStyle='rgba(255,255,255,.8)';
+    ctx.fillText('⬆ SCORE HERE ⬆',GOAL_X,38);
+    const b=this.ball, kidHolds=b.holder===this.kid;
+    for(const e of this.them) drawPlayer(e,'#FF5D5D','',''+e.n);
+    for(const m of this.us){
+      if(m===this.kid) continue;
+      drawPlayer(m,'#4DA3FF', kidHolds?'TAP ME':'', ''+m.n);
+    }
+    // glow when kid is open and a teammate holds the ball
+    if(b.holder&&b.holder.team==='us'&&b.holder!==this.kid&&this.openFor(this.kid,b.holder)){
+      ctx.strokeStyle='rgba(124,229,119,.8)'; ctx.lineWidth=5;
+      ctx.beginPath(); ctx.arc(this.kid.x,this.kid.y,32,0,Math.PI*2); ctx.stroke();
+    }
+    drawPlayer(this.kid,jersey.color,'YOU',''+jersey.num);
+    drawBall(b.x,b.y,11+(b.state==='fly'?Math.sin(Math.min(b.fly.t,1)*Math.PI)*4:0));
+    drawConfetti();
+  },
+  pointer(type,x,y){
+    if(this.phase!=='play') return;
+    const b=this.ball;
+    if(type==='down'&&b.state==='held'&&b.holder===this.kid){
+      for(const m of this.us){
+        if(m!==this.kid&&Math.hypot(m.x-x,m.y-y)<60){
+          this.pass(this.kid,m);
+          hint('Nice pass! Now run to open space!');
+          return;
+        }
+      }
+      if(y<140&&Math.abs(x-GOAL_X)<170){ this.shoot(this.kid,'us'); return; }
+    }
+    if(type==='down'||type==='move'){ this.kid.tx=x; this.kid.ty=y; }
+  }
+};
+
 /* ================= navigation ================= */
-const modes={getopen,pickpass,positions};
+const modes={getopen,pickpass,positions,match};
 function show(screen){
   state.screen=screen;
   $('home').hidden = screen!=='home';
@@ -827,7 +1217,10 @@ function show(screen){
   $('backBtn').hidden = screen==='home';
   $('scoreChip').hidden = screen==='home';
   if(screen==='game'){ resize(); }
-  else { hint(null); $('toast').hidden=true; confetti=[]; }
+  else {
+    hint(null); $('toast').hidden=true; confetti=[];
+    $('matchHud').hidden=true; $('matchOverlay').hidden=true;
+  }
 }
 function startMode(key){
   ensureAudio();
@@ -838,6 +1231,7 @@ function startMode(key){
 $('playGetOpen').addEventListener('click',()=>startMode('getopen'));
 $('playPickPass').addEventListener('click',()=>startMode('pickpass'));
 $('playPositions').addEventListener('click',()=>startMode('positions'));
+$('playMatch').addEventListener('click',()=>startMode('match'));
 $('backBtn').addEventListener('click',()=>{ state.mode=null; show('home'); });
 
 /* ================= input ================= */
@@ -859,7 +1253,7 @@ canvas.addEventListener('pointermove',e=>{
 });
 window.addEventListener('pointerup',()=>{dragging=false;});
 window.addEventListener('keydown',e=>{
-  if((state.mode==='getopen'||state.mode==='positions')&&['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)){
+  if((state.mode==='getopen'||state.mode==='positions'||state.mode==='match')&&['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)){
     e.preventDefault(); keys[e.key]=true;
   }
 });

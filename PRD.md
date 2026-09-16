@@ -75,10 +75,17 @@ a game can show visually, over and over, with cheering and points.
   it appears in every mode.
 - Bigger celebrations (more confetti, star bursts).
 
-### Phase 3 — Mini match
-- A tiny 3-vs-3 match where the kid's spacing and pass choices actually win games.
-- Formation basics (why teams line up in shapes like 2-3-1).
-- Progress map: unlock levels like a journey.
+### ✅ Phase 3 — Mini match (DONE)
+- **Mini Match! mode**: a real 3-vs-3 game (90 seconds). The kid plays with
+  two AI teammates against a red team. Getting open earns real passes,
+  covered passes get intercepted, touching the ball steals it, and tapping
+  the goal shoots. Spacing and smart choices actually win the match.
+- **Formation lesson**: every kickoff starts with a "team shape" card
+  teaching the TRIANGLE (defender low, you in the middle, striker high —
+  always two ways to pass).
+- **Match journey**: win a match to unlock the next; each opponent team is
+  a little faster and smarter. Wins are collected as 🏆 badges and shown
+  on the kickoff card. Winning also earns a star.
 
 ### Phase 4 — Team & coach tools
 - Player profiles for siblings/teammates (still no accounts — stored on device).
