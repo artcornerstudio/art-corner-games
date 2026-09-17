@@ -101,6 +101,23 @@ a game can show visually, over and over, with cheering and points.
 
 ---
 
+### ✅ Bonus update — Real soccer sound design (DONE)
+Every sound now matches its action, so the audio *teaches* too:
+- **Ball sounds:** thump = pass, bigger THUMP = shot, soft pop = ball
+  received, thud = blocked or bounced.
+- **Referee whistle** (with the real "pea rattle" trill): one blast at
+  kickoff and after every goal, **three blasts at full time** — just like
+  a real game.
+- **Stadium crowd** in Mini Match: a quiet murmur that ROARS when you
+  score and groans when they do.
+- **Rewards:** sparkly rising twinkle for stars, fanfare for goals and
+  level-ups, a gentle (never harsh) "wah-wah" for mistakes.
+- **Excitement builder:** in Get Open!, the tick-tick rises in pitch as
+  the pass gets closer.
+- All sounds are made by code (still one file, nothing downloaded), run
+  through a limiter so nothing blares, and the mute button silences
+  everything including the crowd.
+
 ## 6. Testing checklist (we repeat this every phase)
 
 1. **Page loads with zero errors** (checked with an automated browser).
