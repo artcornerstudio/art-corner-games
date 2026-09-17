@@ -87,10 +87,17 @@ a game can show visually, over and over, with cheering and points.
   a little faster and smarter. Wins are collected as 🏆 badges and shown
   on the kickoff card. Winning also earns a star.
 
-### Phase 4 — Team & coach tools
-- Player profiles for siblings/teammates (still no accounts — stored on device).
-- Coach mode: pick which skills to drill; printable field diagrams.
-- Share a link with the team.
+### ✅ Phase 4 — Team & coach tools (DONE)
+- **Player profiles**: up to 6 players per device ("Who's playing?" on the
+  home screen). Each player keeps their own name, jersey, stars, best
+  scores, and match wins. Still no accounts — everything stays on the
+  device, and the original save moves into the first profile automatically.
+- **Coach Corner**: a 15-minute practice plan (each drill launches its
+  game), three whiteboard-style field diagrams (bunch ball vs. spread out,
+  the triangle, the three zones), the full tips library, and a
+  printer-friendly Print button.
+- **Share with the team**: copy-the-link button plus guidance — the whole
+  game travels as one link, no installs.
 
 ---
 
