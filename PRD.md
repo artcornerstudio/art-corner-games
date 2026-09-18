@@ -126,6 +126,31 @@ Every sound now matches its action, so the audio *teaches* too:
 4. **Security & safety check:** no data leaves the device, no outside services,
    no personal info, safe for kids (COPPA-friendly by having nothing to collect).
 
+### ✅ Bonus update — Public launch prep (DONE)
+Made the game ready to publish as a real, free website:
+- **Self-hosted fonts:** the two Google Fonts are now embedded directly in
+  the game file instead of fetched from Google, so the published game makes
+  **zero outside network contact** — matching the "we collect nothing"
+  privacy claim exactly.
+- **App icon & branding:** a soccer-ball badge icon (favicon, phone
+  home-screen icons, and a social-media share preview image) designed to
+  match the game's own in-game ball graphic and color palette.
+- **Install to Home Screen:** added a manifest file and a service worker
+  so the game can be added to a phone's home screen like a real app, opens
+  full-screen with no browser bar, and **works with no internet** after
+  the first visit. Android/Chrome shows a native "Install" button; iPhone
+  gets a one-time tip explaining the Share → Add to Home Screen steps.
+- **Privacy page:** a plain-language page confirming no accounts, no ads,
+  no tracking, and nothing collected — linked from the home screen footer.
+- **License file:** an "all rights reserved" copyright notice as a safe
+  default, with a note on how to switch to an open license later.
+- **Real page metadata:** a proper page title, description, and social
+  preview tags so the link looks good when shared in texts or group chats.
+
+Still needed to go fully live: switching on GitHub Pages in the repository
+settings (one-time, must be done by the account owner — see the launch
+notes).
+
 ## 7. How we measure success
 
 - A 6-year-old can play without help within 30 seconds.

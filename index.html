@@ -143,6 +143,22 @@
 
   /* ---------- coach corner ---------- */
   .coachlink{width:100%; max-width:640px; flex:none;}
+  .installBanner{
+    width:100%; max-width:640px; background:var(--panel);
+    border-radius:var(--radius); padding:12px 16px;
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    border:2px solid rgba(255,201,51,.4);
+  }
+  .installBanner span{flex:1; min-width:200px; font-weight:700; color:var(--ink-dim); font-size:.92rem;}
+  .installBanner button{border-radius:999px; padding:8px 14px; font-size:.9rem;}
+  #installBtn{background:var(--accent); color:#20304A;}
+  #installDismiss{background:var(--panel-2); color:var(--ink-dim); width:34px; height:34px; padding:0; flex:none;}
+  .homeFooter{
+    width:100%; max-width:640px; display:flex; justify-content:space-between; align-items:center;
+    gap:10px; flex-wrap:wrap; color:var(--ink-dim); font-size:.85rem; font-weight:700;
+    padding-block:4px 2px;
+  }
+  .homeFooter a{color:var(--ink-dim); text-decoration:underline;}
   #coach{
     flex:1; min-height:0; overflow-y:auto;
     display:flex; flex-direction:column; gap:14px; align-items:center;
@@ -356,6 +372,15 @@
       <h3>Coach Corner</h3>
       <p>Practice plan, field diagrams, all the tips, printing &amp; sharing — for grown-ups and coaches.</p>
     </button>
+    <div class="installBanner" id="installBanner" hidden>
+      <span id="installText">📱 Add this game to your Home Screen so it opens like a real app!</span>
+      <button id="installBtn" hidden>⬇️ Install</button>
+      <button id="installDismiss" aria-label="Dismiss">✕</button>
+    </div>
+    <footer class="homeFooter">
+      <span>⚽ Spread Out! — made for kids 6–12</span>
+      <a href="privacy.html">Privacy</a>
+    </footer>
   </main>
 
   <main id="coach" hidden>
@@ -1684,6 +1709,54 @@ function frame(ts){
   }
   requestAnimationFrame(frame);
 }
+
+/* ================= install to home screen + offline support ================= */
+try{
+  if('serviceWorker' in navigator && location.protocol.startsWith('http')){
+    window.addEventListener('load',()=>{
+      navigator.serviceWorker.register('sw.js').catch(()=>{});
+    });
+  }
+}catch(e){}
+
+(function initInstallBanner(){
+  const isStandalone = (window.matchMedia && matchMedia('(display-mode: standalone)').matches)
+                        || window.navigator.standalone === true;
+  if(isStandalone) return;                       // already installed — nothing to offer
+  if(store.get('sp_install_dismissed',false)) return;
+
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const banner=$('installBanner'), btn=$('installBtn'), text=$('installText'), dismiss=$('installDismiss');
+  let deferredPrompt=null;
+
+  window.addEventListener('beforeinstallprompt',(e)=>{
+    e.preventDefault();
+    deferredPrompt=e;
+    text.textContent='📱 Add this game to your Home Screen so it opens like a real app!';
+    btn.hidden=false;
+    banner.hidden=false;
+  });
+  btn.addEventListener('click',async()=>{
+    if(!deferredPrompt) return;
+    btn.hidden=true;
+    deferredPrompt.prompt();
+    try{ await deferredPrompt.userChoice; }catch(e){}
+    deferredPrompt=null;
+    banner.hidden=true;
+    store.set('sp_install_dismissed',true);
+  });
+  dismiss.addEventListener('click',()=>{
+    banner.hidden=true;
+    store.set('sp_install_dismissed',true);
+  });
+
+  if(isIOS){
+    // iOS never fires beforeinstallprompt — show the manual steps instead
+    text.textContent='📱 iPhone/iPad: tap the Share button, then "Add to Home Screen"!';
+    btn.hidden=true;
+    banner.hidden=false;
+  }
+})();
 
 /* ================= boot (with hot-reload state carry) ================= */
 function boot(saved){
