@@ -1,17 +1,19 @@
-# Gridiron IQ — Youth Football Learning Game PRD
+# Football IQ: Flag and Field — Youth Football Learning Game PRD
 
-Status: draft for review · As of 2026-09-20
+Status: approved for Phase 1 build · As of 2026-09-20
 Living review copy (comment and edit there): https://claude.ai/code/artifact/65fb7a0a-8990-4b07-881e-b7d52b78c61c
 
 ## Executive summary
 
-Gridiron IQ is a browser game that teaches kids aged 8 to 16 how football works: positions, formations, plays, rules, and the reasoning behind them. Phase 1 is a small "Playbook Lab" web app that a child can finish in one sitting: animated play diagrams, a call-the-play mini game, and short quizzes with badges. Later phases add defensive reads, special teams, a play designer, and an AI coach.
+Football IQ: Flag and Field is a browser game that teaches kids aged 8 to 16 how football works: positions, formations, plays, rules, and the reasoning behind them. Phase 1 is a small "Playbook Lab" web app that a child can finish in one sitting: animated play diagrams, a call-the-play mini game, and short quizzes with badges. Later phases add defensive reads, special teams, a play designer, and an AI coach.
 
-- Working title: Gridiron IQ (placeholder)
+- Name: Football IQ: Flag and Field (decided 2026-09-20)
 - Platform: web first (phone, tablet, laptop), installable as a PWA
 - Build approach: React + TypeScript with a Konva canvas for the field, all content in JSON; Phaser 4 added in Phase 2 for the playable sim
 - Quick win target: Phase 1 playable in 2 to 3 weeks of part-time work
 - Cost: zero for Phase 1 (free hosting, CC0 assets, no accounts, no backend)
+
+Decisions made 2026-09-20: name is Football IQ: Flag and Field; Phase 1 is written for ages 10 to 12 and tiered up and down; art is flat X's and O's with icons; tackle and flag football (5v5 and 7v7) are both covered; the repo is public; the Phase 1 scope is approved.
 
 Research found strong open-source building blocks for the field, play diagrams, and football data, but no existing open-source game that teaches fundamentals to kids. That gap is the opportunity.
 
@@ -120,14 +122,14 @@ Play JSON uses a frame-based shape (play, frame, player, x, y) so real tracking 
 In scope:
 1. Home screen with three unit cards and a badge shelf
 2. Animated top-down field; tap any player for name and job
-3. 12 lessons (4 per unit) from JSON: diagram, animation steps, kid-language explanation
-4. Play library: 8 offensive plays across 4 formations, 4 defensive fronts
+3. 12 lessons (4 per unit) from JSON: diagram, animation steps, kid-language explanation; Field and rules includes a "Flag vs tackle: what changes" lesson
+4. Play library: 8 offensive plays across 4 formations and 4 defensive fronts for 11-on-11, plus a 5v5 flag set (2 formations, 2 plays, 1 defense)
 5. Mini game A, Call the Play: situation card plus 3 choices, animated result, one-line reason
 6. Mini game B, Spot the Position: tap the named position, 10 rounds
 7. Quizzes: 5 questions per lesson, 80 percent unlocks the badge
 8. Progress in localStorage with a reset button
 9. Rookie and Varsity tiers
-10. Phone, tablet, laptop; PWA; offline after first load
+10. Phone, tablet, laptop; PWA; offline after first load; field toggle for 11-on-11 vs flag field; play schema supports 5, 7, and 11 players from day one
 
 Out of scope: accounts, leaderboards, multiplayer, chat, full sim with scores, play designer, special teams (Phase 2), voice narration.
 
@@ -146,7 +148,7 @@ Build plan: week 1 scaffold, field renderer, play schema, 2 plays, home screen; 
 
 | Phase | Theme | Headline features | New tech | Effort |
 | --- | --- | --- | --- | --- |
-| 2 | Reads and decisions | Coverage lessons, blitz recognition, special teams unit, Fourth-Down Decision game, simple play-outcome engine, Pro tier, sound and art | Rule-based play resolver, OpenArt, Canva play cards | 3 to 4 weeks |
+| 2 | Reads and decisions | Coverage lessons, blitz recognition, special teams unit, full 7v7 flag unit, Fourth-Down Decision game, simple play-outcome engine, Pro tier, sound and art | Rule-based play resolver, OpenArt, Canva play cards | 3 to 4 weeks |
 | 3 | Create and coach | Play Designer with legality checks, Drive Simulator vs AI defense, AI Coach explanations, optional real-play replays | Konva editor, Claude API behind a serverless function, nflverse pipeline | 4 to 6 weeks |
 | 4 | Play together | Season lite, position deep dives, coach dashboard, share a playbook by link or QR, optional cloud save with parental consent | Supabase or Cloudflare D1, COPPA consent flow, PDF export | 6 to 8 weeks |
 
@@ -156,7 +158,7 @@ Gate between phases: real kids have played, badge completion above 60 percent, t
 
 | Phase | Unit | Lessons | Mini game | Badge |
 | --- | --- | --- | --- | --- |
-| 1 | Field and rules | Field and yard lines; downs and distance; scoring; 5 penalties | Down-and-distance picker | Rules Rookie |
+| 1 | Field and rules | Field and yard lines; downs and distance; scoring; 5 penalties; flag vs tackle | Down-and-distance picker | Rules Rookie |
 | 1 | Offense basics | 11 positions; O's and the line; 4 formations; run vs pass; 6 routes | Call the Play | Offense Starter |
 | 1 | Defense basics | 11 positions; X's; 4-3 vs 3-4; man vs zone | Spot the Position | Defense Starter |
 | 2 | Defense reads | Cover 1/2/3; blitz; gap responsibility | Beat the Coverage | Coverage Reader |
@@ -181,13 +183,13 @@ Content quality: facts checked against NFL Football Operations; a football-liter
 
 Risks: building a sim instead of a teacher (mitigated by phase gates); content authoring slower than code (spreadsheet plus Claude drafts, human review); kids find X's and O's boring (motion first, mini games before quizzes); trademark exposure (fictional teams); COPPA later (collect nothing now); solo bandwidth (ship weekly, cut features not the ship).
 
-Decisions needed:
-- [ ] Name: keep Gridiron IQ or pick another
-- [ ] Phase 1 age focus (recommend write for 10 to 12, tier up and down)
-- [ ] Art style: flat X's and O's with icons vs simple character sprites
-- [ ] Tackle only, or include flag football variants
-- [ ] Public or private repo
-- [ ] Approve Phase 1 scope or mark items to cut
+Decisions made 2026-09-20:
+- [x] Name: Football IQ: Flag and Field
+- [x] Phase 1 age focus: 10 to 12, tiered up and down
+- [x] Art style: flat X's and O's with icons; sprites deferred to Phase 2
+- [x] Tackle and flag football both: 5v5 flag set in Phase 1, full 7v7 flag unit in Phase 2
+- [x] Public repo, open source
+- [x] Phase 1 scope approved as written
 
 Open questions: access to a test group of kids; coaches as a Phase 1 audience (Canva play cards) or Phase 2; a real team playbook to mirror.
 
