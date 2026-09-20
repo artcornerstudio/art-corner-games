@@ -159,3 +159,13 @@ main { max-width: 720px; margin: 0 auto; padding: 16px 16px 40px; }
 .sound-toggle { display: flex; align-items: center; gap: 10px; margin-top: 10px; font-weight: 700; min-height: 44px; }
 .sound-toggle input { width: 22px; height: 22px; accent-color: var(--green); }
 .outcome-line { font-size: 1.2rem; font-weight: 800; margin: 0 0 4px; }
+
+/* Art */
+.hero-with-mascot { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.mascot { width: 120px; height: 120px; flex: 0 0 auto; object-fit: contain; }
+@media (max-width: 420px) { .mascot { width: 92px; height: 92px; } }
+.badge-art { display: inline-grid; place-items: center; flex: 0 0 auto; }
+.badge-art img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
+.badge-art-locked img { filter: grayscale(1) opacity(0.45); }
+.badge-line { display: flex; align-items: center; gap: 10px; }
+.card-unit .badge-art { float: right; margin-left: 8px; }

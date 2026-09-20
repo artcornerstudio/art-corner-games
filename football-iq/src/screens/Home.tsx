@@ -25,6 +25,16 @@ const TIER_NOTE: Record<Tier, string> = {
   pro: "Everything in Varsity, plus quizzes must be perfect to pass.",
 };
 
+/** Badge art from public/art; falls back to a star while the image loads or if it is missing. */
+export function BadgeIcon({ unitId, earned, size = 36 }: { unitId: string; earned: boolean; size?: number }) {
+  return (
+    <span className={earned ? "badge-art" : "badge-art badge-art-locked"} aria-hidden="true" style={{ width: size, height: size }}>
+      <img src={`./art/badge-${unitId}.png`} alt="" width={size} height={size} onError={(e) => { e.currentTarget.style.display = "none"; e.currentTarget.nextElementSibling?.removeAttribute("hidden"); }} />
+      <span className="badge-icon" hidden>★</span>
+    </span>
+  );
+}
+
 export function Home({ onOpenPlayLab, onOpenUnit, onOpenGame }: Props) {
   const progress = useProgress();
   const tier: Tier = progress.tier ?? "rookie";
@@ -37,10 +47,13 @@ export function Home({ onOpenPlayLab, onOpenUnit, onOpenGame }: Props) {
 
   return (
     <main className="home">
-      <header className="hero">
-        <p className="eyebrow">Football IQ</p>
-        <h1>Flag and Field</h1>
-        <p className="lede">Learn the X's and O's. Watch a play, call a play, earn a badge.</p>
+      <header className="hero hero-with-mascot">
+        <div>
+          <p className="eyebrow">Football IQ</p>
+          <h1>Flag and Field</h1>
+          <p className="lede">Learn the X's and O's. Watch a play, call a play, earn a badge.</p>
+        </div>
+        <img className="mascot" src="./art/mascot.png" alt="" width={120} height={120} onError={(e) => (e.currentTarget.style.display = "none")} />
       </header>
 
       <section aria-labelledby="units-heading">
@@ -111,7 +124,7 @@ export function Home({ onOpenPlayLab, onOpenUnit, onOpenGame }: Props) {
             const earned = Boolean(progress.badges[u.id]);
             return (
               <li key={u.id} className={earned ? "badge badge-on" : "badge badge-empty"} title={earned ? `${u.badge}: earned` : `${u.badge}: finish the ${u.title} unit`}>
-                <span className="badge-icon" aria-hidden="true">★</span>
+                <BadgeIcon unitId={u.id} earned={earned} />
                 <span className="badge-name">{u.badge}</span>
               </li>
             );

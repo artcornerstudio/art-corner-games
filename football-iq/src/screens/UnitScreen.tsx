@@ -1,5 +1,6 @@
 import { lessonsForUnit, unitById } from "../content";
 import { useProgress } from "../progress";
+import { BadgeIcon } from "./Home";
 
 interface Props {
   unitId: string;
@@ -22,8 +23,8 @@ export function UnitScreen({ unitId, onBack, onOpenLesson }: Props) {
       </div>
       <h1>{unit.title}</h1>
       <p className="lede">{unit.blurb}</p>
-      <p className={earned ? "badge-earned" : "muted"}>
-        <span aria-hidden="true">★</span> {earned ? `Badge earned: ${unit.badge}` : `Pass every lesson to earn the ${unit.badge} badge.`}
+      <p className={earned ? "badge-earned badge-line" : "muted badge-line"}>
+        <BadgeIcon unitId={unitId} earned={earned} size={44} /> {earned ? `Badge earned: ${unit.badge}` : `Pass every lesson to earn the ${unit.badge} badge.`}
       </p>
 
       <ol className="lesson-list">
