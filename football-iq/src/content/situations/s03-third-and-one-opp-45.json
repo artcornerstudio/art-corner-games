@@ -1,0 +1,6 @@
+{ "id": "third-and-one-opp-45", "variant": "tackle11", "down": 3, "distance": 1, "yardLine": 55,
+  "options": [
+    { "playId": "iso-lead", "verdict": "best", "reason": "One yard to go: send the fullback and run right behind him. Power football." },
+    { "playId": "inside-zone-right", "verdict": "ok", "reason": "A run is the right idea. Iso is even better because the fullback adds a blocker for that one tough yard." },
+    { "playId": "four-verticals", "verdict": "bad", "reason": "You only need 1 yard. A deep pass risks the whole drive for no reason." }
+  ] }

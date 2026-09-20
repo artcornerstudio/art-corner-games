@@ -149,3 +149,31 @@ export interface Unit {
   blurb: string;
   badge: string;
 }
+
+/** Difficulty tier. Varsity shuffles answers, hides hints, and adds a timer to Spot the Position. */
+export type Tier = "rookie" | "varsity";
+
+export type Verdict = "best" | "ok" | "bad";
+
+export interface SituationOption {
+  /** A play to animate, or a special-teams call. Exactly one of the two. */
+  playId?: string;
+  special?: "punt" | "field-goal";
+  verdict: Verdict;
+  /** One line shown after the kid chooses, in kid language. */
+  reason: string;
+}
+
+/** A play-calling scenario for the Call the Play mini game. */
+export interface Situation {
+  id: string;
+  variant: Variant;
+  down: 1 | 2 | 3 | 4;
+  /** Yards to go for a first down. */
+  distance: number;
+  /** Yards from the offense's own goal line: 25 is "your own 25", 75 is "the other team's 25". */
+  yardLine: number;
+  /** Extra context, e.g. "Fourth quarter, down by 2, 1:10 left." */
+  context?: string;
+  options: SituationOption[];
+}

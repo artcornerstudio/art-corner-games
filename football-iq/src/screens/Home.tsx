@@ -1,13 +1,21 @@
 import { lessonsForUnit, units } from "../content";
-import { resetProgress, useProgress } from "../progress";
+import { resetProgress, setTier, useProgress } from "../progress";
+import type { Tier } from "../types/play";
 
 interface Props {
   onOpenPlayLab: () => void;
   onOpenUnit: (unitId: string) => void;
+  onOpenGame: (game: "call-the-play" | "spot-the-position") => void;
 }
 
-export function Home({ onOpenPlayLab, onOpenUnit }: Props) {
+const GAMES = [
+  { id: "call-the-play" as const, title: "Call the Play", blurb: "Read the down, distance, and situation. Pick the play. Watch it happen.", key: "call-the-play-tackle11", total: 12 },
+  { id: "spot-the-position" as const, title: "Spot the Position", blurb: "Ten rounds. Tap the position named before you forget where it lives.", key: "spot-the-position-tackle11", total: 10 },
+];
+
+export function Home({ onOpenPlayLab, onOpenUnit, onOpenGame }: Props) {
   const progress = useProgress();
+  const tier: Tier = progress.tier ?? "rookie";
 
   const reset = () => {
     if (window.confirm("Erase all progress and badges on this device?")) resetProgress();
@@ -40,6 +48,36 @@ export function Home({ onOpenPlayLab, onOpenUnit }: Props) {
             );
           })}
         </div>
+      </section>
+
+      <section aria-labelledby="games-heading">
+        <h2 id="games-heading" className="section-title">Mini games</h2>
+        <div className="grid grid-2">
+          {GAMES.map((g) => {
+            const best = progress.games?.[g.key];
+            return (
+              <button key={g.id} type="button" className="card card-unit" onClick={() => onOpenGame(g.id)}>
+                <h3>{g.title}</h3>
+                <p>{g.blurb}</p>
+                <span className="pill">{best ? `Best: ${best.best} of ${best.total}` : "Not played yet"}</span>
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
+      <section aria-labelledby="tier-heading" className="card tier-card">
+        <h2 id="tier-heading">Difficulty</h2>
+        <div className="segmented" role="group" aria-label="Difficulty">
+          {(["rookie", "varsity"] as Tier[]).map((t) => (
+            <button key={t} type="button" className={t === tier ? "seg seg-on" : "seg"} aria-pressed={t === tier} onClick={() => setTier(t)}>
+              {t === "rookie" ? "Rookie" : "Varsity"}
+            </button>
+          ))}
+        </div>
+        <p className="muted tier-note">
+          {tier === "rookie" ? "Hints on, answers in order, no clock." : "Hints off, answers shuffled, and a 45-second clock in Spot the Position."}
+        </p>
       </section>
 
       <section aria-labelledby="play-lab-heading" className="card card-primary">

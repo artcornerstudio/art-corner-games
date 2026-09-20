@@ -1,0 +1,23 @@
+{
+  "id": "flag-quick-outs",
+  "name": "Quick Outs (Flag 5v5)",
+  "variant": "flag5",
+  "type": "pass",
+  "formationId": "trips-flag5",
+  "defenseFormationId": "cover2-flag5",
+  "description": "A fast, safe play. Both wide receivers run 3 yards and cut hard to the sideline. The center runs a short hitch and the running back slips to the flat. The quarterback throws right away, before the rusher arrives.",
+  "why": "Out routes get the ball to the sideline fast, away from the defenders in the middle. It will not go for a touchdown, but it almost always gains a few yards, which is perfect on a short third down.",
+  "assignments": [
+    { "playerId": "qb", "kind": "dropback", "path": [{ "x": 0, "y": -7 }], "speed": 4 },
+    { "playerId": "c", "kind": "route", "path": [{ "x": 0, "y": 4 }, { "x": 0, "y": 3 }], "speed": 6 },
+    { "playerId": "wr-l", "kind": "route", "path": [{ "x": -11, "y": 3 }, { "x": -14.5, "y": 3.5 }], "speed": 7 },
+    { "playerId": "wr-r", "kind": "route", "path": [{ "x": 10, "y": 3 }, { "x": 14.5, "y": 3.5 }], "speed": 7 },
+    { "playerId": "rb", "kind": "route", "path": [{ "x": 10, "y": -1 }, { "x": 14, "y": 0.5 }], "speed": 6.5 },
+    { "playerId": "rush", "kind": "rush", "path": [{ "x": 0, "y": -3 }, { "x": 0, "y": -6 }], "speed": 6, "delay": 0.1 },
+    { "playerId": "d-left", "kind": "cover", "path": [{ "x": -10, "y": 4 }], "speed": 5, "delay": 0.4 },
+    { "playerId": "d-right", "kind": "cover", "path": [{ "x": 10, "y": 4 }], "speed": 5, "delay": 0.4 },
+    { "playerId": "s-left", "kind": "cover", "path": [{ "x": -8, "y": 10 }], "speed": 4, "delay": 0.5 },
+    { "playerId": "s-right", "kind": "cover", "path": [{ "x": 8, "y": 10 }], "speed": 4, "delay": 0.5 }
+  ],
+  "ball": { "start": "c", "events": [{ "t": 0, "to": "qb" }, { "t": 1.2, "to": "wr-l", "throw": true }] }
+}

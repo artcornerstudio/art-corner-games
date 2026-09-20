@@ -133,3 +133,25 @@ main { max-width: 720px; margin: 0 auto; padding: 16px 16px 40px; }
   .choice-right, .feedback-right { background: #1f2f21; border-color: #2f5a35; }
   .choice-wrong, .feedback-wrong { background: #33241b; border-color: #6b3a22; }
 }
+
+/* Mini games */
+@media (min-width: 560px) { .grid-2 { grid-template-columns: repeat(2, 1fr); } }
+.tier-card .segmented { margin: 4px 0 8px; }
+.tier-note { margin: 0; font-size: 0.95rem; }
+.situation { background: var(--green); color: var(--green-ink); border-color: var(--green); }
+.situation-main { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; }
+.situation-down { font-size: 1.6rem; font-weight: 800; }
+.situation-spot { font-weight: 700; opacity: 0.95; }
+.situation-context { margin: 8px 0 0; opacity: 0.95; }
+.choice-sub { display: block; font-weight: 400; font-size: 0.85rem; color: var(--muted); }
+.feedback-best { background: #e9f5ea; border: 1px solid #bfe0c3; }
+.feedback-ok { background: #fff6df; border: 1px solid #f0d58a; }
+.feedback-bad { background: #fdebe1; border: 1px solid #f3c7ad; }
+.special-call { font-size: 1.1rem; }
+.clock { font-weight: 800; color: var(--green); }
+.clock-low { color: var(--defense); }
+@media (prefers-color-scheme: dark) {
+  .feedback-best { background: #1f2f21; border-color: #2f5a35; }
+  .feedback-ok { background: #33301a; border-color: #6b5a22; }
+  .feedback-bad { background: #33241b; border-color: #6b3a22; }
+}

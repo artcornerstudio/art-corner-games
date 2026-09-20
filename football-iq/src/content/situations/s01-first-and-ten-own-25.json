@@ -1,0 +1,6 @@
+{ "id": "first-and-ten-own-25", "variant": "tackle11", "down": 1, "distance": 10, "yardLine": 25, "context": "First drive of the game. The defense is in its base 4-3.",
+  "options": [
+    { "playId": "inside-zone-right", "verdict": "best", "reason": "A steady run on first down is the safe way to start a drive. Even 4 yards makes second down easy." },
+    { "playId": "slant-flat", "verdict": "ok", "reason": "A quick pass is fine on first down, but a run keeps the ball safe deep in your own end." },
+    { "playId": "four-verticals", "verdict": "bad", "reason": "Deep shots take a long time and can be intercepted. From your own 25 on first down, that is a big gamble." }
+  ] }

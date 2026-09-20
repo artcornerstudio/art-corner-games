@@ -1,4 +1,4 @@
-import type { Formation, Lesson, Play, PositionBook, Unit, Variant } from "../types/play";
+import type { Formation, Lesson, Play, PositionBook, Situation, Unit, Variant } from "../types/play";
 import positionsJson from "./positions.json";
 import unitsJson from "./units.json";
 
@@ -6,12 +6,24 @@ import unitsJson from "./units.json";
 const formationModules = import.meta.glob<Formation>("./formations/*.json", { eager: true, import: "default" });
 const playModules = import.meta.glob<Play>("./plays/*.json", { eager: true, import: "default" });
 const lessonModules = import.meta.glob<Lesson>("./lessons/*.json", { eager: true, import: "default" });
+const situationModules = import.meta.glob<Situation>("./situations/*.json", { eager: true, import: "default" });
 
 export const formations: Formation[] = Object.values(formationModules);
 export const plays: Play[] = Object.values(playModules).sort((a, b) => a.name.localeCompare(b.name));
 export const positions: PositionBook = positionsJson as PositionBook;
 export const units: Unit[] = [...(unitsJson as Unit[])].sort((a, b) => a.order - b.order);
 export const lessons: Lesson[] = Object.values(lessonModules).sort((a, b) => a.order - b.order);
+export const situations: Situation[] = Object.values(situationModules);
+
+export function situationsForVariant(variant: Variant): Situation[] {
+  return situations.filter((s) => s.variant === variant);
+}
+
+/** Formations the Spot the Position game can draw for a variant, by side. */
+export function formationsForVariant(variant: Variant): { offense: Formation[]; defense: Formation[] } {
+  const mine = formations.filter((f) => f.variant === variant);
+  return { offense: mine.filter((f) => f.side === "offense"), defense: mine.filter((f) => f.side === "defense") };
+}
 
 export function formationById(id: string): Formation {
   const f = formations.find((x) => x.id === id);

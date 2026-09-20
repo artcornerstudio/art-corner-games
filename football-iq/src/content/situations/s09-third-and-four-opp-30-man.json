@@ -1,0 +1,6 @@
+{ "id": "third-and-four-opp-30-man", "variant": "tackle11", "down": 3, "distance": 4, "yardLine": 70, "context": "The cornerbacks have been playing tight man coverage all game.",
+  "options": [
+    { "playId": "mesh", "verdict": "best", "reason": "Crossing routes beat man coverage. When the two receivers cross, the defenders chasing them bump into each other." },
+    { "playId": "slant-flat", "verdict": "ok", "reason": "A slant can beat man, but the mesh forces the defenders to collide, which is even better." },
+    { "playId": "iso-lead", "verdict": "bad", "reason": "Four yards on third down against a defense loaded for the run is asking a lot of a run up the middle." }
+  ] }

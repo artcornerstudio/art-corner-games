@@ -5,7 +5,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { validateContent } from "../src/content/validate";
-import type { Formation, Lesson, Play, PositionBook, Unit } from "../src/types/play";
+import type { Formation, Lesson, Play, PositionBook, Situation, Unit } from "../src/types/play";
 
 const root = join(process.cwd(), "src", "content");
 
@@ -22,6 +22,7 @@ const bundle = {
   positions: JSON.parse(readFileSync(join(root, "positions.json"), "utf8")) as PositionBook,
   lessons: readJsonDir<Lesson>(join(root, "lessons")),
   units: JSON.parse(readFileSync(join(root, "units.json"), "utf8")) as Unit[],
+  situations: readJsonDir<Situation>(join(root, "situations")),
 };
 
 const problems = validateContent(bundle);
@@ -32,5 +33,5 @@ if (problems.length > 0) {
 }
 const questions = bundle.lessons.reduce((n, l) => n + l.quiz.length, 0);
 console.log(
-  `Content OK: ${bundle.formations.length} formations, ${bundle.plays.length} plays, ${Object.keys(bundle.positions).length} positions, ${bundle.units.length} units, ${bundle.lessons.length} lessons, ${questions} questions.`,
+  `Content OK: ${bundle.formations.length} formations, ${bundle.plays.length} plays, ${Object.keys(bundle.positions).length} positions, ${bundle.units.length} units, ${bundle.lessons.length} lessons, ${questions} questions, ${bundle.situations.length} situations.`,
 );

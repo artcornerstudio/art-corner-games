@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { validateContent } from "./validate";
-import type { Formation, Lesson, Play, PositionBook, Unit } from "../types/play";
+import type { Formation, Lesson, Play, PositionBook, Situation, Unit } from "../types/play";
 
 const root = join(__dirname);
 const readDir = <T,>(dir: string): T[] =>
@@ -14,6 +14,7 @@ const bundle = {
   positions: JSON.parse(readFileSync(join(root, "positions.json"), "utf8")) as PositionBook,
   lessons: readDir<Lesson>("lessons"),
   units: JSON.parse(readFileSync(join(root, "units.json"), "utf8")) as Unit[],
+  situations: readDir<Situation>("situations"),
 };
 
 describe("shipped content", () => {
@@ -36,6 +37,11 @@ describe("shipped content", () => {
     const broken = structuredClone(bundle);
     broken.lessons[0].unitId = "nope";
     expect(validateContent(broken).some((p) => p.includes("unknown unit nope"))).toBe(true);
+  });
+  it("catches a situation with two best options", () => {
+    const broken = structuredClone(bundle);
+    broken.situations[0].options.forEach((o) => (o.verdict = "best"));
+    expect(validateContent(broken).some((p) => p.includes("exactly one best option"))).toBe(true);
   });
   it("catches a formation with the wrong player count", () => {
     const broken = structuredClone(bundle);

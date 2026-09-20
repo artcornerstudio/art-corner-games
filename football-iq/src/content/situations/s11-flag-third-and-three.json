@@ -1,0 +1,6 @@
+{ "id": "flag-third-and-three", "variant": "flag5", "down": 3, "distance": 3, "yardLine": 40, "context": "Flag 5v5. Third down with 3 yards to go.",
+  "options": [
+    { "playId": "flag-quick-outs", "verdict": "best", "reason": "You only need 3 yards. Quick outs get the ball out fast, before the rusher arrives, for an easy first down." },
+    { "playId": "flag-double-slant", "verdict": "ok", "reason": "Slants are quick too, but the middle is crowded. The sideline is the safer spot for a short gain." },
+    { "playId": "trips-wheel-flag5", "verdict": "bad", "reason": "The wheel route takes a long time to open up. The rusher is only 7 yards away, and you only need 3." }
+  ] }

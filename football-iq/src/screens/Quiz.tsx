@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
 import { compileDiagram, Diagram } from "../field/Diagram";
+import { useTier } from "../progress";
 import type { FormationPlayer, Lesson, Question } from "../types/play";
+import { shuffle } from "../utils/random";
 
 interface Props {
   lesson: Lesson;
@@ -16,6 +18,9 @@ export function Quiz({ lesson, onFinish }: Props) {
   const [phase, setPhase] = useState<Phase>({ kind: "asking" });
   const q: Question = lesson.quiz[index];
   const total = lesson.quiz.length;
+  const tier = useTier();
+  // Varsity shuffles the answers so position in the list is never the clue.
+  const choices = useMemo(() => (q.type === "choice" ? (tier === "varsity" ? shuffle(q.choices) : q.choices) : []), [q, tier]);
   const compiled = useMemo(() => (q.type === "tap" || q.diagram ? compileDiagram(q.type === "tap" ? q.diagram : q.diagram!) : null), [q]);
 
   const answer = (correct: boolean, picked: string) => {
@@ -58,8 +63,8 @@ export function Quiz({ lesson, onFinish }: Props) {
 
       {q.type === "choice" && (
         <div className="choices">
-          {q.choices.map((c, i) => {
-            const isAnswer = i === q.answer;
+          {choices.map((c) => {
+            const isAnswer = c === q.choices[q.answer];
             const picked = phase.kind === "answered" && phase.picked === c;
             const cls = ["choice", phase.kind === "answered" && isAnswer ? "choice-right" : "", picked && !isAnswer ? "choice-wrong" : ""].join(" ");
             return (

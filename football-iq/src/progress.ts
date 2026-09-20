@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from "react";
+import type { Tier } from "./types/play";
 
 /**
  * Progress lives only in this browser. Nothing is sent anywhere.
@@ -11,14 +12,24 @@ export interface LessonProgress {
   completedAt: string;
 }
 
+export interface GameProgress {
+  best: number;
+  total: number;
+  playedAt: string;
+  plays: number;
+}
+
 export interface Progress {
   version: 1;
   lessons: Record<string, LessonProgress>;
   badges: Record<string, string>;
+  /** Best score per mini game id. */
+  games?: Record<string, GameProgress>;
+  tier?: Tier;
 }
 
 const KEY = "football-iq.progress.v1";
-const EMPTY: Progress = { version: 1, lessons: {}, badges: {} };
+const EMPTY: Progress = { version: 1, lessons: {}, badges: {}, games: {}, tier: "rookie" };
 /** Share of quiz questions a kid must get right to pass a lesson. */
 export const PASS_RATIO = 0.8;
 
@@ -82,4 +93,25 @@ export function awardBadgeIfEarned(unitId: string, lessonIds: string[]): boolean
 
 export function resetProgress() {
   write(EMPTY);
+}
+
+export function useTier(): Tier {
+  return useProgress().tier ?? "rookie";
+}
+
+export function setTier(tier: Tier) {
+  write({ ...read(), tier });
+}
+
+export function recordGame(gameId: string, score: number, total: number): GameProgress {
+  const current = read();
+  const prev = current.games?.[gameId];
+  const entry: GameProgress = {
+    best: Math.max(score, prev?.best ?? 0),
+    total,
+    playedAt: new Date().toISOString(),
+    plays: (prev?.plays ?? 0) + 1,
+  };
+  write({ ...current, games: { ...(current.games ?? {}), [gameId]: entry } });
+  return entry;
 }

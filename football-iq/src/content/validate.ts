@@ -1,8 +1,9 @@
 import Ajv from "ajv";
-import type { DiagramRef, Formation, Lesson, Play, PositionBook, Unit } from "../types/play";
+import type { DiagramRef, Formation, Lesson, Play, PositionBook, Situation, Unit } from "../types/play";
 import formationSchema from "./schema/formation.schema.json";
 import lessonSchema from "./schema/lesson.schema.json";
 import playSchema from "./schema/play.schema.json";
+import situationSchema from "./schema/situation.schema.json";
 import unitSchema from "./schema/unit.schema.json";
 
 export interface ContentBundle {
@@ -11,6 +12,7 @@ export interface ContentBundle {
   positions: PositionBook;
   lessons: Lesson[];
   units: Unit[];
+  situations: Situation[];
 }
 
 const ajv = new Ajv({ allErrors: true });
@@ -18,6 +20,7 @@ const validFormation = ajv.compile(formationSchema);
 const validPlay = ajv.compile(playSchema);
 const validLesson = ajv.compile(lessonSchema);
 const validUnits = ajv.compile(unitSchema);
+const validSituation = ajv.compile(situationSchema);
 
 const PLAYER_COUNT: Record<string, number> = { tackle11: 11, flag5: 5, flag7: 7 };
 
@@ -157,6 +160,35 @@ export function validateContent(bundle: ContentBundle): string[] {
   }
   for (const u of bundle.units) {
     if (!bundle.lessons.some((l) => l.unitId === u.id)) problems.push(`unit ${u.id}: has no lessons`);
+  }
+
+  // Call the Play situations.
+  const situationIds = new Set<string>();
+  for (const s of bundle.situations) {
+    if (!validSituation(s)) {
+      problems.push(...schemaErrors(`situation ${s.id ?? "?"}`, validSituation.errors));
+      continue;
+    }
+    const where = `situation ${s.id}`;
+    if (situationIds.has(s.id)) problems.push(`${where}: duplicate id`);
+    situationIds.add(s.id);
+    if (s.down < 4 && s.options.some((o) => o.special)) problems.push(`${where}: punts and field goals only make sense on 4th down`);
+    const best = s.options.filter((o) => o.verdict === "best").length;
+    if (best !== 1) problems.push(`${where}: needs exactly one best option, has ${best}`);
+    const seen = new Set<string>();
+    for (const o of s.options) {
+      const key = o.playId ?? o.special ?? "";
+      if (!o.playId === !o.special) problems.push(`${where}: each option needs a playId or a special, not both or neither`);
+      if (seen.has(key)) problems.push(`${where}: option ${key} appears twice`);
+      seen.add(key);
+      if (o.playId) {
+        const play = playsById.get(o.playId);
+        if (!play) problems.push(`${where}: unknown play ${o.playId}`);
+        else if (play.variant !== s.variant) problems.push(`${where}: play ${o.playId} is ${play.variant}, situation is ${s.variant}`);
+        else if ((play.tags ?? []).includes("demo")) problems.push(`${where}: ${o.playId} is a teaching demo, not a callable play`);
+      }
+      if (o.special && s.variant !== "tackle11") problems.push(`${where}: flag football has no ${o.special}`);
+    }
   }
 
   return problems;

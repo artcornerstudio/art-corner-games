@@ -78,7 +78,7 @@ export function Diagram({ compiled, highlight, controls, onTapPlayer, selectedPl
 
   return (
     <div className="diagram">
-      <div ref={ref} className="stage-wrap" onScroll={() => setScrolled(true)}>
+      <div ref={ref} className="stage-wrap" data-play={compiled.play.id} onScroll={() => setScrolled(true)}>
         <PlayViewer
           compiled={compiled}
           time={clock.time}
