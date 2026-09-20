@@ -1,5 +1,51 @@
 [
-  { "id": "rules", "order": 1, "title": "Field and rules", "blurb": "Yard lines, downs, scoring, the penalties everyone should know, and how flag football is different.", "badge": "Rules Rookie" },
-  { "id": "offense", "order": 2, "title": "Offense basics", "blurb": "The 11 positions, the line of scrimmage, 4 formations, run vs pass, and 6 routes.", "badge": "Offense Starter" },
-  { "id": "defense", "order": 3, "title": "Defense basics", "blurb": "The 11 positions, X's on a diagram, 4-3 vs 3-4, and man vs zone.", "badge": "Defense Starter" }
+  {
+    "id": "rules",
+    "order": 1,
+    "title": "Field and rules",
+    "blurb": "Yard lines, downs, scoring, the penalties everyone should know, and how flag football is different.",
+    "badge": "Rules Rookie"
+  },
+  {
+    "id": "offense",
+    "order": 2,
+    "title": "Offense basics",
+    "blurb": "The 11 positions, the line of scrimmage, 4 formations, run vs pass, and 6 routes.",
+    "badge": "Offense Starter"
+  },
+  {
+    "id": "defense",
+    "order": 3,
+    "title": "Defense basics",
+    "blurb": "The 11 positions, X's on a diagram, 4-3 vs 3-4, and man vs zone.",
+    "badge": "Defense Starter"
+  },
+  {
+    "id": "reads",
+    "order": 4,
+    "title": "Defense reads",
+    "blurb": "Cover 1, Cover 2, and Cover 3, what a blitz is, and who owns which gap.",
+    "badge": "Coverage Reader"
+  },
+  {
+    "id": "offense2",
+    "order": 5,
+    "title": "Offense depth",
+    "blurb": "The full route tree, play action, screens, zone vs power runs, and reading a blitz.",
+    "badge": "Play Caller"
+  },
+  {
+    "id": "special",
+    "order": 6,
+    "title": "Special teams",
+    "blurb": "Kickoffs, punts, field goals, extra points, the two-point try, and the onside kick.",
+    "badge": "Special Teams Captain"
+  },
+  {
+    "id": "flag7",
+    "order": 7,
+    "title": "Flag 7v7",
+    "blurb": "Seven-on-seven flag football: formations, no-blocking rules, and zone defense.",
+    "badge": "Flag Captain"
+  }
 ]

@@ -1,0 +1,22 @@
+{
+  "id": "special-field-goal",
+  "unitId": "special",
+  "order": 3,
+  "title": "Field goal and extra point",
+  "summary": "Snap, hold, kick in about 1.3 seconds, and how to count the distance of a kick.",
+  "steps": [
+    { "text": "When the offense gets close but cannot reach the end zone, it can still score. A field goal is a kick through the goal posts, and it is worth 3 points. Teams usually try one on fourth down instead of punting.", "diagram": { "playId": "field-goal-tackle" } },
+    { "text": "Three players make the kick happen. The long snapper snaps the ball 7 yards back. The holder catches it and sets it on the ground, point up, with one finger on top. The kicker takes two steps and kicks it. Snap, hold, kick takes about 1.3 seconds.", "diagram": { "formationId": "fg-tackle", "highlight": ["ls", "h", "k"] } },
+    { "text": "The holder has a hard job. He has to catch the snap, spin the laces away from the kicker, and set the ball down in the exact same spot every time. If the hold is even a little bit off, the kick can wobble wide.", "diagram": { "formationId": "fg-tackle", "highlight": ["h"] } },
+    { "text": "The other team crowds nine players on the line and pushes as hard as it can to get a hand on the ball. The blockers only need to hold them out for those 1.3 seconds. That is why speed matters more than power here.", "diagram": { "playId": "field-goal-tackle", "highlight": ["nt", "ldt", "rdt", "ldt2", "rdt2", "lde", "rde", "le", "re"] } },
+    { "text": "Counting the distance is a little tricky. The ball is held 7 yards behind the line of scrimmage, and the goal posts sit at the back of the 10-yard end zone. So add 17 to the yard line. A kick from the 20-yard line is a 37-yard field goal. From the 30, it is 47 yards, and that is getting hard." },
+    { "text": "After a touchdown, the same team lines up for an extra point. It is the same snap, hold, and kick, but from the 15-yard line, and it is worth 1 point. Kickers make almost all of them, which is why a touchdown plus the kick is usually 7.", "diagram": { "playId": "extra-point-tackle" } }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "How many points is a field goal?", "choices": ["1", "2", "3"], "answer": 2, "explanation": "Three points. It is what a team takes when it gets close but cannot reach the end zone." },
+    { "type": "tap", "prompt": "Tap the holder.", "diagram": { "playId": "field-goal-tackle" }, "target": "h", "explanation": "He kneels 7 yards behind the ball, catches the snap, and sets it down for the kicker." },
+    { "type": "choice", "prompt": "About how long does snap, hold, and kick take?", "choices": ["About 1.3 seconds", "About 4 seconds", "About 10 seconds"], "answer": 0, "explanation": "About 1.3 seconds. The blockers only need to hold the rushers out for that long." },
+    { "type": "choice", "prompt": "The ball is snapped from the 25-yard line. How long is the field goal try?", "choices": ["25 yards", "35 yards", "42 yards"], "answer": 2, "explanation": "Add 7 yards for the hold and 10 yards for the end zone. 25 + 17 = 42." },
+    { "type": "choice", "prompt": "How many points is an extra point kick, and where is it kicked from?", "choices": ["1 point, from the 15-yard line", "2 points, from the 2-yard line", "3 points, from the 20-yard line"], "answer": 0, "explanation": "An extra point is a 1-point kick from the 15. The 2-point try is the play from the 2-yard line." }
+  ]
+}

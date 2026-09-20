@@ -8,22 +8,167 @@
   "description": "Flag football has no blocking, so everyone runs a route. The center snaps the ball and runs a quick out. The right receiver runs straight and deep. The running back runs a wheel: out toward the sideline, then up the field behind the deep receiver.",
   "why": "The deep receiver drags the deep defender with him. That leaves the sideline empty for the wheel route. The quarterback has to throw before the rusher gets there, so the center's quick out is the safe choice if nothing else is open.",
   "assignments": [
-    { "playerId": "qb", "kind": "dropback", "path": [{ "x": -1, "y": -8 }], "speed": 4 },
-    { "playerId": "c", "kind": "route", "path": [{ "x": 0, "y": 3 }, { "x": -6, "y": 3.5 }], "speed": 6 },
-    { "playerId": "wr-l", "kind": "route", "path": [{ "x": -10.5, "y": 2 }, { "x": -4, "y": 7 }], "speed": 7 },
-    { "playerId": "wr-r", "kind": "route", "path": [{ "x": 9, "y": 10 }, { "x": 8, "y": 22 }], "speed": 7.5 },
-    { "playerId": "rb", "kind": "route", "path": [{ "x": 12, "y": 1 }, { "x": 13.5, "y": 8 }, { "x": 13.5, "y": 20 }], "speed": 7 },
-    { "playerId": "rush", "kind": "rush", "path": [{ "x": 0, "y": -3 }, { "x": -1, "y": -7 }], "speed": 6, "delay": 0.1 },
-    { "playerId": "d-left", "kind": "cover", "path": [{ "x": -7, "y": 6 }], "speed": 5, "delay": 0.4 },
-    { "playerId": "d-right", "kind": "cover", "path": [{ "x": 8, "y": 6 }, { "x": 11, "y": 9 }], "speed": 5, "delay": 0.4 },
-    { "playerId": "s-left", "kind": "cover", "path": [{ "x": -5, "y": 15 }], "speed": 4, "delay": 0.5 },
-    { "playerId": "s-right", "kind": "cover", "path": [{ "x": 8, "y": 15 }, { "x": 8, "y": 20 }], "speed": 5, "delay": 0.5 }
+    {
+      "playerId": "qb",
+      "kind": "dropback",
+      "path": [
+        {
+          "x": -1,
+          "y": -8
+        }
+      ],
+      "speed": 4
+    },
+    {
+      "playerId": "c",
+      "kind": "route",
+      "path": [
+        {
+          "x": 0,
+          "y": 3
+        },
+        {
+          "x": -6,
+          "y": 3.5
+        }
+      ],
+      "speed": 6
+    },
+    {
+      "playerId": "wr-l",
+      "kind": "route",
+      "path": [
+        {
+          "x": -10.5,
+          "y": 2
+        },
+        {
+          "x": -4,
+          "y": 7
+        }
+      ],
+      "speed": 7
+    },
+    {
+      "playerId": "wr-r",
+      "kind": "route",
+      "path": [
+        {
+          "x": 9,
+          "y": 10
+        },
+        {
+          "x": 8,
+          "y": 22
+        }
+      ],
+      "speed": 7.5
+    },
+    {
+      "playerId": "rb",
+      "kind": "route",
+      "path": [
+        {
+          "x": 12,
+          "y": 1
+        },
+        {
+          "x": 13.5,
+          "y": 8
+        },
+        {
+          "x": 13.5,
+          "y": 20
+        }
+      ],
+      "speed": 7
+    },
+    {
+      "playerId": "rush",
+      "kind": "rush",
+      "path": [
+        {
+          "x": 0,
+          "y": -3
+        },
+        {
+          "x": -1,
+          "y": -7
+        }
+      ],
+      "speed": 6,
+      "delay": 0.1
+    },
+    {
+      "playerId": "d-left",
+      "kind": "cover",
+      "path": [
+        {
+          "x": -7,
+          "y": 6
+        }
+      ],
+      "speed": 5,
+      "delay": 0.4
+    },
+    {
+      "playerId": "d-right",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 8,
+          "y": 6
+        },
+        {
+          "x": 11,
+          "y": 9
+        }
+      ],
+      "speed": 5,
+      "delay": 0.4
+    },
+    {
+      "playerId": "s-left",
+      "kind": "cover",
+      "path": [
+        {
+          "x": -5,
+          "y": 15
+        }
+      ],
+      "speed": 4,
+      "delay": 0.5
+    },
+    {
+      "playerId": "s-right",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 8,
+          "y": 15
+        },
+        {
+          "x": 8,
+          "y": 20
+        }
+      ],
+      "speed": 5,
+      "delay": 0.5
+    }
   ],
   "ball": {
     "start": "c",
     "events": [
-      { "t": 0, "to": "qb" },
-      { "t": 2.2, "to": "rb", "throw": true }
+      {
+        "t": 0,
+        "to": "qb"
+      },
+      {
+        "t": 2.2,
+        "to": "rb",
+        "throw": true
+      }
     ]
-  }
+  },
+  "hot": "c"
 }

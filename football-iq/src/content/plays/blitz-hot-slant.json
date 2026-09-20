@@ -1,0 +1,338 @@
+{
+  "id": "blitz-hot-slant",
+  "name": "Blitz: Hot Slant",
+  "variant": "tackle11",
+  "type": "pass",
+  "tags": [
+    "pass",
+    "quick",
+    "hot",
+    "beats-blitz"
+  ],
+  "formationId": "shotgun-tackle",
+  "defenseFormationId": "cover1-tackle",
+  "description": "The defense sends six rushers: four linemen plus the middle linebacker and the strong safety. The five linemen and the running back each get one rusher, and nobody is free to help. The quarterback sees it and throws the slant immediately, his hot read.",
+  "why": "A blitz brings extra rushers, but every extra rusher is one fewer defender in coverage. The quarterback does not have time to wait, so he throws quick to the receiver the blitzer left behind. Beat a blitz fast or get sacked.",
+  "assignments": [
+    {
+      "playerId": "qb",
+      "kind": "dropback",
+      "path": [
+        {
+          "x": 0,
+          "y": -6
+        }
+      ],
+      "speed": 4
+    },
+    {
+      "playerId": "wr-x",
+      "kind": "route",
+      "path": [
+        {
+          "x": -19.5,
+          "y": 2.5
+        },
+        {
+          "x": -11,
+          "y": 8
+        },
+        {
+          "x": -4,
+          "y": 14
+        }
+      ],
+      "speed": 7.5
+    },
+    {
+      "playerId": "wr-y",
+      "kind": "route",
+      "path": [
+        {
+          "x": 12,
+          "y": 4
+        },
+        {
+          "x": 18,
+          "y": 5
+        }
+      ],
+      "speed": 7
+    },
+    {
+      "playerId": "wr-z",
+      "kind": "route",
+      "path": [
+        {
+          "x": 20,
+          "y": 20
+        }
+      ],
+      "speed": 7.5
+    },
+    {
+      "playerId": "te",
+      "kind": "route",
+      "path": [
+        {
+          "x": 8,
+          "y": 4
+        },
+        {
+          "x": 14,
+          "y": 5
+        }
+      ],
+      "speed": 6
+    },
+    {
+      "playerId": "rb",
+      "kind": "block",
+      "path": [
+        {
+          "x": 2,
+          "y": -3
+        }
+      ],
+      "speed": 4
+    },
+    {
+      "playerId": "c",
+      "kind": "block",
+      "path": [
+        {
+          "x": 0,
+          "y": -1.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "lg",
+      "kind": "block",
+      "path": [
+        {
+          "x": -2,
+          "y": -1.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "rg",
+      "kind": "block",
+      "path": [
+        {
+          "x": 2,
+          "y": -1.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "lt",
+      "kind": "block",
+      "path": [
+        {
+          "x": -4.5,
+          "y": -2.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "rt",
+      "kind": "block",
+      "path": [
+        {
+          "x": 4.5,
+          "y": -2.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "lde",
+      "kind": "rush",
+      "path": [
+        {
+          "x": -6,
+          "y": -1.5
+        },
+        {
+          "x": -3,
+          "y": -5
+        }
+      ],
+      "speed": 4,
+      "delay": 0.1
+    },
+    {
+      "playerId": "ldt",
+      "kind": "rush",
+      "path": [
+        {
+          "x": -2,
+          "y": -0.5
+        },
+        {
+          "x": -1,
+          "y": -4
+        }
+      ],
+      "speed": 3,
+      "delay": 0.1
+    },
+    {
+      "playerId": "rdt",
+      "kind": "rush",
+      "path": [
+        {
+          "x": 3,
+          "y": -0.5
+        },
+        {
+          "x": 2,
+          "y": -4
+        }
+      ],
+      "speed": 3,
+      "delay": 0.1
+    },
+    {
+      "playerId": "rde",
+      "kind": "rush",
+      "path": [
+        {
+          "x": 7.5,
+          "y": -1.5
+        },
+        {
+          "x": 4,
+          "y": -5
+        }
+      ],
+      "speed": 4,
+      "delay": 0.1
+    },
+    {
+      "playerId": "mike",
+      "kind": "rush",
+      "path": [
+        {
+          "x": 0,
+          "y": -1
+        },
+        {
+          "x": 1,
+          "y": -5
+        }
+      ],
+      "speed": 6,
+      "delay": 0.1
+    },
+    {
+      "playerId": "ss",
+      "kind": "rush",
+      "path": [
+        {
+          "x": 7,
+          "y": 0
+        },
+        {
+          "x": 3,
+          "y": -5
+        }
+      ],
+      "speed": 6.5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "will",
+      "kind": "cover",
+      "path": [
+        {
+          "x": -6,
+          "y": 5
+        }
+      ],
+      "speed": 4,
+      "delay": 0.3
+    },
+    {
+      "playerId": "sam",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 9,
+          "y": 5
+        }
+      ],
+      "speed": 4,
+      "delay": 0.3
+    },
+    {
+      "playerId": "lcb",
+      "kind": "cover",
+      "path": [
+        {
+          "x": -19,
+          "y": 2
+        },
+        {
+          "x": -13,
+          "y": 7
+        },
+        {
+          "x": -6,
+          "y": 13
+        }
+      ],
+      "speed": 6.5,
+      "delay": 0.3
+    },
+    {
+      "playerId": "rcb",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 19,
+          "y": 10
+        },
+        {
+          "x": 20,
+          "y": 20
+        }
+      ],
+      "speed": 7,
+      "delay": 0.3
+    },
+    {
+      "playerId": "fs",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 0,
+          "y": 16
+        }
+      ],
+      "speed": 4,
+      "delay": 0.4
+    }
+  ],
+  "ball": {
+    "start": "c",
+    "events": [
+      {
+        "t": 0,
+        "to": "qb"
+      },
+      {
+        "t": 1.0,
+        "to": "wr-x",
+        "throw": true
+      }
+    ]
+  },
+  "hot": "wr-x"
+}

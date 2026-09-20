@@ -1,0 +1,313 @@
+{
+  "id": "four-verts-vs-cover3",
+  "name": "Four Verticals vs Cover 3",
+  "variant": "tackle11",
+  "type": "pass",
+  "tags": [
+    "pass",
+    "deep",
+    "beats-cover3"
+  ],
+  "formationId": "spread-tackle",
+  "defenseFormationId": "cover3-tackle",
+  "description": "Four receivers go deep against three deep defenders. The two inside receivers run up the seams, the gaps between the deep thirds. The quarterback throws the seam the free safety does not run to.",
+  "why": "Cover 3 has three deep defenders and four deep receivers is one too many. The free safety in the middle can only cover one seam, so the other one is open. That is why four verticals is the classic Cover 3 beater.",
+  "assignments": [
+    {
+      "playerId": "qb",
+      "kind": "dropback",
+      "path": [
+        {
+          "x": 0,
+          "y": -7
+        }
+      ],
+      "speed": 4
+    },
+    {
+      "playerId": "wr-x",
+      "kind": "route",
+      "path": [
+        {
+          "x": -22,
+          "y": 22
+        }
+      ],
+      "speed": 7.5
+    },
+    {
+      "playerId": "wr-h",
+      "kind": "route",
+      "path": [
+        {
+          "x": -10,
+          "y": 10
+        },
+        {
+          "x": -8,
+          "y": 22
+        }
+      ],
+      "speed": 7.5
+    },
+    {
+      "playerId": "wr-y",
+      "kind": "route",
+      "path": [
+        {
+          "x": 10,
+          "y": 10
+        },
+        {
+          "x": 8,
+          "y": 22
+        }
+      ],
+      "speed": 7.5
+    },
+    {
+      "playerId": "wr-z",
+      "kind": "route",
+      "path": [
+        {
+          "x": 22,
+          "y": 22
+        }
+      ],
+      "speed": 7.5
+    },
+    {
+      "playerId": "rb",
+      "kind": "route",
+      "path": [
+        {
+          "x": -6,
+          "y": -4
+        },
+        {
+          "x": -12,
+          "y": 0
+        }
+      ],
+      "speed": 6
+    },
+    {
+      "playerId": "c",
+      "kind": "block",
+      "path": [
+        {
+          "x": 0,
+          "y": -1.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "lg",
+      "kind": "block",
+      "path": [
+        {
+          "x": -2,
+          "y": -1.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "rg",
+      "kind": "block",
+      "path": [
+        {
+          "x": 2,
+          "y": -1.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "lt",
+      "kind": "block",
+      "path": [
+        {
+          "x": -4.5,
+          "y": -2.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "rt",
+      "kind": "block",
+      "path": [
+        {
+          "x": 4.5,
+          "y": -2.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "lde",
+      "kind": "rush",
+      "path": [
+        {
+          "x": -6,
+          "y": -1.5
+        }
+      ],
+      "speed": 3.5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "ldt",
+      "kind": "rush",
+      "path": [
+        {
+          "x": -2,
+          "y": -0.5
+        }
+      ],
+      "speed": 2.5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "rdt",
+      "kind": "rush",
+      "path": [
+        {
+          "x": 3,
+          "y": -0.5
+        }
+      ],
+      "speed": 2.5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "rde",
+      "kind": "rush",
+      "path": [
+        {
+          "x": 7.5,
+          "y": -1.5
+        }
+      ],
+      "speed": 3.5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "will",
+      "kind": "cover",
+      "path": [
+        {
+          "x": -8,
+          "y": 8
+        }
+      ],
+      "speed": 5,
+      "delay": 0.4
+    },
+    {
+      "playerId": "mike",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 0,
+          "y": 9
+        }
+      ],
+      "speed": 5,
+      "delay": 0.4
+    },
+    {
+      "playerId": "sam",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 8,
+          "y": 8
+        }
+      ],
+      "speed": 5,
+      "delay": 0.4
+    },
+    {
+      "playerId": "lcb",
+      "kind": "cover",
+      "path": [
+        {
+          "x": -21,
+          "y": 12
+        },
+        {
+          "x": -22,
+          "y": 22
+        }
+      ],
+      "speed": 7,
+      "delay": 0.4
+    },
+    {
+      "playerId": "rcb",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 21,
+          "y": 12
+        },
+        {
+          "x": 22,
+          "y": 22
+        }
+      ],
+      "speed": 7,
+      "delay": 0.4
+    },
+    {
+      "playerId": "fs",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 3,
+          "y": 18
+        },
+        {
+          "x": 7,
+          "y": 24
+        }
+      ],
+      "speed": 5.5,
+      "delay": 0.6
+    },
+    {
+      "playerId": "ss",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 12,
+          "y": 10
+        },
+        {
+          "x": 13,
+          "y": 12
+        }
+      ],
+      "speed": 5,
+      "delay": 0.5
+    }
+  ],
+  "ball": {
+    "start": "c",
+    "events": [
+      {
+        "t": 0,
+        "to": "qb"
+      },
+      {
+        "t": 2.4,
+        "to": "wr-h",
+        "throw": true
+      }
+    ]
+  },
+  "hot": "rb"
+}

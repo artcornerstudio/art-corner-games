@@ -61,10 +61,20 @@ export interface Assignment {
 export interface BallEvent {
   /** Seconds after the snap. */
   t: number;
-  /** Player id that has the ball from this moment. */
-  to: string;
-  /** True when the ball is thrown rather than handed off. */
+  /** Player id that has the ball from this moment. Omit when the ball is kicked to a spot. */
+  to?: string;
+  /** A spot on the field the ball flies to, for kicks. The ball then sits there until someone picks it up. */
+  toPoint?: Point;
+  /** True when the ball is thrown rather than handed off. Kicks to a point are always in flight. */
   throw?: boolean;
+  /** Seconds in the air. Defaults to 0.6 for throws and 2.5 for kicks. */
+  flight?: number;
+}
+
+/** How much field a play shows behind and ahead of the ball, in yards. */
+export interface PlayView {
+  behind: number;
+  ahead: number;
 }
 
 export interface Play {
@@ -78,8 +88,17 @@ export interface Play {
   description: string;
   /** Why it works, one or two sentences. */
   why: string;
-  /** "demo" marks a teaching diagram that the Play Lab does not list. */
+  /**
+   * "demo" marks a teaching diagram that the Play Lab does not list.
+   * Other tags describe the play to the outcome engine, e.g. "quick", "deep", "screen", "inside-run".
+   */
   tags?: string[];
+  /** Override the default window around the ball. Special teams plays need to show more field. */
+  view?: PlayView;
+  /** Override the yard line the ball starts on, measured from the offense's goal line. */
+  losYard?: number;
+  /** On a pass play, the receiver to throw to right away if the defense blitzes. */
+  hot?: string;
   assignments: Assignment[];
   ball: {
     /** Player id holding the ball at the snap, usually the center. */
@@ -151,7 +170,7 @@ export interface Unit {
 }
 
 /** Difficulty tier. Varsity shuffles answers, hides hints, and adds a timer to Spot the Position. */
-export type Tier = "rookie" | "varsity";
+export type Tier = "rookie" | "varsity" | "pro";
 
 export type Verdict = "best" | "ok" | "bad";
 

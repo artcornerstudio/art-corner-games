@@ -4,6 +4,7 @@ import { compileFormations } from "../field/animation";
 import { Diagram } from "../field/Diagram";
 import { buildRounds, roundPrompt, SPOT_ROUNDS, VARSITY_SECONDS } from "../games/spotThePosition";
 import { recordGame, useTier } from "../progress";
+import { playSound } from "../sound";
 import type { FormationPlayer, Variant } from "../types/play";
 
 interface Props {
@@ -25,7 +26,7 @@ export function SpotThePosition({ onBack }: Props) {
   const [phase, setPhase] = useState<Phase>({ kind: "asking" });
   const [finished, setFinished] = useState<{ best: number; timedOut: boolean } | null>(null);
   const [secondsLeft, setSecondsLeft] = useState(VARSITY_SECONDS);
-  const timed = tier === "varsity";
+  const timed = tier !== "rookie";
 
   const restart = (v: Variant) => {
     setVariant(v);
@@ -68,6 +69,7 @@ export function SpotThePosition({ onBack }: Props) {
     if (phase.kind !== "asking" || !round) return;
     const correct = player.position === round.position;
     if (correct) setScore((s) => s + 1);
+    playSound(correct ? "correct" : "wrong");
     setPhase({ kind: "answered", correct, pickedId: player.id });
   };
 

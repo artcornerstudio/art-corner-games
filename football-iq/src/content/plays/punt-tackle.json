@@ -1,0 +1,391 @@
+{
+  "id": "punt-tackle",
+  "name": "Punt",
+  "variant": "tackle11",
+  "type": "run",
+  "tags": [
+    "special-teams",
+    "punt"
+  ],
+  "formationId": "punt-tackle",
+  "defenseFormationId": "punt-return-tackle",
+  "view": {
+    "behind": 18,
+    "ahead": 52
+  },
+  "description": "Fourth down, too far to go for it. The long snapper fires the ball 14 yards back to the punter, who catches it, takes two steps, and kicks it high and far. The gunners sprint down the sidelines to tackle the returner.",
+  "why": "A punt trades the ball for field position. Instead of giving the other team the ball where you are, you make them start 40 yards farther back. A high kick gives the gunners time to get there.",
+  "assignments": [
+    {
+      "playerId": "p",
+      "kind": "carry",
+      "path": [
+        {
+          "x": 0.5,
+          "y": -15
+        },
+        {
+          "x": 1,
+          "y": -13.5
+        }
+      ],
+      "speed": 3,
+      "delay": 0.7
+    },
+    {
+      "playerId": "pp",
+      "kind": "block",
+      "path": [
+        {
+          "x": -1,
+          "y": -4
+        }
+      ],
+      "speed": 3,
+      "delay": 0.3
+    },
+    {
+      "playerId": "ls",
+      "kind": "block",
+      "path": [
+        {
+          "x": 0,
+          "y": -1.5
+        },
+        {
+          "x": 0,
+          "y": 25
+        }
+      ],
+      "speed": 5,
+      "delay": 0
+    },
+    {
+      "playerId": "lg",
+      "kind": "block",
+      "path": [
+        {
+          "x": -2,
+          "y": -1.5
+        },
+        {
+          "x": -4,
+          "y": 26
+        }
+      ],
+      "speed": 5,
+      "delay": 0
+    },
+    {
+      "playerId": "rg",
+      "kind": "block",
+      "path": [
+        {
+          "x": 2,
+          "y": -1.5
+        },
+        {
+          "x": 4,
+          "y": 26
+        }
+      ],
+      "speed": 5,
+      "delay": 0
+    },
+    {
+      "playerId": "lt",
+      "kind": "block",
+      "path": [
+        {
+          "x": -4,
+          "y": -1.5
+        },
+        {
+          "x": -8,
+          "y": 24
+        }
+      ],
+      "speed": 5,
+      "delay": 0
+    },
+    {
+      "playerId": "rt",
+      "kind": "block",
+      "path": [
+        {
+          "x": 4,
+          "y": -1.5
+        },
+        {
+          "x": 8,
+          "y": 24
+        }
+      ],
+      "speed": 5,
+      "delay": 0
+    },
+    {
+      "playerId": "lw",
+      "kind": "block",
+      "path": [
+        {
+          "x": -6,
+          "y": -2.5
+        },
+        {
+          "x": -12,
+          "y": 20
+        }
+      ],
+      "speed": 5,
+      "delay": 0
+    },
+    {
+      "playerId": "rw",
+      "kind": "block",
+      "path": [
+        {
+          "x": 6,
+          "y": -2.5
+        },
+        {
+          "x": 12,
+          "y": 20
+        }
+      ],
+      "speed": 5,
+      "delay": 0
+    },
+    {
+      "playerId": "gn-l",
+      "kind": "pursue",
+      "path": [
+        {
+          "x": -20,
+          "y": 20
+        },
+        {
+          "x": -6,
+          "y": 40
+        }
+      ],
+      "speed": 7.5,
+      "delay": 0
+    },
+    {
+      "playerId": "gn-r",
+      "kind": "pursue",
+      "path": [
+        {
+          "x": 20,
+          "y": 20
+        },
+        {
+          "x": 8,
+          "y": 40
+        }
+      ],
+      "speed": 7.5,
+      "delay": 0
+    },
+    {
+      "playerId": "rs-1",
+      "kind": "rush",
+      "path": [
+        {
+          "x": -5,
+          "y": -5
+        },
+        {
+          "x": -3,
+          "y": -11
+        }
+      ],
+      "speed": 5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "rs-2",
+      "kind": "rush",
+      "path": [
+        {
+          "x": -3,
+          "y": -5
+        },
+        {
+          "x": -2,
+          "y": -11
+        }
+      ],
+      "speed": 5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "rs-3",
+      "kind": "rush",
+      "path": [
+        {
+          "x": -1,
+          "y": -5
+        },
+        {
+          "x": 0,
+          "y": -10
+        }
+      ],
+      "speed": 5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "rs-4",
+      "kind": "rush",
+      "path": [
+        {
+          "x": 1,
+          "y": -5
+        },
+        {
+          "x": 1,
+          "y": -10
+        }
+      ],
+      "speed": 5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "rs-5",
+      "kind": "rush",
+      "path": [
+        {
+          "x": 3,
+          "y": -5
+        },
+        {
+          "x": 2,
+          "y": -11
+        }
+      ],
+      "speed": 5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "rs-6",
+      "kind": "rush",
+      "path": [
+        {
+          "x": 5,
+          "y": -5
+        },
+        {
+          "x": 3,
+          "y": -11
+        }
+      ],
+      "speed": 5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "j-l",
+      "kind": "block",
+      "path": [
+        {
+          "x": -19,
+          "y": 8
+        },
+        {
+          "x": -14,
+          "y": 16
+        }
+      ],
+      "speed": 6,
+      "delay": 0.2
+    },
+    {
+      "playerId": "j-r",
+      "kind": "block",
+      "path": [
+        {
+          "x": 19,
+          "y": 8
+        },
+        {
+          "x": 14,
+          "y": 16
+        }
+      ],
+      "speed": 6,
+      "delay": 0.2
+    },
+    {
+      "playerId": "bl-l",
+      "kind": "block",
+      "path": [
+        {
+          "x": -8,
+          "y": 22
+        }
+      ],
+      "speed": 5,
+      "delay": 0.5
+    },
+    {
+      "playerId": "bl-r",
+      "kind": "block",
+      "path": [
+        {
+          "x": 8,
+          "y": 22
+        }
+      ],
+      "speed": 5,
+      "delay": 0.5
+    },
+    {
+      "playerId": "pr",
+      "kind": "carry",
+      "path": [
+        {
+          "x": 3,
+          "y": 44
+        },
+        {
+          "x": 4,
+          "y": 38
+        },
+        {
+          "x": 8,
+          "y": 30
+        },
+        {
+          "x": 10,
+          "y": 22
+        }
+      ],
+      "speed": 6.5,
+      "delay": 5.2
+    }
+  ],
+  "ball": {
+    "start": "ls",
+    "events": [
+      {
+        "t": 0,
+        "to": "p",
+        "throw": true,
+        "flight": 0.7
+      },
+      {
+        "t": 2.0,
+        "toPoint": {
+          "x": 3,
+          "y": 44
+        },
+        "flight": 4.0
+      },
+      {
+        "t": 6.0,
+        "to": "pr"
+      }
+    ]
+  }
+}

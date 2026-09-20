@@ -36,6 +36,8 @@ export function compileDiagram(d: DiagramRef): CompiledPlay {
 interface Props {
   compiled: CompiledPlay;
   highlight?: string[];
+  /** Ring the highlighted players without fading the rest. */
+  dimOthers?: boolean;
   /** Show run, pause, reset and the scrub bar. Off for still formations. */
   controls?: boolean;
   /** When set, tapping a player reports it instead of showing the position card. */
@@ -47,7 +49,7 @@ interface Props {
 }
 
 /** A field with optional playback controls and the tap-to-learn card. Used by lessons, quizzes, and the Play Lab. */
-export function Diagram({ compiled, highlight, controls, onTapPlayer, selectedPlayerId, infoCard = true }: Props) {
+export function Diagram({ compiled, highlight, dimOthers, controls, onTapPlayer, selectedPlayerId, infoCard = true }: Props) {
   const animated = compiled.play.assignments.length > 0;
   const clock = usePlayClock(compiled.duration, compiled.play.id);
   const { ref, width } = useContainerWidth<HTMLDivElement>();
@@ -84,6 +86,7 @@ export function Diagram({ compiled, highlight, controls, onTapPlayer, selectedPl
           time={clock.time}
           widthPx={width}
           highlight={highlight}
+          dimOthers={dimOthers}
           selectedPlayerId={selectedPlayerId ?? selected?.player.id ?? null}
           onSelectPlayer={select}
         />

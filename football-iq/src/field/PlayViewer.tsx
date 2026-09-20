@@ -16,12 +16,14 @@ interface Props {
   selectedPlayerId?: string | null;
   /** Player ids drawn with a ring while everyone else fades. */
   highlight?: string[];
+  /** When false, highlighted players get a ring but nobody fades. */
+  dimOthers?: boolean;
 }
 
 /** Draws one moment of a play: the field, every player token, and the ball. */
-export function PlayViewer({ compiled, time, widthPx, onSelectPlayer, selectedPlayerId = null, highlight }: Props) {
+export function PlayViewer({ compiled, time, widthPx, onSelectPlayer, selectedPlayerId = null, highlight, dimOthers = true }: Props) {
   const { play, offense, defense } = compiled;
-  const view = useMemo(() => makeViewport(play.variant, widthPx), [play.variant, widthPx]);
+  const view = useMemo(() => makeViewport(play.variant, widthPx, play.view, play.losYard), [play.variant, widthPx, play.view, play.losYard]);
   const frame = frameAt(compiled, time);
   const highlightSet = highlight && highlight.length > 0 ? new Set(highlight) : null;
 
@@ -54,7 +56,7 @@ export function PlayViewer({ compiled, time, widthPx, onSelectPlayer, selectedPl
     const label = p.label ?? p.position;
     const selected = selectedPlayerId === p.id;
     const lit = highlightSet?.has(p.id) ?? false;
-    const dimmed = highlightSet ? !lit : false;
+    const dimmed = highlightSet && dimOthers ? !lit : false;
     const color = side === "offense" ? COLORS.offense : COLORS.defense;
     const hasBall = frame.carrier === p.id;
     const stroke = selected ? COLORS.selected : hasBall ? COLORS.ball : "#ffffff";

@@ -1,5 +1,5 @@
 import { Group, Line, Rect, Text } from "react-konva";
-import { VIEW_AHEAD, VIEW_BEHIND, toPx, yardLabel, type Viewport } from "./geometry";
+import { toPx, yardLabel, type Viewport } from "./geometry";
 
 export const COLORS = {
   grass: "#2e7d32",
@@ -19,12 +19,11 @@ interface Props {
 
 /** Static field art: grass, end zones, yard lines, numbers, hashes, and the line of scrimmage. */
 export function Field({ view }: Props) {
-  const { spec, scale, widthPx, heightPx } = view;
-  const los = spec.losYard;
+  const { spec, scale, widthPx, heightPx, behind, ahead, losYard: los } = view;
   const elements: JSX.Element[] = [];
 
   // Alternate 5-yard stripes for depth cues.
-  for (let y = -VIEW_BEHIND; y < VIEW_AHEAD; y += 1) {
+  for (let y = -behind; y < ahead; y += 1) {
     const abs = los + y;
     const stripe = Math.floor(abs / 5) % 2 === 0;
     const top = toPx(view, { x: 0, y: y + 1 }).y;
@@ -35,7 +34,7 @@ export function Field({ view }: Props) {
   }
 
   // Yard lines every 5 yards, numbers every 10.
-  for (let abs = Math.ceil((los - VIEW_BEHIND) / 5) * 5; abs <= los + VIEW_AHEAD; abs += 5) {
+  for (let abs = Math.ceil((los - behind) / 5) * 5; abs <= los + ahead; abs += 5) {
     const y = abs - los;
     const py = toPx(view, { x: 0, y }).y;
     const isGoal = abs === 0 || abs === spec.length;
@@ -55,7 +54,7 @@ export function Field({ view }: Props) {
   const tickXs = spec.hashes
     ? [0.6, spec.width / 2 - 3.08, spec.width / 2 + 3.08, spec.width - 0.6]
     : [0.6, spec.width - 0.6];
-  for (let y = -VIEW_BEHIND; y <= VIEW_AHEAD; y += 1) {
+  for (let y = -behind; y <= ahead; y += 1) {
     const abs = los + y;
     if (abs % 5 === 0 || abs < 0 || abs > spec.length) continue;
     const py = toPx(view, { x: 0, y }).y;

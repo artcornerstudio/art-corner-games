@@ -8,28 +8,305 @@
   "description": "All four receivers run straight down the field. The two inside receivers run up the seams, the gaps between the deep defenders. The quarterback picks the receiver whose defender is farthest away.",
   "why": "A defense usually keeps two safeties deep. Four deep receivers is more than two safeties can handle, so someone ends up with one defender or none. It is a shot play: high risk, big reward.",
   "assignments": [
-    { "playerId": "qb", "kind": "dropback", "path": [{ "x": 0, "y": -7 }], "speed": 4 },
-    { "playerId": "wr-x", "kind": "route", "path": [{ "x": -22, "y": 22 }], "speed": 7.5 },
-    { "playerId": "wr-h", "kind": "route", "path": [{ "x": -10, "y": 10 }, { "x": -8, "y": 22 }], "speed": 7.5 },
-    { "playerId": "wr-y", "kind": "route", "path": [{ "x": 10, "y": 10 }, { "x": 8, "y": 22 }], "speed": 7.5 },
-    { "playerId": "wr-z", "kind": "route", "path": [{ "x": 22, "y": 22 }], "speed": 7.5 },
-    { "playerId": "rb", "kind": "route", "path": [{ "x": -6, "y": -4 }, { "x": -12, "y": 0 }], "speed": 6 },
-    { "playerId": "c", "kind": "block", "path": [{ "x": 0, "y": -1.5 }], "speed": 3 },
-    { "playerId": "lg", "kind": "block", "path": [{ "x": -2, "y": -1.5 }], "speed": 3 },
-    { "playerId": "rg", "kind": "block", "path": [{ "x": 2, "y": -1.5 }], "speed": 3 },
-    { "playerId": "lt", "kind": "block", "path": [{ "x": -4.5, "y": -2.5 }], "speed": 3 },
-    { "playerId": "rt", "kind": "block", "path": [{ "x": 4.5, "y": -2.5 }], "speed": 3 },
-    { "playerId": "lde", "kind": "rush", "path": [{ "x": -6, "y": -1.5 }], "speed": 3.5, "delay": 0.1 },
-    { "playerId": "ldt", "kind": "rush", "path": [{ "x": -2, "y": -0.5 }], "speed": 2.5, "delay": 0.1 },
-    { "playerId": "rdt", "kind": "rush", "path": [{ "x": 3, "y": -0.5 }], "speed": 2.5, "delay": 0.1 },
-    { "playerId": "rde", "kind": "rush", "path": [{ "x": 7.5, "y": -1.5 }], "speed": 3.5, "delay": 0.1 },
-    { "playerId": "mike", "kind": "cover", "path": [{ "x": -4, "y": 8 }], "speed": 5, "delay": 0.4 },
-    { "playerId": "will", "kind": "cover", "path": [{ "x": 3, "y": 8 }], "speed": 5, "delay": 0.4 },
-    { "playerId": "lcb", "kind": "cover", "path": [{ "x": -21, "y": 12 }, { "x": -21, "y": 22 }], "speed": 7, "delay": 0.4 },
-    { "playerId": "rcb", "kind": "cover", "path": [{ "x": 21, "y": 12 }, { "x": 21, "y": 22 }], "speed": 7, "delay": 0.4 },
-    { "playerId": "nb", "kind": "cover", "path": [{ "x": 11, "y": 10 }, { "x": 9, "y": 18 }], "speed": 6.5, "delay": 0.5 },
-    { "playerId": "fs", "kind": "cover", "path": [{ "x": -6, "y": 18 }, { "x": -8, "y": 24 }], "speed": 5, "delay": 0.6 },
-    { "playerId": "ss", "kind": "cover", "path": [{ "x": 6, "y": 16 }, { "x": 8, "y": 24 }], "speed": 5.5, "delay": 0.6 }
+    {
+      "playerId": "qb",
+      "kind": "dropback",
+      "path": [
+        {
+          "x": 0,
+          "y": -7
+        }
+      ],
+      "speed": 4
+    },
+    {
+      "playerId": "wr-x",
+      "kind": "route",
+      "path": [
+        {
+          "x": -22,
+          "y": 22
+        }
+      ],
+      "speed": 7.5
+    },
+    {
+      "playerId": "wr-h",
+      "kind": "route",
+      "path": [
+        {
+          "x": -10,
+          "y": 10
+        },
+        {
+          "x": -8,
+          "y": 22
+        }
+      ],
+      "speed": 7.5
+    },
+    {
+      "playerId": "wr-y",
+      "kind": "route",
+      "path": [
+        {
+          "x": 10,
+          "y": 10
+        },
+        {
+          "x": 8,
+          "y": 22
+        }
+      ],
+      "speed": 7.5
+    },
+    {
+      "playerId": "wr-z",
+      "kind": "route",
+      "path": [
+        {
+          "x": 22,
+          "y": 22
+        }
+      ],
+      "speed": 7.5
+    },
+    {
+      "playerId": "rb",
+      "kind": "route",
+      "path": [
+        {
+          "x": -6,
+          "y": -4
+        },
+        {
+          "x": -12,
+          "y": 0
+        }
+      ],
+      "speed": 6
+    },
+    {
+      "playerId": "c",
+      "kind": "block",
+      "path": [
+        {
+          "x": 0,
+          "y": -1.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "lg",
+      "kind": "block",
+      "path": [
+        {
+          "x": -2,
+          "y": -1.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "rg",
+      "kind": "block",
+      "path": [
+        {
+          "x": 2,
+          "y": -1.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "lt",
+      "kind": "block",
+      "path": [
+        {
+          "x": -4.5,
+          "y": -2.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "rt",
+      "kind": "block",
+      "path": [
+        {
+          "x": 4.5,
+          "y": -2.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "lde",
+      "kind": "rush",
+      "path": [
+        {
+          "x": -6,
+          "y": -1.5
+        }
+      ],
+      "speed": 3.5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "ldt",
+      "kind": "rush",
+      "path": [
+        {
+          "x": -2,
+          "y": -0.5
+        }
+      ],
+      "speed": 2.5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "rdt",
+      "kind": "rush",
+      "path": [
+        {
+          "x": 3,
+          "y": -0.5
+        }
+      ],
+      "speed": 2.5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "rde",
+      "kind": "rush",
+      "path": [
+        {
+          "x": 7.5,
+          "y": -1.5
+        }
+      ],
+      "speed": 3.5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "mike",
+      "kind": "cover",
+      "path": [
+        {
+          "x": -4,
+          "y": 8
+        }
+      ],
+      "speed": 5,
+      "delay": 0.4
+    },
+    {
+      "playerId": "will",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 3,
+          "y": 8
+        }
+      ],
+      "speed": 5,
+      "delay": 0.4
+    },
+    {
+      "playerId": "lcb",
+      "kind": "cover",
+      "path": [
+        {
+          "x": -21,
+          "y": 12
+        },
+        {
+          "x": -21,
+          "y": 22
+        }
+      ],
+      "speed": 7,
+      "delay": 0.4
+    },
+    {
+      "playerId": "rcb",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 21,
+          "y": 12
+        },
+        {
+          "x": 21,
+          "y": 22
+        }
+      ],
+      "speed": 7,
+      "delay": 0.4
+    },
+    {
+      "playerId": "nb",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 11,
+          "y": 10
+        },
+        {
+          "x": 9,
+          "y": 18
+        }
+      ],
+      "speed": 6.5,
+      "delay": 0.5
+    },
+    {
+      "playerId": "fs",
+      "kind": "cover",
+      "path": [
+        {
+          "x": -6,
+          "y": 18
+        },
+        {
+          "x": -8,
+          "y": 24
+        }
+      ],
+      "speed": 5,
+      "delay": 0.6
+    },
+    {
+      "playerId": "ss",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 6,
+          "y": 16
+        },
+        {
+          "x": 8,
+          "y": 24
+        }
+      ],
+      "speed": 5.5,
+      "delay": 0.6
+    }
   ],
-  "ball": { "start": "c", "events": [{ "t": 0, "to": "qb" }, { "t": 2.4, "to": "wr-y", "throw": true }] }
+  "ball": {
+    "start": "c",
+    "events": [
+      {
+        "t": 0,
+        "to": "qb"
+      },
+      {
+        "t": 2.4,
+        "to": "wr-y",
+        "throw": true
+      }
+    ]
+  },
+  "hot": "rb"
 }

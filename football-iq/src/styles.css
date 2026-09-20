@@ -155,3 +155,7 @@ main { max-width: 720px; margin: 0 auto; padding: 16px 16px 40px; }
   .feedback-ok { background: #33301a; border-color: #6b5a22; }
   .feedback-bad { background: #33241b; border-color: #6b3a22; }
 }
+
+.sound-toggle { display: flex; align-items: center; gap: 10px; margin-top: 10px; font-weight: 700; min-height: 44px; }
+.sound-toggle input { width: 22px; height: 22px; accent-color: var(--green); }
+.outcome-line { font-size: 1.2rem; font-weight: 800; margin: 0 0 4px; }

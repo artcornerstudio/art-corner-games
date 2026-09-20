@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { compileDiagram, Diagram } from "../field/Diagram";
 import { useTier } from "../progress";
+import { playSound } from "../sound";
 import type { FormationPlayer, Lesson, Question } from "../types/play";
 import { shuffle } from "../utils/random";
 
@@ -20,12 +21,13 @@ export function Quiz({ lesson, onFinish }: Props) {
   const total = lesson.quiz.length;
   const tier = useTier();
   // Varsity shuffles the answers so position in the list is never the clue.
-  const choices = useMemo(() => (q.type === "choice" ? (tier === "varsity" ? shuffle(q.choices) : q.choices) : []), [q, tier]);
+  const choices = useMemo(() => (q.type === "choice" ? (tier === "rookie" ? q.choices : shuffle(q.choices)) : []), [q, tier]);
   const compiled = useMemo(() => (q.type === "tap" || q.diagram ? compileDiagram(q.type === "tap" ? q.diagram : q.diagram!) : null), [q]);
 
   const answer = (correct: boolean, picked: string) => {
     if (phase.kind !== "asking") return;
     if (correct) setScore((s) => s + 1);
+    playSound(correct ? "correct" : "wrong");
     setPhase({ kind: "answered", correct, picked });
   };
 

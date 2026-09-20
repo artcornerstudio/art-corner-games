@@ -3,7 +3,9 @@ import { VARIANT_LABEL, formationById, playById, situationsForVariant } from "..
 import { compilePlay } from "../field/animation";
 import { Diagram } from "../field/Diagram";
 import { CALL_THE_PLAY_ROUNDS, describeSpot, downLabel, optionLabel, POINTS } from "../games/callThePlay";
+import { fieldGoalChance, puntResult, resolvePlay, type Outcome } from "../games/outcome";
 import { recordGame, useTier } from "../progress";
+import { playSound } from "../sound";
 import type { Situation, SituationOption, Variant } from "../types/play";
 import { shuffle } from "../utils/random";
 
@@ -13,7 +15,27 @@ interface Props {
 
 const VARIANTS: Variant[] = ["tackle11", "flag5"];
 
-type Phase = { kind: "choosing" } | { kind: "chosen"; option: SituationOption };
+type Phase = { kind: "choosing" } | { kind: "chosen"; option: SituationOption; outcome: Outcome | null; specialStory: string | null };
+
+function specialOutcome(s: Situation, o: SituationOption): string {
+  if (o.special === "punt") {
+    const r = puntResult(s.yardLine);
+    return r.touchback ? "The punt sails into the end zone. Touchback; they start at their 20." : `The punter booms it. They take over at their own ${Math.max(1, 100 - s.yardLine - r.netYards)}.`;
+  }
+  const good = Math.random() < fieldGoalChance(s.yardLine);
+  return good ? `From ${100 - s.yardLine + 17} yards... it's good!` : `From ${100 - s.yardLine + 17} yards... wide. No good.`;
+}
+
+function outcomeLine(s: Situation, o: Outcome): string {
+  if (o.touchdown) return "Touchdown!";
+  if (o.turnover) return "Turnover.";
+  const gained = o.yards >= 0 ? `Gain of ${o.yards}` : `Loss of ${-o.yards}`;
+  if (o.firstDown) return `${gained}. First down!`;
+  const nextDown = s.down + 1;
+  if (nextDown > 4) return `${gained}. Turnover on downs.`;
+  const left = Math.max(1, s.distance - o.yards);
+  return `${gained}. ${["1st", "2nd", "3rd", "4th"][nextDown - 1]} and ${s.yardLine + o.yards + left >= 100 ? "goal" : left}.`;
+}
 
 /** Six situations. Pick the call, watch it play out, learn why. Best call is 2 points, a fine call is 1. */
 export function CallThePlay({ onBack }: Props) {
@@ -51,7 +73,10 @@ export function CallThePlay({ onBack }: Props) {
     if (phase.kind !== "choosing") return;
     setPoints((p) => p + POINTS[option.verdict]);
     if (option.verdict === "best") setBestCalls((b) => b + 1);
-    setPhase({ kind: "chosen", option });
+    playSound(option.verdict === "bad" ? "wrong" : "correct");
+    const outcome = option.playId ? resolvePlay({ play: playById(option.playId), situation: round.situation }) : null;
+    const specialStory = option.special ? specialOutcome(round.situation, option) : null;
+    setPhase({ kind: "chosen", option, outcome, specialStory });
   };
 
   const next = () => {
@@ -126,7 +151,14 @@ export function CallThePlay({ onBack }: Props) {
                 <Diagram compiled={compiled} controls infoCard={false} />
               ) : (
                 <section className="card special-call">
-                  <p>{phase.option.special === "punt" ? "The punter booms it downfield. The other team takes over far from your end zone." : "The kicker lines it up... and it's good!"}</p>
+                  <p>{phase.specialStory}</p>
+                </section>
+              )}
+              {phase.outcome && (
+                <section className="card outcome">
+                  <p className="eyebrow">What happened</p>
+                  <p className="outcome-line">{outcomeLine(round.situation, phase.outcome)}</p>
+                  <p className="muted">{phase.outcome.story}</p>
                 </section>
               )}
               {phase.option.verdict !== "best" && (

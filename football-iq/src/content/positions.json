@@ -78,5 +78,70 @@
     "name": "Nose tackle",
     "side": "defense",
     "job": "Lines up right over the center in a 3-4 defense. The biggest player on the field, built to clog the middle."
+  },
+  "K": {
+    "name": "Kicker",
+    "side": "offense",
+    "job": "Kicks off, kicks field goals, and kicks extra points. Has to be calm with the whole stadium watching."
+  },
+  "P": {
+    "name": "Punter",
+    "side": "offense",
+    "job": "On fourth down, catches the long snap and kicks the ball high and far so the other team starts a long way from your end zone."
+  },
+  "LS": {
+    "name": "Long snapper",
+    "side": "offense",
+    "job": "Snaps the ball 7 yards to the holder or 14 yards to the punter, fast and perfectly straight, then blocks."
+  },
+  "H": {
+    "name": "Holder",
+    "side": "offense",
+    "job": "Catches the snap, puts the ball on the ground with the laces out, and holds it steady for the kicker."
+  },
+  "W": {
+    "name": "Wing",
+    "side": "offense",
+    "job": "Lines up just outside the line on kicks and punts. Blocks the rusher coming around the edge."
+  },
+  "PP": {
+    "name": "Personal protector",
+    "side": "offense",
+    "job": "Stands in front of the punter, calls out the blocking, and stops any rusher who gets through."
+  },
+  "GN": {
+    "name": "Gunner",
+    "side": "offense",
+    "job": "Lines up out wide on a punt. Sprints down the field the moment the ball is snapped to tackle the returner."
+  },
+  "CV": {
+    "name": "Coverage player",
+    "side": "offense",
+    "job": "Runs down the field on a kickoff in a lane, stays in that lane, and tackles the returner."
+  },
+  "KR": {
+    "name": "Kick returner",
+    "side": "defense",
+    "job": "Stands deep, catches the kickoff, and runs it back behind the blockers. Fast and brave."
+  },
+  "PR": {
+    "name": "Punt returner",
+    "side": "defense",
+    "job": "Catches the punt, or waves for a fair catch when the gunners are too close, then runs it back."
+  },
+  "BL": {
+    "name": "Return blocker",
+    "side": "defense",
+    "job": "Drops back and blocks a coverage player so the returner has a lane to run through."
+  },
+  "J": {
+    "name": "Jammer",
+    "side": "defense",
+    "job": "Lines up right across from the gunner and slows him down at the line so he cannot get to the returner first."
+  },
+  "RS": {
+    "name": "Rusher",
+    "side": "defense",
+    "job": "On a punt or field goal, charges through the line and tries to block the kick with his hands."
   }
 }

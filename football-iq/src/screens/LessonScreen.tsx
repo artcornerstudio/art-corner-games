@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
 import { lessonById, lessonsForUnit, unitById } from "../content";
 import { compileDiagram, Diagram } from "../field/Diagram";
-import { awardBadgeIfEarned, PASS_RATIO, recordQuiz } from "../progress";
+import { awardBadgeIfEarned, passRatioFor, recordQuiz, useTier } from "../progress";
+import { playSound } from "../sound";
 import { Quiz } from "./Quiz";
 
 interface Props {
@@ -18,6 +19,7 @@ export function LessonScreen({ lessonId, onBack, onNextLesson }: Props) {
   const siblings = lessonsForUnit(unit.id);
   const nextLesson = siblings.find((l) => l.order > lesson.order) ?? null;
   const [mode, setMode] = useState<Mode>({ kind: "steps", index: 0 });
+  const tier = useTier();
 
   const step = mode.kind === "steps" ? lesson.steps[mode.index] : null;
   const compiled = useMemo(() => (step?.diagram ? compileDiagram(step.diagram) : null), [step]);
@@ -25,6 +27,7 @@ export function LessonScreen({ lessonId, onBack, onNextLesson }: Props) {
   const finish = (score: number, total: number) => {
     const entry = recordQuiz(lesson.id, score, total);
     const badge = awardBadgeIfEarned(unit.id, siblings.map((l) => l.id));
+    if (badge) playSound("badge");
     setMode({ kind: "result", score, total, passed: entry.passed, badge });
   };
 
@@ -76,7 +79,7 @@ export function LessonScreen({ lessonId, onBack, onNextLesson }: Props) {
             <p>You passed this lesson. Nice work.</p>
           ) : (
             <p>
-              You need {Math.ceil(mode.total * PASS_RATIO)} right to pass. Read it once more and try again.
+              You need {Math.ceil(mode.total * passRatioFor(tier))} right to pass. Read it once more and try again.
             </p>
           )}
           {mode.badge && (

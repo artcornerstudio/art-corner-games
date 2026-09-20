@@ -1,0 +1,22 @@
+{
+  "id": "reads-blitz-gaps",
+  "unitId": "reads",
+  "order": 4,
+  "title": "Blitz and gaps",
+  "summary": "What a blitz is, how the quarterback beats one, and why every defender owns one gap between the offensive linemen.",
+  "steps": [
+    {"text": "On most plays the defense rushes four players: the defensive linemen. A blitz is when the defense sends extra rushers, five or more. Watch this play. The middle linebacker and the strong safety join the rush, so six players go after the quarterback.", "diagram": {"playId": "blitz-hot-slant", "highlight": ["mike", "ss"]}},
+    {"text": "A blitz is a trade. Every extra rusher is one fewer defender in coverage. Six rushers means only five players are left to guard five receivers, with no help behind them. If the quarterback can get the ball out, somebody is open.", "diagram": {"playId": "blitz-hot-slant", "highlight": ["will", "sam", "lcb", "rcb", "fs"]}},
+    {"text": "The quarterback beats a blitz by throwing fast. He has a hot read: a short route he throws right away when he sees extra rushers coming. Here it is a slant. Wait too long and the blitz becomes a sack.", "diagram": {"playId": "blitz-hot-slant", "highlight": ["qb", "wr-x"]}},
+    {"text": "Now for gaps. A gap is the space between two offensive linemen where a runner can go. They have letters. The A gap is between the center and the guard. The B gap is between the guard and the tackle. The C gap is outside the tackle. Each side has its own A, B, and C.", "diagram": {"playId": "iso-lead", "highlight": ["c", "lg", "rg", "lt", "rt"]}},
+    {"text": "Every defender up front owns one gap. The two defensive tackles take the inside gaps. The two defensive ends take the outside gaps. The linebackers fill whatever is left, and they watch the runner to see which gap he picks.", "diagram": {"playId": "iso-lead", "highlight": ["ldt", "rdt", "lde", "rde", "mike", "will", "sam"]}},
+    {"text": "Why does it matter? If every defender stays in his gap, there is no hole and the runner has nowhere to go. But if one defender chases the ball and leaves his gap, that is exactly where the runner cuts. Watch the fullback block the middle linebacker and the runner go right through his gap.", "diagram": {"playId": "iso-lead", "highlight": ["mike", "rb"]}}
+  ],
+  "quiz": [
+    {"type": "choice", "prompt": "What is a blitz?", "choices": ["The defense rushes five or more players", "The defense drops everyone into coverage", "The offense throws a deep pass"], "answer": 0, "explanation": "A normal rush is four. A blitz sends extra rushers, like a linebacker or a safety."},
+    {"type": "choice", "prompt": "What should the quarterback do when he sees a blitz coming?", "choices": ["Hold the ball and wait for a deep route", "Throw quickly to his hot read", "Run backward to get away"], "answer": 1, "explanation": "Extra rushers arrive fast, so the quarterback throws the short hot route before they get there."},
+    {"type": "choice", "prompt": "Which gap is between the guard and the tackle?", "choices": ["A gap", "B gap", "C gap"], "answer": 1, "explanation": "A is next to the center, B is between the guard and tackle, and C is outside the tackle."},
+    {"type": "tap", "prompt": "Tap the middle linebacker. He fills whichever inside gap the runner picks.", "diagram": {"formationId": "base-43-tackle"}, "target": "mike", "explanation": "The linemen own the gaps in front of them, and the middle linebacker reads the runner and fills the one that opens."},
+    {"type": "choice", "prompt": "Why must each defender stay in his own gap on a run play?", "choices": ["So the coach can find him", "Because a gap left open is where the runner will go", "So he can rest between plays"], "answer": 1, "explanation": "Every gap has an owner. If one defender leaves his gap, the runner cuts through that hole."}
+  ]
+}

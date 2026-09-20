@@ -1,0 +1,22 @@
+{
+  "id": "offense2-screens",
+  "unitId": "offense2",
+  "order": 3,
+  "title": "Screens",
+  "summary": "Short passes with blockers in front: the running back screen and the bubble screen.",
+  "steps": [
+    { "text": "A screen is a short pass where the catcher has blockers in front of him. It is a trap for a defense that rushes hard. There are two common kinds: the running back screen and the bubble screen. Watch the running back screen first.", "diagram": { "playId": "rb-screen", "highlight": ["rb"] } },
+    { "text": "The quarterback drops way back, deeper than normal. The linemen block for a moment, then let the rushers through on purpose. The rushers think they are about to get a sack, so they charge upfield as fast as they can.", "diagram": { "playId": "rb-screen", "highlight": ["qb", "nt", "lde", "rde", "lolb"] } },
+    { "text": "Meanwhile the running back slips out to the side. The center, right guard, and right tackle leave their spots and run out in front of him. The quarterback lobs the ball over the rushers. Now the back has three big blockers and lots of green grass.", "diagram": { "playId": "rb-screen", "highlight": ["rb", "c", "rg", "rt"] } },
+    { "text": "The bubble screen is different. At the snap, the slot receiver Y takes a step back and out. That little loop is the bubble. The quarterback throws it right away, before the defense has moved.", "diagram": { "playId": "bubble-screen", "highlight": ["wr-y"] } },
+    { "text": "The outside receiver Z does not run a route. His job is to block the cornerback in front of Y. So Y catches the ball with a blocker ahead of him and runs up the sideline. A bubble screen is really a run play that starts with a throw.", "diagram": { "playId": "bubble-screen", "highlight": ["wr-z", "rcb"] } },
+    { "text": "When do you call a screen? When the defense is blitzing or the pass rush keeps winning. Screens use the speed of the defense against it. Rushers who charge upfield run right past the play." }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "On a running back screen, why do the linemen let the rushers through?", "choices": ["They missed their blocks", "On purpose, so the rushers run past the play and the linemen can go block downfield", "So the quarterback can run"], "answer": 1, "explanation": "The rushers charge past the play. The linemen then run out in front of the back." },
+    { "type": "tap", "prompt": "Tap the player who slips out to catch the running back screen.", "diagram": { "formationId": "shotgun-tackle" }, "target": "rb", "explanation": "The running back stands next to the quarterback in the shotgun, then sneaks out to the side." },
+    { "type": "choice", "prompt": "On the bubble screen, what does the outside receiver Z do?", "choices": ["Runs a go route", "Blocks the cornerback", "Catches the ball"], "answer": 1, "explanation": "Z blocks so Y has a clear lane up the sideline after the catch." },
+    { "type": "choice", "prompt": "When is the bubble screen thrown?", "choices": ["Right away, before the defense moves", "After a long drop back", "After a fake handoff"], "answer": 0, "explanation": "It is a quick throw. Speed is the whole point." },
+    { "type": "choice", "prompt": "When is a good time to call a screen?", "choices": ["When the defense is rushing hard", "When the defense drops everyone deep", "On a field goal"], "answer": 0, "explanation": "A screen uses the rush against itself. The harder they charge, the more open the catcher is." }
+  ]
+}

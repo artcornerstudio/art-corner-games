@@ -1,21 +1,35 @@
 import { lessonsForUnit, units } from "../content";
-import { resetProgress, setTier, useProgress } from "../progress";
+import { resetProgress, setSound, setTier, useProgress } from "../progress";
+import { setSoundEnabled } from "../sound";
 import type { Tier } from "../types/play";
+
+export type GameId = "call-the-play" | "spot-the-position" | "beat-the-coverage" | "hot-read" | "fourth-down";
 
 interface Props {
   onOpenPlayLab: () => void;
   onOpenUnit: (unitId: string) => void;
-  onOpenGame: (game: "call-the-play" | "spot-the-position") => void;
+  onOpenGame: (game: GameId) => void;
 }
 
-const GAMES = [
-  { id: "call-the-play" as const, title: "Call the Play", blurb: "Read the down, distance, and situation. Pick the play. Watch it happen.", key: "call-the-play-tackle11", total: 12 },
-  { id: "spot-the-position" as const, title: "Spot the Position", blurb: "Ten rounds. Tap the position named before you forget where it lives.", key: "spot-the-position-tackle11", total: 10 },
+const GAMES: { id: GameId; title: string; blurb: string; key: string }[] = [
+  { id: "call-the-play", title: "Call the Play", blurb: "Read the down, distance, and situation. Pick the play. Watch it happen.", key: "call-the-play-tackle11" },
+  { id: "spot-the-position", title: "Spot the Position", blurb: "Ten rounds. Tap the position named before you forget where it lives.", key: "spot-the-position-tackle11" },
+  { id: "beat-the-coverage", title: "Beat the Coverage", blurb: "Read the safeties before the snap and pick the play that beats the shell.", key: "beat-the-coverage" },
+  { id: "hot-read", title: "Hot Read", blurb: "The blitz is coming. Tap the receiver who gets the ball right now.", key: "hot-read-tackle11" },
+  { id: "fourth-down", title: "Fourth-Down Decision", blurb: "Go, punt, or kick? Read the score, the clock, and the spot.", key: "fourth-down" },
 ];
+
+const TIER_NOTE: Record<Tier, string> = {
+  rookie: "Hints on, answers in order, no clock.",
+  varsity: "Hints off, answers shuffled, and a 45-second clock in Spot the Position.",
+  pro: "Everything in Varsity, plus quizzes must be perfect to pass.",
+};
 
 export function Home({ onOpenPlayLab, onOpenUnit, onOpenGame }: Props) {
   const progress = useProgress();
   const tier: Tier = progress.tier ?? "rookie";
+  const sound = progress.sound ?? true;
+  setSoundEnabled(sound);
 
   const reset = () => {
     if (window.confirm("Erase all progress and badges on this device?")) resetProgress();
@@ -69,15 +83,17 @@ export function Home({ onOpenPlayLab, onOpenUnit, onOpenGame }: Props) {
       <section aria-labelledby="tier-heading" className="card tier-card">
         <h2 id="tier-heading">Difficulty</h2>
         <div className="segmented" role="group" aria-label="Difficulty">
-          {(["rookie", "varsity"] as Tier[]).map((t) => (
+          {(["rookie", "varsity", "pro"] as Tier[]).map((t) => (
             <button key={t} type="button" className={t === tier ? "seg seg-on" : "seg"} aria-pressed={t === tier} onClick={() => setTier(t)}>
-              {t === "rookie" ? "Rookie" : "Varsity"}
+              {t === "rookie" ? "Rookie" : t === "varsity" ? "Varsity" : "Pro"}
             </button>
           ))}
         </div>
-        <p className="muted tier-note">
-          {tier === "rookie" ? "Hints on, answers in order, no clock." : "Hints off, answers shuffled, and a 45-second clock in Spot the Position."}
-        </p>
+        <p className="muted tier-note">{TIER_NOTE[tier]}</p>
+        <label className="sound-toggle">
+          <input type="checkbox" checked={sound} onChange={(e) => { setSound(e.target.checked); setSoundEnabled(e.target.checked); }} />
+          Sound effects
+        </label>
       </section>
 
       <section aria-labelledby="play-lab-heading" className="card card-primary">

@@ -1,8 +1,16 @@
-import type { Assignment, AssignmentKind, Formation, Play, Point } from "../types/play";
+import type { Assignment, AssignmentKind, BallEvent, Formation, Play, Point } from "../types/play";
 import { distance } from "./geometry";
 
 /** Seconds a thrown ball spends in the air. */
 export const THROW_FLIGHT = 0.6;
+/** Seconds a kicked ball spends in the air when the play does not say. */
+export const KICK_FLIGHT = 2.5;
+
+function flightOf(e: BallEvent): number {
+  if (e.flight) return e.flight;
+  if (e.toPoint) return KICK_FLIGHT;
+  return e.throw ? THROW_FLIGHT : 0;
+}
 /** Seconds of stillness added after the last player stops. */
 const TAIL = 0.6;
 
@@ -78,7 +86,7 @@ export function compilePlay(play: Play, offense: Formation, defense: Formation):
   for (const [id, a] of assignments) {
     duration = Math.max(duration, assignmentDuration(starts.get(id)!, a));
   }
-  for (const e of play.ball.events) duration = Math.max(duration, e.t + (e.throw ? THROW_FLIGHT : 0));
+  for (const e of play.ball.events) duration = Math.max(duration, e.t + flightOf(e));
   return { play, offense, defense, starts, assignments, duration: duration + TAIL };
 }
 
@@ -91,21 +99,35 @@ export function frameAt(c: CompiledPlay, t: number): PlayFrame {
 
   let carrier: string | null = c.play.ball.start;
   let ball = players.get(carrier)!;
-  let previousCarrier = carrier;
+  /** Where the ball was released or last came to rest, for the next flight. */
+  let releasePoint = (at: number): Point => {
+    if (carrier) {
+      const a = c.assignments.get(carrier) ?? { playerId: carrier, kind: "stay" as const, path: [] };
+      return positionAt(c.starts.get(carrier)!, a, at);
+    }
+    return ball;
+  };
   for (const e of c.play.ball.events) {
     if (t < e.t) break;
-    if (e.throw && t < e.t + THROW_FLIGHT) {
-      // Ball in flight: from where the thrower was at release to where the receiver is now.
-      const from = positionAt(c.starts.get(previousCarrier!)!, c.assignments.get(previousCarrier!) ?? { playerId: previousCarrier!, kind: "stay", path: [] }, e.t);
-      const to = players.get(e.to)!;
-      const k = (t - e.t) / THROW_FLIGHT;
+    const flight = flightOf(e);
+    const from = releasePoint(e.t);
+    if (flight > 0 && t < e.t + flight) {
+      // In the air: from the release spot toward the receiver (wherever they are now) or the landing spot.
+      const to = e.toPoint ?? players.get(e.to!)!;
+      const k = (t - e.t) / flight;
       ball = { x: from.x + (to.x - from.x) * k, y: from.y + (to.y - from.y) * k };
-      carrier = null;
-      return { players, ball, carrier };
+      return { players, ball, carrier: null };
     }
-    previousCarrier = e.to;
-    carrier = e.to;
-    ball = players.get(e.to)!;
+    if (e.toPoint) {
+      ball = e.toPoint;
+      carrier = null;
+      releasePoint = () => e.toPoint!;
+    } else {
+      carrier = e.to!;
+      ball = players.get(e.to!)!;
+      const settled = carrier;
+      releasePoint = (at: number) => positionAt(c.starts.get(settled)!, c.assignments.get(settled) ?? { playerId: settled, kind: "stay", path: [] }, at);
+    }
   }
   return { players, ball, carrier };
 }

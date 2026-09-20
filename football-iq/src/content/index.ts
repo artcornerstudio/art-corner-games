@@ -58,12 +58,7 @@ export function playsForVariant(variant: Variant): Play[] {
   return plays.filter((p) => p.variant === variant && !(p.tags ?? []).includes("demo"));
 }
 
-/** Opponent shown behind a formation when a lesson draws the formation on its own. */
-export const DEFAULT_OPPONENT: Record<Variant, { offense: string; defense: string }> = {
-  tackle11: { offense: "singleback-tackle", defense: "base-43-tackle" },
-  flag5: { offense: "trips-flag5", defense: "cover2-flag5" },
-  flag7: { offense: "trips-flag5", defense: "cover2-flag5" },
-};
+export { DEFAULT_OPPONENT } from "./defaults";
 
 export const VARIANT_LABEL: Record<Variant, string> = {
   tackle11: "11-on-11",

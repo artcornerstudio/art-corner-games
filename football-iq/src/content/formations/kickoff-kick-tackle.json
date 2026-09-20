@@ -1,0 +1,85 @@
+{
+  "id": "kickoff-kick-tackle",
+  "name": "Kickoff Team",
+  "variant": "tackle11",
+  "side": "offense",
+  "description": "The kicker stands back with five coverage players on each side of him. When he kicks, all ten sprint down the field in lanes to tackle the returner.",
+  "players": [
+    {
+      "id": "k",
+      "position": "K",
+      "x": 0,
+      "y": -8
+    },
+    {
+      "id": "cv-l1",
+      "position": "CV",
+      "x": -20,
+      "y": -1,
+      "label": "L1"
+    },
+    {
+      "id": "cv-l2",
+      "position": "CV",
+      "x": -15,
+      "y": -1,
+      "label": "L2"
+    },
+    {
+      "id": "cv-l3",
+      "position": "CV",
+      "x": -10,
+      "y": -1,
+      "label": "L3"
+    },
+    {
+      "id": "cv-l4",
+      "position": "CV",
+      "x": -6,
+      "y": -1,
+      "label": "L4"
+    },
+    {
+      "id": "cv-l5",
+      "position": "CV",
+      "x": -3,
+      "y": -1,
+      "label": "L5"
+    },
+    {
+      "id": "cv-r5",
+      "position": "CV",
+      "x": 3,
+      "y": -1,
+      "label": "R5"
+    },
+    {
+      "id": "cv-r4",
+      "position": "CV",
+      "x": 6,
+      "y": -1,
+      "label": "R4"
+    },
+    {
+      "id": "cv-r3",
+      "position": "CV",
+      "x": 10,
+      "y": -1,
+      "label": "R3"
+    },
+    {
+      "id": "cv-r2",
+      "position": "CV",
+      "x": 15,
+      "y": -1,
+      "label": "R2"
+    },
+    {
+      "id": "cv-r1",
+      "position": "CV",
+      "x": 20,
+      "y": -1,
+      "label": "R1"
+    }
+  ]
+}

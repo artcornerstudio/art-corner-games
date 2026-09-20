@@ -8,16 +8,155 @@
   "description": "Both wide receivers take three steps and slant inside at the same time. The center runs straight up the middle to pull a deep defender with him, and the running back swings wide as the safe option.",
   "why": "Two slants at once put two receivers in the middle of the field where only one defender is waiting. Whichever slant that defender leaves is open, and a slant catch with room to run can go a long way.",
   "assignments": [
-    { "playerId": "qb", "kind": "dropback", "path": [{ "x": 0, "y": -7.5 }], "speed": 4 },
-    { "playerId": "c", "kind": "route", "path": [{ "x": 0, "y": 14 }], "speed": 6.5 },
-    { "playerId": "wr-l", "kind": "route", "path": [{ "x": -10.5, "y": 2.5 }, { "x": -3, "y": 8 }], "speed": 7 },
-    { "playerId": "wr-r", "kind": "route", "path": [{ "x": 9.5, "y": 2.5 }, { "x": 2, "y": 8 }], "speed": 7 },
-    { "playerId": "rb", "kind": "route", "path": [{ "x": 11, "y": -2 }, { "x": 14, "y": 1 }], "speed": 6.5 },
-    { "playerId": "rush", "kind": "rush", "path": [{ "x": 0, "y": -3 }, { "x": 0, "y": -6.5 }], "speed": 6, "delay": 0.1 },
-    { "playerId": "d-left", "kind": "cover", "path": [{ "x": -6, "y": 6 }, { "x": -3, "y": 8 }], "speed": 5, "delay": 0.4 },
-    { "playerId": "d-right", "kind": "cover", "path": [{ "x": 12, "y": 4 }], "speed": 5, "delay": 0.4 },
-    { "playerId": "s-left", "kind": "cover", "path": [{ "x": -4, "y": 14 }], "speed": 4, "delay": 0.5 },
-    { "playerId": "s-right", "kind": "cover", "path": [{ "x": 2, "y": 15 }], "speed": 4.5, "delay": 0.5 }
+    {
+      "playerId": "qb",
+      "kind": "dropback",
+      "path": [
+        {
+          "x": 0,
+          "y": -7.5
+        }
+      ],
+      "speed": 4
+    },
+    {
+      "playerId": "c",
+      "kind": "route",
+      "path": [
+        {
+          "x": 0,
+          "y": 14
+        }
+      ],
+      "speed": 6.5
+    },
+    {
+      "playerId": "wr-l",
+      "kind": "route",
+      "path": [
+        {
+          "x": -10.5,
+          "y": 2.5
+        },
+        {
+          "x": -3,
+          "y": 8
+        }
+      ],
+      "speed": 7
+    },
+    {
+      "playerId": "wr-r",
+      "kind": "route",
+      "path": [
+        {
+          "x": 9.5,
+          "y": 2.5
+        },
+        {
+          "x": 2,
+          "y": 8
+        }
+      ],
+      "speed": 7
+    },
+    {
+      "playerId": "rb",
+      "kind": "route",
+      "path": [
+        {
+          "x": 11,
+          "y": -2
+        },
+        {
+          "x": 14,
+          "y": 1
+        }
+      ],
+      "speed": 6.5
+    },
+    {
+      "playerId": "rush",
+      "kind": "rush",
+      "path": [
+        {
+          "x": 0,
+          "y": -3
+        },
+        {
+          "x": 0,
+          "y": -6.5
+        }
+      ],
+      "speed": 6,
+      "delay": 0.1
+    },
+    {
+      "playerId": "d-left",
+      "kind": "cover",
+      "path": [
+        {
+          "x": -6,
+          "y": 6
+        },
+        {
+          "x": -3,
+          "y": 8
+        }
+      ],
+      "speed": 5,
+      "delay": 0.4
+    },
+    {
+      "playerId": "d-right",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 12,
+          "y": 4
+        }
+      ],
+      "speed": 5,
+      "delay": 0.4
+    },
+    {
+      "playerId": "s-left",
+      "kind": "cover",
+      "path": [
+        {
+          "x": -4,
+          "y": 14
+        }
+      ],
+      "speed": 4,
+      "delay": 0.5
+    },
+    {
+      "playerId": "s-right",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 2,
+          "y": 15
+        }
+      ],
+      "speed": 4.5,
+      "delay": 0.5
+    }
   ],
-  "ball": { "start": "c", "events": [{ "t": 0, "to": "qb" }, { "t": 1.5, "to": "wr-r", "throw": true }] }
+  "ball": {
+    "start": "c",
+    "events": [
+      {
+        "t": 0,
+        "to": "qb"
+      },
+      {
+        "t": 1.5,
+        "to": "wr-r",
+        "throw": true
+      }
+    ]
+  },
+  "hot": "wr-r"
 }

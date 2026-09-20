@@ -1,0 +1,298 @@
+{
+  "id": "extra-point-tackle",
+  "name": "Extra Point",
+  "variant": "tackle11",
+  "type": "run",
+  "tags": [
+    "special-teams",
+    "extra-point"
+  ],
+  "formationId": "fg-tackle",
+  "defenseFormationId": "fg-block-tackle",
+  "losYard": 85,
+  "view": {
+    "behind": 12,
+    "ahead": 30
+  },
+  "description": "After a touchdown, the team lines up at the 15-yard line and kicks the ball through the goal posts for 1 more point. Same snap, same hold, same kick as a field goal, just closer.",
+  "why": "Kickers make almost every extra point, so most teams take the sure 1 point. Going for 2 is for when you need it.",
+  "assignments": [
+    {
+      "playerId": "k",
+      "kind": "carry",
+      "path": [
+        {
+          "x": -0.7,
+          "y": -8
+        },
+        {
+          "x": -0.3,
+          "y": -7.3
+        }
+      ],
+      "speed": 3,
+      "delay": 0.3
+    },
+    {
+      "playerId": "h",
+      "kind": "stay",
+      "path": []
+    },
+    {
+      "playerId": "ls",
+      "kind": "block",
+      "path": [
+        {
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "speed": 2
+    },
+    {
+      "playerId": "lg",
+      "kind": "block",
+      "path": [
+        {
+          "x": -2,
+          "y": 0
+        }
+      ],
+      "speed": 2
+    },
+    {
+      "playerId": "rg",
+      "kind": "block",
+      "path": [
+        {
+          "x": 2,
+          "y": 0
+        }
+      ],
+      "speed": 2
+    },
+    {
+      "playerId": "lt",
+      "kind": "block",
+      "path": [
+        {
+          "x": -4,
+          "y": 0
+        }
+      ],
+      "speed": 2
+    },
+    {
+      "playerId": "rt",
+      "kind": "block",
+      "path": [
+        {
+          "x": 4,
+          "y": 0
+        }
+      ],
+      "speed": 2
+    },
+    {
+      "playerId": "lte",
+      "kind": "block",
+      "path": [
+        {
+          "x": -6,
+          "y": 0
+        }
+      ],
+      "speed": 2
+    },
+    {
+      "playerId": "rte",
+      "kind": "block",
+      "path": [
+        {
+          "x": 6,
+          "y": 0
+        }
+      ],
+      "speed": 2
+    },
+    {
+      "playerId": "lw",
+      "kind": "block",
+      "path": [
+        {
+          "x": -9,
+          "y": -0.5
+        }
+      ],
+      "speed": 2
+    },
+    {
+      "playerId": "rw",
+      "kind": "block",
+      "path": [
+        {
+          "x": 9,
+          "y": -0.5
+        }
+      ],
+      "speed": 2
+    },
+    {
+      "playerId": "nt",
+      "kind": "rush",
+      "path": [
+        {
+          "x": 0,
+          "y": -0.5
+        }
+      ],
+      "speed": 2.5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "ldt",
+      "kind": "rush",
+      "path": [
+        {
+          "x": -1.5,
+          "y": -0.5
+        }
+      ],
+      "speed": 2.5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "rdt",
+      "kind": "rush",
+      "path": [
+        {
+          "x": 1.5,
+          "y": -0.5
+        }
+      ],
+      "speed": 2.5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "ldt2",
+      "kind": "rush",
+      "path": [
+        {
+          "x": -3,
+          "y": -0.5
+        }
+      ],
+      "speed": 2.5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "rdt2",
+      "kind": "rush",
+      "path": [
+        {
+          "x": 3,
+          "y": -0.5
+        }
+      ],
+      "speed": 2.5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "lde",
+      "kind": "rush",
+      "path": [
+        {
+          "x": -5,
+          "y": -0.5
+        }
+      ],
+      "speed": 2.5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "rde",
+      "kind": "rush",
+      "path": [
+        {
+          "x": 5,
+          "y": -0.5
+        }
+      ],
+      "speed": 2.5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "le",
+      "kind": "rush",
+      "path": [
+        {
+          "x": -9,
+          "y": -3
+        },
+        {
+          "x": -5,
+          "y": -6
+        }
+      ],
+      "speed": 5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "re",
+      "kind": "rush",
+      "path": [
+        {
+          "x": 9,
+          "y": -3
+        },
+        {
+          "x": 5,
+          "y": -6
+        }
+      ],
+      "speed": 5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "bs-l",
+      "kind": "cover",
+      "path": [
+        {
+          "x": -12,
+          "y": 8
+        }
+      ],
+      "speed": 2
+    },
+    {
+      "playerId": "bs-r",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 12,
+          "y": 8
+        }
+      ],
+      "speed": 2
+    }
+  ],
+  "ball": {
+    "start": "ls",
+    "events": [
+      {
+        "t": 0,
+        "to": "h",
+        "throw": true,
+        "flight": 0.45
+      },
+      {
+        "t": 1.25,
+        "toPoint": {
+          "x": 0,
+          "y": 28
+        },
+        "flight": 2.3
+      }
+    ]
+  }
+}

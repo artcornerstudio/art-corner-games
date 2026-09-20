@@ -1,0 +1,80 @@
+{
+  "id": "cover2-tackle",
+  "name": "Cover 2 (Two Deep)",
+  "variant": "tackle11",
+  "side": "defense",
+  "description": "Two safeties split the deep field in half. The cornerbacks stay short and guard the flats. Strong against short passes and the sidelines, but there is a soft spot deep along each sideline.",
+  "players": [
+    {
+      "id": "lde",
+      "position": "DE",
+      "x": -5.5,
+      "y": 1
+    },
+    {
+      "id": "ldt",
+      "position": "DT",
+      "x": -2,
+      "y": 1
+    },
+    {
+      "id": "rdt",
+      "position": "DT",
+      "x": 3,
+      "y": 1
+    },
+    {
+      "id": "rde",
+      "position": "DE",
+      "x": 7,
+      "y": 1
+    },
+    {
+      "id": "will",
+      "position": "LB",
+      "x": -4.5,
+      "y": 4.5,
+      "label": "W"
+    },
+    {
+      "id": "mike",
+      "position": "LB",
+      "x": 0,
+      "y": 4.5,
+      "label": "M"
+    },
+    {
+      "id": "sam",
+      "position": "LB",
+      "x": 6,
+      "y": 4.5,
+      "label": "S"
+    },
+    {
+      "id": "lcb",
+      "position": "CB",
+      "x": -19,
+      "y": 4
+    },
+    {
+      "id": "rcb",
+      "position": "CB",
+      "x": 19,
+      "y": 4
+    },
+    {
+      "id": "fs",
+      "position": "S",
+      "x": -10,
+      "y": 14,
+      "label": "FS"
+    },
+    {
+      "id": "ss",
+      "position": "S",
+      "x": 10,
+      "y": 14,
+      "label": "SS"
+    }
+  ]
+}

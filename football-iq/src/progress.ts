@@ -26,12 +26,17 @@ export interface Progress {
   /** Best score per mini game id. */
   games?: Record<string, GameProgress>;
   tier?: Tier;
+  /** Sound effects on or off. Defaults to on. */
+  sound?: boolean;
 }
 
 const KEY = "football-iq.progress.v1";
 const EMPTY: Progress = { version: 1, lessons: {}, badges: {}, games: {}, tier: "rookie" };
-/** Share of quiz questions a kid must get right to pass a lesson. */
+/** Share of quiz questions a kid must get right to pass a lesson. Pro demands a perfect quiz. */
 export const PASS_RATIO = 0.8;
+export function passRatioFor(tier: Tier): number {
+  return tier === "pro" ? 1 : PASS_RATIO;
+}
 
 let cached: Progress | null = null;
 const listeners = new Set<() => void>();
@@ -70,7 +75,7 @@ export function useProgress(): Progress {
 export function recordQuiz(lessonId: string, score: number, total: number): LessonProgress {
   const current = read();
   const prev = current.lessons[lessonId];
-  const passed = score / total >= PASS_RATIO;
+  const passed = score / total >= passRatioFor(current.tier ?? "rookie");
   const entry: LessonProgress = {
     bestScore: Math.max(score, prev?.bestScore ?? 0),
     total,
@@ -101,6 +106,14 @@ export function useTier(): Tier {
 
 export function setTier(tier: Tier) {
   write({ ...read(), tier });
+}
+
+export function useSound(): boolean {
+  return useProgress().sound ?? true;
+}
+
+export function setSound(sound: boolean) {
+  write({ ...read(), sound });
 }
 
 export function recordGame(gameId: string, score: number, total: number): GameProgress {

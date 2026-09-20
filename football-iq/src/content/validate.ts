@@ -5,6 +5,7 @@ import lessonSchema from "./schema/lesson.schema.json";
 import playSchema from "./schema/play.schema.json";
 import situationSchema from "./schema/situation.schema.json";
 import unitSchema from "./schema/unit.schema.json";
+import { DEFAULT_OPPONENT } from "./defaults";
 
 export interface ContentBundle {
   formations: Formation[];
@@ -97,9 +98,13 @@ export function validateContent(bundle: ContentBundle): string[] {
     }
 
     if (!offensePlayers.has(play.ball.start)) problems.push(`play ${play.id}: ball must start with an offense player`);
+    if (play.hot && !offensePlayers.has(play.hot)) problems.push(`play ${play.id}: hot receiver ${play.hot} is not on the offense`);
+    if (play.hot && play.type !== "pass") problems.push(`play ${play.id}: only pass plays have a hot receiver`);
     let lastT = -1;
     for (const e of play.ball.events) {
-      if (!offensePlayers.has(e.to)) problems.push(`play ${play.id}: ball event to unknown offense player ${e.to}`);
+      if (!e.to === !e.toPoint) problems.push(`play ${play.id}: each ball event needs a player (to) or a spot (toPoint), not both or neither`);
+      // Kicks and turnovers can hand the ball to the other team, so any player on the field may receive it.
+      if (e.to && !allPlayers.has(e.to)) problems.push(`play ${play.id}: ball event to unknown player ${e.to}`);
       if (e.t < lastT) problems.push(`play ${play.id}: ball events must be in time order`);
       lastT = e.t;
     }
@@ -119,8 +124,11 @@ export function validateContent(bundle: ContentBundle): string[] {
       return new Set([...o.players, ...de.players].map((p) => p.id));
     }
     if (d.formationId) {
+      // The viewer draws the default opponent behind a lone formation, so those players are tappable too.
       const f = formationsById.get(d.formationId);
-      return f ? new Set(f.players.map((p) => p.id)) : null;
+      if (!f) return null;
+      const other = formationsById.get(f.side === "offense" ? DEFAULT_OPPONENT[f.variant].defense : DEFAULT_OPPONENT[f.variant].offense);
+      return new Set([...f.players, ...(other?.players ?? [])].map((p) => p.id));
     }
     return null;
   };
