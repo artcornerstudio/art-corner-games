@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import type Konva from "konva";
 import { Circle, Group, Layer, Line, Stage, Text } from "react-konva";
 import type { FormationPlayer, Side } from "../types/play";
 import { frameAt, type CompiledPlay } from "./animation";
@@ -11,33 +12,56 @@ interface Props {
   time: number;
   widthPx: number;
   /** Fired when a kid taps a player token. */
-  onSelectPlayer: (player: FormationPlayer, side: Side) => void;
-  selectedPlayerId: string | null;
+  onSelectPlayer?: (player: FormationPlayer, side: Side) => void;
+  selectedPlayerId?: string | null;
+  /** Player ids drawn with a ring while everyone else fades. */
+  highlight?: string[];
 }
 
 /** Draws one moment of a play: the field, every player token, and the ball. */
-export function PlayViewer({ compiled, time, widthPx, onSelectPlayer, selectedPlayerId }: Props) {
+export function PlayViewer({ compiled, time, widthPx, onSelectPlayer, selectedPlayerId = null, highlight }: Props) {
   const { play, offense, defense } = compiled;
   const view = useMemo(() => makeViewport(play.variant, widthPx), [play.variant, widthPx]);
   const frame = frameAt(compiled, time);
+  const highlightSet = highlight && highlight.length > 0 ? new Set(highlight) : null;
 
   const radius = Math.min(12, Math.max(6, view.scale * 0.95));
-  const hitRadius = Math.max(radius, 16);
   const fontSize = Math.max(8, radius * 1.05);
+  /** How far from a token a tap can land and still count, in pixels. Generous for small fingers. */
+  const tapReach = Math.max(radius + 6, 22);
+
+  // One handler on the stage picks the nearest token, so crowded linemen never steal a tap
+  // from the player underneath them the way per-token hit areas would.
+  const handleTap = (e: Konva.KonvaEventObject<MouseEvent | TouchEvent>) => {
+    if (!onSelectPlayer) return;
+    const pos = e.target.getStage()?.getPointerPosition();
+    if (!pos) return;
+    type Hit = { player: FormationPlayer; side: Side; d: number };
+    const hits: Hit[] = [];
+    const consider = (p: FormationPlayer, side: Side) => {
+      const at = toPx(view, frame.players.get(p.id)!);
+      const d = Math.hypot(at.x - pos.x, at.y - pos.y);
+      if (d <= tapReach) hits.push({ player: p, side, d });
+    };
+    for (const p of offense.players) consider(p, "offense");
+    for (const p of defense.players) consider(p, "defense");
+    hits.sort((a, b) => a.d - b.d);
+    if (hits[0]) onSelectPlayer(hits[0].player, hits[0].side);
+  };
 
   const token = (p: FormationPlayer, side: Side) => {
     const pos = toPx(view, frame.players.get(p.id)!);
     const label = p.label ?? p.position;
     const selected = selectedPlayerId === p.id;
+    const lit = highlightSet?.has(p.id) ?? false;
+    const dimmed = highlightSet ? !lit : false;
     const color = side === "offense" ? COLORS.offense : COLORS.defense;
     const hasBall = frame.carrier === p.id;
     const stroke = selected ? COLORS.selected : hasBall ? COLORS.ball : "#ffffff";
     const strokeWidth = selected || hasBall ? 3 : 1.5;
-    const select = () => onSelectPlayer(p, side);
     return (
-      <Group key={p.id} x={pos.x} y={pos.y} onClick={select} onTap={select}>
-        {/* Larger invisible hit area so small fingers can tap a token. */}
-        <Circle radius={hitRadius} fill="transparent" />
+      <Group key={p.id} x={pos.x} y={pos.y} opacity={dimmed ? 0.35 : 1} listening={false}>
+        {lit && <Circle radius={radius + 5} stroke={COLORS.los} strokeWidth={3} listening={false} />}
         <Circle radius={radius} fill={color} stroke={stroke} strokeWidth={strokeWidth} />
         {side === "offense" ? (
           <Text
@@ -67,11 +91,11 @@ export function PlayViewer({ compiled, time, widthPx, onSelectPlayer, selectedPl
   const ballPx = toPx(view, frame.ball);
 
   return (
-    <Stage width={view.widthPx} height={view.heightPx} style={{ width: view.widthPx, height: view.heightPx }}>
+    <Stage width={view.widthPx} height={view.heightPx} style={{ width: view.widthPx, height: view.heightPx }} onClick={handleTap} onTap={handleTap}>
       <Layer>
         <Field view={view} />
       </Layer>
-      <Layer>
+      <Layer listening={false}>
         {defense.players.map((p) => token(p, "defense"))}
         {offense.players.map((p) => token(p, "offense"))}
         <Group x={ballPx.x} y={ballPx.y} listening={false}>

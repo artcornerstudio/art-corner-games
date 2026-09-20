@@ -1,17 +1,23 @@
 import Ajv from "ajv";
-import type { Formation, Play, PositionBook } from "../types/play";
+import type { DiagramRef, Formation, Lesson, Play, PositionBook, Unit } from "../types/play";
 import formationSchema from "./schema/formation.schema.json";
+import lessonSchema from "./schema/lesson.schema.json";
 import playSchema from "./schema/play.schema.json";
+import unitSchema from "./schema/unit.schema.json";
 
 export interface ContentBundle {
   formations: Formation[];
   plays: Play[];
   positions: PositionBook;
+  lessons: Lesson[];
+  units: Unit[];
 }
 
 const ajv = new Ajv({ allErrors: true });
 const validFormation = ajv.compile(formationSchema);
 const validPlay = ajv.compile(playSchema);
+const validLesson = ajv.compile(lessonSchema);
+const validUnits = ajv.compile(unitSchema);
 
 const PLAYER_COUNT: Record<string, number> = { tackle11: 11, flag5: 5, flag7: 7 };
 
@@ -94,6 +100,63 @@ export function validateContent(bundle: ContentBundle): string[] {
       if (e.t < lastT) problems.push(`play ${play.id}: ball events must be in time order`);
       lastT = e.t;
     }
+  }
+
+  // Lessons and units.
+  if (!validUnits(bundle.units)) problems.push(...schemaErrors("units", validUnits.errors));
+  const unitIds = new Set(bundle.units.map((u) => u.id));
+  const playsById = new Map(bundle.plays.map((p) => [p.id, p] as const));
+
+  const diagramPlayers = (d: DiagramRef): Set<string> | null => {
+    if (d.playId) {
+      const play = playsById.get(d.playId);
+      const o = play && formationsById.get(play.formationId);
+      const de = play && formationsById.get(play.defenseFormationId);
+      if (!play || !o || !de) return null;
+      return new Set([...o.players, ...de.players].map((p) => p.id));
+    }
+    if (d.formationId) {
+      const f = formationsById.get(d.formationId);
+      return f ? new Set(f.players.map((p) => p.id)) : null;
+    }
+    return null;
+  };
+  const checkDiagram = (where: string, d: DiagramRef | undefined) => {
+    if (!d) return null;
+    if (!d.playId && !d.formationId) problems.push(`${where}: diagram needs a playId or a formationId`);
+    if (d.playId && !playsById.has(d.playId)) problems.push(`${where}: unknown play ${d.playId}`);
+    if (d.formationId && !formationsById.has(d.formationId)) problems.push(`${where}: unknown formation ${d.formationId}`);
+    const players = diagramPlayers(d);
+    for (const h of d.highlight ?? []) {
+      if (players && !players.has(h)) problems.push(`${where}: highlight names unknown player ${h}`);
+    }
+    return players;
+  };
+
+  const lessonIds = new Set<string>();
+  for (const lesson of bundle.lessons) {
+    if (!validLesson(lesson)) {
+      problems.push(...schemaErrors(`lesson ${lesson.id ?? "?"}`, validLesson.errors));
+      continue;
+    }
+    if (lessonIds.has(lesson.id)) problems.push(`lesson ${lesson.id}: duplicate id`);
+    lessonIds.add(lesson.id);
+    if (!unitIds.has(lesson.unitId)) problems.push(`lesson ${lesson.id}: unknown unit ${lesson.unitId}`);
+    lesson.steps.forEach((step, i) => checkDiagram(`lesson ${lesson.id} step ${i + 1}`, step.diagram));
+    lesson.quiz.forEach((q, i) => {
+      const where = `lesson ${lesson.id} question ${i + 1}`;
+      if (q.type === "choice") {
+        checkDiagram(where, q.diagram);
+        if (q.answer >= q.choices.length) problems.push(`${where}: answer index ${q.answer} is out of range`);
+        if (new Set(q.choices).size !== q.choices.length) problems.push(`${where}: duplicate choices`);
+      } else {
+        const players = checkDiagram(where, q.diagram);
+        if (players && !players.has(q.target)) problems.push(`${where}: tap target ${q.target} is not on the diagram`);
+      }
+    });
+  }
+  for (const u of bundle.units) {
+    if (!bundle.lessons.some((l) => l.unitId === u.id)) problems.push(`unit ${u.id}: has no lessons`);
   }
 
   return problems;

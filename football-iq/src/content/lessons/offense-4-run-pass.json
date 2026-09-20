@@ -1,0 +1,21 @@
+{
+  "id": "offense-run-pass",
+  "unitId": "offense",
+  "order": 4,
+  "title": "Run vs pass",
+  "summary": "How to tell a run play from a pass play, and what the blockers do on each.",
+  "steps": [
+    { "text": "Every play is a run or a pass. On a run, the quarterback hands the ball to a runner, who carries it. Watch Inside Zone: the handoff, then the running back looks for a gap.", "diagram": { "playId": "inside-zone-right", "highlight": ["qb", "rb"] } },
+    { "text": "On a run, the linemen fire forward and push the defense. They are trying to move people and open a lane. Watch how the whole line steps right together.", "diagram": { "playId": "inside-zone-right", "highlight": ["lt", "lg", "c", "rg", "rt", "te"] } },
+    { "text": "On a pass, the quarterback drops back and throws to a receiver running a route. Watch Slant-Flat: the quarterback takes two steps back and throws quickly.", "diagram": { "playId": "slant-flat", "highlight": ["qb", "wr-x"] } },
+    { "text": "On a pass, the linemen do the opposite of a run. They step back and form a wall, called the pocket, to keep the rushers away from the quarterback. That is pass protection.", "diagram": { "playId": "slant-flat", "highlight": ["lt", "lg", "c", "rg", "rt"] } },
+    { "text": "So watch the line. Linemen going forward means run. Linemen backing up means pass. Defenses read that too, which is why play action, a fake run, works so well." }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "On a run play, what do the offensive linemen do right after the snap?", "choices": ["Step back and form a pocket", "Fire forward and push the defense", "Run routes"], "answer": 1, "explanation": "On runs the line drives forward to open a lane." },
+    { "type": "choice", "prompt": "On a pass play, what is the pocket?", "choices": ["The end zone", "The wall of blockers protecting the quarterback", "A pass to the running back"], "answer": 1, "explanation": "Linemen step back and form a pocket around the quarterback so he has time to throw." },
+    { "type": "tap", "prompt": "Tap the player who ends up with the ball on this run play.", "diagram": { "playId": "inside-zone-right" }, "target": "rb", "explanation": "The running back takes the handoff and carries the ball." },
+    { "type": "choice", "prompt": "You see the linemen backing up at the snap. What kind of play is it probably?", "choices": ["A run", "A pass", "A punt"], "answer": 1, "explanation": "Linemen backing up means pass protection, so it is a pass." },
+    { "type": "choice", "prompt": "What is play action?", "choices": ["A fake handoff followed by a pass", "A trick kick", "Two runs in a row"], "answer": 0, "explanation": "The quarterback fakes a run to fool the defense, then throws." }
+  ]
+}

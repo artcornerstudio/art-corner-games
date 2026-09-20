@@ -1,0 +1,21 @@
+{
+  "id": "rules-field",
+  "unitId": "rules",
+  "order": 1,
+  "title": "The field and yard lines",
+  "summary": "How long the field is, what the lines mean, and where the line of scrimmage is.",
+  "steps": [
+    { "text": "A football field is 100 yards long from goal line to goal line, plus a 10-yard end zone at each end. It is about 53 yards wide. Everything you see painted on the grass is there to tell you where the ball is.", "diagram": { "formationId": "singleback-tackle" } },
+    { "text": "There is a white line every 5 yards. Every 10 yards a number is painted on the field. The numbers count up from each goal line to the 50-yard line in the middle, so there are two 40-yard lines, two 30s, and so on.", "diagram": { "formationId": "singleback-tackle" } },
+    { "text": "The small dashes between the lines are hash marks. Each one is 1 yard. The ball is always placed on or between the hash marks to start a play, so it is never too close to a sideline.", "diagram": { "formationId": "singleback-tackle" } },
+    { "text": "The dashed yellow line in our diagrams is the line of scrimmage. It is an imaginary line across the field at the spot of the ball. The offense lines up on its side, the defense on the other, and nobody crosses it until the ball is snapped.", "diagram": { "formationId": "singleback-tackle", "highlight": ["c"] } },
+    { "text": "On TV you also see a yellow line for the first-down marker, the spot the offense needs to reach. In this game the yellow line is the line of scrimmage. The white line with the number tells you where you are." }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "How long is a football field from goal line to goal line?", "choices": ["50 yards", "100 yards", "120 yards"], "answer": 1, "explanation": "It is 100 yards between the goal lines. Add the two 10-yard end zones and the whole field is 120 yards." },
+    { "type": "choice", "prompt": "How far apart are the white lines across the field?", "choices": ["Every 1 yard", "Every 5 yards", "Every 10 yards"], "answer": 1, "explanation": "A white line every 5 yards. The numbers come every 10 yards." },
+    { "type": "choice", "prompt": "What is the biggest number painted on the field?", "choices": ["50", "100", "10"], "answer": 0, "explanation": "The numbers go up to 50 in the middle of the field, then count back down toward the other goal line." },
+    { "type": "choice", "prompt": "What is the line of scrimmage?", "choices": ["The line the kicker stands on", "The imaginary line at the spot of the ball where the play starts", "The sideline"], "answer": 1, "explanation": "The line of scrimmage runs across the field where the ball sits. Nobody crosses it until the snap." },
+    { "type": "tap", "prompt": "Tap the player who is standing right over the ball on the line of scrimmage.", "diagram": { "formationId": "singleback-tackle" }, "target": "c", "explanation": "That is the center. He snaps the ball to start every play." }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "id": "rules-scoring",
+  "unitId": "rules",
+  "order": 3,
+  "title": "How you score",
+  "summary": "Touchdowns, extra points, two-point tries, field goals, and safeties.",
+  "steps": [
+    { "text": "A touchdown is worth 6 points. You score one by carrying the ball into the end zone or catching it while you are in the end zone. The ball only has to break the plane of the goal line, the front edge of the end zone.", "diagram": { "playId": "play-action-post" } },
+    { "text": "After a touchdown the team gets a bonus try. Kick the ball through the goal posts for 1 extra point, or run a play from the 2-yard line and score again for 2 points. The 2-point try is harder, so teams usually kick." },
+    { "text": "A field goal is a kick through the goal posts on a normal down, usually on 4th down when the offense is close but stuck. It is worth 3 points. From farther than about 50 yards it gets very hard." },
+    { "text": "A safety is the rare one. If the offense gets tackled in its own end zone, the defense gets 2 points and also gets the ball back. Two points and the ball is a big swing." },
+    { "text": "So remember: touchdown 6, extra point 1, two-point try 2, field goal 3, safety 2. A team that scores a touchdown and kicks the extra point gets 7." }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "How many points is a touchdown?", "choices": ["3", "6", "7"], "answer": 1, "explanation": "Six points. The extra point kick after it makes 7." },
+    { "type": "choice", "prompt": "How many points is a field goal?", "choices": ["1", "2", "3"], "answer": 2, "explanation": "A field goal is 3 points: a kick through the goal posts on a normal down." },
+    { "type": "choice", "prompt": "After a touchdown, a team runs a play from the 2-yard line and scores. How many points did that try add?", "choices": ["1", "2", "6"], "answer": 1, "explanation": "That is the 2-point try. Kicking would have been 1 point." },
+    { "type": "choice", "prompt": "A defense tackles the ball carrier in the offense's own end zone. What is that called and what is it worth?", "choices": ["A touchdown, 6 points", "A safety, 2 points", "A field goal, 3 points"], "answer": 1, "explanation": "A safety gives the defense 2 points and the ball." },
+    { "type": "choice", "prompt": "A team scores 2 touchdowns, kicks both extra points, and adds a field goal. What is its score?", "choices": ["15", "17", "20"], "answer": 1, "explanation": "6 + 1 = 7, twice is 14, plus 3 for the field goal is 17." }
+  ]
+}

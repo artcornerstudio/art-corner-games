@@ -1,0 +1,20 @@
+{
+  "id": "base-34-tackle",
+  "name": "3-4 Defense",
+  "variant": "tackle11",
+  "side": "defense",
+  "description": "Three linemen with a nose tackle over the center, and four linebackers. The outside linebackers stand on the edges and can rush or drop back.",
+  "players": [
+    { "id": "nt", "position": "NT", "x": 0, "y": 1 },
+    { "id": "lde", "position": "DE", "x": -4, "y": 1 },
+    { "id": "rde", "position": "DE", "x": 4, "y": 1 },
+    { "id": "lolb", "position": "LB", "label": "OLB", "x": -7.5, "y": 2 },
+    { "id": "rolb", "position": "LB", "label": "OLB", "x": 7.5, "y": 2 },
+    { "id": "lilb", "position": "LB", "label": "ILB", "x": -2.5, "y": 4.5 },
+    { "id": "rilb", "position": "LB", "label": "ILB", "x": 2.5, "y": 4.5 },
+    { "id": "lcb", "position": "CB", "x": -19, "y": 6 },
+    { "id": "rcb", "position": "CB", "x": 19, "y": 6 },
+    { "id": "fs", "position": "S", "label": "FS", "x": -2, "y": 13 },
+    { "id": "ss", "position": "S", "label": "SS", "x": 8, "y": 10 }
+  ]
+}

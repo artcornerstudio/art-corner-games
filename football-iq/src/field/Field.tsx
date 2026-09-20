@@ -70,7 +70,7 @@ export function Field({ view }: Props) {
   elements.push(<Line key="los" points={[0, losPy, widthPx, losPy]} stroke={COLORS.los} strokeWidth={2.5} dash={[scale, scale * 0.6]} />);
 
   return (
-    <Group listening={false}>
+    <Group>
       <Rect x={0} y={0} width={widthPx} height={heightPx} fill={COLORS.grass} />
       {elements}
     </Group>

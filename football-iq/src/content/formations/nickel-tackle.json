@@ -1,0 +1,20 @@
+{
+  "id": "nickel-tackle",
+  "name": "Nickel Defense",
+  "variant": "tackle11",
+  "side": "defense",
+  "description": "A passing-down defense. One linebacker leaves and a fifth defensive back, the nickel back, comes in to cover the extra receiver.",
+  "players": [
+    { "id": "lde", "position": "DE", "x": -5.5, "y": 1 },
+    { "id": "ldt", "position": "DT", "x": -2, "y": 1 },
+    { "id": "rdt", "position": "DT", "x": 3, "y": 1 },
+    { "id": "rde", "position": "DE", "x": 7, "y": 1 },
+    { "id": "mike", "position": "LB", "label": "M", "x": -1, "y": 4.5 },
+    { "id": "will", "position": "LB", "label": "W", "x": 3.5, "y": 4.5 },
+    { "id": "lcb", "position": "CB", "x": -20, "y": 6 },
+    { "id": "rcb", "position": "CB", "x": 20, "y": 6 },
+    { "id": "nb", "position": "CB", "label": "N", "x": 12, "y": 5 },
+    { "id": "fs", "position": "S", "label": "FS", "x": -3, "y": 13 },
+    { "id": "ss", "position": "S", "label": "SS", "x": 5, "y": 11 }
+  ]
+}

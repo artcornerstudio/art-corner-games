@@ -78,6 +78,8 @@ export interface Play {
   description: string;
   /** Why it works, one or two sentences. */
   why: string;
+  /** "demo" marks a teaching diagram that the Play Lab does not list. */
+  tags?: string[];
   assignments: Assignment[];
   ball: {
     /** Player id holding the ball at the snap, usually the center. */
@@ -93,3 +95,57 @@ export interface PositionInfo {
 }
 
 export type PositionBook = Record<string, PositionInfo>;
+
+/** A diagram shown in a lesson step or quiz question: a play (animated) or a formation (static). */
+export interface DiagramRef {
+  playId?: string;
+  formationId?: string;
+  /** Player ids drawn with a ring while everyone else is dimmed. */
+  highlight?: string[];
+}
+
+export interface LessonStep {
+  /** One short paragraph in kid language. */
+  text: string;
+  diagram?: DiagramRef;
+}
+
+export interface ChoiceQuestion {
+  type: "choice";
+  prompt: string;
+  choices: string[];
+  /** Index into choices. */
+  answer: number;
+  explanation: string;
+  diagram?: DiagramRef;
+}
+
+export interface TapQuestion {
+  type: "tap";
+  prompt: string;
+  diagram: DiagramRef;
+  /** Player id the kid must tap. */
+  target: string;
+  explanation: string;
+}
+
+export type Question = ChoiceQuestion | TapQuestion;
+
+export interface Lesson {
+  id: string;
+  unitId: string;
+  order: number;
+  title: string;
+  /** One sentence shown on the lesson card. */
+  summary: string;
+  steps: LessonStep[];
+  quiz: Question[];
+}
+
+export interface Unit {
+  id: string;
+  order: number;
+  title: string;
+  blurb: string;
+  badge: string;
+}

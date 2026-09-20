@@ -1,0 +1,5 @@
+[
+  { "id": "rules", "order": 1, "title": "Field and rules", "blurb": "Yard lines, downs, scoring, the penalties everyone should know, and how flag football is different.", "badge": "Rules Rookie" },
+  { "id": "offense", "order": 2, "title": "Offense basics", "blurb": "The 11 positions, the line of scrimmage, 4 formations, run vs pass, and 6 routes.", "badge": "Offense Starter" },
+  { "id": "defense", "order": 3, "title": "Defense basics", "blurb": "The 11 positions, X's on a diagram, 4-3 vs 3-4, and man vs zone.", "badge": "Defense Starter" }
+]

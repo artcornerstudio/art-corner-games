@@ -1,0 +1,21 @@
+{
+  "id": "defense-xs",
+  "unitId": "defense",
+  "order": 2,
+  "title": "X's on a diagram",
+  "summary": "How to read the defense on a play diagram: the front, the second level, and the secondary.",
+  "steps": [
+    { "text": "On a diagram the defense is drawn as X's. Unlike the offense, there is no rule about how many defenders must be on the line. Coaches line them up wherever they want.", "diagram": { "formationId": "base-43-tackle" } },
+    { "text": "Read the defense in layers. The first layer is the front: the defenders right on the line of scrimmage. Count them. Four X's on the line is a four-man front.", "diagram": { "formationId": "base-43-tackle", "highlight": ["lde", "ldt", "rdt", "rde"] } },
+    { "text": "The second layer is the linebackers, a few yards behind the line. The front and the linebackers together are called the box, the crowded area in the middle where runs go.", "diagram": { "formationId": "base-43-tackle", "highlight": ["lde", "ldt", "rdt", "rde", "will", "mike", "sam"] } },
+    { "text": "The third layer is the secondary: cornerbacks out wide and safeties deep. Two safeties deep means the defense is worried about long passes. One safety deep means an extra defender is up near the box to stop the run.", "diagram": { "formationId": "base-43-tackle", "highlight": ["lcb", "rcb", "fs", "ss"] } },
+    { "text": "So when you look at the X's: count the front, count the box, count the safeties. Those three numbers tell you what the defense expects." }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "On a play diagram, which team is drawn as X's?", "choices": ["Offense", "Defense", "Both"], "answer": 1, "explanation": "X's are the defense. O's are the offense." },
+    { "type": "choice", "prompt": "What is the box?", "choices": ["The end zone", "The area where the defensive line and linebackers are crowded together", "The kicker's spot"], "answer": 1, "explanation": "The box is the front plus the linebackers, the crowd in the middle." },
+    { "type": "choice", "prompt": "Count the X's on the line of scrimmage in a 4-3 defense. How many?", "choices": ["3", "4", "7"], "answer": 1, "explanation": "Four linemen up front. The 4 in 4-3 is the front." },
+    { "type": "tap", "prompt": "Tap a defender in the front, right on the line of scrimmage.", "diagram": { "formationId": "base-43-tackle" }, "target": "ldt", "explanation": "That is a defensive tackle. The ends and tackles make up the front." },
+    { "type": "choice", "prompt": "The defense has only one safety deep and an extra defender near the box. What is it worried about?", "choices": ["A long pass", "A run", "A punt"], "answer": 1, "explanation": "Pulling a safety close to the box adds a run defender. Two deep safeties means they fear the pass." }
+  ]
+}

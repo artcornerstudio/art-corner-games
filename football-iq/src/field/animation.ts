@@ -109,3 +109,20 @@ export function frameAt(c: CompiledPlay, t: number): PlayFrame {
   }
   return { players, ball, carrier };
 }
+
+/** A still diagram: two formations facing each other with nobody moving. */
+export function compileFormations(offense: Formation, defense: Formation): CompiledPlay {
+  const play: Play = {
+    id: `static-${offense.id}-${defense.id}`,
+    name: offense.name,
+    variant: offense.variant,
+    type: "run",
+    formationId: offense.id,
+    defenseFormationId: defense.id,
+    description: offense.description,
+    why: "",
+    assignments: [],
+    ball: { start: offense.players[0]?.id ?? "", events: [] },
+  };
+  return compilePlay(play, offense, defense);
+}
