@@ -1,0 +1,16 @@
+{
+  "QB": { "name": "Quarterback", "side": "offense", "job": "Takes the snap and decides: hand the ball off, throw it, or run with it. The leader of the offense." },
+  "RB": { "name": "Running back", "side": "offense", "job": "Lines up behind the quarterback. Takes handoffs and runs with the ball, or catches short passes." },
+  "WR": { "name": "Wide receiver", "side": "offense", "job": "Lines up wide, runs a route, and catches passes. Fast and good with their hands." },
+  "TE": { "name": "Tight end", "side": "offense", "job": "Lines up next to the tackle. Half blocker, half receiver." },
+  "C": { "name": "Center", "side": "offense", "job": "Snaps the ball to the quarterback, then blocks. The middle of the offensive line." },
+  "G": { "name": "Guard", "side": "offense", "job": "Lines up next to the center and blocks for runs and passes." },
+  "T": { "name": "Tackle", "side": "offense", "job": "The outside blocker on the line. Protects the quarterback's blind side on passes." },
+  "DE": { "name": "Defensive end", "side": "defense", "job": "Lines up on the end of the defensive line. Rushes the passer and sets the edge against runs." },
+  "DT": { "name": "Defensive tackle", "side": "defense", "job": "The big player in the middle of the line. Plugs running lanes and pushes the pocket." },
+  "LB": { "name": "Linebacker", "side": "defense", "job": "Lines up behind the line. Tackles runners, covers short passes, and sometimes blitzes." },
+  "CB": { "name": "Cornerback", "side": "defense", "job": "Covers the wide receivers. Fast, and tries to stop catches." },
+  "S": { "name": "Safety", "side": "defense", "job": "The last line of defense. Lines up deep and helps against long passes and big runs." },
+  "R": { "name": "Rusher", "side": "defense", "job": "In flag football, the one defender allowed to chase the quarterback. Starts 7 yards back." },
+  "D": { "name": "Defender", "side": "defense", "job": "In flag football, covers a receiver or a zone and pulls the flag of the ball carrier." }
+}

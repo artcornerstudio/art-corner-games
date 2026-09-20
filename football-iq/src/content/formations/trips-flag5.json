@@ -1,0 +1,14 @@
+{
+  "id": "trips-flag5",
+  "name": "Trips Right (Flag 5v5)",
+  "variant": "flag5",
+  "side": "offense",
+  "description": "Five players and no blocking. The center snaps and then runs a route too. Three receivers bunch to the right so the defense has to spread out.",
+  "players": [
+    { "id": "c", "position": "C", "x": 0, "y": -0.5 },
+    { "id": "qb", "position": "QB", "x": 0, "y": -5 },
+    { "id": "wr-l", "position": "WR", "label": "X", "x": -11, "y": -0.5 },
+    { "id": "wr-r", "position": "WR", "label": "Z", "x": 10, "y": -0.5 },
+    { "id": "rb", "position": "RB", "x": 6, "y": -2.5 }
+  ]
+}
