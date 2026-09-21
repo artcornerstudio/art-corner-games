@@ -169,3 +169,36 @@ main { max-width: 720px; margin: 0 auto; padding: 16px 16px 40px; }
 .badge-art-locked img { filter: grayscale(1) opacity(0.45); }
 .badge-line { display: flex; align-items: center; gap: 10px; }
 .card-unit .badge-art { float: right; margin-left: 8px; }
+
+/* Coach */
+.coach-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.coach-mascot { width: 48px; height: 48px; flex: 0 0 auto; object-fit: contain; }
+.coach-title { margin: 2px 0 0; font-size: 1.1rem; }
+.coach-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.coach-chip { min-height: 44px; border-radius: 999px; padding: 8px 16px; }
+.coach-chip:disabled { opacity: 0.6; cursor: wait; }
+.coach-chip-on { background: var(--green); border-color: var(--green); color: var(--green-ink); }
+.coach-answer { min-height: 24px; margin-top: 10px; }
+.coach-thinking { margin: 0; font-weight: 700; }
+.coach-text { margin: 0; font-size: 1.05rem; line-height: 1.45; }
+.coach-offline { margin: 6px 0 0; font-size: 0.85rem; }
+
+/* Drive simulator and designer */
+.playbook { max-height: 420px; overflow-y: auto; padding-right: 4px; }
+.drive-log summary { cursor: pointer; font-weight: 700; margin-top: 10px; }
+.drive-log ol { padding-left: 20px; color: var(--muted); font-size: 0.95rem; }
+.designer-row { display: grid; gap: 10px; grid-template-columns: 1fr 1fr; }
+.designer-mode { margin: 4px 0 6px; }
+.designer-help { margin: 0 0 8px; }
+.legal { border-left: 6px solid var(--line); }
+.legal-ok { border-left-color: var(--green); }
+.legal-bad { border-left-color: var(--defense); }
+.legal ul { margin: 0; padding-left: 20px; }
+.choices-row { grid-template-columns: repeat(2, 1fr); }
+.choices-row .choice { min-height: 48px; padding: 8px 12px; }
+.text-input { min-height: 48px; font: inherit; padding: 8px 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--card); color: var(--ink); }
+.results-table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+.results-table th, .results-table td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.playbook-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.playbook-list li { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.playbook-list .controls { margin: 0; }

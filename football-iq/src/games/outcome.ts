@@ -70,16 +70,93 @@ function situationFactor(s: Situation | undefined, p: Profile): Profile {
   return out;
 }
 
+/** What the defense calls on a given snap. */
+export type DefenseLook = "base" | "cover1" | "cover2" | "cover3" | "blitz" | "light-box" | "stacked-box";
+
+export const LOOK_LABEL: Record<DefenseLook, string> = {
+  base: "Base 4-3",
+  cover1: "Cover 1 man",
+  cover2: "Cover 2",
+  cover3: "Cover 3",
+  blitz: "Blitz",
+  "light-box": "Nickel, light box",
+  "stacked-box": "Eight in the box",
+};
+
+/** One line the drive simulator shows after the play: what the defense did and how the call matched it. */
+export function matchupNote(play: Play, look: DefenseLook): string {
+  const tags = new Set(play.tags ?? []);
+  const isRun = play.type === "run";
+  switch (look) {
+    case "blitz":
+      if (tags.has("hot") || tags.has("screen") || tags.has("quick")) return "They blitzed, and a quick throw is exactly how you punish a blitz.";
+      if (tags.has("deep")) return "They blitzed. A deep drop against six rushers is asking to get sacked.";
+      return isRun ? "They blitzed. Runs can slip through a blitz, but it is a coin flip." : "They blitzed and the quarterback had to hurry.";
+    case "cover2":
+      if (tags.has("beats-cover2")) return "They sat in Cover 2 and you hit the soft spot along the sideline.";
+      if (tags.has("deep")) return "Two deep safeties are built to stop deep shots.";
+      return isRun ? "Only seven in the box against Cover 2. A run is a fair fight." : "Cover 2 takes away the flats; the middle is where the room is.";
+    case "cover3":
+      if (tags.has("beats-cover3")) return "Three deep defenders, four deep receivers. Somebody had to be open.";
+      if (tags.has("quick") || tags.has("screen")) return "Cover 3 gives up the short stuff underneath. Good call.";
+      return isRun ? "Cover 3 keeps eight near the line. Runs are harder." : "Cover 3 is strong deep. Take what is underneath.";
+    case "cover1":
+      if (tags.has("beats-man")) return "Man coverage, and crossing routes make man defenders collide.";
+      if (isRun) return "Man coverage means defenders have their backs to the run. Good time to run.";
+      return "Man coverage: a receiver has to win his one-on-one.";
+    case "light-box":
+      return isRun ? "Only six in the box. Running into a light box is free yards." : "A light box means extra defensive backs. Passing into that is harder.";
+    case "stacked-box":
+      return isRun ? "Eight in the box. There was nowhere to run." : "Eight in the box means only three in coverage. Pass all day.";
+    default:
+      return isRun ? "A base defense against a run: a fair fight up front." : "A base defense against a pass: throw to whoever wins.";
+  }
+}
+
+/** How the defense's call changes the odds. Returns multipliers for bust and boom. */
+function lookFactor(play: Play, look: DefenseLook): { bust: number; boom: number; turnover: number } {
+  const tags = new Set(play.tags ?? []);
+  const isRun = play.type === "run";
+  const quick = tags.has("quick") || tags.has("screen") || tags.has("hot");
+  switch (look) {
+    case "blitz":
+      if (quick) return { bust: 0.55, boom: 1.6, turnover: 0.8 };
+      if (tags.has("deep")) return { bust: 1.6, boom: 0.6, turnover: 1.4 };
+      return isRun ? { bust: 1.1, boom: 1.4, turnover: 1 } : { bust: 1.3, boom: 0.9, turnover: 1.3 };
+    case "cover2":
+      if (tags.has("beats-cover2")) return { bust: 0.6, boom: 1.5, turnover: 0.8 };
+      if (tags.has("deep")) return { bust: 1.4, boom: 0.6, turnover: 1.4 };
+      return isRun ? { bust: 0.9, boom: 1.1, turnover: 1 } : { bust: 1, boom: 1, turnover: 1 };
+    case "cover3":
+      if (tags.has("beats-cover3")) return { bust: 0.6, boom: 1.5, turnover: 0.8 };
+      if (quick) return { bust: 0.8, boom: 1.1, turnover: 0.9 };
+      return isRun ? { bust: 1.2, boom: 0.8, turnover: 1 } : { bust: 1.1, boom: 0.8, turnover: 1.1 };
+    case "cover1":
+      if (tags.has("beats-man")) return { bust: 0.6, boom: 1.5, turnover: 0.8 };
+      return isRun ? { bust: 0.85, boom: 1.2, turnover: 1 } : { bust: 1, boom: 1.1, turnover: 1.1 };
+    case "light-box":
+      return isRun ? { bust: 0.6, boom: 1.6, turnover: 0.9 } : { bust: 1.2, boom: 0.8, turnover: 1.2 };
+    case "stacked-box":
+      return isRun ? { bust: 1.7, boom: 0.5, turnover: 1.1 } : { bust: 0.7, boom: 1.5, turnover: 0.9 };
+    default:
+      return { bust: 1, boom: 1, turnover: 1 };
+  }
+}
+
 export interface ResolveInput {
   play: Play;
   situation?: Situation;
+  /** What the defense called. Omit for the play's own drawn defense. */
+  look?: DefenseLook;
   /** Seed for repeatable results; omit for a real random play. */
   seed?: number;
 }
 
-export function resolvePlay({ play, situation, seed }: ResolveInput): Outcome {
+export function resolvePlay({ play, situation, look, seed }: ResolveInput): Outcome {
   const rand = seed === undefined ? Math.random : mulberry32(seed);
-  const p = situationFactor(situation, adjust(play, baseProfile(play)));
+  const base = situationFactor(situation, adjust(play, baseProfile(play)));
+  const f = look ? lookFactor(play, look) : { bust: 1, boom: 1, turnover: 1 };
+  const p: Profile = { ...base, bust: Math.min(0.85, base.bust * f.bust), boom: Math.min(0.6, base.boom * f.boom), turnover: Math.min(0.2, base.turnover * f.turnover) };
   const roll = rand();
   const distance = situation?.distance ?? 10;
   const room = situation ? 100 - situation.yardLine : 100;

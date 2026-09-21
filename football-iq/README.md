@@ -49,6 +49,45 @@ npm run build      # production build in dist/
 4. Every question has a one-line `explanation` shown after the answer, right or wrong.
 5. Run `npm run validate`.
 
+## AI Coach
+
+The "Ask Coach" card lets a kid tap a question about the play on screen
+("What happens?", "Why does it work?", "Who is open?", "What beats it?",
+"What does this position do?", "What happened?") and get a two-to-four
+sentence answer from Coach, a friendly youth football coach voiced by Claude.
+
+It is optional. With no coach configured the card still works: answers come
+from built-in templates made from the play's own description, and the card
+says "Offline coach". Nothing is sent anywhere.
+
+To turn on the live coach, deploy the tiny proxy in `coach/` (a Cloudflare
+Worker that holds the API key) and point the build at it:
+
+```bash
+cd coach && npm install
+npx wrangler secret put ANTHROPIC_API_KEY
+npx wrangler deploy
+cd .. && VITE_COACH_URL=https://football-iq-coach.<you>.workers.dev npm run build
+```
+
+See `coach/README.md` for local dev and for locking the Worker to your Pages
+origin with `ALLOWED_ORIGIN`. `.env.example` lists the variable.
+
+Safety rules, enforced in the Worker and the client:
+
+- No free-form chat. The kid only picks from the fixed question menu; the
+  browser sends a question type plus the play facts, never typed text.
+- The prompt is built server-side from those facts. Unknown question types,
+  extra fields, and strings over 600 characters are rejected.
+- Coach answers only from the facts, in 2 to 4 plain sentences, with no
+  markdown or emoji. If the facts do not cover it, Coach says so and gives one
+  general football tip.
+- Coach never mentions real players, teams, gambling, or injuries, and never
+  asks the kid for personal information.
+- No memory: every question is a fresh request. Short answers (about 200
+  tokens), a 15 second timeout, and a per-IP rate limit keep costs and misuse
+  small.
+
 ## Content rules
 
 - Kid language: short sentences, no jargon without a one-line explanation.

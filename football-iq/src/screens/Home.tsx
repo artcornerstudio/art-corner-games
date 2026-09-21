@@ -3,7 +3,7 @@ import { resetProgress, setSound, setTier, useProgress } from "../progress";
 import { setSoundEnabled } from "../sound";
 import type { Tier } from "../types/play";
 
-export type GameId = "call-the-play" | "spot-the-position" | "beat-the-coverage" | "hot-read" | "fourth-down";
+export type GameId = "call-the-play" | "spot-the-position" | "beat-the-coverage" | "hot-read" | "fourth-down" | "drive-simulator" | "play-designer";
 
 interface Props {
   onOpenPlayLab: () => void;
@@ -17,6 +17,8 @@ const GAMES: { id: GameId; title: string; blurb: string; key: string }[] = [
   { id: "beat-the-coverage", title: "Beat the Coverage", blurb: "Read the safeties before the snap and pick the play that beats the shell.", key: "beat-the-coverage" },
   { id: "hot-read", title: "Hot Read", blurb: "The blitz is coming. Tap the receiver who gets the ball right now.", key: "hot-read-tackle11" },
   { id: "fourth-down", title: "Fourth-Down Decision", blurb: "Go, punt, or kick? Read the score, the clock, and the spot.", key: "fourth-down" },
+  { id: "drive-simulator", title: "Drive Simulator", blurb: "Call a whole drive against a defense that reads down and distance. Four drives, keep score.", key: "drive-simulator" },
+  { id: "play-designer", title: "Play Designer", blurb: "Line up the O's, draw the routes, test it against three defenses, save it to your playbook.", key: "play-designer" },
 ];
 
 const TIER_NOTE: Record<Tier, string> = {
@@ -86,7 +88,7 @@ export function Home({ onOpenPlayLab, onOpenUnit, onOpenGame }: Props) {
               <button key={g.id} type="button" className="card card-unit" onClick={() => onOpenGame(g.id)}>
                 <h3>{g.title}</h3>
                 <p>{g.blurb}</p>
-                <span className="pill">{best ? `Best: ${best.best} of ${best.total}` : "Not played yet"}</span>
+                <span className="pill">{g.id === "play-designer" ? "Create" : best ? `Best: ${best.best} of ${best.total}` : "Not played yet"}</span>
               </button>
             );
           })}

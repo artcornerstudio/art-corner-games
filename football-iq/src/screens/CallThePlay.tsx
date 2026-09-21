@@ -6,6 +6,8 @@ import { CALL_THE_PLAY_ROUNDS, describeSpot, downLabel, optionLabel, POINTS } fr
 import { fieldGoalChance, puntResult, resolvePlay, type Outcome } from "../games/outcome";
 import { recordGame, useTier } from "../progress";
 import { playSound } from "../sound";
+import { CoachPanel } from "../coach/CoachPanel";
+import { coachContextFor } from "../coach/context";
 import type { Situation, SituationOption, Variant } from "../types/play";
 import { shuffle } from "../utils/random";
 
@@ -153,6 +155,9 @@ export function CallThePlay({ onBack }: Props) {
                 <section className="card special-call">
                   <p>{phase.specialStory}</p>
                 </section>
+              )}
+              {compiled && (
+                <CoachPanel context={coachContextFor(compiled, tier, { situation: round.situation, outcome: phase.outcome ?? undefined })} questions={["why-it-works", "explain-result", "what-beats-it"]} />
               )}
               {phase.outcome && (
                 <section className="card outcome">

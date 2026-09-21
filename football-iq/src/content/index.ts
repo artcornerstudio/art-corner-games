@@ -19,10 +19,18 @@ export function situationsForVariant(variant: Variant): Situation[] {
   return situations.filter((s) => s.variant === variant);
 }
 
-/** Formations the Spot the Position game can draw for a variant, by side. */
+/** Kickoff, punt, and field goal units: real formations, but not ones a kid designs plays from. */
+export function isSpecialTeams(f: Formation): boolean {
+  return /kickoff|punt|^fg-/.test(f.id);
+}
+
+/** Regular offense and defense formations for a variant, by side (no special teams units). */
 export function formationsForVariant(variant: Variant): { offense: Formation[]; defense: Formation[] } {
-  const mine = formations.filter((f) => f.variant === variant);
-  return { offense: mine.filter((f) => f.side === "offense"), defense: mine.filter((f) => f.side === "defense") };
+  const mine = formations.filter((f) => f.variant === variant && !isSpecialTeams(f));
+  const preferred = ["singleback-tackle", "shotgun-tackle", "i-form-tackle", "spread-tackle", "base-43-tackle"];
+  const rank = (f: Formation) => (preferred.includes(f.id) ? preferred.indexOf(f.id) : 99);
+  const sorted = [...mine].sort((a, b) => rank(a) - rank(b) || a.name.localeCompare(b.name));
+  return { offense: sorted.filter((f) => f.side === "offense"), defense: sorted.filter((f) => f.side === "defense") };
 }
 
 export function formationById(id: string): Formation {

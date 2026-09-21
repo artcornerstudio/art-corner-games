@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { BeatTheCoverage } from "./screens/BeatTheCoverage";
 import { CallThePlay } from "./screens/CallThePlay";
+import { DriveSimulator } from "./screens/DriveSimulator";
+import { PlayDesigner } from "./screens/PlayDesigner";
 import { FourthDown } from "./screens/FourthDown";
 import { Home } from "./screens/Home";
 import { HotRead } from "./screens/HotRead";
@@ -19,7 +21,9 @@ type Screen =
   | { name: "spot-the-position" }
   | { name: "beat-the-coverage" }
   | { name: "hot-read" }
-  | { name: "fourth-down" };
+  | { name: "fourth-down" }
+  | { name: "drive-simulator" }
+  | { name: "play-designer" };
 
 export default function App() {
   const [screen, setScreen] = useState<Screen>({ name: "home" });
@@ -41,6 +45,10 @@ export default function App() {
       return <HotRead onBack={() => go({ name: "home" })} />;
     case "fourth-down":
       return <FourthDown onBack={() => go({ name: "home" })} />;
+    case "drive-simulator":
+      return <DriveSimulator onBack={() => go({ name: "home" })} />;
+    case "play-designer":
+      return <PlayDesigner onBack={() => go({ name: "home" })} />;
     case "unit":
       return <UnitScreen unitId={screen.unitId} onBack={() => go({ name: "home" })} onOpenLesson={(lessonId) => go({ name: "lesson", lessonId })} />;
     case "lesson":
