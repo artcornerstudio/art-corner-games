@@ -1,0 +1,23 @@
+{
+  "id": "positions-ol-feet",
+  "unitId": "positions",
+  "order": 2,
+  "title": "Offensive line: feet and hands",
+  "summary": "How a lineman stands, takes his first step, blocks for a run, blocks for a pass, and pulls to lead a runner.",
+  "steps": [
+    {"text": "Offensive linemen are the five big players in front of the quarterback. Their job is to block, which means getting in a defender's way without holding him. Good blocking starts with the stance. Feet about shoulder width apart, knees bent, back flat, head up, and one hand on the ground. The lineman is ready to move any direction.", "diagram": {"playId": "inside-zone-right", "highlight": ["lt", "lg", "c", "rg", "rt"]}},
+    {"text": "The first step is short. About six inches, in the direction the play is going. A short step keeps the lineman balanced. A big first step throws his weight forward, and a defender can push him right over. Watch all five linemen take their first step to the right together on this run.", "diagram": {"playId": "inside-zone-right", "highlight": ["lt", "lg", "c", "rg", "rt"]}},
+    {"text": "On a run play the lineman drives. He fires out low, gets his hands inside on the defender's chest, and keeps pushing. The secret is his feet. They never stop moving, short choppy steps, so the defender keeps going backward. If his feet stop, the block stops. Always block with the hands and shoulder, head up, never with the top of the helmet.", "diagram": {"playId": "inside-zone-right", "highlight": ["rg", "rt", "rb"]}},
+    {"text": "On a pass play the lineman does the opposite. He does not charge forward. He takes a kick step, a quick step backward with his outside foot, and sets up like a wall. The rule is simple: keep the rusher in front of you. If the rusher gets past you, he gets the quarterback.", "diagram": {"playId": "slant-flat", "highlight": ["lt", "lg", "c", "rg", "rt"]}},
+    {"text": "Hands matter on a pass block too. The lineman keeps his hands inside, on the rusher's chest, and punches when the rusher gets close. Inside hands are strong hands. Hands outside on the shoulders look like holding, and holding is a penalty.", "diagram": {"playId": "slant-flat", "highlight": ["lt", "rt", "lde", "rde"]}},
+    {"text": "Sometimes a lineman leaves his spot on purpose. That is a pull. On Power O the left guard steps back, runs behind the center, and leads the runner through the hole on the right. Pulling gives the offense an extra blocker where the ball is going.", "diagram": {"playId": "power-o", "highlight": ["lg", "rb"]}},
+    {"text": "Why does all this footwork matter? A lineman is not just big. He wins by being balanced and quick. Short first step, feet always moving on a run, kick step and stay in front on a pass. The runner and the quarterback are only as safe as the feet in front of them.", "diagram": {"playId": "power-o", "highlight": ["lt", "lg", "c", "rg", "rt"]}}
+  ],
+  "quiz": [
+    {"type": "choice", "prompt": "How long should a lineman's first step be?", "choices": ["Short, about six inches", "As long as possible", "He should not step at all"], "answer": 0, "explanation": "A short step keeps him balanced. A long step leans him forward where a defender can knock him over."},
+    {"type": "choice", "prompt": "On a run block, what keeps the defender moving backward?", "choices": ["Yelling loudly", "Feet that keep chopping", "Standing still and pushing"], "answer": 1, "explanation": "The push comes from the feet. When the feet stop, the block stops."},
+    {"type": "choice", "prompt": "What is a kick step?", "choices": ["Kicking the football", "A quick step backward to set up for a pass block", "A step forward to drive a defender"], "answer": 1, "explanation": "On a pass the lineman steps back and sets like a wall, keeping the rusher in front of him."},
+    {"type": "tap", "prompt": "Tap the lineman who pulls on Power O.", "diagram": {"playId": "power-o"}, "target": "lg", "explanation": "The left guard leaves his spot, runs behind the center, and leads the runner through the hole."},
+    {"type": "choice", "prompt": "Where should a blocker's hands be?", "choices": ["Inside, on the chest", "Outside, on the shoulders", "Grabbing the jersey"], "answer": 0, "explanation": "Inside hands are strong and legal. Outside hands and grabbing look like holding, which is a penalty."}
+  ]
+}

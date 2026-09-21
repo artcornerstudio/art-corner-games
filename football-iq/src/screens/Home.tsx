@@ -3,12 +3,13 @@ import { resetProgress, setSound, setTier, useProgress } from "../progress";
 import { setSoundEnabled } from "../sound";
 import type { Tier } from "../types/play";
 
-export type GameId = "call-the-play" | "spot-the-position" | "beat-the-coverage" | "hot-read" | "fourth-down" | "drive-simulator" | "play-designer";
+export type GameId = "call-the-play" | "spot-the-position" | "beat-the-coverage" | "hot-read" | "fourth-down" | "drive-simulator" | "play-designer" | "season";
 
 interface Props {
   onOpenPlayLab: () => void;
   onOpenUnit: (unitId: string) => void;
   onOpenGame: (game: GameId) => void;
+  onOpenCoachView: () => void;
 }
 
 const GAMES: { id: GameId; title: string; blurb: string; key: string }[] = [
@@ -19,6 +20,7 @@ const GAMES: { id: GameId; title: string; blurb: string; key: string }[] = [
   { id: "fourth-down", title: "Fourth-Down Decision", blurb: "Go, punt, or kick? Read the score, the clock, and the spot.", key: "fourth-down" },
   { id: "drive-simulator", title: "Drive Simulator", blurb: "Call a whole drive against a defense that reads down and distance. Four drives, keep score.", key: "drive-simulator" },
   { id: "play-designer", title: "Play Designer", blurb: "Line up the O's, draw the routes, test it against three defenses, save it to your playbook.", key: "play-designer" },
+  { id: "season", title: "Season", blurb: "Four games against teams with tendencies. Call your offense and your defense. Win three for the title.", key: "season" },
 ];
 
 const TIER_NOTE: Record<Tier, string> = {
@@ -37,7 +39,7 @@ export function BadgeIcon({ unitId, earned, size = 36 }: { unitId: string; earne
   );
 }
 
-export function Home({ onOpenPlayLab, onOpenUnit, onOpenGame }: Props) {
+export function Home({ onOpenPlayLab, onOpenUnit, onOpenGame, onOpenCoachView }: Props) {
   const progress = useProgress();
   const tier: Tier = progress.tier ?? "rookie";
   const sound = progress.sound ?? true;
@@ -88,7 +90,9 @@ export function Home({ onOpenPlayLab, onOpenUnit, onOpenGame }: Props) {
               <button key={g.id} type="button" className="card card-unit" onClick={() => onOpenGame(g.id)}>
                 <h3>{g.title}</h3>
                 <p>{g.blurb}</p>
-                <span className="pill">{g.id === "play-designer" ? "Create" : best ? `Best: ${best.best} of ${best.total}` : "Not played yet"}</span>
+                <span className="pill">
+                  {g.id === "play-designer" ? "Create" : g.id === "season" ? (progress.season?.games.length ? `${progress.season.games.filter((x) => x.won).length}-${progress.season.games.filter((x) => !x.won && x.yourPoints !== x.theirPoints).length} so far` : "Not played yet") : best ? `Best: ${best.best} of ${best.total}` : "Not played yet"}
+                </span>
               </button>
             );
           })}
@@ -136,7 +140,10 @@ export function Home({ onOpenPlayLab, onOpenUnit, onOpenGame }: Props) {
 
       <footer className="footer">
         <p>No accounts, no ads, nothing leaves your device. Progress is saved in this browser only.</p>
-        <button type="button" className="btn btn-ghost btn-small" onClick={reset}>Reset progress</button>
+        <div className="controls">
+          <button type="button" className="btn btn-small" onClick={onOpenCoachView}>Coach view (grown-ups)</button>
+          <button type="button" className="btn btn-ghost btn-small" onClick={reset}>Reset progress</button>
+        </div>
       </footer>
     </main>
   );

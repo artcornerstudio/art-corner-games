@@ -1,0 +1,24 @@
+{
+  "id": "coach-game-plan",
+  "unitId": "coach",
+  "order": 1,
+  "title": "Game-plan a quarter",
+  "summary": "A game plan is a short list of plays you trust, plus a plan for third down and the red zone. Balance keeps the defense guessing.",
+  "steps": [
+    { "text": "A game plan is a short list of plays you trust. Not the whole playbook, just the plays your team runs well. Before the quarter starts, write them down: two runs, two quick passes, one shot play, one screen. Six plays is plenty." },
+    { "text": "Start with two runs. Inside zone goes between the tackles and picks up steady yards. Pair it with a run that goes wide, so the defense has to guard the middle and the edge at the same time.", "diagram": { "playId": "inside-zone-right", "highlight": ["rb"] } },
+    { "text": "Next, two quick passes. Slant-flat is a great one. The ball is out in two steps, so the pass rush never gets there. Quick passes are your safe throws on first and second down.", "diagram": { "playId": "slant-flat", "highlight": ["wr-x", "rb"] } },
+    { "text": "Add one shot play. Four Verticals sends every receiver deep. It will not work every time, but when it hits, it is a touchdown. Save it for when the defense creeps up to stop your runs.", "diagram": { "playId": "four-verticals", "highlight": ["wr-x", "wr-h", "wr-y", "wr-z"] } },
+    { "text": "Finish with one screen. The running back screen lets the pass rush come, then tosses the ball over their heads. The linemen run out in front to block. It punishes a defense that is rushing too hard.", "diagram": { "playId": "rb-screen", "highlight": ["rb"] } },
+    { "text": "Now plan two situations. On third and short, know your run; on third and long, know your best pass. In the red zone, the last 20 yards before the end zone, the field is short and the defense packs in tight. Quick passes and tough runs work best there." },
+    { "text": "Balance keeps the defense guessing. Run, then pass, then run, and they never know what is coming. But if a play is working, call it again, even twice in a row. Make them stop it before you change." },
+    { "text": "Try it in the Drive Simulator and in Season mode. Pick your six plays before the drive starts, then call them like a coach. Watch what the defense does, and change your plan when a play stops working." }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "How many plays belong in a game plan for one quarter?", "choices": ["Every play in the playbook", "About six you trust", "Just one"], "answer": 1, "explanation": "A short list you trust is easier to call and easier to run well. Six plays covers runs, quick passes, a shot, and a screen." },
+    { "type": "tap", "prompt": "Tap the running back, labeled RB. On the screen play he is the one who gets the ball.", "diagram": { "playId": "rb-screen" }, "target": "rb", "explanation": "The running back slips out to the side while the linemen let the rushers through. Then the ball goes over their heads to him." },
+    { "type": "choice", "prompt": "It is 3rd and 8. Which game-plan play fits best?", "choices": ["Inside zone run", "A pass that can gain 8 yards", "A quarterback kneel"], "answer": 1, "explanation": "Third and long needs yards, and a short run rarely gets 8. Your game plan should already say which pass you call here." },
+    { "type": "choice", "prompt": "Your inside zone run just gained 7 yards. What do you call next?", "choices": ["Never run it again this game", "Run it again, because it is working", "A punt"], "answer": 1, "explanation": "Calling the same play twice is fine when it works. Make the defense prove it can stop it before you change." },
+    { "type": "choice", "prompt": "You are in the red zone. Why do quick passes and tough runs beat deep throws there?", "choices": ["The field is short, so deep routes run out of room", "Deep passes are against the rules there", "The clock stops in the red zone"], "answer": 0, "explanation": "Inside the 20 the end zone is close, so deep routes have nowhere to go and the defense packs in tight. Short and quick wins there." }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "coach-tendencies",
+  "unitId": "coach",
+  "order": 2,
+  "title": "Read their tendencies",
+  "summary": "A tendency is what a team does most in a situation. Keep a chart, count what the defense shows before the snap, then call the play that beats it.",
+  "steps": [
+    { "text": "A tendency is what a team does most in a certain spot. Every team has them, even good ones. If a defense blitzes on third and long four times out of five, that is a tendency. Once you know it, you can plan for it." },
+    { "text": "Keep a tendency chart. It is just a list: the situation, and what they did. Common ones: on third and long they blitz, on first down they run, near the goal line they stack the box, which means crowding extra defenders near the line. Write it down during the game, because you will forget by halftime." },
+    { "text": "Before the snap, count. First, how many safeties are deep? Two deep safeties means they are worried about the pass, like Cover 2. One deep safety means the other one came down to help against the run or to blitz.", "diagram": { "formationId": "cover2-tackle", "highlight": ["fs", "ss"] } },
+    { "text": "Second, count the players in the box. The box is the area near the line, between the tackles and a few yards deep. Seven or more in the box means they want to stop the run. With one safety deep and a crowded box, expect man coverage or a blitz.", "diagram": { "formationId": "cover1-tackle", "highlight": ["will", "mike", "sam", "ss"] } },
+    { "text": "Now call the play that beats what they do most. If your chart says they blitz on third and long, have a hot route ready. The quarterback throws the slant right away, before the blitz gets home.", "diagram": { "playId": "blitz-hot-slant", "highlight": ["wr-x", "mike", "ss"] } },
+    { "text": "If they sit in Cover 2 every first down, call Smash. The hitch holds the corner short and the corner route lands in the soft spot behind him. You are not guessing. You are using what they showed you.", "diagram": { "playId": "smash-vs-cover2", "highlight": ["wr-z", "wr-y"] } },
+    { "text": "Tendencies work on defense too. If the offense runs on first down every time, stack the box on first down. If they love to throw deep, keep two safeties back. Make them do the thing they are bad at." },
+    { "text": "One catch: good teams know their own tendencies and break them on purpose. So count every snap and keep your chart up to date. If the safety who always came down suddenly stays deep, trust your eyes, not your chart." }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "What is a tendency?", "choices": ["A penalty for lining up wrong", "What a team does most often in a situation", "The name of a route"], "answer": 1, "explanation": "A tendency is a habit. Find it and you can call the play that beats it." },
+    { "type": "tap", "prompt": "Tap the free safety, labeled FS. Count how many safeties are deep before every snap.", "diagram": { "formationId": "cover2-tackle" }, "target": "fs", "explanation": "Two deep safeties means the defense is set up to stop the pass. That changes what you call." },
+    { "type": "choice", "prompt": "Your chart says this defense blitzes on third and long. It is 3rd and 9. What do you call?", "choices": ["A slow, deep drop-back pass", "A quick pass with a hot route", "A kneel"], "answer": 1, "explanation": "A blitz gets to the quarterback fast, so a slow play gets sacked. A hot route throws the ball before the blitz arrives." },
+    { "type": "choice", "prompt": "You count eight defenders in the box and one deep safety. What is the defense expecting?", "choices": ["A run", "A deep pass", "A punt"], "answer": 0, "explanation": "A crowded box is built to stop the run. That is a good time to throw a quick pass to the open space outside." },
+    { "type": "choice", "prompt": "You are on defense. The offense has run the ball on first down all game. What do you do on first down?", "choices": ["Play two deep safeties", "Stack the box", "Drop everyone into coverage"], "answer": 1, "explanation": "Bring an extra defender near the line to meet the run. Make them beat you with the thing they have not been doing." }
+  ]
+}

@@ -47,5 +47,19 @@
     "title": "Flag 7v7",
     "blurb": "Seven-on-seven flag football: formations, no-blocking rules, and zone defense.",
     "badge": "Flag Captain"
+  },
+  {
+    "id": "positions",
+    "order": 8,
+    "title": "Position deep dives",
+    "blurb": "What a quarterback reads, how linemen move their feet, how receivers get open, how defensive backs and linebackers do their jobs.",
+    "badge": "Position Specialist"
+  },
+  {
+    "id": "coach",
+    "order": 9,
+    "title": "Coach mode",
+    "blurb": "Game-plan a quarter, spot the other team's tendencies, and adjust at halftime.",
+    "badge": "Head Coach"
   }
 ]

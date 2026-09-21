@@ -28,6 +28,8 @@ export interface Progress {
   tier?: Tier;
   /** Sound effects on or off. Defaults to on. */
   sound?: boolean;
+  /** Season mode results, most recent season only. */
+  season?: { games: { opponentId: string; yourPoints: number; theirPoints: number; won: boolean }[]; startedAt: string; championships: number };
 }
 
 const KEY = "football-iq.progress.v1";
@@ -114,6 +116,39 @@ export function useSound(): boolean {
 
 export function setSound(sound: boolean) {
   write({ ...read(), sound });
+}
+
+export function recordSeasonGame(opponentId: string, yourPoints: number, theirPoints: number, gamesPerSeason: number): Progress["season"] {
+  const current = read();
+  const prev = current.season ?? { games: [], startedAt: new Date().toISOString(), championships: 0 };
+  const games = prev.games.length >= gamesPerSeason ? [] : [...prev.games];
+  games.push({ opponentId, yourPoints, theirPoints, won: yourPoints > theirPoints });
+  const wins = games.filter((g) => g.won).length;
+  const champion = games.length === gamesPerSeason && wins >= Math.ceil(gamesPerSeason * 0.75);
+  const season = { games, startedAt: games.length === 1 ? new Date().toISOString() : prev.startedAt, championships: prev.championships + (champion ? 1 : 0) };
+  write({ ...current, season });
+  return season;
+}
+
+export function resetSeason() {
+  const current = read();
+  write({ ...current, season: { games: [], startedAt: new Date().toISOString(), championships: current.season?.championships ?? 0 } });
+}
+
+/** Everything saved on this device, for the coach dashboard export. No personal data is ever stored. */
+export function exportProgress(): string {
+  return JSON.stringify(read(), null, 2);
+}
+
+export function importProgress(json: string): boolean {
+  try {
+    const parsed = JSON.parse(json) as Progress;
+    if (!parsed || parsed.version !== 1 || typeof parsed.lessons !== "object") return false;
+    write({ ...EMPTY, ...parsed });
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 export function recordGame(gameId: string, score: number, total: number): GameProgress {

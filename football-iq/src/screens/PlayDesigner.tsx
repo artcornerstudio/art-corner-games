@@ -6,6 +6,7 @@ import { Diagram, useContainerWidth } from "../field/Diagram";
 import { buildPlay, canRunRoute, checkLegality, deletePlay, loadPlaybook, savePlay, type SavedPlay } from "../games/designer";
 import { LOOK_LABEL, resolvePlay, type DefenseLook, type Outcome } from "../games/outcome";
 import { playSound } from "../sound";
+import { ShareControls } from "./SharePlaybook";
 import type { Assignment, Formation, FormationPlayer, Point, Variant } from "../types/play";
 
 interface Props {
@@ -292,6 +293,8 @@ export function PlayDesigner({ onBack }: Props) {
           {savedNote && <p className="badge-earned">{savedNote}</p>}
         </section>
       )}
+
+      <ShareControls key={playbook.length} />
 
       <section className="card">
         <h2>My Playbook</h2>

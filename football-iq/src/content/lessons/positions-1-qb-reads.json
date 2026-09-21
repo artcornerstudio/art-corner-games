@@ -1,0 +1,23 @@
+{
+  "id": "positions-qb-reads",
+  "unitId": "positions",
+  "order": 1,
+  "title": "Quarterback: the reads",
+  "summary": "What the quarterback looks for before the snap, and how he reads one defender after the snap to pick where the ball goes.",
+  "steps": [
+    {"text": "The quarterback has a job before the ball is ever snapped. He looks at the defense and asks three questions. How many safeties are deep? Where is the middle linebacker? Is anybody sneaking up to blitz? The answers tell him what the defense is about to do.", "diagram": {"playId": "slant-flat", "highlight": ["qb"]}},
+    {"text": "First, count the safeties. A safety is a defender lined up far back from the line. One safety deep in the middle usually means Cover 1 or Cover 3. Two safeties deep, one on each side, usually means Cover 2. This one look tells the quarterback where the open spots will be.", "diagram": {"playId": "smash-vs-cover2", "highlight": ["fs", "ss"]}},
+    {"text": "Second, find the middle linebacker. He stands in the middle behind the defensive line, and he is the boss of the defense. Knowing where he is tells the quarterback where the middle of the field is crowded, and which way the linemen should slide to block.", "diagram": {"playId": "slant-flat", "highlight": ["mike"]}},
+    {"text": "Third, spot a blitzer. A blitz is when the defense sends extra rushers. A blitzer often gives it away: a linebacker or safety creeps up close to the line before the snap. Here the middle linebacker and the strong safety are both coming. When the quarterback sees that, he knows to throw fast.", "diagram": {"playId": "blitz-hot-slant", "highlight": ["mike", "ss"]}},
+    {"text": "After the snap the quarterback does not watch everyone. He reads one defender and throws away from him. On Slant-Flat that defender is the cornerback. X runs a slant inside and the running back runs to the flat. If the cornerback follows the slant, throw the flat. If he stays wide for the flat, throw the slant.", "diagram": {"playId": "slant-flat", "highlight": ["qb", "wr-x", "rb", "lcb"]}},
+    {"text": "On Smash the read is the safety. Z runs a short hitch and Y runs a corner route deep to the sideline, right over the top of him. The quarterback watches the safety on that side. If the safety races out to the corner route, throw the hitch underneath. If the safety is late, throw the corner.", "diagram": {"playId": "smash-vs-cover2", "highlight": ["wr-z", "wr-y", "rcb", "ss"]}},
+    {"text": "Why read one defender instead of everyone? Because it is fast. A good play puts two receivers in one defender's area. He can only guard one. The quarterback watches him, sees which way he goes, and throws to the other receiver. Pre-snap tells him what to expect. Post-snap tells him where to throw.", "diagram": {"playId": "slant-flat", "highlight": ["lcb"]}}
+  ],
+  "quiz": [
+    {"type": "choice", "prompt": "Before the snap the quarterback sees two safeties deep, one on each side. What coverage is that most likely?", "choices": ["Cover 1", "Cover 2", "A blitz"], "answer": 1, "explanation": "Two deep safeties split the deep field in half. That is the look of Cover 2."},
+    {"type": "tap", "prompt": "Tap the defender the quarterback reads on Slant-Flat.", "diagram": {"playId": "slant-flat"}, "target": "lcb", "explanation": "The cornerback is stuck between the slant and the flat. Whichever one he takes, the quarterback throws the other."},
+    {"type": "choice", "prompt": "On Slant-Flat, the cornerback runs inside with the slant. Where does the ball go?", "choices": ["To the running back in the flat", "To the slant anyway", "Deep to Z"], "answer": 0, "explanation": "If the cornerback follows the slant inside, nobody is left in the flat. Throw away from him."},
+    {"type": "tap", "prompt": "Tap the defender the quarterback watches on Smash.", "diagram": {"playId": "smash-vs-cover2"}, "target": "ss", "explanation": "The corner route lands between the cornerback and the safety. The quarterback watches whether the safety can get there in time."},
+    {"type": "choice", "prompt": "A safety creeps up close to the line right before the snap. What is that a clue for?", "choices": ["He is tired", "He might be blitzing", "The play is over"], "answer": 1, "explanation": "A defender who moves up to the line before the snap is often about to rush. Seeing it early lets the quarterback throw fast."}
+  ]
+}

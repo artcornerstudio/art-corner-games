@@ -202,3 +202,34 @@ main { max-width: 720px; margin: 0 auto; padding: 16px 16px 40px; }
 .playbook-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
 .playbook-list li { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
 .playbook-list .controls { margin: 0; }
+
+/* Season */
+.scoreboard { display: flex; gap: 10px; justify-content: space-between; background: var(--green); color: var(--green-ink); border-color: var(--green); }
+.score { display: flex; flex-direction: column; align-items: center; flex: 1; }
+.score .team { font-weight: 700; font-size: 0.95rem; opacity: 0.95; }
+.score .pts { font-size: 2rem; font-weight: 800; }
+.situation-defense { background: var(--defense); border-color: var(--defense); }
+.schedule { list-style: none; padding: 0; margin: 8px 0; font-weight: 700; }
+
+/* Coach view and print */
+.plain { list-style: none; padding: 0; margin: 0; }
+.lesson-block h3 { margin-top: 12px; }
+.cards { display: grid; gap: 16px; grid-template-columns: 1fr; }
+@media (min-width: 720px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+.play-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; break-inside: avoid; page-break-inside: avoid; }
+.play-card header h2 { font-size: 1.2rem; margin-bottom: 2px; }
+.play-card-field { overflow: hidden; border-radius: 10px; margin: 8px 0; width: 320px; max-width: 100%; }
+.play-card p { font-size: 0.92rem; }
+@media print {
+  .no-print, .controls, .scroll-hint { display: none !important; }
+  body { background: #fff; }
+  main { max-width: none; padding: 0; }
+  .card, .play-card { border: 1px solid #999; box-shadow: none; }
+  .cards { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .play-card { padding: 8px; }
+  .results-table th, .results-table td { padding: 4px; }
+}
+
+/* Share */
+.share-url { width: 100%; margin: 8px 0; font-size: 0.85rem; }
+.qr { display: block; margin: 8px auto; border-radius: 8px; background: #fff; padding: 6px; }
