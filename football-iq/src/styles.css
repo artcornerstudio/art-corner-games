@@ -233,3 +233,101 @@ main { max-width: 720px; margin: 0 auto; padding: 16px 16px 40px; }
 /* Share */
 .share-url { width: 100%; margin: 8px 0; font-size: 0.85rem; }
 .qr { display: block; margin: 8px auto; border-radius: 8px; background: #fff; padding: 6px; }
+
+/* Stadium home screen */
+.stadium {
+  position: relative;
+  padding-top: 20px;
+  background:
+    radial-gradient(circle at 6% 4%, rgba(255, 255, 255, 0.9) 0, rgba(255, 255, 255, 0.35) 60px, transparent 130px),
+    radial-gradient(circle at 94% 4%, rgba(255, 255, 255, 0.9) 0, rgba(255, 255, 255, 0.35) 60px, transparent 130px),
+    repeating-linear-gradient(180deg, transparent 0 48px, rgba(255, 255, 255, 0.28) 48px 51px),
+    linear-gradient(180deg, #f5f1e3 0%, #eef0dc 34%, #b9cf86 55%, #5f9a48 78%, #2e7d32 100%);
+  background-attachment: scroll;
+  max-width: none;
+  padding-left: max(16px, calc((100% - 960px) / 2));
+  padding-right: max(16px, calc((100% - 960px) / 2));
+}
+.stadium > * { position: relative; }
+.stadium .hero { padding: 6px 0 12px; }
+.hero-text { flex: 1 1 260px; }
+.display { font-size: clamp(2.3rem, 7vw, 3.6rem); font-weight: 900; letter-spacing: -0.02em; color: var(--green); line-height: 1; }
+.sparkle { color: var(--gold); font-size: 0.55em; vertical-align: top; margin-left: 4px; }
+.stadium .eyebrow { font-size: 0.9rem; }
+.stadium .lede { color: #3b4437; max-width: 44ch; }
+.mascot-stand { position: relative; width: 150px; height: 150px; flex: 0 0 auto; }
+.mascot-stand .mascot { position: relative; z-index: 1; width: 140px; height: 140px; }
+.mascot-turf {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 34px; border-radius: 8px;
+  background: repeating-linear-gradient(90deg, #2e7d32 0 12px, #3a8f3f 12px 24px);
+  border: 2px solid #1b5e20; transform: skewX(-18deg);
+  box-shadow: 0 6px 0 #1b5e20;
+}
+@media (max-width: 480px) { .mascot-stand { width: 110px; height: 110px; } .mascot-stand .mascot { width: 100px; height: 100px; } .mascot-turf { height: 26px; } }
+
+.banner {
+  display: inline-block; margin: 18px 0 12px; padding: 8px 26px 8px 16px;
+  background: var(--green); color: #fff; text-transform: uppercase; letter-spacing: 0.06em;
+  font-size: 1.05rem; font-weight: 900; border-radius: 8px 0 0 8px;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 50%, 100% 100%, 0 100%);
+  box-shadow: 0 3px 0 #0f3d14;
+}
+
+.ucard {
+  display: flex; flex-direction: column; text-align: left; font: inherit; color: var(--ink); cursor: pointer;
+  width: 100%; padding: 0; overflow: hidden; border-radius: 18px; border: 3px solid var(--c-line);
+  background: var(--c-bg); box-shadow: 0 6px 0 var(--c-line), 0 10px 24px rgba(0, 0, 0, 0.14);
+  transition: transform 120ms ease;
+}
+.ucard:active { transform: translateY(3px); box-shadow: 0 3px 0 var(--c-line), 0 6px 14px rgba(0, 0, 0, 0.14); }
+.ucard:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.ucard-art { display: grid; place-items: center; height: 96px; background: var(--c-head); border-bottom: 3px solid var(--c-line); }
+.ucard-art img { width: 72px; height: 72px; filter: drop-shadow(0 3px 0 rgba(0, 0, 0, 0.25)); }
+.ucard-body { padding: 12px 14px 6px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.ucard-title { font-size: 1.25rem; font-weight: 900; color: var(--c-title); }
+.ucard-blurb { font-size: 0.95rem; color: var(--c-text); line-height: 1.35; }
+.ucard-foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; padding: 6px 14px 14px; }
+.ucard-progress { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.segments { display: flex; gap: 3px; height: 14px; padding: 2px; border-radius: 999px; background: rgba(0, 0, 0, 0.12); border: 2px solid var(--c-line); }
+.seg-fill { flex: 1; border-radius: 999px; background: transparent; }
+.seg-fill.on { background: var(--c-fill); }
+.ucard-count { font-weight: 800; font-size: 0.9rem; color: var(--c-title); }
+.badge-slot { width: 44px; height: 48px; display: grid; place-items: center; }
+.shield { width: 34px; height: 40px; border: 2px dashed var(--c-line); opacity: 0.7; clip-path: polygon(0 0, 100% 0, 100% 62%, 50% 100%, 0 62%); background: rgba(255, 255, 255, 0.25); }
+
+.ucard-green { --c-line: #1b5e20; --c-head: #2e7d32; --c-bg: #2f8f3a; --c-title: #fff; --c-text: #eaf5ea; --c-fill: #f0e442; }
+.ucard-gold { --c-line: #b9770e; --c-head: #e6a419; --c-bg: #fbf1d3; --c-title: #4a3300; --c-text: #5a4a1e; --c-fill: #e69f00; }
+.ucard-blue { --c-line: #0b4f80; --c-head: #1b7bbf; --c-bg: #2e8fd0; --c-title: #fff; --c-text: #e6f2fb; --c-fill: #f0e442; }
+.ucard-orange { --c-line: #9a3f00; --c-head: #d55e00; --c-bg: #fde7d6; --c-title: #5a2600; --c-text: #6b3a1a; --c-fill: #d55e00; }
+.ucard-plum { --c-line: #7a3f63; --c-head: #b0568f; --c-bg: #f6e6f0; --c-title: #4b2040; --c-text: #5e3552; --c-fill: #cc79a7; }
+
+.gcard {
+  display: flex; flex-direction: column; gap: 4px; text-align: left; font: inherit; color: var(--ink); cursor: pointer;
+  width: 100%; padding: 14px; border-radius: 16px; border: 3px solid var(--c-line); border-top-width: 10px;
+  background: var(--card); box-shadow: 0 5px 0 var(--c-line), 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+.gcard:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--c-line); }
+.gcard:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.gcard-title { font-size: 1.15rem; font-weight: 900; }
+.gcard-blurb { color: var(--muted); font-size: 0.95rem; line-height: 1.35; }
+.gcard .pill { align-self: flex-start; margin-top: 6px; }
+.gcard-green { --c-line: #1b5e20; } .gcard-gold { --c-line: #c98a00; } .gcard-blue { --c-line: #0b4f80; } .gcard-orange { --c-line: #9a3f00; } .gcard-plum { --c-line: #7a3f63; }
+
+.lab-card { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; box-shadow: 0 6px 0 #0f3d14; }
+.stadium .badges { background: rgba(255, 255, 255, 0.8); padding: 12px; border-radius: 14px; }
+.stadium .tier-card, .stadium .footer { background: rgba(255, 255, 255, 0.9); border-radius: 14px; padding: 16px; }
+.stadium .footer { margin-top: 16px; }
+
+@media (prefers-color-scheme: dark) {
+  .stadium {
+    background:
+      radial-gradient(circle at 6% 4%, rgba(255, 255, 255, 0.35) 0, rgba(255, 255, 255, 0.12) 60px, transparent 130px),
+      radial-gradient(circle at 94% 4%, rgba(255, 255, 255, 0.35) 0, rgba(255, 255, 255, 0.12) 60px, transparent 130px),
+      repeating-linear-gradient(180deg, transparent 0 48px, rgba(255, 255, 255, 0.12) 48px 51px),
+      linear-gradient(180deg, #1a1d18 0%, #1f2a1c 34%, #24461f 60%, #1b3d1a 100%);
+  }
+  .display { color: #9ad48f; }
+  .stadium .lede { color: #cfd8c9; }
+  .stadium .badges, .stadium .tier-card, .stadium .footer { background: rgba(28, 33, 27, 0.9); }
+  .gcard { background: #1c211b; }
+}
