@@ -5,6 +5,9 @@ import { Diagram } from "../field/Diagram";
 import { blitzers, buildHotReadRounds } from "../games/reads";
 import { recordGame, useTier } from "../progress";
 import { playSound } from "../sound";
+import { SpeakButton } from "../speech/SpeakButton";
+import { useReadAloud } from "../speech/useReadAloud";
+import { joinForSpeech } from "../speech/voice";
 import type { FormationPlayer, Variant } from "../types/play";
 
 interface Props {
@@ -56,6 +59,15 @@ export function HotRead({ onBack }: Props) {
   };
 
   const hotPlayer = compiled && play ? compiled.offense.players.find((p) => p.id === play.hot) : null;
+  const askSpeech = play ? joinForSpeech(["Blitz! The ringed defenders are coming. Tap your hot receiver.", tier === "rookie" ? "Hint: the hot receiver runs the shortest, quickest route, so the ball is out before the rush gets there." : null]) : "";
+  const answerSpeech =
+    play && picked
+      ? joinForSpeech([
+          picked.id === play.hot ? "That's your hot read. Yes!" : `Not that one. The hot read is ${hotPlayer?.label ?? hotPlayer?.position}, the ${positions[hotPlayer?.position ?? "WR"].name.toLowerCase()}.`,
+          play.description,
+        ])
+      : "";
+  useReadAloud(finished ? "" : picked ? answerSpeech : askSpeech);
 
   return (
     <main className="game">
@@ -85,7 +97,10 @@ export function HotRead({ onBack }: Props) {
       ) : play && compiled ? (
         <>
           <p className="eyebrow">Snap {index + 1} of {ROUNDS} · {score} right · {play.name}</p>
-          <h2 className="prompt">{picked ? (picked.id === play.hot ? "That's your hot read." : "Not that one.") : "Blitz! The ringed defenders are coming. Tap your hot receiver."}</h2>
+          <div className="speak-row">
+            <h2 className="prompt">{picked ? (picked.id === play.hot ? "That's your hot read." : "Not that one.") : "Blitz! The ringed defenders are coming. Tap your hot receiver."}</h2>
+            <SpeakButton text={picked ? answerSpeech : askSpeech} label="Read this snap aloud" />
+          </div>
           <Diagram
             compiled={compiled}
             controls={Boolean(picked)}

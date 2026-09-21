@@ -1,6 +1,6 @@
 import { lessonsForUnit, units } from "../content";
-import { resetProgress, setSound, setTier, useProgress } from "../progress";
-import { setSoundEnabled } from "../sound";
+import { resetProgress, setReadAloudSetting, setSound, setTier, useProgress } from "../progress";
+import { speak, speechSupported } from "../speech/engine";
 import type { Tier } from "../types/play";
 
 export type GameId = "call-the-play" | "spot-the-position" | "beat-the-coverage" | "hot-read" | "fourth-down" | "drive-simulator" | "play-designer" | "season";
@@ -46,7 +46,13 @@ export function Home({ onOpenPlayLab, onOpenUnit, onOpenGame, onOpenCoachView }:
   const progress = useProgress();
   const tier: Tier = progress.tier ?? "rookie";
   const sound = progress.sound ?? true;
-  setSoundEnabled(sound);
+  const readAloud = progress.readAloud ?? false;
+  const canSpeak = speechSupported();
+  const toggleReadAloud = (on: boolean) => {
+    setReadAloudSetting(on);
+    // Say something right away so the kid hears the voice they just turned on.
+    if (on) speak("Read aloud is on. I will read lessons and questions to you.");
+  };
 
   const reset = () => {
     if (window.confirm("Erase all progress and badges on this device?")) resetProgress();
@@ -157,8 +163,15 @@ export function Home({ onOpenPlayLab, onOpenUnit, onOpenGame, onOpenCoachView }:
         </div>
         <p className="muted tier-note">{TIER_NOTE[tier]}</p>
         <label className="sound-toggle">
-          <input type="checkbox" checked={sound} onChange={(e) => { setSound(e.target.checked); setSoundEnabled(e.target.checked); }} />
+          <input type="checkbox" checked={sound} onChange={(e) => setSound(e.target.checked)} />
           Sound effects
+        </label>
+        <label className="sound-toggle">
+          <input type="checkbox" checked={readAloud && canSpeak} disabled={!canSpeak} onChange={(e) => toggleReadAloud(e.target.checked)} />
+          <span>
+            Read aloud
+            <span className="muted toggle-note">{canSpeak ? "Coach reads lessons, questions, and answers out loud. Look for the speaker button." : "Not available in this browser."}</span>
+          </span>
         </label>
       </section>
 

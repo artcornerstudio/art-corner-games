@@ -6,6 +6,9 @@ import { describeSpot } from "../games/callThePlay";
 import { applyCall, callablePlays, describeDownAndDistance, fieldGoalDistance, newDrive, type DriveCall, type DriveState } from "../games/drive";
 import { recordGame, useTier } from "../progress";
 import { playSound } from "../sound";
+import { SpeakButton } from "../speech/SpeakButton";
+import { useReadAloud } from "../speech/useReadAloud";
+import { joinForSpeech } from "../speech/voice";
 import { CoachPanel } from "../coach/CoachPanel";
 import { coachContextFor } from "../coach/context";
 import { situationOf } from "../games/drive";
@@ -76,6 +79,11 @@ export function DriveSimulator({ onBack }: Props) {
     setFinished(null);
   };
 
+  const situationSpeech = joinForSpeech([state.ended ? "Drive over" : describeDownAndDistance(state), `Ball on ${describeSpot(state.yardLine)}`]);
+  const resultSpeech = last ? joinForSpeech([`${last.call}: ${last.outcome ? outcomeLine(last) : last.note}`, last.outcome?.story]) : "";
+  const driveSpeech = joinForSpeech([resultSpeech, state.ended ? state.ended.summary : situationSpeech, state.ended ? null : "Call the next play."]);
+  useReadAloud(finished ? "" : driveSpeech);
+
   const visible = pool.filter((p) => filter === "all" || p.type === filter);
   const fgDist = fieldGoalDistance(state.yardLine);
 
@@ -100,14 +108,17 @@ export function DriveSimulator({ onBack }: Props) {
         </section>
       ) : (
         <>
-          <section className="card situation">
-            <div className="situation-main">
-              <span className="situation-down">{state.ended ? "Drive over" : describeDownAndDistance(state)}</span>
-              <span className="situation-spot">Ball on {describeSpot(state.yardLine)}</span>
+          <section className="card situation speak-row">
+            <div>
+              <div className="situation-main">
+                <span className="situation-down">{state.ended ? "Drive over" : describeDownAndDistance(state)}</span>
+                <span className="situation-spot">Ball on {describeSpot(state.yardLine)}</span>
+              </div>
+              <p className="situation-context">
+                {state.plays} play{state.plays === 1 ? "" : "s"} · {state.yardsGained} yards this drive
+              </p>
             </div>
-            <p className="situation-context">
-              {state.plays} play{state.plays === 1 ? "" : "s"} · {state.yardsGained} yards this drive
-            </p>
+            <SpeakButton text={driveSpeech} label="Read the drive aloud" />
           </section>
 
           {last && (
