@@ -28,6 +28,8 @@ export interface Progress {
   tier?: Tier;
   /** Sound effects on or off. Defaults to on. */
   sound?: boolean;
+  /** Read lessons, questions, and feedback out loud. Defaults to off. */
+  readAloud?: boolean;
   /** Season mode results, most recent season only. */
   season?: { games: { opponentId: string; yourPoints: number; theirPoints: number; won: boolean }[]; startedAt: string; championships: number };
 }
@@ -116,6 +118,14 @@ export function useSound(): boolean {
 
 export function setSound(sound: boolean) {
   write({ ...read(), sound });
+}
+
+export function useReadAloudSetting(): boolean {
+  return useProgress().readAloud ?? false;
+}
+
+export function setReadAloudSetting(readAloud: boolean) {
+  write({ ...read(), readAloud });
 }
 
 export function recordSeasonGame(opponentId: string, yourPoints: number, theirPoints: number, gamesPerSeason: number): Progress["season"] {

@@ -6,6 +6,9 @@ import { CALL_THE_PLAY_ROUNDS, describeSpot, downLabel, optionLabel, POINTS } fr
 import { fieldGoalChance, puntResult, resolvePlay, type Outcome } from "../games/outcome";
 import { recordGame, useTier } from "../progress";
 import { playSound } from "../sound";
+import { SpeakButton } from "../speech/SpeakButton";
+import { useReadAloud } from "../speech/useReadAloud";
+import { choicesForSpeech, joinForSpeech } from "../speech/voice";
 import { CoachPanel } from "../coach/CoachPanel";
 import { coachContextFor } from "../coach/context";
 import type { Situation, SituationOption, Variant } from "../types/play";
@@ -17,6 +20,7 @@ interface Props {
 
 const VARIANTS: Variant[] = ["tackle11", "flag5"];
 
+type Round = { situation: Situation; options: SituationOption[] };
 type Phase = { kind: "choosing" } | { kind: "chosen"; option: SituationOption; outcome: Outcome | null; specialStory: string | null };
 
 function specialOutcome(s: Situation, o: SituationOption): string {
@@ -128,10 +132,14 @@ export function CallThePlay({ onBack }: Props) {
         <>
           <p className="eyebrow">Situation {index + 1} of {rounds.length} · {points} points</p>
           <SituationCard situation={round.situation} />
+          <RoundVoice round={round} phase={phase} />
 
           {phase.kind === "choosing" ? (
             <>
-              <h2 className="prompt">What is your call?</h2>
+              <div className="speak-row">
+                <h2 className="prompt">What is your call?</h2>
+                <SpeakButton text={situationSpeech(round.situation, round.options.map(optionLabel))} label="Read the situation aloud" />
+              </div>
               <div className="choices">
                 {round.options.map((o) => (
                   <button key={optionLabel(o)} type="button" className="choice" onClick={() => choose(o)}>
@@ -144,10 +152,15 @@ export function CallThePlay({ onBack }: Props) {
           ) : (
             <>
               <div className={`feedback feedback-${phase.option.verdict}`}>
-                <p className="feedback-title">
-                  {phase.option.verdict === "best" ? "Great call! +2" : phase.option.verdict === "ok" ? "Not bad. +1" : "Hmm, not that one."}
-                </p>
-                <p>{phase.option.reason}</p>
+                <div className="speak-row">
+                  <div>
+                    <p className="feedback-title">
+                      {phase.option.verdict === "best" ? "Great call! +2" : phase.option.verdict === "ok" ? "Not bad. +1" : "Hmm, not that one."}
+                    </p>
+                    <p>{phase.option.reason}</p>
+                  </div>
+                  <SpeakButton text={verdictSpeech(phase.option, phase.outcome ? outcomeLine(round.situation, phase.outcome) : phase.specialStory)} label="Read the result aloud" small />
+                </div>
               </div>
               {compiled ? (
                 <Diagram compiled={compiled} controls infoCard={false} />
@@ -182,6 +195,24 @@ export function CallThePlay({ onBack }: Props) {
       )}
     </main>
   );
+}
+
+function situationSpeech(situation: Situation, options: string[]): string {
+  return joinForSpeech([downLabel(situation.down, situation.distance, situation.yardLine), `Ball on ${describeSpot(situation.yardLine)}`, situation.context, "What is your call?", choicesForSpeech(options)]);
+}
+
+function verdictSpeech(option: SituationOption, result: string | null | undefined): string {
+  return joinForSpeech([option.verdict === "best" ? "Great call! Plus 2." : option.verdict === "ok" ? "Not bad. Plus 1." : "Hmm, not that one.", option.reason, result]);
+}
+
+/** Reads the situation when it appears and the verdict once the kid has chosen, if read-aloud is on. */
+function RoundVoice({ round, phase }: { round: Round; phase: Phase }) {
+  const text =
+    phase.kind === "choosing"
+      ? situationSpeech(round.situation, round.options.map(optionLabel))
+      : verdictSpeech(phase.option, phase.outcome ? outcomeLine(round.situation, phase.outcome) : phase.specialStory);
+  useReadAloud(text);
+  return null;
 }
 
 function SituationCard({ situation }: { situation: Situation }) {

@@ -3,6 +3,9 @@ import { lessonById, lessonsForUnit, unitById } from "../content";
 import { compileDiagram, Diagram } from "../field/Diagram";
 import { awardBadgeIfEarned, passRatioFor, recordQuiz, useTier } from "../progress";
 import { playSound } from "../sound";
+import { SpeakButton } from "../speech/SpeakButton";
+import { useReadAloud } from "../speech/useReadAloud";
+import { joinForSpeech } from "../speech/voice";
 import { Quiz } from "./Quiz";
 
 interface Props {
@@ -23,6 +26,18 @@ export function LessonScreen({ lessonId, onBack, onNextLesson }: Props) {
 
   const step = mode.kind === "steps" ? lesson.steps[mode.index] : null;
   const compiled = useMemo(() => (step?.diagram ? compileDiagram(step.diagram) : null), [step]);
+
+  const spoken =
+    mode.kind === "steps" && step
+      ? joinForSpeech([mode.index === 0 ? lesson.title : null, step.text])
+      : mode.kind === "result"
+        ? joinForSpeech([
+            `You got ${mode.score} out of ${mode.total}.`,
+            mode.passed ? "You passed this lesson. Nice work." : `You need ${Math.ceil(mode.total * passRatioFor(tier))} right to pass. Read it once more and try again.`,
+            mode.badge ? `Badge earned: ${unit.badge}` : null,
+          ])
+        : "";
+  useReadAloud(spoken);
 
   const finish = (score: number, total: number) => {
     const entry = recordQuiz(lesson.id, score, total);
@@ -47,8 +62,9 @@ export function LessonScreen({ lessonId, onBack, onNextLesson }: Props) {
             ))}
           </ol>
           {compiled && <Diagram compiled={compiled} highlight={step.diagram?.highlight} />}
-          <section className="card step-text">
+          <section className="card step-text speak-row">
             <p>{step.text}</p>
+            <SpeakButton text={step.text} label="Read this step aloud" />
           </section>
           <div className="controls">
             <button type="button" className="btn" disabled={mode.index === 0} onClick={() => setMode({ kind: "steps", index: mode.index - 1 })}>
@@ -71,10 +87,15 @@ export function LessonScreen({ lessonId, onBack, onNextLesson }: Props) {
 
       {mode.kind === "result" && (
         <section className="card result">
-          <p className="eyebrow">Quiz done</p>
-          <h2>
-            {mode.score} out of {mode.total}
-          </h2>
+          <div className="speak-row">
+            <div>
+              <p className="eyebrow">Quiz done</p>
+              <h2>
+                {mode.score} out of {mode.total}
+              </h2>
+            </div>
+            <SpeakButton text={spoken} label="Read my result aloud" />
+          </div>
           {mode.passed ? (
             <p>You passed this lesson. Nice work.</p>
           ) : (

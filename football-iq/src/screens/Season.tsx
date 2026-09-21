@@ -8,6 +8,9 @@ import { LOOK_LABEL, type DefenseLook } from "../games/outcome";
 import { DRIVES_PER_TEAM, LOOKS, newGame, nextDrive, onOffense, OPPONENTS, seasonSummary, theirSnap, yourSnap, type GameState, type Opponent } from "../games/season";
 import { recordSeasonGame, resetSeason, useProgress } from "../progress";
 import { playSound } from "../sound";
+import { SpeakButton } from "../speech/SpeakButton";
+import { useReadAloud } from "../speech/useReadAloud";
+import { joinForSpeech } from "../speech/voice";
 import type { Play } from "../types/play";
 
 interface Props {
@@ -130,6 +133,17 @@ export function Season({ onBack }: Props) {
   const d = game.drive;
   const fgDist = fieldGoalDistance(d.yardLine);
   const last = d.log[d.log.length - 1];
+  const gameSpeech = game.finished
+    ? joinForSpeech([game.yourPoints > game.theirPoints ? "You win!" : game.yourPoints < game.theirPoints ? "They got you this time." : "Tie game.", `${game.yourPoints} to ${game.theirPoints}.`])
+    : joinForSpeech([
+        last ? `${last.call}: ${game.last?.result ?? last.note}` : null,
+        last?.outcome?.story,
+        d.ended ? d.ended.summary : describeDownAndDistance(d),
+        d.ended ? null : `${offense ? "You have the ball" : `${game.opponent.name} have it`} on ${describeSpot(d.yardLine)}`,
+        !offense && !d.ended ? `They like to: ${game.opponent.tendency}` : null,
+        d.ended ? null : offense ? "Call your play." : "Call your defense.",
+      ]);
+  useReadAloud(gameSpeech);
 
   return (
     <main className="game season">
@@ -153,12 +167,15 @@ export function Season({ onBack }: Props) {
         </section>
       ) : (
         <>
-          <section className={offense ? "card situation" : "card situation situation-defense"}>
-            <div className="situation-main">
-              <span className="situation-down">{d.ended ? "Drive over" : describeDownAndDistance(d)}</span>
-              <span className="situation-spot">{offense ? "You have the ball" : `${game.opponent.name} have it`} on {describeSpot(d.yardLine)}</span>
+          <section className={offense ? "card situation speak-row" : "card situation situation-defense speak-row"}>
+            <div>
+              <div className="situation-main">
+                <span className="situation-down">{d.ended ? "Drive over" : describeDownAndDistance(d)}</span>
+                <span className="situation-spot">{offense ? "You have the ball" : `${game.opponent.name} have it`} on {describeSpot(d.yardLine)}</span>
+              </div>
+              {!offense && !d.ended && <p className="situation-context">They like to: {game.opponent.tendency}</p>}
             </div>
-            {!offense && !d.ended && <p className="situation-context">They like to: {game.opponent.tendency}</p>}
+            <SpeakButton text={gameSpeech} label="Read the game situation aloud" />
           </section>
 
           {last && (

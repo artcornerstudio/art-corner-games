@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { askCoach, type CoachContext, type CoachQuestion } from "./client";
+import { SpeakButton } from "../speech/SpeakButton";
+import { autoSpeak } from "../speech/engine";
 
 const LABELS: Record<CoachQuestion, string> = {
   "what-happens": "What happens?",
@@ -55,6 +57,7 @@ export function CoachPanel({ context, questions = DEFAULT_QUESTIONS }: Props) {
     abortRef.current = null;
     setShown({ question, ...result });
     setBusy(null);
+    autoSpeak(result.answer);
   }
 
   return (
@@ -86,7 +89,10 @@ export function CoachPanel({ context, questions = DEFAULT_QUESTIONS }: Props) {
         {busy !== null && <p className="muted coach-thinking">Coach is thinking...</p>}
         {busy === null && shown && (
           <>
-            <p className="coach-text">{shown.answer}</p>
+            <div className="speak-row">
+              <p className="coach-text">{shown.answer}</p>
+              <SpeakButton text={shown.answer} label="Read Coach's answer aloud" small />
+            </div>
             {shown.source === "offline" && <p className="muted coach-offline">Offline coach</p>}
           </>
         )}

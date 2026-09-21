@@ -7,6 +7,9 @@ import { describeSpot } from "../games/callThePlay";
 import { fieldGoalChance, puntResult, resolvePlay } from "../games/outcome";
 import { recordGame } from "../progress";
 import { playSound } from "../sound";
+import { SpeakButton } from "../speech/SpeakButton";
+import { useReadAloud } from "../speech/useReadAloud";
+import { choicesForSpeech, joinForSpeech } from "../speech/voice";
 import type { Verdict } from "../types/play";
 import { shuffle } from "../utils/random";
 
@@ -57,6 +60,10 @@ export function FourthDown({ onBack }: Props) {
     const play = playById(res.playId);
     return compilePlay(play, formationById(play.formationId), formationById(play.defenseFormationId));
   }, [res]);
+
+  const askSpeech = joinForSpeech([`4th and ${s.yardLine + s.distance >= 100 ? "goal" : s.distance}`, `Ball on ${describeSpot(s.yardLine)}`, scoreboardLine(s), s.note, "What do you do?", choicesForSpeech(CALLS.map((c) => CALL_LABEL[c]))]);
+  const answerSpeech = res ? joinForSpeech([res.verdict === "best" ? "That's the call. Plus 2." : res.verdict === "ok" ? "Defensible. Plus 1." : "A coach would not do that.", res.reason, `What happened: ${res.story}`]) : "";
+  useReadAloud(finished ? "" : res ? answerSpeech : askSpeech);
 
   const choose = (call: FourthDownCall) => {
     if (res) return;
@@ -116,7 +123,10 @@ export function FourthDown({ onBack }: Props) {
 
           {!res ? (
             <>
-              <h2 className="prompt">What do you do?</h2>
+              <div className="speak-row">
+                <h2 className="prompt">What do you do?</h2>
+                <SpeakButton text={askSpeech} label="Read the situation aloud" />
+              </div>
               <div className="choices">
                 {CALLS.map((c) => (
                   <button key={c} type="button" className="choice" onClick={() => choose(c)}>
@@ -129,9 +139,14 @@ export function FourthDown({ onBack }: Props) {
           ) : (
             <>
               <div className={`feedback feedback-${res.verdict}`}>
-                <p className="feedback-title">{res.verdict === "best" ? "That's the call. +2" : res.verdict === "ok" ? "Defensible. +1" : "A coach would not do that."}</p>
-                <p>{res.reason}</p>
-                <p><strong>What happened:</strong> {res.story}</p>
+                <div className="speak-row">
+                  <div>
+                    <p className="feedback-title">{res.verdict === "best" ? "That's the call. +2" : res.verdict === "ok" ? "Defensible. +1" : "A coach would not do that."}</p>
+                    <p>{res.reason}</p>
+                    <p><strong>What happened:</strong> {res.story}</p>
+                  </div>
+                  <SpeakButton text={answerSpeech} label="Read the result aloud" small />
+                </div>
               </div>
               {compiled && <Diagram compiled={compiled} controls infoCard={false} />}
               <div className="controls">

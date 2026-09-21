@@ -3,6 +3,9 @@ import { DEFAULT_OPPONENT, formationById, playById, positions } from "../content
 import type { DiagramRef, FormationPlayer, Side } from "../types/play";
 import { compileFormations, compilePlay, type CompiledPlay } from "./animation";
 import { PlayViewer } from "./PlayViewer";
+import { autoSpeak } from "../speech/engine";
+import { SpeakButton } from "../speech/SpeakButton";
+import { joinForSpeech } from "../speech/voice";
 import { usePlayClock } from "./usePlayClock";
 
 export function useContainerWidth<T extends HTMLElement>() {
@@ -73,6 +76,10 @@ export function Diagram({ compiled, highlight, dimOthers, controls, onTapPlayer,
 
   const showControls = controls ?? animated;
   const info = selected ? positions[selected.player.position] : null;
+  const infoSpeech = info ? joinForSpeech([info.name, info.job]) : "";
+  useEffect(() => {
+    if (infoCard && !onTapPlayer && infoSpeech) autoSpeak(infoSpeech);
+  }, [infoCard, onTapPlayer, infoSpeech]);
   const select = useMemo(
     () => onTapPlayer ?? ((player: FormationPlayer, side: Side) => setSelected({ player, side })),
     [onTapPlayer],
@@ -129,7 +136,10 @@ export function Diagram({ compiled, highlight, dimOthers, controls, onTapPlayer,
                 <span className={selected.side === "offense" ? "dot dot-o" : "dot dot-x"} aria-hidden="true" />
                 {info.name} <span className="muted">({selected.player.label ?? selected.player.position})</span>
               </h3>
-              <p>{info.job}</p>
+              <div className="speak-row">
+                <p>{info.job}</p>
+                <SpeakButton text={infoSpeech} label={`Read about the ${info.name.toLowerCase()} aloud`} small />
+              </div>
             </>
           ) : (
             <p className="muted">Tap any player on the field to see who they are and what they do.</p>

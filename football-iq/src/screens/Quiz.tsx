@@ -2,6 +2,9 @@ import { useMemo, useState } from "react";
 import { compileDiagram, Diagram } from "../field/Diagram";
 import { useTier } from "../progress";
 import { playSound } from "../sound";
+import { SpeakButton } from "../speech/SpeakButton";
+import { useReadAloud } from "../speech/useReadAloud";
+import { choicesForSpeech, joinForSpeech } from "../speech/voice";
 import type { FormationPlayer, Lesson, Question } from "../types/play";
 import { shuffle } from "../utils/random";
 
@@ -23,6 +26,10 @@ export function Quiz({ lesson, onFinish }: Props) {
   // Varsity shuffles the answers so position in the list is never the clue.
   const choices = useMemo(() => (q.type === "choice" ? (tier === "rookie" ? q.choices : shuffle(q.choices)) : []), [q, tier]);
   const compiled = useMemo(() => (q.type === "tap" || q.diagram ? compileDiagram(q.type === "tap" ? q.diagram : q.diagram!) : null), [q]);
+
+  const questionSpeech = joinForSpeech([`Question ${index + 1}.`, q.prompt, q.type === "tap" ? "Tap the player on the field." : choicesForSpeech(choices)]);
+  const feedbackSpeech = phase.kind === "answered" ? joinForSpeech([phase.correct ? "Yes!" : "Not quite.", q.explanation]) : "";
+  useReadAloud(phase.kind === "asking" ? questionSpeech : feedbackSpeech);
 
   const answer = (correct: boolean, picked: string) => {
     if (phase.kind !== "asking") return;
@@ -48,7 +55,10 @@ export function Quiz({ lesson, onFinish }: Props) {
   return (
     <section className="quiz" aria-live="polite">
       <p className="eyebrow">Question {index + 1} of {total}</p>
-      <h2 className="prompt">{q.prompt}</h2>
+      <div className="speak-row">
+        <h2 className="prompt">{q.prompt}</h2>
+        <SpeakButton text={questionSpeech} label="Read the question aloud" />
+      </div>
 
       {compiled && (
         <Diagram
@@ -80,8 +90,13 @@ export function Quiz({ lesson, onFinish }: Props) {
 
       {phase.kind === "answered" && (
         <div className={phase.correct ? "feedback feedback-right" : "feedback feedback-wrong"}>
-          <p className="feedback-title">{phase.correct ? "Yes!" : "Not quite."}</p>
-          <p>{q.explanation}</p>
+          <div className="speak-row">
+            <div>
+              <p className="feedback-title">{phase.correct ? "Yes!" : "Not quite."}</p>
+              <p>{q.explanation}</p>
+            </div>
+            <SpeakButton text={feedbackSpeech} label="Read the answer aloud" small />
+          </div>
           <button type="button" className="btn btn-primary" onClick={next}>
             {index + 1 >= total ? "See my score" : "Next question"}
           </button>

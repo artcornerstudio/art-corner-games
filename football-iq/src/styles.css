@@ -331,3 +331,17 @@ main { max-width: 720px; margin: 0 auto; padding: 16px 16px 40px; }
   .stadium .badges, .stadium .tier-card, .stadium .footer { background: rgba(28, 33, 27, 0.9); }
   .gcard { background: #1c211b; }
 }
+
+/* Read aloud */
+.speak { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 999px; border: 2px solid var(--line); background: var(--card); color: var(--green); cursor: pointer; flex: 0 0 auto; padding: 0; vertical-align: middle; }
+.speak:hover { border-color: var(--green); }
+.speak:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.speak-on { background: var(--green); color: var(--green-ink); border-color: var(--green); }
+.speak-small { width: 36px; height: 36px; }
+.speak-small svg { width: 18px; height: 18px; }
+.speak-row { display: flex; align-items: flex-start; gap: 10px; }
+.speak-row > :first-child { flex: 1; min-width: 0; }
+.speak-row .prompt, .speak-row h2, .speak-row p { margin-top: 0; }
+.toggle-note { display: block; font-weight: 500; font-size: 0.9rem; }
+.sound-toggle { align-items: flex-start; }
+.sound-toggle input { margin-top: 4px; flex: 0 0 auto; }

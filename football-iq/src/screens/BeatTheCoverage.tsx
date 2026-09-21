@@ -5,6 +5,9 @@ import { compileDiagram, Diagram } from "../field/Diagram";
 import { buildCoverageRounds, COVERAGE_OPTION_LABEL, COVERAGE_OPTIONS, type CoverageRound } from "../games/reads";
 import { recordGame, useTier } from "../progress";
 import { playSound } from "../sound";
+import { SpeakButton } from "../speech/SpeakButton";
+import { useReadAloud } from "../speech/useReadAloud";
+import { choicesForSpeech, joinForSpeech } from "../speech/voice";
 import { shuffle } from "../utils/random";
 
 interface Props {
@@ -58,6 +61,10 @@ export function BeatTheCoverage({ onBack }: Props) {
     setFinished(null);
   };
 
+  const askSpeech = round ? joinForSpeech(["Read the defense. What beats it?", tier === "rookie" ? `Hint: ${round.tell}` : null, choicesForSpeech(options.map((id) => COVERAGE_OPTION_LABEL[id]))]) : "";
+  const answerSpeech = round && picked ? joinForSpeech([`This was ${round.name}.`, picked === round.answerPlayId ? "Yes!" : `Not quite. ${COVERAGE_OPTION_LABEL[round.answerPlayId]} beats it.`, round.tell, round.why]) : "";
+  useReadAloud(finished ? "" : picked ? answerSpeech : askSpeech);
+
   return (
     <main className="game">
       <div className="toolbar">
@@ -79,7 +86,10 @@ export function BeatTheCoverage({ onBack }: Props) {
       ) : round && still ? (
         <>
           <p className="eyebrow">Look {index + 1} of {ROUNDS} · {score} right</p>
-          <h2 className="prompt">{picked ? `This was ${round.name}.` : "Read the defense. What beats it?"}</h2>
+          <div className="speak-row">
+            <h2 className="prompt">{picked ? `This was ${round.name}.` : "Read the defense. What beats it?"}</h2>
+            <SpeakButton text={picked ? answerSpeech : askSpeech} label="Read this look aloud" />
+          </div>
           {!picked ? (
             <>
               <Diagram compiled={still} controls={false} infoCard={false} highlight={round.highlight} dimOthers={false} />

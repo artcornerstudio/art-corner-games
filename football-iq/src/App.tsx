@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { clearShareHash, payloadFromLocation } from "./games/share";
 import { CoachView } from "./screens/CoachView";
 import { PrintCards } from "./screens/PrintCards";
@@ -16,6 +16,9 @@ import { LessonScreen } from "./screens/LessonScreen";
 import { PlayLab } from "./screens/PlayLab";
 import { UnitScreen } from "./screens/UnitScreen";
 import { lessonById } from "./content";
+import { useProgress } from "./progress";
+import { setSoundEnabled } from "./sound";
+import { setReadAloud, setSpeechTier, stopSpeaking } from "./speech/engine";
 
 type Screen =
   | { name: "home" }
@@ -44,9 +47,18 @@ export default function App() {
     return { name: "home" };
   });
   const go = (next: Screen) => {
+    stopSpeaking();
     setScreen(next);
     window.scrollTo({ top: 0 });
   };
+
+  // Keep the sound and speech engines in step with the saved settings.
+  const progress = useProgress();
+  useEffect(() => {
+    setSoundEnabled(progress.sound ?? true);
+    setReadAloud(progress.readAloud ?? false);
+    setSpeechTier(progress.tier ?? "rookie");
+  }, [progress.sound, progress.readAloud, progress.tier]);
 
   switch (screen.name) {
     case "playlab":

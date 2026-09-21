@@ -5,6 +5,9 @@ import { Diagram } from "../field/Diagram";
 import { buildRounds, roundPrompt, SPOT_ROUNDS, VARSITY_SECONDS } from "../games/spotThePosition";
 import { recordGame, useTier } from "../progress";
 import { playSound } from "../sound";
+import { SpeakButton } from "../speech/SpeakButton";
+import { useReadAloud } from "../speech/useReadAloud";
+import { joinForSpeech } from "../speech/voice";
 import type { FormationPlayer, Variant } from "../types/play";
 
 interface Props {
@@ -82,6 +85,10 @@ export function SpotThePosition({ onBack }: Props) {
     setPhase({ kind: "asking" });
   };
 
+  const askSpeech = round ? joinForSpeech([roundPrompt(round), tier === "rookie" ? `Hint: ${positions[round.position].job}` : "Tap the player on the field."]) : "";
+  const answerSpeech = round && phase.kind === "answered" ? joinForSpeech([phase.correct ? "Yes!" : "Not quite.", `${positions[round.position].name}: ${positions[round.position].job}`]) : "";
+  useReadAloud(finished ? "" : phase.kind === "asking" ? askSpeech : answerSpeech);
+
   const targets = round && phase.kind === "answered" ? [...round.offense.players, ...round.defense.players].filter((p) => p.position === round.position).map((p) => p.id) : undefined;
 
   return (
@@ -114,7 +121,10 @@ export function SpotThePosition({ onBack }: Props) {
           <p className="eyebrow">
             Round {index + 1} of {SPOT_ROUNDS} · {score} right{timed && <> · <span className={secondsLeft <= 10 ? "clock clock-low" : "clock"}>{secondsLeft}s</span></>}
           </p>
-          <h2 className="prompt">{roundPrompt(round)}</h2>
+          <div className="speak-row">
+            <h2 className="prompt">{roundPrompt(round)}</h2>
+            <SpeakButton text={phase.kind === "asking" ? askSpeech : answerSpeech} label="Read this round aloud" />
+          </div>
           <Diagram
             compiled={compiled}
             controls={false}
