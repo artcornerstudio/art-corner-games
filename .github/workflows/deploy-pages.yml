@@ -1,11 +1,13 @@
 name: Deploy to GitHub Pages
 
-# Publishes the Football IQ app from main. Enable Pages with source
-# "GitHub Actions" in the repository settings for this to go live.
+# Publishes the shared games site from main: the Football IQ app at the
+# site root, and Spread Out! (a static folder, no build step) at
+# /spread-out/. Enable Pages with source "GitHub Actions" in the
+# repository settings for this to go live.
 on:
   push:
     branches: [main]
-    paths: ["football-iq/**", ".github/workflows/deploy-pages.yml"]
+    paths: ["football-iq/**", "spread-out/**", ".github/workflows/deploy-pages.yml"]
   workflow_dispatch:
 
 permissions:
@@ -34,6 +36,10 @@ jobs:
       - run: npm run build
         env:
           VITE_BASE: /${{ github.event.repository.name }}/
+      - name: Add Spread Out! (static, served at /spread-out/)
+        run: |
+          mkdir -p dist/spread-out
+          cp -R ../spread-out/. dist/spread-out/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: football-iq/dist
