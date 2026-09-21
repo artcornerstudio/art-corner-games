@@ -118,6 +118,17 @@ Every sound now matches its action, so the audio *teaches* too:
   through a limiter so nothing blares, and the mute button silences
   everything including the crowd.
 
+### ✅ Bonus update — "Stadium at night" menu redesign (DONE)
+The home menu was restyled to a glossy mobile-game look based on a
+reference image: a deep-blue stadium backdrop with light bokeh and faint
+pitch lines, a neon-cyan glowing panel, stat pills (stars earned, sound
+on/off), a hero soccer ball with a glowing orbit streak and dashed tactic
+arrows, four glowing skill tiles with drawn icons (Get Open, Pass Smart,
+Find Your Spot, Mini Match), the tagline, and a chunky glossy **PLAY NOW**
+button that continues the last game played. Built entirely in CSS + SVG so
+it stays sharp on every screen and adds no downloads. The in-game top bar
+now only appears inside games and Coach Corner.
+
 ## 6. Testing checklist (we repeat this every phase)
 
 1. **Page loads with zero errors** (checked with an automated browser).
