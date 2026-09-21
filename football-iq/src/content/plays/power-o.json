@@ -1,0 +1,331 @@
+{
+  "id": "power-o",
+  "name": "Power O",
+  "variant": "tackle11",
+  "type": "run",
+  "tags": [
+    "run",
+    "inside-run",
+    "power"
+  ],
+  "formationId": "i-form-tackle",
+  "defenseFormationId": "base-43-tackle",
+  "description": "A power run with a pulling guard. The left guard leaves his spot and runs around behind the center to lead the way through the hole on the right. The fullback kicks out the defensive end. The running back follows the guard.",
+  "why": "Pulling a guard puts an extra big blocker at the point of attack. Combined with the fullback, the offense has more blockers at the hole than the defense has tacklers. Power is about numbers.",
+  "assignments": [
+    {
+      "playerId": "qb",
+      "kind": "dropback",
+      "path": [
+        {
+          "x": -1,
+          "y": -2.5
+        }
+      ],
+      "speed": 4
+    },
+    {
+      "playerId": "rb",
+      "kind": "carry",
+      "path": [
+        {
+          "x": 1,
+          "y": -4
+        },
+        {
+          "x": 1.5,
+          "y": 0.5
+        },
+        {
+          "x": 2,
+          "y": 6
+        },
+        {
+          "x": 3,
+          "y": 16
+        }
+      ],
+      "speed": 6.5
+    },
+    {
+      "playerId": "fb",
+      "kind": "block",
+      "path": [
+        {
+          "x": 5,
+          "y": 0.5
+        },
+        {
+          "x": 7,
+          "y": 1
+        }
+      ],
+      "speed": 4.5
+    },
+    {
+      "playerId": "lg",
+      "kind": "block",
+      "path": [
+        {
+          "x": 0,
+          "y": -2
+        },
+        {
+          "x": 3,
+          "y": -1
+        },
+        {
+          "x": 2.5,
+          "y": 1.5
+        }
+      ],
+      "speed": 4.5
+    },
+    {
+      "playerId": "c",
+      "kind": "block",
+      "path": [
+        {
+          "x": -1,
+          "y": 0.6
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "rg",
+      "kind": "block",
+      "path": [
+        {
+          "x": 2,
+          "y": 0.6
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "lt",
+      "kind": "block",
+      "path": [
+        {
+          "x": -4.5,
+          "y": 0.6
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "rt",
+      "kind": "block",
+      "path": [
+        {
+          "x": 4.5,
+          "y": 0.6
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "te",
+      "kind": "block",
+      "path": [
+        {
+          "x": 6.5,
+          "y": 0.6
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "wr-x",
+      "kind": "block",
+      "path": [
+        {
+          "x": -19,
+          "y": 5
+        }
+      ],
+      "speed": 5
+    },
+    {
+      "playerId": "wr-z",
+      "kind": "block",
+      "path": [
+        {
+          "x": 18,
+          "y": 5
+        }
+      ],
+      "speed": 5
+    },
+    {
+      "playerId": "lde",
+      "kind": "pursue",
+      "path": [
+        {
+          "x": -5,
+          "y": 1.8
+        }
+      ],
+      "speed": 2.5,
+      "delay": 0.2
+    },
+    {
+      "playerId": "ldt",
+      "kind": "pursue",
+      "path": [
+        {
+          "x": -2,
+          "y": 1.8
+        }
+      ],
+      "speed": 2.5,
+      "delay": 0.2
+    },
+    {
+      "playerId": "rdt",
+      "kind": "pursue",
+      "path": [
+        {
+          "x": 3,
+          "y": 1.8
+        }
+      ],
+      "speed": 2.5,
+      "delay": 0.2
+    },
+    {
+      "playerId": "rde",
+      "kind": "pursue",
+      "path": [
+        {
+          "x": 6.5,
+          "y": 1.8
+        },
+        {
+          "x": 7.5,
+          "y": 1
+        }
+      ],
+      "speed": 2.5,
+      "delay": 0.2
+    },
+    {
+      "playerId": "mike",
+      "kind": "pursue",
+      "path": [
+        {
+          "x": 1.5,
+          "y": 3.5
+        },
+        {
+          "x": 2.5,
+          "y": 2
+        }
+      ],
+      "speed": 4,
+      "delay": 0.5
+    },
+    {
+      "playerId": "will",
+      "kind": "pursue",
+      "path": [
+        {
+          "x": -2,
+          "y": 3.5
+        },
+        {
+          "x": 1,
+          "y": 6
+        }
+      ],
+      "speed": 5,
+      "delay": 0.6
+    },
+    {
+      "playerId": "sam",
+      "kind": "pursue",
+      "path": [
+        {
+          "x": 6,
+          "y": 3.5
+        },
+        {
+          "x": 4,
+          "y": 6
+        }
+      ],
+      "speed": 5,
+      "delay": 0.6
+    },
+    {
+      "playerId": "lcb",
+      "kind": "cover",
+      "path": [
+        {
+          "x": -19,
+          "y": 6.5
+        }
+      ],
+      "speed": 4,
+      "delay": 0.5
+    },
+    {
+      "playerId": "rcb",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 19,
+          "y": 6.5
+        }
+      ],
+      "speed": 4,
+      "delay": 0.5
+    },
+    {
+      "playerId": "fs",
+      "kind": "pursue",
+      "path": [
+        {
+          "x": 0,
+          "y": 12
+        },
+        {
+          "x": 2,
+          "y": 15
+        }
+      ],
+      "speed": 4.5,
+      "delay": 1.2
+    },
+    {
+      "playerId": "ss",
+      "kind": "pursue",
+      "path": [
+        {
+          "x": 6,
+          "y": 9
+        },
+        {
+          "x": 4,
+          "y": 13
+        }
+      ],
+      "speed": 5,
+      "delay": 1
+    }
+  ],
+  "ball": {
+    "start": "c",
+    "events": [
+      {
+        "t": 0,
+        "to": "qb"
+      },
+      {
+        "t": 0.9,
+        "to": "rb"
+      }
+    ]
+  }
+}

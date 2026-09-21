@@ -1,0 +1,55 @@
+{
+  "id": "trips-flag7",
+  "name": "Spread (Flag 7v7)",
+  "variant": "flag7",
+  "side": "offense",
+  "description": "Seven players and no blocking. The center snaps and runs a route. Two receivers wide, two in the slots, and a running back beside the quarterback.",
+  "players": [
+    {
+      "id": "c",
+      "position": "C",
+      "x": 0,
+      "y": -0.5
+    },
+    {
+      "id": "qb",
+      "position": "QB",
+      "x": 0,
+      "y": -5
+    },
+    {
+      "id": "wr-x",
+      "position": "WR",
+      "x": -12,
+      "y": -0.5,
+      "label": "X"
+    },
+    {
+      "id": "wr-h",
+      "position": "WR",
+      "x": -7,
+      "y": -1.5,
+      "label": "H"
+    },
+    {
+      "id": "wr-y",
+      "position": "WR",
+      "x": 7,
+      "y": -1.5,
+      "label": "Y"
+    },
+    {
+      "id": "wr-z",
+      "position": "WR",
+      "x": 12,
+      "y": -0.5,
+      "label": "Z"
+    },
+    {
+      "id": "rb",
+      "position": "RB",
+      "x": 3,
+      "y": -3
+    }
+  ]
+}

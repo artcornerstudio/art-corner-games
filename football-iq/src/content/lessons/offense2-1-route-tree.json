@@ -1,0 +1,23 @@
+{
+  "id": "offense2-route-tree",
+  "unitId": "offense2",
+  "order": 1,
+  "title": "The full route tree",
+  "summary": "All nine numbered routes, 1 through 9, and the trick for remembering which way each one breaks.",
+  "steps": [
+    { "text": "Coaches number the routes 1 to 9 so a whole play can be called with a few numbers. That list is called the route tree. Here is the trick: odd numbers break toward the sideline, even numbers break toward the middle, and 9 goes straight. Start with X. He runs the 9, the go: straight down the field as fast as he can.", "diagram": { "playId": "route-tree-demo", "highlight": ["wr-x"] } },
+    { "text": "H runs the 5, the out. A few yards upfield, then a sharp cut toward the sideline. Y runs the 4, the curl. About 10 yards upfield, then stop and turn back toward the quarterback.", "diagram": { "playId": "route-tree-demo", "highlight": ["wr-h", "wr-y"] } },
+    { "text": "Z runs the 8, the post. Deep, then angle toward the middle, toward the goal posts. The running back runs a drag, a shallow path across the middle. The drag does not get a number on the tree, but every offense uses it.", "diagram": { "playId": "route-tree-demo", "highlight": ["wr-z", "rb"] } },
+    { "text": "Now the second demo with the other five routes. The running back runs the 1, the flat. He runs sideways toward the sideline and stays close to the line of scrimmage. It is the shortest route on the tree and a quick, safe throw.", "diagram": { "playId": "route-tree-2-demo", "highlight": ["rb"] } },
+    { "text": "Y runs the 2, the slant. Three steps upfield, then a sharp angle inside. X runs the 3, the comeback. He sprints deep like a go, then stops and comes back toward the sideline. The defender thinks it is a go and keeps running.", "diagram": { "playId": "route-tree-2-demo", "highlight": ["wr-y", "wr-x"] } },
+    { "text": "H runs the 6, the dig. Some coaches call it an in. About 10 yards upfield, then a hard cut across the middle. Z runs the 7, the corner. Deep, then angle toward the corner of the end zone. It is the opposite of the post.", "diagram": { "playId": "route-tree-2-demo", "highlight": ["wr-h", "wr-z"] } },
+    { "text": "The whole tree: 1 flat, 2 slant, 3 comeback, 4 curl, 5 out, 6 dig, 7 corner, 8 post, 9 go. Say it a few times. Odd breaks out, even breaks in, 9 is straight. Now you can read almost any pass play on a diagram." }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "Which number is the go route, straight down the field?", "choices": ["1", "5", "9"], "answer": 2, "explanation": "The 9 is the top of the tree, the deep straight line." },
+    { "type": "choice", "prompt": "Odd-numbered routes break which way?", "choices": ["Toward the sideline", "Toward the middle", "Back toward the quarterback"], "answer": 0, "explanation": "Odd breaks out toward the sideline. Even breaks in toward the middle." },
+    { "type": "tap", "prompt": "Tap the receiver running the corner route, deep and then toward the corner of the end zone.", "diagram": { "playId": "route-tree-2-demo" }, "target": "wr-z", "explanation": "Z runs the 7, the corner. It bends away from the middle, the opposite of a post." },
+    { "type": "choice", "prompt": "What is the difference between a post and a corner?", "choices": ["A post is short and a corner is deep", "A post bends toward the goal posts and a corner bends toward the sideline", "There is no difference"], "answer": 1, "explanation": "Both start deep. The post angles to the middle and the corner angles to the outside." },
+    { "type": "choice", "prompt": "A receiver sprints deep like a go, then stops and comes back toward the sideline. Which route?", "choices": ["Comeback", "Curl", "Dig"], "answer": 0, "explanation": "That is the 3, the comeback. The defender bites on the go and runs past him." }
+  ]
+}

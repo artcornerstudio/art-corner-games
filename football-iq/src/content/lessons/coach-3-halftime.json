@@ -1,0 +1,24 @@
+{
+  "id": "coach-halftime",
+  "unitId": "coach",
+  "order": 3,
+  "title": "Halftime adjustments",
+  "summary": "Say what went wrong and why in one sentence, then fix it. Plus how to use the clock when you are ahead and when you are behind.",
+  "steps": [
+    { "text": "Halftime is not for yelling, it is for fixing. For every problem, say what went wrong and why, in one sentence. Our runs are getting stuffed because they have eight in the box. That one sentence tells you the fix." },
+    { "text": "If the run is stuffed, spread them out and throw quick. Put more receivers wide and the defense has to pull players out of the box to cover them. A bubble screen gets the ball to a fast player in space before they can react.", "diagram": { "playId": "bubble-screen", "highlight": ["wr-y"] } },
+    { "text": "If deep passes keep failing, take the underneath throws. Two deep safeties are giving you the short stuff for free. Slants, flats, and quick outs keep earning first downs, and a long drive wears a defense down." },
+    { "text": "If the blitz is killing you, use screens and hot routes. A running back screen lets the rushers come, then throws over their heads with blockers in front. A hot route gets the ball out before the blitz can arrive. Both make the blitz cost them.", "diagram": { "playId": "rb-screen", "highlight": ["rb"] } },
+    { "text": "On defense, if the other team keeps hitting the same play, change the look. Say they keep beating your Cover 2 down the sideline. Switch to Cover 3, so a cornerback drops deep and takes that sideline away. Show them something they have not seen yet.", "diagram": { "formationId": "cover3-tackle", "highlight": ["lcb", "rcb", "fs"] } },
+    { "text": "Now the clock. With a lead, run the ball and keep the clock moving. After a run that stays in bounds, the clock keeps running, so every carry burns time. Outside zone is perfect: safe yards, and the clock keeps ticking.", "diagram": { "playId": "outside-zone-left", "highlight": ["rb"] } },
+    { "text": "When you are behind, do the opposite. Throw the ball, because an incomplete pass stops the clock. Run toward the sideline and get out of bounds, which also stops it. Save your timeouts for the end, when every second counts." },
+    { "text": "So at halftime, ask three things. What did they do that hurt us, and what do we do about it? What does the score say about the clock? Answer those and you are coaching." }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "Your runs keep getting stopped because the defense has eight players in the box. What is the fix?", "choices": ["Run it more", "Spread out and throw quick passes", "Punt on first down"], "answer": 1, "explanation": "Wide receivers pull defenders out of the box. Quick throws get the ball to open space before the crowd can get there." },
+    { "type": "choice", "prompt": "The blitz sacked your quarterback three times in the first half. Which play makes the blitz pay?", "choices": ["A running back screen", "A slow, deep drop-back pass", "A quarterback sneak"], "answer": 0, "explanation": "A screen lets the rushers run right past the play, then throws over them with blockers in front." },
+    { "type": "tap", "prompt": "Tap the free safety, labeled FS. In Cover 3 he owns the deep middle while both cornerbacks take the deep sidelines.", "diagram": { "formationId": "cover3-tackle" }, "target": "fs", "explanation": "Changing from two deep to three deep takes away the sideline throws that were beating you." },
+    { "type": "choice", "prompt": "Up by 7 with 3 minutes left. What do you call?", "choices": ["A deep pass", "A run that stays in bounds", "A timeout"], "answer": 1, "explanation": "A run in bounds keeps the clock moving and keeps the ball away from the other team. A deep pass risks stopping the clock or a turnover." },
+    { "type": "choice", "prompt": "Down by 4 with 1 minute left and no timeouts. Where should a receiver go after he catches the ball?", "choices": ["Toward the sideline, to get out of bounds", "Toward the middle of the field", "Backward"], "answer": 0, "explanation": "Out of bounds stops the clock. In the middle the clock keeps running, and you have no timeouts left to stop it." }
+  ]
+}

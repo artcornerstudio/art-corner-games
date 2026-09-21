@@ -1,0 +1,23 @@
+{
+  "id": "positions-lb-keys",
+  "unitId": "positions",
+  "order": 5,
+  "title": "Linebacker: keys and fits",
+  "summary": "How a linebacker reads run or pass in the first step, fills his gap on runs, drops to his zone on passes, and takes on a lead blocker.",
+  "steps": [
+    {"text": "Linebackers stand a few yards behind the defensive line. They have to stop the run and cover passes, so their first job is figuring out which one is coming. They do it with keys. A key is one thing to watch at the snap that tells you what the play is.", "diagram": {"formationId": "base-43-tackle", "highlight": ["will", "mike", "sam"]}},
+    {"text": "The first key is the guards. If the guards fire forward at the snap, it is a run. If the guards stand up and back away, it is a pass. Linemen cannot fake this. They have to go forward to run block and backward to pass block.", "diagram": {"playId": "iso-lead", "highlight": ["lg", "rg", "mike"]}},
+    {"text": "The second key is the running back. On a run he takes the handoff and heads for a hole. On a pass he blocks or runs a route. Guards plus running back tell the whole story, and a good linebacker reads both in his first step.", "diagram": {"playId": "iso-lead", "highlight": ["rb", "fb", "mike"]}},
+    {"text": "When the key says run, the linebacker fills his gap. Every defender owns one gap, the space between two blockers. The linebacker runs downhill into his gap and meets the ball. He does not wait at his spot, and he does not chase the ball into somebody else's gap.", "diagram": {"playId": "iso-lead", "highlight": ["mike", "will", "sam"]}},
+    {"text": "On Iso, a fullback leads through the hole ahead of the runner. The middle linebacker cannot go around him. He takes on the blocker with his inside shoulder pad and his hands, head up and eyes on the ball, never with the top of his helmet. Taking the inside shoulder keeps his outside arm free to grab the runner.", "diagram": {"playId": "iso-lead", "highlight": ["mike", "fb", "rb"]}},
+    {"text": "When the key says pass, the linebacker drops. He turns and runs back to his zone, the patch of field he has to guard, and finds the receivers coming into it. Dropping late leaves a hole in the middle of the field, right where slants and crossing routes go.", "diagram": {"playId": "slant-flat", "highlight": ["will", "mike", "sam"]}},
+    {"text": "Play action is built to fool the keys. The quarterback fakes a handoff and the running back acts like he has the ball. Watch all three linebackers step up to stop the run. By the time they see the quarterback still holding the ball, the post route is behind them. The fix is to read the guards, not the back. The guards backed up, so it was a pass.", "diagram": {"playId": "play-action-post", "highlight": ["mike", "will", "sam", "wr-x"]}}
+  ],
+  "quiz": [
+    {"type": "choice", "prompt": "The guards fire forward at the snap. What does that tell the linebacker?", "choices": ["It is a run", "It is a pass", "It is a field goal"], "answer": 0, "explanation": "Linemen go forward to run block and backward to pass block. They cannot fake it."},
+    {"type": "choice", "prompt": "The linebacker reads pass. What should he do?", "choices": ["Fill his gap", "Drop to his zone", "Stand still"], "answer": 1, "explanation": "On a pass his gap does not matter. He runs back to his zone before the receivers get there."},
+    {"type": "tap", "prompt": "Tap the linebacker the fullback is coming to block on Iso.", "diagram": {"playId": "iso-lead"}, "target": "mike", "explanation": "Iso means isolate. The linemen block the linemen, and the fullback leads through the hole to get the middle linebacker."},
+    {"type": "choice", "prompt": "How should a linebacker take on a lead blocker?", "choices": ["Jump over him", "Inside shoulder pad and hands, head up", "Top of the helmet first"], "answer": 1, "explanation": "The shoulder and hands take the hit safely and keep the outside arm free for the runner. Never lead with the helmet."},
+    {"type": "choice", "prompt": "On play action the running back fakes like he has the ball. Which key still tells the truth?", "choices": ["The running back", "The guards", "The crowd"], "answer": 1, "explanation": "The guards backed up to pass block. That is the key play action cannot fake."}
+  ]
+}

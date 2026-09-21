@@ -1,0 +1,21 @@
+{
+  "id": "offense-formations",
+  "unitId": "offense",
+  "order": 3,
+  "title": "Four formations",
+  "summary": "Singleback, I-Form, Shotgun, and Spread, and when a coach picks each one.",
+  "steps": [
+    { "text": "A formation is where the 11 players stand before the snap. Coaches pick formations to match the play. Here is Singleback: the quarterback under center with one running back behind him. Balanced. Good for a run or a pass.", "diagram": { "formationId": "singleback-tackle" } },
+    { "text": "I-Form puts a fullback between the quarterback and the running back, in a straight line like the letter I. The fullback is an extra blocker. This is a power formation for running the ball.", "diagram": { "formationId": "i-form-tackle", "highlight": ["qb", "fb", "rb"] } },
+    { "text": "In Shotgun the quarterback stands about 5 yards behind the center and catches the snap in the air. He can see the whole field and does not have to back up before throwing. Great for passing.", "diagram": { "formationId": "shotgun-tackle", "highlight": ["qb"] } },
+    { "text": "Spread puts four receivers out wide and the quarterback in the shotgun. The defense has to spread out to cover everyone, which leaves fewer defenders in the middle.", "diagram": { "formationId": "spread-tackle", "highlight": ["wr-x", "wr-h", "wr-y", "wr-z"] } },
+    { "text": "A quick way to tell them apart: count the backs and count the receivers. One back under center is Singleback. Two backs in a line is I-Form. Quarterback 5 yards back is Shotgun. Four receivers wide is Spread." }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "Which formation has the quarterback, a fullback, and a running back in a straight line?", "choices": ["Shotgun", "I-Form", "Spread"], "answer": 1, "explanation": "Three players in a line like the letter I is the I-Form." },
+    { "type": "choice", "prompt": "In Shotgun, how far back does the quarterback stand?", "choices": ["Right behind the center", "About 5 yards back", "About 15 yards back"], "answer": 1, "explanation": "About 5 yards. He catches the snap in the air." },
+    { "type": "tap", "prompt": "Tap the fullback.", "diagram": { "formationId": "i-form-tackle" }, "target": "fb", "explanation": "The fullback stands between the quarterback and the running back." },
+    { "type": "choice", "prompt": "A coach wants four receivers running routes to stretch the defense. Which formation?", "choices": ["I-Form", "Singleback", "Spread"], "answer": 2, "explanation": "Spread puts four receivers wide so the defense has to cover the whole field." },
+    { "type": "choice", "prompt": "Which formation is best known as a power running formation?", "choices": ["I-Form", "Spread", "Shotgun"], "answer": 0, "explanation": "I-Form adds a fullback as an extra blocker in front of the runner." }
+  ]
+}

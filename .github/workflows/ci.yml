@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+    paths: ["football-iq/**", ".github/workflows/ci.yml"]
+  pull_request:
+    paths: ["football-iq/**", ".github/workflows/ci.yml"]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: football-iq
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: football-iq/package-lock.json
+      - run: npm ci
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Validate lessons and plays
+        run: npm run validate
+      - name: Unit tests
+        run: npm test
+      - name: Build
+        run: npm run build

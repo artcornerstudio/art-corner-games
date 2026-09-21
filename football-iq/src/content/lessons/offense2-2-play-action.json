@@ -1,0 +1,21 @@
+{
+  "id": "offense2-play-action",
+  "unitId": "offense2",
+  "order": 2,
+  "title": "Play action",
+  "summary": "A pass that pretends to be a run. Fake the handoff, make the linebackers step up, then throw over them.",
+  "steps": [
+    { "text": "Play action is a pass that starts by pretending to be a run. The quarterback turns and fakes a handoff to the running back. The running back acts like he has the ball and runs at the line. Then the quarterback pulls the ball back and looks to throw.", "diagram": { "playId": "play-action-post", "highlight": ["qb", "rb"] } },
+    { "text": "Why does it work? Linebackers are taught to stop the run first. When they see the quarterback turn and the running back hit the line, they step forward to make the tackle. Watch Mike, Will, and Sam take that step.", "diagram": { "playId": "play-action-post", "highlight": ["mike", "will", "sam"] } },
+    { "text": "When the linebackers step up, the middle of the field behind them opens. The safeties freeze for a second too. That is exactly when X bends his post route toward the goal posts, into the empty space.", "diagram": { "playId": "play-action-post", "highlight": ["wr-x"] } },
+    { "text": "The fake only works if it looks like a real run. Compare it with Iso, the run play it copies. The quarterback turns the same way, the fullback goes first, and the running back runs to the same spot. For the first second, the defense cannot tell the difference.", "diagram": { "playId": "iso-lead", "highlight": ["qb", "fb", "rb"] } },
+    { "text": "Play action has a cost. The fake takes time, and the deep route takes time, so the linemen have to hold off the rush longer than normal. It works best when the team has been running the ball well. If a team never runs, nobody believes the fake.", "diagram": { "playId": "play-action-post", "highlight": ["c", "lg", "rg", "lt", "rt"] } }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "What is play action?", "choices": ["A run that starts with a fake pass", "A pass that starts with a fake handoff", "A play where the quarterback runs"], "answer": 1, "explanation": "The quarterback fakes the handoff, then throws. It looks like a run for the first second." },
+    { "type": "choice", "prompt": "Who is the fake handoff mostly trying to fool?", "choices": ["The cornerbacks", "The linebackers", "The defensive linemen"], "answer": 1, "explanation": "Linebackers stop the run first, so they step up when they see a handoff. That opens the middle behind them." },
+    { "type": "tap", "prompt": "Tap the player who gets the fake handoff on play action from the I-Form.", "diagram": { "formationId": "i-form-tackle" }, "target": "rb", "explanation": "The running back is the deepest player in the I. He takes the fake and runs at the line like he has the ball." },
+    { "type": "choice", "prompt": "Why is the deep middle open on the play action post?", "choices": ["The linebackers stepped forward to stop the run", "The safeties went to block", "The receiver is faster than everyone"], "answer": 0, "explanation": "When the linebackers step up, nobody is in the middle behind them for a moment." },
+    { "type": "choice", "prompt": "When does play action work best?", "choices": ["When the team never runs the ball", "When the team has been running the ball well", "On the very first play of a game"], "answer": 1, "explanation": "The defense only bites on the fake if it has a reason to fear the run." }
+  ]
+}

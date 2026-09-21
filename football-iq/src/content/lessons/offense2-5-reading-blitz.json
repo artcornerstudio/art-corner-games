@@ -1,0 +1,21 @@
+{
+  "id": "offense2-reading-blitz",
+  "unitId": "offense2",
+  "order": 5,
+  "title": "Reading a blitz",
+  "summary": "Count the rushers, find the hot receiver, and throw quick. A blitz always leaves someone open.",
+  "steps": [
+    { "text": "A blitz is when the defense sends extra rushers, more than the usual four. Here the four linemen rush, and Mike and the strong safety come too. Six rushers are coming at the quarterback.", "diagram": { "playId": "blitz-hot-slant", "highlight": ["mike", "ss"] } },
+    { "text": "The first job of a quarterback is to count. Five linemen can block five rushers. Six rushers is one more than the line can handle. The running back stays in to block, but nobody is free to help anyone else, so the rush gets there fast. The ball has to come out quick.", "diagram": { "playId": "blitz-hot-slant", "highlight": ["c", "lg", "rg", "lt", "rt", "rb", "te"] } },
+    { "text": "Here is the secret. Every extra rusher is one fewer defender in coverage. Mike and the strong safety left the middle of the field, so that spot is empty now. The receiver headed into the space a blitzer left is called the hot receiver.", "diagram": { "playId": "blitz-hot-slant", "highlight": ["wr-x"] } },
+    { "text": "Hot means throw it now. X runs a slant: three steps and a sharp cut inside into the empty middle. The quarterback takes a short drop and lets it go before the rushers arrive, about one second after the snap.", "diagram": { "playId": "blitz-hot-slant", "highlight": ["qb", "wr-x"] } },
+    { "text": "You can often spot a blitz before the snap. Look for a safety creeping down close to the line, linebackers leaning forward, and cornerbacks pressed up tight on the receivers. Here the strong safety is only 5 yards from the ball and the free safety is the only deep player. Beat a blitz fast or get sacked.", "diagram": { "formationId": "cover1-tackle", "highlight": ["ss", "fs"] } }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "What is a blitz?", "choices": ["The defense drops everyone into coverage", "The defense sends extra rushers at the quarterback", "A long pass"], "answer": 1, "explanation": "More than the usual four rushers. It is a gamble to get to the quarterback fast." },
+    { "type": "choice", "prompt": "The quarterback counts six rushers and only five linemen. What should he do?", "choices": ["Hold the ball and wait for a deep route", "Throw quick to the hot receiver", "Run backward"], "answer": 1, "explanation": "There is no time to wait. Get the ball out before the extra rusher arrives." },
+    { "type": "tap", "prompt": "Tap the strong safety, the defender creeping close to the line and ready to blitz.", "diagram": { "formationId": "cover1-tackle" }, "target": "ss", "explanation": "A safety that close to the line is a blitz warning. The free safety is left alone deep." },
+    { "type": "choice", "prompt": "Why does a blitz leave a receiver open?", "choices": ["The receivers run faster on a blitz", "Every extra rusher is one fewer defender in coverage", "The referees allow it"], "answer": 1, "explanation": "The blitzer left his coverage spot empty. That is where the hot receiver goes." },
+    { "type": "choice", "prompt": "Which route makes a good hot route against a blitz?", "choices": ["Go", "Slant", "Comeback"], "answer": 1, "explanation": "The slant is quick and cuts into the middle, right where the blitzers came from." }
+  ]
+}

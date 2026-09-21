@@ -1,0 +1,313 @@
+{
+  "id": "bubble-screen",
+  "name": "Bubble Screen",
+  "variant": "tackle11",
+  "type": "pass",
+  "tags": [
+    "pass",
+    "screen",
+    "quick"
+  ],
+  "formationId": "spread-tackle",
+  "defenseFormationId": "nickel-tackle",
+  "description": "The slot receiver takes one step back and out, the bubble. The quarterback throws it to him right away, before the defense can react. The outside receiver blocks the cornerback, and the slot receiver runs up the sideline.",
+  "why": "A bubble screen is a run play disguised as a pass. It gets the ball to a fast player in space with a blocker in front. It works best when the defense has backed off or crowded the box.",
+  "assignments": [
+    {
+      "playerId": "qb",
+      "kind": "dropback",
+      "path": [
+        {
+          "x": 0,
+          "y": -5.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "wr-y",
+      "kind": "route",
+      "path": [
+        {
+          "x": 15,
+          "y": -3
+        },
+        {
+          "x": 19,
+          "y": -2
+        },
+        {
+          "x": 22,
+          "y": 6
+        },
+        {
+          "x": 20,
+          "y": 16
+        }
+      ],
+      "speed": 6.5
+    },
+    {
+      "playerId": "wr-z",
+      "kind": "block",
+      "path": [
+        {
+          "x": 21,
+          "y": 4
+        }
+      ],
+      "speed": 6
+    },
+    {
+      "playerId": "wr-x",
+      "kind": "route",
+      "path": [
+        {
+          "x": -22,
+          "y": 10
+        }
+      ],
+      "speed": 7
+    },
+    {
+      "playerId": "wr-h",
+      "kind": "route",
+      "path": [
+        {
+          "x": -12,
+          "y": 8
+        }
+      ],
+      "speed": 7
+    },
+    {
+      "playerId": "rb",
+      "kind": "block",
+      "path": [
+        {
+          "x": -4,
+          "y": -4
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "c",
+      "kind": "block",
+      "path": [
+        {
+          "x": 0,
+          "y": -1.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "lg",
+      "kind": "block",
+      "path": [
+        {
+          "x": -2,
+          "y": -1.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "rg",
+      "kind": "block",
+      "path": [
+        {
+          "x": 2,
+          "y": -1.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "lt",
+      "kind": "block",
+      "path": [
+        {
+          "x": -4.5,
+          "y": -2.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "rt",
+      "kind": "block",
+      "path": [
+        {
+          "x": 4.5,
+          "y": -2.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "lde",
+      "kind": "rush",
+      "path": [
+        {
+          "x": -6,
+          "y": -1.5
+        }
+      ],
+      "speed": 3.5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "ldt",
+      "kind": "rush",
+      "path": [
+        {
+          "x": -2,
+          "y": -0.5
+        }
+      ],
+      "speed": 2.5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "rdt",
+      "kind": "rush",
+      "path": [
+        {
+          "x": 3,
+          "y": -0.5
+        }
+      ],
+      "speed": 2.5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "rde",
+      "kind": "rush",
+      "path": [
+        {
+          "x": 7.5,
+          "y": -1.5
+        }
+      ],
+      "speed": 3.5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "mike",
+      "kind": "pursue",
+      "path": [
+        {
+          "x": 6,
+          "y": 4
+        },
+        {
+          "x": 14,
+          "y": 3
+        }
+      ],
+      "speed": 5,
+      "delay": 0.5
+    },
+    {
+      "playerId": "will",
+      "kind": "pursue",
+      "path": [
+        {
+          "x": 8,
+          "y": 4
+        },
+        {
+          "x": 16,
+          "y": 4
+        }
+      ],
+      "speed": 5,
+      "delay": 0.5
+    },
+    {
+      "playerId": "lcb",
+      "kind": "cover",
+      "path": [
+        {
+          "x": -21,
+          "y": 10
+        }
+      ],
+      "speed": 6,
+      "delay": 0.4
+    },
+    {
+      "playerId": "rcb",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 21,
+          "y": 5
+        }
+      ],
+      "speed": 4,
+      "delay": 0.4
+    },
+    {
+      "playerId": "nb",
+      "kind": "pursue",
+      "path": [
+        {
+          "x": 15,
+          "y": 2
+        },
+        {
+          "x": 20,
+          "y": -1
+        }
+      ],
+      "speed": 6,
+      "delay": 0.5
+    },
+    {
+      "playerId": "fs",
+      "kind": "cover",
+      "path": [
+        {
+          "x": -3,
+          "y": 17
+        }
+      ],
+      "speed": 4,
+      "delay": 0.6
+    },
+    {
+      "playerId": "ss",
+      "kind": "pursue",
+      "path": [
+        {
+          "x": 10,
+          "y": 10
+        },
+        {
+          "x": 18,
+          "y": 8
+        }
+      ],
+      "speed": 5.5,
+      "delay": 0.6
+    }
+  ],
+  "ball": {
+    "start": "c",
+    "events": [
+      {
+        "t": 0,
+        "to": "qb"
+      },
+      {
+        "t": 0.6,
+        "to": "wr-y",
+        "throw": true
+      }
+    ]
+  },
+  "hot": "wr-y"
+}

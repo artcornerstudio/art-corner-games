@@ -1,0 +1,22 @@
+{
+  "id": "reads-cover1",
+  "unitId": "reads",
+  "order": 1,
+  "title": "Cover 1: one deep, everyone else in man",
+  "summary": "One safety stays deep in the middle while every other defender follows a receiver. Here is how to spot it and how crossing routes beat it.",
+  "steps": [
+    { "text": "A coverage is the plan the defense uses to guard the pass. Cover 1 is the simplest one to remember. The number tells you how many defenders stay deep. In Cover 1 that is one player: the free safety, standing alone in the middle of the field.", "diagram": { "formationId": "cover1-tackle", "highlight": ["fs"] } },
+    { "text": "Everyone else plays man coverage. Each cornerback picks a wide receiver and follows him wherever he goes. The linebackers take the tight end and the running back. The strong safety comes up close to the line so he can help with the short stuff.", "diagram": { "formationId": "cover1-tackle", "highlight": ["lcb", "rcb", "ss", "will", "mike", "sam"] } },
+    { "text": "How do you spot Cover 1 before the snap? Look for one safety way back in the middle and the other safety up close. The cornerbacks stand right in front of their receivers, ready to run with them. At the snap they turn and chase.", "diagram": { "formationId": "cover1-tackle", "highlight": ["fs", "ss", "lcb", "rcb"] } },
+    { "text": "The free safety is the safety net. If a receiver gets past his man, the free safety runs over to help. That is why Cover 1 is good against deep throws. But one player cannot be everywhere at once.", "diagram": { "formationId": "cover1-tackle", "highlight": ["fs"] } },
+    { "text": "The weakness is crossing routes. Watch this play. The two inside receivers run shallow routes across the field and pass right by each other. Their defenders have to chase them through the same crowded spot.", "diagram": { "playId": "mesh-vs-cover1", "highlight": ["wr-h", "wr-y"] } },
+    { "text": "Watch the two defenders chasing the crossers. They bump, slow down, and one receiver pops out open. That is Mesh, the classic Cover 1 beater. Rule to remember: man coverage chases, so make the chasers run into each other.", "diagram": { "playId": "mesh-vs-cover1", "highlight": ["ss", "will"] } }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "In Cover 1, how many defenders stay deep?", "choices": ["One", "Two", "Three"], "answer": 0, "explanation": "The number in the name tells you how many stay deep. In Cover 1 it is just the free safety." },
+    { "type": "tap", "prompt": "Tap the free safety, the only deep defender in Cover 1.", "diagram": { "formationId": "cover1-tackle" }, "target": "fs", "explanation": "The free safety stands alone in the deep middle, ready to help wherever a receiver gets loose." },
+    { "type": "choice", "prompt": "In Cover 1, what does a cornerback do at the snap?", "choices": ["Drops to a spot and watches the quarterback", "Turns and follows his receiver wherever he goes", "Rushes the quarterback"], "answer": 1, "explanation": "Everyone except the free safety plays man, so the cornerback chases his receiver." },
+    { "type": "choice", "prompt": "Which kind of route is best against Cover 1?", "choices": ["Crossing routes that make defenders bump", "Curls that sit in holes between zones", "Slow routes that give the safety time"], "answer": 0, "explanation": "Man defenders have to chase, so crossing routes make the chasers run into each other." },
+    { "type": "choice", "prompt": "Why does the free safety stay deep instead of covering a receiver?", "choices": ["He is the slowest player on the field", "He is the safety net if a receiver gets past his man", "He is waiting to blitz"], "answer": 1, "explanation": "With everyone else in man, the free safety is the one helper who can run to any deep throw." }
+  ]
+}

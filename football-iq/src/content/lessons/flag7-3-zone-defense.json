@@ -1,0 +1,22 @@
+{
+  "id": "flag7-zone-defense",
+  "unitId": "flag7",
+  "order": 3,
+  "title": "7v7 zone defense",
+  "summary": "Three short, three deep, one rusher. How a 7v7 zone works and why a flood route beats it.",
+  "steps": [
+    { "text": "In a zone defense, each defender guards an area of the field, not one player. This is a common 7v7 zone. The rusher goes after the quarterback. The other six split the field: three short and three deep.", "diagram": { "formationId": "zone-flag7", "highlight": ["rush"] } },
+    { "text": "The three short defenders line up about 5 yards deep: left, middle, and right. Their zones cover the quick stuff, like flats, slants, and drags. They watch the quarterback and break on the ball when he throws.", "diagram": { "formationId": "zone-flag7", "highlight": ["u-l", "u-m", "u-r"] } },
+    { "text": "The three deep defenders stand 13 to 15 yards back: left, middle, and right. Their rule is simple. Nothing gets behind them. Deep zones take away go routes, posts, and corners.", "diagram": { "formationId": "zone-flag7", "highlight": ["d-l", "d-m", "d-r"] } },
+    { "text": "Zone is strong because nobody gets beaten one on one, and every defender faces the quarterback and can see the ball. Crossing routes matter less, because defenders pass the receiver to the next zone instead of chasing. But zone has a weak spot: too many receivers in one zone." },
+    { "text": "That is exactly what Flood does. Look at the right side. The short defender on the right has both the out and the flat in his area. The deep defender on the right has the corner. Whichever one he leaves is open.", "diagram": { "playId": "flag7-flood", "highlight": ["u-r", "d-r"] } },
+    { "text": "One defender cannot cover two players in his zone. If the short defender jumps the flat, the out behind him is open. If he drops to the out, the flat is open. The best answer for a zone defense is talking: call out receivers and hand them off between zones.", "diagram": { "playId": "flag7-flood", "highlight": ["wr-y", "rb"] } }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "In a zone defense, what does each defender guard?", "choices": ["One receiver, wherever he goes", "An area of the field", "The quarterback"], "answer": 1, "explanation": "Zone means an area. The defender covers whoever comes into his space." },
+    { "type": "tap", "prompt": "Tap the deep middle defender, the one who makes sure nothing gets behind the defense in the middle.", "diagram": { "formationId": "zone-flag7" }, "target": "d-m", "explanation": "He is the deepest player on the field. His rule is that nothing gets behind him." },
+    { "type": "choice", "prompt": "How many deep defenders does this 7v7 zone use?", "choices": ["1", "3", "6"], "answer": 1, "explanation": "Three deep and three short, plus the rusher. That makes seven." },
+    { "type": "choice", "prompt": "Why does Flood beat a zone?", "choices": ["The receivers are faster", "Three receivers at three depths in one area, and one defender cannot cover two", "The rusher gets blocked"], "answer": 1, "explanation": "Zones guard areas. Put more receivers in an area than defenders and somebody is open." },
+    { "type": "choice", "prompt": "What is the best way for zone defenders to fight back against Flood?", "choices": ["Chase one receiver all over the field", "Talk to each other and hand receivers off between zones", "Everyone rush the quarterback"], "answer": 1, "explanation": "Zone only works when defenders communicate. Passing receivers off keeps every level covered." }
+  ]
+}

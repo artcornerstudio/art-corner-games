@@ -1,0 +1,21 @@
+{
+  "id": "defense-man-zone",
+  "unitId": "defense",
+  "order": 4,
+  "title": "Man vs zone",
+  "summary": "The two ways to cover receivers, and how to tell which one the defense is playing.",
+  "steps": [
+    { "text": "There are two ways to cover a pass. In man coverage, each defender picks one receiver and follows him wherever he goes. It is like a game of tag: you have one person and you stay with him.", "diagram": { "playId": "slant-flat", "highlight": ["lcb", "wr-x"] } },
+    { "text": "In zone coverage, each defender guards an area of the field instead of a person. If a receiver runs into your zone, you cover him. If he leaves, you pass him to the next defender. Watch how the linebackers drop to spots on this play.", "diagram": { "playId": "four-verticals", "highlight": ["mike", "will", "fs", "ss"] } },
+    { "text": "How do you tell? Watch a defender at the snap. If he turns his back to the quarterback and runs with a receiver, it is man. If he keeps his eyes on the quarterback and drops to a spot, it is zone.", "diagram": { "playId": "four-verticals" } },
+    { "text": "Each has a weakness. Man coverage can be beaten by a faster receiver, or by two receivers crossing so the defenders bump into each other. That is what Mesh does.", "diagram": { "playId": "mesh", "highlight": ["wr-h", "wr-y"] } },
+    { "text": "Zone coverage has holes between the zones. Smart receivers sit down in those holes, like a curl right between two defenders. Offenses attack man with crossing routes and attack zone by finding the gaps." }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "In man coverage, what does each defender do?", "choices": ["Guards one area of the field", "Follows one receiver wherever he goes", "Rushes the quarterback"], "answer": 1, "explanation": "Man means one defender on one receiver, like tag." },
+    { "type": "choice", "prompt": "In zone coverage, what does each defender do?", "choices": ["Guards one area of the field", "Follows one receiver", "Stays on the line"], "answer": 0, "explanation": "Zone defenders guard spots on the field and pass receivers along." },
+    { "type": "choice", "prompt": "A cornerback turns his back to the quarterback and runs with the receiver. What coverage is that?", "choices": ["Man", "Zone", "A blitz"], "answer": 0, "explanation": "Turning and running with a receiver is a man coverage sign." },
+    { "type": "choice", "prompt": "Which play is designed to beat man coverage by making defenders bump into each other?", "choices": ["Four Verticals", "Mesh", "Inside Zone"], "answer": 1, "explanation": "Mesh crosses two receivers close together so the defenders chasing them collide." },
+    { "type": "choice", "prompt": "What is the weakness of zone coverage?", "choices": ["A faster receiver", "The gaps between the zones", "It cannot stop the run"], "answer": 1, "explanation": "Receivers can sit down in the holes between zones." }
+  ]
+}

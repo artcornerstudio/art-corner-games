@@ -1,0 +1,22 @@
+{
+  "id": "flag7-rules-routes",
+  "unitId": "flag7",
+  "order": 2,
+  "title": "No blocking: routes for everyone",
+  "summary": "With no blocking, all six catchers run routes. Two plays that make that work: Flood and Mesh.",
+  "steps": [
+    { "text": "No blocking changes everything. In tackle football, five or more players stay home to protect the quarterback. In 7v7, nobody protects him, so everyone runs a route. Six receivers, six defenders covering, and one rusher coming from 7 yards back. The quarterback has about two seconds to throw.", "diagram": { "playId": "flag7-flood" } },
+    { "text": "That means routes have to be quick and clear. Here is Flood. Three receivers run to the same side at three different depths: Z runs a corner deep, Y runs an out in the middle, and the running back runs to the flat short.", "diagram": { "playId": "flag7-flood", "highlight": ["wr-z", "wr-y", "rb"] } },
+    { "text": "The quarterback reads high to low. Corner first, then the out, then the flat. The other side keeps the rest of the defense busy: X runs a post, H runs a drag underneath, and the center runs a short hook right in front of the quarterback as a last option.", "diagram": { "playId": "flag7-flood", "highlight": ["qb", "wr-x", "wr-h", "c"] } },
+    { "text": "Here is Mesh. The two slot receivers, H and Y, cross right past each other just past the line. Defenders chasing them have to slow down or bump into each other. Crossing routes are hard to cover in flag because there is no contact allowed.", "diagram": { "playId": "flag7-mesh", "highlight": ["wr-h", "wr-y"] } },
+    { "text": "On Mesh the center runs straight up the middle, pulling a deep defender with him. X goes deep, Z curls, and the running back swings out as the safety valve, the easy throw if nothing else is open. Six routes, lots of choices. The quarterback throws to the first one open.", "diagram": { "playId": "flag7-mesh", "highlight": ["c", "rb"] } },
+    { "text": "A few rules to remember. No blocking means receivers cannot even shield a defender for a teammate. The rusher must start 7 yards back, and in most leagues the quarterback cannot run the ball past the line himself. Winning in 7v7 is about route shapes and timing, not strength." }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "Why does every player run a route in 7v7 flag?", "choices": ["The field is bigger", "There is no blocking, so nobody needs to stay and protect", "Running is not allowed"], "answer": 1, "explanation": "No blocking means no linemen. Everyone except the quarterback goes out for a pass." },
+    { "type": "choice", "prompt": "What does Flood mean?", "choices": ["Everyone runs deep", "Three receivers to one side at three depths", "All receivers cross in the middle"], "answer": 1, "explanation": "Deep, middle, and short to the same side. One defender cannot cover all three." },
+    { "type": "tap", "prompt": "Tap the receiver running the deep corner route on Flood.", "diagram": { "playId": "flag7-flood" }, "target": "wr-z", "explanation": "Z is the outside receiver on the trips side. He runs the deepest route, the corner." },
+    { "type": "choice", "prompt": "On Mesh, what do the two slot receivers do?", "choices": ["Run straight up the field", "Cross right past each other just past the line", "Block the rusher"], "answer": 1, "explanation": "The crossing makes defenders slow down and bump into each other." },
+    { "type": "choice", "prompt": "On Mesh, who is the safety valve, the easy throw if nothing else is open?", "choices": ["The center running up the middle", "The running back swinging out", "X running deep"], "answer": 1, "explanation": "The swing route is short and near the quarterback. It is the safe choice when the rusher is close." }
+  ]
+}

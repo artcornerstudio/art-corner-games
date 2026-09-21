@@ -1,0 +1,83 @@
+{
+  "id": "punt-return-tackle",
+  "name": "Punt Return Team",
+  "variant": "tackle11",
+  "side": "defense",
+  "description": "Six rushers try to block the punt or hold up the blockers, two jammers slow the gunners, two blockers set up the return, and the returner waits deep.",
+  "players": [
+    {
+      "id": "rs-1",
+      "position": "RS",
+      "x": -7,
+      "y": 1,
+      "label": "R"
+    },
+    {
+      "id": "rs-2",
+      "position": "RS",
+      "x": -4,
+      "y": 1,
+      "label": "R"
+    },
+    {
+      "id": "rs-3",
+      "position": "RS",
+      "x": -1.5,
+      "y": 1,
+      "label": "R"
+    },
+    {
+      "id": "rs-4",
+      "position": "RS",
+      "x": 1.5,
+      "y": 1,
+      "label": "R"
+    },
+    {
+      "id": "rs-5",
+      "position": "RS",
+      "x": 4,
+      "y": 1,
+      "label": "R"
+    },
+    {
+      "id": "rs-6",
+      "position": "RS",
+      "x": 7,
+      "y": 1,
+      "label": "R"
+    },
+    {
+      "id": "j-l",
+      "position": "J",
+      "x": -20,
+      "y": 3
+    },
+    {
+      "id": "j-r",
+      "position": "J",
+      "x": 20,
+      "y": 3
+    },
+    {
+      "id": "bl-l",
+      "position": "BL",
+      "x": -6,
+      "y": 9,
+      "label": "B"
+    },
+    {
+      "id": "bl-r",
+      "position": "BL",
+      "x": 6,
+      "y": 9,
+      "label": "B"
+    },
+    {
+      "id": "pr",
+      "position": "PR",
+      "x": 0,
+      "y": 42
+    }
+  ]
+}

@@ -1,0 +1,214 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://football-iq/play.schema.json",
+  "title": "Play",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "name",
+    "variant",
+    "type",
+    "formationId",
+    "defenseFormationId",
+    "description",
+    "why",
+    "assignments",
+    "ball"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "variant": {
+      "enum": [
+        "tackle11",
+        "flag5",
+        "flag7"
+      ]
+    },
+    "type": {
+      "enum": [
+        "run",
+        "pass"
+      ]
+    },
+    "formationId": {
+      "type": "string"
+    },
+    "defenseFormationId": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "why": {
+      "type": "string",
+      "minLength": 1
+    },
+    "assignments": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "playerId",
+          "kind",
+          "path"
+        ],
+        "properties": {
+          "playerId": {
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "route",
+              "block",
+              "carry",
+              "dropback",
+              "rush",
+              "cover",
+              "pursue",
+              "stay"
+            ]
+          },
+          "path": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "x",
+                "y"
+              ],
+              "properties": {
+                "x": {
+                  "type": "number",
+                  "minimum": -30,
+                  "maximum": 30
+                },
+                "y": {
+                  "type": "number",
+                  "minimum": -30,
+                  "maximum": 80
+                }
+              }
+            }
+          },
+          "delay": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 12
+          },
+          "speed": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 12
+          }
+        }
+      }
+    },
+    "ball": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "start",
+        "events"
+      ],
+      "properties": {
+        "start": {
+          "type": "string"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "t"
+            ],
+            "properties": {
+              "t": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 15
+              },
+              "to": {
+                "type": "string"
+              },
+              "throw": {
+                "type": "boolean"
+              },
+              "toPoint": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number",
+                    "minimum": -30,
+                    "maximum": 30
+                  },
+                  "y": {
+                    "type": "number",
+                    "minimum": -30,
+                    "maximum": 80
+                  }
+                }
+              },
+              "flight": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 8
+              }
+            }
+          }
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "view": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "behind",
+        "ahead"
+      ],
+      "properties": {
+        "behind": {
+          "type": "number",
+          "minimum": 5,
+          "maximum": 40
+        },
+        "ahead": {
+          "type": "number",
+          "minimum": 10,
+          "maximum": 80
+        }
+      }
+    },
+    "losYard": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 99
+    },
+    "hot": {
+      "type": "string"
+    }
+  }
+}

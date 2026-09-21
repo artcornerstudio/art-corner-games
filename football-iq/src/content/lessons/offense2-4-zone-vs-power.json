@@ -1,0 +1,23 @@
+{
+  "id": "offense2-zone-vs-power",
+  "unitId": "offense2",
+  "order": 4,
+  "title": "Zone vs power runs",
+  "summary": "Two families of run plays. Zone: everyone steps the same way and the back reads. Power: extra blockers at one hole.",
+  "steps": [
+    { "text": "Run plays come in two big families: zone and power. The difference is how the blockers move. On a zone run, every blocker steps the same direction together. On a power run, the offense sends extra blockers to one hole. Start with Inside Zone Right.", "diagram": { "playId": "inside-zone-right" } },
+    { "text": "At the snap, every lineman steps to the right. Each one blocks whoever shows up in his area, his zone. Nobody has one man he must block. The whole defense gets pushed sideways and small gaps open up.", "diagram": { "playId": "inside-zone-right", "highlight": ["c", "lg", "rg", "lt", "rt", "te"] } },
+    { "text": "The running back does not pick a hole before the snap. He runs toward the right side, reads the blocks, and cuts through whichever gap opens. One cut, then go. That read is the hard part of a zone run.", "diagram": { "playId": "inside-zone-right", "highlight": ["rb"] } },
+    { "text": "Outside Zone Left is the same idea, stretched wider. The whole line slides left and the back runs toward the sideline. If a lane opens early he cuts up. If the defense chases too hard, he cuts back behind them.", "diagram": { "playId": "outside-zone-left", "highlight": ["rb"] } },
+    { "text": "Power runs work differently. On Iso, the fullback goes first and blocks the middle linebacker. The running back follows right behind him through one planned hole. That is one extra blocker at one exact spot.", "diagram": { "playId": "iso-lead", "highlight": ["fb", "mike"] } },
+    { "text": "Power O adds another blocker. The left guard pulls: he leaves his spot, runs behind the center, and leads through the hole on the right. The fullback kicks out the defensive end. Now the offense has more blockers at the hole than the defense has tacklers. Power is about numbers.", "diagram": { "playId": "power-o", "highlight": ["lg", "fb"] } },
+    { "text": "Quick way to tell them apart: watch the linemen. Everyone stepping the same direction is zone. A guard pulling or a fullback leading to one spot is power. Zone asks the runner to read. Power tells him exactly where to go." }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "On a zone run, what do the linemen do?", "choices": ["Each one blocks one man he picked before the snap", "All step the same direction and block whoever shows up in their area", "Let the rushers through"], "answer": 1, "explanation": "Zone blocking is about areas, not men. Everyone moves together." },
+    { "type": "choice", "prompt": "On a zone run, when does the running back pick his hole?", "choices": ["In the huddle", "Before the snap", "After the snap, by reading the blocks"], "answer": 2, "explanation": "He runs toward the side, reads the blocks, and cuts where the gap opens." },
+    { "type": "tap", "prompt": "Tap the guard who pulls on Power O.", "diagram": { "playId": "power-o" }, "target": "lg", "explanation": "The left guard leaves his spot and runs behind the center to lead through the hole on the right." },
+    { "type": "choice", "prompt": "What does the fullback do on Iso?", "choices": ["Takes the handoff", "Goes first and blocks the middle linebacker", "Runs a pass route"], "answer": 1, "explanation": "The fullback leads through the hole and takes out the linebacker so the back has a lane." },
+    { "type": "choice", "prompt": "Why do coaches say power is about numbers?", "choices": ["The plays have long numbers", "Extra blockers at one hole means more blockers than tacklers there", "Only big players can run it"], "answer": 1, "explanation": "A pulling guard and a lead fullback put more blockers at the point of attack than the defense has tacklers." }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "positions-db-technique",
+  "unitId": "positions",
+  "order": 4,
+  "title": "Defensive back: eyes and hips",
+  "summary": "How a cornerback or safety backpedals, when he turns and runs, where his eyes go in man and zone, and why he never lets a receiver behind him.",
+  "steps": [
+    {"text": "Defensive backs are the cornerbacks and safeties, the last line of the defense. They start most plays going backward. The backpedal is low and smooth: knees bent, weight on the toes, short quick steps, chest over the knees. Staying low lets the defender change direction fast.", "diagram": {"formationId": "cover3-tackle", "highlight": ["lcb", "rcb", "fs", "ss"]}},
+    {"text": "A defensive back cannot backpedal forever. A receiver running forward is faster than a defender running backward. When the receiver gets within about three yards, the defender flips his hips, turns, and runs with him. Flip too late and the receiver runs right by.", "diagram": {"playId": "four-verts-vs-cover3", "highlight": ["lcb", "wr-x"]}},
+    {"text": "Where the eyes go depends on the coverage. In man coverage the defender has one receiver to follow. His eyes stay on that receiver's hips, not his eyes or his hands. Hips do not lie. Wherever the hips go, the receiver goes.", "diagram": {"playId": "four-verts-vs-cover3", "highlight": ["rcb", "wr-z"]}},
+    {"text": "In zone coverage the defender guards a spot, not a person. Now his eyes go to the quarterback. The quarterback's eyes and shoulders point where the ball is going. Watch the free safety here. He sits in the deep middle, reads the quarterback, and breaks toward the throw.", "diagram": {"playId": "four-verts-vs-cover3", "highlight": ["fs", "qb"]}},
+    {"text": "When the ball is in the air, go get it at its highest point. Do not wait for it to come down. Jump and reach up with both hands. Whoever gets to the ball first wins it, and the defender who jumps early beats the receiver who waits.", "diagram": {"playId": "four-verts-vs-cover3", "highlight": ["fs", "wr-h", "wr-y"]}},
+    {"text": "One rule above all: if you are the last man, never let a receiver get behind you. A catch in front of you is a few yards. A catch behind you is a touchdown. Deep defenders always stay deeper than the deepest receiver, even if it means giving up a short catch.", "diagram": {"formationId": "cover3-tackle", "highlight": ["fs", "lcb", "rcb"]}},
+    {"text": "Watch the free safety on Four Verticals. Two receivers run up the seams, one on each side of him. He can only pick one. He reads the quarterback, chooses a seam, and stays on top of it. The other seam is the offense's throw, but he did his job: nobody got behind him.", "diagram": {"playId": "four-verts-vs-cover3", "highlight": ["fs", "wr-h", "wr-y"]}}
+  ],
+  "quiz": [
+    {"type": "choice", "prompt": "When should a defensive back flip his hips and run?", "choices": ["Right at the snap", "When the receiver gets within about three yards", "Never, keep backpedaling"], "answer": 1, "explanation": "A receiver running forward beats a defender running backward. Turn before he closes the gap."},
+    {"type": "choice", "prompt": "In man coverage, where should the defender's eyes be?", "choices": ["On the receiver's hips", "On the quarterback", "On the sideline"], "answer": 0, "explanation": "Hips show where the receiver is going. In man, the defender follows his one receiver."},
+    {"type": "choice", "prompt": "In zone coverage, where should the defender's eyes be?", "choices": ["On the nearest receiver's hips", "On the quarterback", "On the ground"], "answer": 1, "explanation": "In zone the defender guards a spot, so he watches the quarterback to see where the throw is going."},
+    {"type": "tap", "prompt": "Tap the deep defender who has to choose which seam to take on Four Verticals.", "diagram": {"playId": "four-verts-vs-cover3"}, "target": "fs", "explanation": "The free safety sits in the deep middle. Two seams and one safety means he can only take one."},
+    {"type": "choice", "prompt": "You are the deepest defender. Which is worse?", "choices": ["A short catch in front of you", "A receiver getting behind you", "Backpedaling too low"], "answer": 1, "explanation": "A catch in front is a few yards. A catch behind the last man is a touchdown."}
+  ]
+}

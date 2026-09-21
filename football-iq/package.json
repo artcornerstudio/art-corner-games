@@ -1,0 +1,37 @@
+{
+  "name": "football-iq",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Football IQ: Flag and Field - a browser game that teaches kids 8-16 the X's and O's of football",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -p tsconfig.json --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "validate": "tsx scripts/validate-content.ts",
+    "test": "vitest run",
+    "check": "npm run typecheck && npm run validate && npm run test"
+  },
+  "dependencies": {
+    "konva": "^9.3.16",
+    "qrcode": "^1.5.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-konva": "^18.2.10"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.4",
+    "@types/qrcode": "^1.5.6",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "ajv": "^8.17.1",
+    "playwright-core": "^1.63.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "vite": "^6.0.3",
+    "vite-plugin-pwa": "^0.21.2",
+    "vitest": "^3.2.7"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "id": "spread-tackle",
+  "name": "Spread",
+  "variant": "tackle11",
+  "side": "offense",
+  "description": "Four receivers spread from sideline to sideline and the quarterback in the shotgun. The defense has to cover the whole field, which opens up space.",
+  "players": [
+    { "id": "c", "position": "C", "x": 0, "y": -0.5 },
+    { "id": "lg", "position": "G", "label": "LG", "x": -2, "y": -0.5 },
+    { "id": "rg", "position": "G", "label": "RG", "x": 2, "y": -0.5 },
+    { "id": "lt", "position": "T", "label": "LT", "x": -4, "y": -0.5 },
+    { "id": "rt", "position": "T", "label": "RT", "x": 4, "y": -0.5 },
+    { "id": "qb", "position": "QB", "x": 0, "y": -5 },
+    { "id": "rb", "position": "RB", "x": -3, "y": -5 },
+    { "id": "wr-x", "position": "WR", "label": "X", "x": -22, "y": -0.5 },
+    { "id": "wr-h", "position": "WR", "label": "H", "x": -12, "y": -1.5 },
+    { "id": "wr-y", "position": "WR", "label": "Y", "x": 12, "y": -1.5 },
+    { "id": "wr-z", "position": "WR", "label": "Z", "x": 22, "y": -0.5 }
+  ]
+}

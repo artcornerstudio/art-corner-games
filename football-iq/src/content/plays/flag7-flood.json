@@ -1,0 +1,229 @@
+{
+  "id": "flag7-flood",
+  "name": "Flood (Flag 7v7)",
+  "variant": "flag7",
+  "type": "pass",
+  "tags": [
+    "pass",
+    "intermediate",
+    "beats-zone"
+  ],
+  "formationId": "trips-flag7",
+  "defenseFormationId": "zone-flag7",
+  "description": "Three receivers run routes to the same side at three different depths: a corner deep, an out in the middle, and a flat short. One zone defender cannot cover three levels, so one receiver is open.",
+  "why": "Flood is the classic zone beater. Zone defenders guard areas. Put three receivers in one area at three depths and somebody has to be open. The quarterback reads high to low: corner, then out, then flat.",
+  "assignments": [
+    {
+      "playerId": "qb",
+      "kind": "dropback",
+      "path": [
+        {
+          "x": 0,
+          "y": -7
+        }
+      ],
+      "speed": 4
+    },
+    {
+      "playerId": "wr-z",
+      "kind": "route",
+      "path": [
+        {
+          "x": 12,
+          "y": 8
+        },
+        {
+          "x": 14.5,
+          "y": 16
+        }
+      ],
+      "speed": 7.5
+    },
+    {
+      "playerId": "wr-y",
+      "kind": "route",
+      "path": [
+        {
+          "x": 7,
+          "y": 6
+        },
+        {
+          "x": 14,
+          "y": 6.5
+        }
+      ],
+      "speed": 7
+    },
+    {
+      "playerId": "rb",
+      "kind": "route",
+      "path": [
+        {
+          "x": 8,
+          "y": -1
+        },
+        {
+          "x": 14,
+          "y": 1
+        }
+      ],
+      "speed": 6.5
+    },
+    {
+      "playerId": "wr-x",
+      "kind": "route",
+      "path": [
+        {
+          "x": -12,
+          "y": 8
+        },
+        {
+          "x": -4,
+          "y": 16
+        }
+      ],
+      "speed": 7.5
+    },
+    {
+      "playerId": "wr-h",
+      "kind": "route",
+      "path": [
+        {
+          "x": -7,
+          "y": 3
+        },
+        {
+          "x": 6,
+          "y": 4
+        }
+      ],
+      "speed": 7
+    },
+    {
+      "playerId": "c",
+      "kind": "route",
+      "path": [
+        {
+          "x": 0,
+          "y": 4
+        },
+        {
+          "x": 0,
+          "y": 3
+        }
+      ],
+      "speed": 6
+    },
+    {
+      "playerId": "rush",
+      "kind": "rush",
+      "path": [
+        {
+          "x": 0,
+          "y": -3
+        },
+        {
+          "x": 0,
+          "y": -6.5
+        }
+      ],
+      "speed": 6,
+      "delay": 0.1
+    },
+    {
+      "playerId": "u-l",
+      "kind": "cover",
+      "path": [
+        {
+          "x": -8,
+          "y": 6
+        }
+      ],
+      "speed": 5,
+      "delay": 0.4
+    },
+    {
+      "playerId": "u-m",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 0,
+          "y": 6
+        }
+      ],
+      "speed": 5,
+      "delay": 0.4
+    },
+    {
+      "playerId": "u-r",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 9,
+          "y": 6
+        },
+        {
+          "x": 13,
+          "y": 7
+        }
+      ],
+      "speed": 5,
+      "delay": 0.4
+    },
+    {
+      "playerId": "d-l",
+      "kind": "cover",
+      "path": [
+        {
+          "x": -9,
+          "y": 14
+        }
+      ],
+      "speed": 4,
+      "delay": 0.5
+    },
+    {
+      "playerId": "d-m",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 0,
+          "y": 15
+        }
+      ],
+      "speed": 4,
+      "delay": 0.5
+    },
+    {
+      "playerId": "d-r",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 10,
+          "y": 13
+        },
+        {
+          "x": 14,
+          "y": 17
+        }
+      ],
+      "speed": 5,
+      "delay": 0.5
+    }
+  ],
+  "ball": {
+    "start": "c",
+    "events": [
+      {
+        "t": 0,
+        "to": "qb"
+      },
+      {
+        "t": 1.8,
+        "to": "wr-y",
+        "throw": true
+      }
+    ]
+  },
+  "hot": "rb"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "special-kickoff",
+  "unitId": "special",
+  "order": 1,
+  "title": "Kickoff and return",
+  "summary": "Who kicks off, how the coverage team races downfield, and what the returner does with the ball.",
+  "steps": [
+    { "text": "Every half starts with a kickoff, and every score is followed by one too. The team that just scored kicks the ball away to the other team. So scoring means giving the ball back, and the other team gets its turn.", "diagram": { "playId": "kickoff-tackle" } },
+    { "text": "The kicker is the one player standing way back. He runs up and boots the ball as far as he can, from his own 35-yard line all the way toward the other end zone. Kickers are their own kind of player: most of them never block, catch, or tackle.", "diagram": { "formationId": "kickoff-kick-tackle", "highlight": ["k"] } },
+    { "text": "The other ten players on the kicking team are the coverage team. When the ball is kicked they sprint down the field, each one in his own lane, like ten runners in ten track lanes. The lanes matter: if everyone chases the ball to one side, the returner cuts back the other way and nobody is there.", "diagram": { "formationId": "kickoff-kick-tackle", "highlight": ["cv-l1", "cv-l2", "cv-l3", "cv-l4", "cv-l5", "cv-r5", "cv-r4", "cv-r3", "cv-r2", "cv-r1"] } },
+    { "text": "The returner stands deep by his own end zone. He catches the kick and runs it back as far as he can. His ten teammates are blockers who drop back and build a wall so he can find one open lane.", "diagram": { "formationId": "kickoff-return-tackle", "highlight": ["kr"] } },
+    { "text": "Wherever the returner gets tackled is where his offense starts. Get tackled at your own 20 and you have a long way to go. Break a big return to midfield and your offense already has great field position." },
+    { "text": "Sometimes the kick sails into the end zone. The returner can catch it and kneel, and that is called a touchback. The play is over, nobody gets tackled, and the offense simply starts at a set yard line, like the 25. A returner picks a touchback when running it out would probably end up short of that spot." }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "A team just scored a touchdown. Who kicks off next?", "choices": ["The team that scored", "The team that gave up the score", "Whichever team won the coin toss"], "answer": 0, "explanation": "The team that scores kicks the ball away. Scoring means the other team gets its turn with the ball." },
+    { "type": "tap", "prompt": "Tap the kick returner.", "diagram": { "playId": "kickoff-tackle" }, "target": "kr", "explanation": "The returner stands deep by his own end zone. He catches the kick and runs it back behind his blockers." },
+    { "type": "choice", "prompt": "Why does each coverage player run down the field in his own lane?", "choices": ["So the referee can count them", "So the returner has no open gap to cut into", "So they do not get tired"], "answer": 1, "explanation": "If everyone runs to the ball on one side, the returner cuts back the other way. Lanes keep the whole field covered." },
+    { "type": "choice", "prompt": "The returner catches the kick in his own end zone and kneels. What happens?", "choices": ["It is a safety, 2 points for the kicking team", "It is a touchback, and his offense starts at a set yard line", "He has to run it out"], "answer": 1, "explanation": "Kneeling in the end zone is a touchback. No tackle, no risk, and the offense starts at a set spot like the 25." },
+    { "type": "choice", "prompt": "The returner gets tackled at his own 45-yard line. Where does his offense start?", "choices": ["At its own 20", "At its own 45", "At midfield, the 50"], "answer": 1, "explanation": "Wherever the returner is tackled is where the offense starts. A return to the 45 is a great start." }
+  ]
+}

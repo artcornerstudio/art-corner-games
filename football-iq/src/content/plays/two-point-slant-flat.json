@@ -1,0 +1,325 @@
+{
+  "id": "two-point-slant-flat",
+  "name": "Two-Point Try (Slant-Flat)",
+  "variant": "tackle11",
+  "type": "pass",
+  "formationId": "shotgun-tackle",
+  "defenseFormationId": "base-43-tackle",
+  "description": "Instead of kicking the extra point, the offense runs one play from the 2-yard line. Score and it is worth 2 points. Here the quarterback throws the quick slant into the end zone.",
+  "why": "Two points beats one, but it is harder to get. Teams go for 2 when the math says they need it, like being down by 8 late in the game.",
+  "assignments": [
+    {
+      "playerId": "qb",
+      "kind": "dropback",
+      "path": [
+        {
+          "x": 0,
+          "y": -7
+        }
+      ],
+      "speed": 4
+    },
+    {
+      "playerId": "wr-x",
+      "kind": "route",
+      "path": [
+        {
+          "x": -19.5,
+          "y": 2.5
+        },
+        {
+          "x": -12,
+          "y": 8
+        },
+        {
+          "x": -7,
+          "y": 14
+        }
+      ],
+      "speed": 7
+    },
+    {
+      "playerId": "rb",
+      "kind": "route",
+      "path": [
+        {
+          "x": -4,
+          "y": -4
+        },
+        {
+          "x": -12,
+          "y": -1
+        },
+        {
+          "x": -18,
+          "y": 1
+        }
+      ],
+      "speed": 6.5
+    },
+    {
+      "playerId": "wr-y",
+      "kind": "route",
+      "path": [
+        {
+          "x": 12.5,
+          "y": 2.5
+        },
+        {
+          "x": 6,
+          "y": 8
+        }
+      ],
+      "speed": 7
+    },
+    {
+      "playerId": "wr-z",
+      "kind": "route",
+      "path": [
+        {
+          "x": 20,
+          "y": 8
+        },
+        {
+          "x": 20,
+          "y": 22
+        }
+      ],
+      "speed": 7.5
+    },
+    {
+      "playerId": "te",
+      "kind": "route",
+      "path": [
+        {
+          "x": 8,
+          "y": 2
+        },
+        {
+          "x": 16,
+          "y": 3
+        }
+      ],
+      "speed": 6
+    },
+    {
+      "playerId": "c",
+      "kind": "block",
+      "path": [
+        {
+          "x": 0,
+          "y": -1.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "lg",
+      "kind": "block",
+      "path": [
+        {
+          "x": -1.8,
+          "y": -1.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "rg",
+      "kind": "block",
+      "path": [
+        {
+          "x": 1.8,
+          "y": -1.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "lt",
+      "kind": "block",
+      "path": [
+        {
+          "x": -4,
+          "y": -2.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "rt",
+      "kind": "block",
+      "path": [
+        {
+          "x": 4,
+          "y": -2.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "lde",
+      "kind": "rush",
+      "path": [
+        {
+          "x": -5,
+          "y": -1.5
+        }
+      ],
+      "speed": 3.5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "ldt",
+      "kind": "rush",
+      "path": [
+        {
+          "x": -1.5,
+          "y": -0.5
+        }
+      ],
+      "speed": 2.5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "rdt",
+      "kind": "rush",
+      "path": [
+        {
+          "x": 2.5,
+          "y": -0.5
+        }
+      ],
+      "speed": 2.5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "rde",
+      "kind": "rush",
+      "path": [
+        {
+          "x": 6,
+          "y": -1.5
+        }
+      ],
+      "speed": 3.5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "will",
+      "kind": "cover",
+      "path": [
+        {
+          "x": -7,
+          "y": 7
+        }
+      ],
+      "speed": 5,
+      "delay": 0.4
+    },
+    {
+      "playerId": "mike",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 0,
+          "y": 8
+        }
+      ],
+      "speed": 5,
+      "delay": 0.4
+    },
+    {
+      "playerId": "sam",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 9,
+          "y": 6
+        }
+      ],
+      "speed": 5,
+      "delay": 0.4
+    },
+    {
+      "playerId": "lcb",
+      "kind": "cover",
+      "path": [
+        {
+          "x": -17,
+          "y": 6
+        },
+        {
+          "x": -12,
+          "y": 9
+        }
+      ],
+      "speed": 6,
+      "delay": 0.6
+    },
+    {
+      "playerId": "rcb",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 19.5,
+          "y": 12
+        },
+        {
+          "x": 19.5,
+          "y": 22
+        }
+      ],
+      "speed": 7,
+      "delay": 0.5
+    },
+    {
+      "playerId": "fs",
+      "kind": "cover",
+      "path": [
+        {
+          "x": -4,
+          "y": 16
+        }
+      ],
+      "speed": 4,
+      "delay": 0.6
+    },
+    {
+      "playerId": "ss",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 10,
+          "y": 12
+        }
+      ],
+      "speed": 4,
+      "delay": 0.6
+    }
+  ],
+  "ball": {
+    "start": "c",
+    "events": [
+      {
+        "t": 0,
+        "to": "qb"
+      },
+      {
+        "t": 1.4,
+        "to": "wr-x",
+        "throw": true
+      }
+    ]
+  },
+  "losYard": 98,
+  "view": {
+    "behind": 10,
+    "ahead": 13
+  },
+  "tags": [
+    "two-point",
+    "pass",
+    "quick"
+  ]
+}

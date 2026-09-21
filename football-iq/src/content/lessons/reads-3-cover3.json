@@ -1,0 +1,22 @@
+{
+  "id": "reads-cover3",
+  "unitId": "reads",
+  "order": 3,
+  "title": "Cover 3: three deep thirds",
+  "summary": "Both cornerbacks and the free safety each take a deep third of the field. Very hard to beat deep, unless you send four receivers into the seams.",
+  "steps": [
+    { "text": "Cover 3 is a zone coverage with three deep defenders. The field is split into three deep slices, called thirds. The left cornerback owns the left third, the free safety owns the middle third, and the right cornerback owns the right third.", "diagram": { "formationId": "cover3-tackle", "highlight": ["lcb", "fs", "rcb"] } },
+    { "text": "Since the cornerbacks are going deep, they back way off the receivers before the snap. The strong safety does the opposite. He comes down close to the line to help with short passes and runs.", "diagram": { "formationId": "cover3-tackle", "highlight": ["lcb", "rcb", "ss"] } },
+    { "text": "Underneath the three deep players, four defenders guard the short zones: the strong safety and the three linebackers. So Cover 3 is three deep and four short. Every part of the field has somebody standing in it.", "diagram": { "formationId": "cover3-tackle", "highlight": ["ss", "will", "mike", "sam"] } },
+    { "text": "Cover 3 looks a lot like Cover 1 before the snap. Both have one safety deep in the middle and one safety up close. Here is the tell: in Cover 3 the cornerbacks back off and drop deep with their eyes on the quarterback. In Cover 1 they stay tight and chase their receiver.", "diagram": { "formationId": "cover3-tackle", "highlight": ["lcb", "rcb"] } },
+    { "text": "The weakness is the seams. A seam is the line where two deep thirds meet. If a receiver runs straight up a seam, two defenders both think he might be theirs. And if the offense sends four receivers deep, three deep defenders cannot cover them all.", "diagram": { "playId": "four-verts-vs-cover3", "highlight": ["wr-h", "wr-y"] } },
+    { "text": "That is Four Verticals. Watch the two inside receivers run up the seams. The free safety in the middle can only run to one of them. The quarterback waits to see which way he goes, then throws the other seam.", "diagram": { "playId": "four-verts-vs-cover3", "highlight": ["fs", "wr-h", "wr-y"] } }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "In Cover 3, how many defenders stay deep?", "choices": ["One", "Two", "Three"], "answer": 2, "explanation": "Three deep defenders each take one third of the deep field." },
+    { "type": "tap", "prompt": "Tap the free safety. He owns the deep middle third in Cover 3.", "diagram": { "formationId": "cover3-tackle" }, "target": "fs", "explanation": "The free safety guards the middle third, with a cornerback on each side of him guarding the outside thirds." },
+    { "type": "choice", "prompt": "Who guards the two outside deep thirds in Cover 3?", "choices": ["The two cornerbacks", "The two safeties", "The outside linebackers"], "answer": 0, "explanation": "The corners back off and take the outside thirds, so only the free safety is left in the deep middle." },
+    { "type": "choice", "prompt": "What is a seam?", "choices": ["The sideline", "The line where two deep zones meet", "The spot where the quarterback stands"], "answer": 1, "explanation": "A seam is the gap between two deep thirds. A receiver running up it is hard for either defender to claim." },
+    { "type": "choice", "prompt": "Cover 1 and Cover 3 both have one deep safety. How do you tell them apart?", "choices": ["Cover 3 has no linebackers", "Cover 3 cornerbacks drop deep and watch the quarterback", "Cover 1 uses two deep safeties"], "answer": 1, "explanation": "In Cover 3 the corners are zone players who drop deep. In Cover 1 they are man players who chase their receiver." }
+  ]
+}

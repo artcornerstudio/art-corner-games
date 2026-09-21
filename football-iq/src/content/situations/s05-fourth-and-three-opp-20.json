@@ -1,0 +1,6 @@
+{ "id": "fourth-and-three-opp-20", "variant": "tackle11", "down": 4, "distance": 3, "yardLine": 80, "context": "Fourth quarter, down by 2, 1:10 left. You have no timeouts.",
+  "options": [
+    { "special": "field-goal", "verdict": "best", "reason": "Down by 2 with time running out, a 37-yard field goal takes the lead. Take the points." },
+    { "playId": "slant-flat", "verdict": "ok", "reason": "Going for it could work, but if it fails the game is over. The kick is the higher-percentage way to take the lead." },
+    { "special": "punt", "verdict": "bad", "reason": "Punting gives the ball away while you are losing with a minute left. You would never get it back." }
+  ] }

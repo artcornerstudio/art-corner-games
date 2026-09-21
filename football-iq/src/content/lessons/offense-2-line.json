@@ -1,0 +1,21 @@
+{
+  "id": "offense-line",
+  "unitId": "offense",
+  "order": 2,
+  "title": "O's and the line of scrimmage",
+  "summary": "Reading O's on a diagram, who has to be on the line, and who is allowed to catch.",
+  "steps": [
+    { "text": "On a play diagram the offense is drawn as O's and the defense as X's. The O's all line up on their side of the line of scrimmage. The circle with the ball is the center.", "diagram": { "formationId": "singleback-tackle" } },
+    { "text": "Rule number one for a formation: at least 7 offensive players must be on the line of scrimmage at the snap. The five linemen are always on it. Usually a tight end and a receiver make 7.", "diagram": { "formationId": "singleback-tackle", "highlight": ["lt", "lg", "c", "rg", "rt", "te", "wr-x"] } },
+    { "text": "The other 4 players line up at least a yard behind the line. They are the backs: the quarterback, the running back, and receivers who step off the line. Look how Z and Y stand a little behind X.", "diagram": { "formationId": "singleback-tackle", "highlight": ["qb", "rb", "wr-z", "wr-y"] } },
+    { "text": "Only some players are allowed to catch a pass. The players on the two ends of the line and the four backs are eligible receivers. The five linemen in the middle are not. If a guard catches a pass, that is a penalty.", "diagram": { "formationId": "singleback-tackle", "highlight": ["te", "wr-x", "qb", "rb", "wr-z", "wr-y"] } },
+    { "text": "So when you read a diagram: find the ball, find the line, count 7 on it, and remember that the ends and the backs are the ones who can go catch the ball." }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "On a play diagram, which team is drawn as O's?", "choices": ["Offense", "Defense", "Referees"], "answer": 0, "explanation": "O's are the offense, X's are the defense." },
+    { "type": "choice", "prompt": "How many offensive players must be on the line of scrimmage at the snap?", "choices": ["At least 5", "At least 7", "All 11"], "answer": 1, "explanation": "At least 7. The five linemen plus two more, usually a tight end and a receiver." },
+    { "type": "choice", "prompt": "Which of these players is NOT allowed to catch a pass?", "choices": ["The tight end on the end of the line", "The running back", "The left guard"], "answer": 2, "explanation": "The linemen in the middle of the line are not eligible receivers." },
+    { "type": "tap", "prompt": "Tap the player holding the ball before the snap.", "diagram": { "formationId": "shotgun-tackle" }, "target": "c", "explanation": "The center has the ball and snaps it to start the play." },
+    { "type": "choice", "prompt": "Where do the backs line up?", "choices": ["On the line of scrimmage", "At least a yard behind the line", "In the end zone"], "answer": 1, "explanation": "Backs stand at least a yard behind the line. Only 7 are on it." }
+  ]
+}

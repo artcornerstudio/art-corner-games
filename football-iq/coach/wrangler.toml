@@ -1,0 +1,13 @@
+name = "football-iq-coach"
+main = "src/index.ts"
+compatibility_date = "2026-09-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Plain (non-secret) settings. ALLOWED_ORIGIN restricts who may call the
+# Worker from a browser. "*" is fine for local dev; set it to your GitHub
+# Pages origin (e.g. "https://your-user.github.io") before going live.
+[vars]
+ALLOWED_ORIGIN = "*"
+
+# The Anthropic API key is a Worker secret and is never checked in:
+#   npx wrangler secret put ANTHROPIC_API_KEY

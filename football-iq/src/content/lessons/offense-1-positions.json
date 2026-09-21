@@ -1,0 +1,21 @@
+{
+  "id": "offense-positions",
+  "unitId": "offense",
+  "order": 1,
+  "title": "The 11 offensive positions",
+  "summary": "Who the O's are and what each one does.",
+  "steps": [
+    { "text": "The offense has 11 players. Five of them are the offensive line: the center in the middle, a guard on each side of him, and a tackle outside each guard. They are the biggest players, and their job is to block.", "diagram": { "formationId": "singleback-tackle", "highlight": ["lt", "lg", "c", "rg", "rt"] } },
+    { "text": "The quarterback takes the snap from the center. He is the leader. He hands the ball off, throws it, or runs with it. Every play starts in his hands.", "diagram": { "formationId": "singleback-tackle", "highlight": ["qb"] } },
+    { "text": "The running back lines up behind the quarterback. He takes handoffs and runs with the ball. He can also catch short passes and help block.", "diagram": { "formationId": "singleback-tackle", "highlight": ["rb"] } },
+    { "text": "Wide receivers line up out wide, near the sidelines. They are fast. They run routes and catch passes. Coaches often call them by letters: X, Z, and Y.", "diagram": { "formationId": "singleback-tackle", "highlight": ["wr-x", "wr-z", "wr-y"] } },
+    { "text": "The tight end lines up right next to a tackle. He is half blocker and half receiver: big enough to block, quick enough to catch. That is 5 linemen, a quarterback, a running back, three receivers, and a tight end. Eleven.", "diagram": { "formationId": "singleback-tackle", "highlight": ["te"] } }
+  ],
+  "quiz": [
+    { "type": "tap", "prompt": "Tap the quarterback.", "diagram": { "formationId": "singleback-tackle" }, "target": "qb", "explanation": "The quarterback lines up behind the center and takes the snap." },
+    { "type": "choice", "prompt": "How many offensive linemen are there?", "choices": ["3", "5", "7"], "answer": 1, "explanation": "Five: a center, two guards, and two tackles." },
+    { "type": "tap", "prompt": "Tap the tight end.", "diagram": { "formationId": "singleback-tackle" }, "target": "te", "explanation": "The tight end lines up right next to the tackle on the end of the line." },
+    { "type": "choice", "prompt": "Which player takes handoffs and runs with the ball most often?", "choices": ["Center", "Running back", "Tackle"], "answer": 1, "explanation": "The running back lines up behind the quarterback for exactly that job." },
+    { "type": "tap", "prompt": "Tap a wide receiver.", "diagram": { "formationId": "singleback-tackle" }, "target": "wr-x", "explanation": "Wide receivers line up out near the sidelines. X, Y, and Z are all receivers." }
+  ]
+}

@@ -1,0 +1,221 @@
+{
+  "id": "flag7-mesh",
+  "name": "Mesh (Flag 7v7)",
+  "variant": "flag7",
+  "type": "pass",
+  "tags": [
+    "pass",
+    "quick",
+    "beats-man"
+  ],
+  "formationId": "trips-flag7",
+  "defenseFormationId": "zone-flag7",
+  "description": "The two slot receivers cross right behind the line. The center runs straight up the seam, the outside receivers go deep and curl, and the running back swings out as the safety valve.",
+  "why": "Crossing routes are hard to cover and the center running the seam pulls a deep defender away. With seven players and no blocking, the quarterback has lots of choices, so he throws to the first one open.",
+  "assignments": [
+    {
+      "playerId": "qb",
+      "kind": "dropback",
+      "path": [
+        {
+          "x": 0,
+          "y": -7
+        }
+      ],
+      "speed": 4
+    },
+    {
+      "playerId": "wr-h",
+      "kind": "route",
+      "path": [
+        {
+          "x": -7,
+          "y": 4
+        },
+        {
+          "x": 8,
+          "y": 5
+        }
+      ],
+      "speed": 7
+    },
+    {
+      "playerId": "wr-y",
+      "kind": "route",
+      "path": [
+        {
+          "x": 7,
+          "y": 3
+        },
+        {
+          "x": -8,
+          "y": 4
+        }
+      ],
+      "speed": 7
+    },
+    {
+      "playerId": "wr-x",
+      "kind": "route",
+      "path": [
+        {
+          "x": -12,
+          "y": 20
+        }
+      ],
+      "speed": 7.5
+    },
+    {
+      "playerId": "wr-z",
+      "kind": "route",
+      "path": [
+        {
+          "x": 12,
+          "y": 9
+        },
+        {
+          "x": 11,
+          "y": 8
+        }
+      ],
+      "speed": 7
+    },
+    {
+      "playerId": "rb",
+      "kind": "route",
+      "path": [
+        {
+          "x": 8,
+          "y": -2
+        },
+        {
+          "x": 13,
+          "y": 0
+        }
+      ],
+      "speed": 6.5
+    },
+    {
+      "playerId": "c",
+      "kind": "route",
+      "path": [
+        {
+          "x": 0,
+          "y": 12
+        }
+      ],
+      "speed": 6.5
+    },
+    {
+      "playerId": "rush",
+      "kind": "rush",
+      "path": [
+        {
+          "x": 0,
+          "y": -3
+        },
+        {
+          "x": 0,
+          "y": -6.5
+        }
+      ],
+      "speed": 6,
+      "delay": 0.1
+    },
+    {
+      "playerId": "u-l",
+      "kind": "cover",
+      "path": [
+        {
+          "x": -8,
+          "y": 6
+        },
+        {
+          "x": -4,
+          "y": 6
+        }
+      ],
+      "speed": 5,
+      "delay": 0.4
+    },
+    {
+      "playerId": "u-m",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 0,
+          "y": 6
+        }
+      ],
+      "speed": 5,
+      "delay": 0.4
+    },
+    {
+      "playerId": "u-r",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 8,
+          "y": 6
+        },
+        {
+          "x": 4,
+          "y": 6
+        }
+      ],
+      "speed": 5,
+      "delay": 0.4
+    },
+    {
+      "playerId": "d-l",
+      "kind": "cover",
+      "path": [
+        {
+          "x": -10,
+          "y": 15
+        }
+      ],
+      "speed": 4,
+      "delay": 0.5
+    },
+    {
+      "playerId": "d-m",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 0,
+          "y": 17
+        }
+      ],
+      "speed": 4.5,
+      "delay": 0.5
+    },
+    {
+      "playerId": "d-r",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 10,
+          "y": 14
+        }
+      ],
+      "speed": 4,
+      "delay": 0.5
+    }
+  ],
+  "ball": {
+    "start": "c",
+    "events": [
+      {
+        "t": 0,
+        "to": "qb"
+      },
+      {
+        "t": 1.7,
+        "to": "wr-h",
+        "throw": true
+      }
+    ]
+  },
+  "hot": "rb"
+}
