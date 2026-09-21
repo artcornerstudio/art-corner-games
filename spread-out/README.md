@@ -2,8 +2,7 @@
 
 A free browser game that teaches kids ages 6–12 real soccer smarts: **getting open, spreading out, and passing to the open teammate.**
 
-**▶️ Play it live:** https://artcornerstudio.github.io/art-corner-games/
-*(live once GitHub Pages is switched on for this repo — see below)*
+**▶️ Play it live:** https://artcornerstudio.github.io/art-corner-games/spread-out/
 
 ## What's in the game
 
@@ -21,23 +20,15 @@ No accounts, no ads, no tracking. See [`privacy.html`](privacy.html) — everyth
 
 ## Running it locally
 
-It's a single file — no build step. Open `index.html` in a browser, or serve the folder with any static file server (needed for the "install to home screen" and offline features to work):
+It's a single file — no build step. Open `index.html` in a browser, or serve this folder with any static file server (needed for the "install to home screen" and offline features to work):
 
 ```
 python3 -m http.server 8000
 ```
 
-## Publishing this game (GitHub Pages)
+## How it gets published
 
-This repo is ready for GitHub Pages — the game already sits at the repo root as `index.html`. To switch it on:
-
-1. Go to this repo's **Settings** tab on GitHub.
-2. Click **Pages** in the left sidebar.
-3. Under **Source**, choose **Deploy from a branch**.
-4. Pick the branch this game lives on, and folder **`/ (root)`**.
-5. Click **Save**.
-
-GitHub will publish the site (usually within a minute or two) at a `github.io` address shown on that same settings page. Every future `git push` to that branch updates the live site automatically — no extra steps needed.
+This game lives in the shared **art-corner-games** website alongside Football IQ. The repository's "Deploy to GitHub Pages" workflow copies this `spread-out/` folder into the site whenever changes to it land on `main`, so it's served at `/art-corner-games/spread-out/`. No build step is needed for this game — every file in this folder is published as-is.
 
 ## License
 
