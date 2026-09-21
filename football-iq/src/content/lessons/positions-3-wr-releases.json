@@ -1,0 +1,23 @@
+{
+  "id": "positions-wr-releases",
+  "unitId": "positions",
+  "order": 3,
+  "title": "Wide receiver: getting open",
+  "summary": "How a receiver stands, beats a defender at the line, sells his route, makes his break, and catches the ball with his hands.",
+  "steps": [
+    {"text": "A receiver's job is to get open and catch the ball. It starts with the stance. He stands with one foot in front of the other, knees bent, weight leaning forward. He is like a sprinter in the blocks. At the snap he explodes off that front foot.", "diagram": {"playId": "route-tree-demo", "highlight": ["wr-x", "wr-h", "wr-y", "wr-z", "rb"]}},
+    {"text": "Sometimes a cornerback lines up right in the receiver's face. That is press coverage. He wants to grab the receiver and slow him down. The receiver beats it with quick feet: a fake step one way, then a burst the other way past the defender's hands. Do not let him get his hands on you.", "diagram": {"playId": "mesh-vs-cover1", "highlight": ["wr-x", "lcb"]}},
+    {"text": "Every route should look the same at the start. The receiver runs hard off the line like he is going deep. Defenders watch his head and his hips. If his hips are pointed downfield, the defender has to back up. That is called selling the route.", "diagram": {"playId": "route-tree-demo", "highlight": ["wr-x", "wr-z"]}},
+    {"text": "The break is the moment the route changes direction. The receiver sinks his hips, plants his outside foot, and snaps his head around to find the quarterback. A sharp break leaves the defender a step behind. Watch H break to the sideline and Y stop and turn on his curl.", "diagram": {"playId": "route-tree-demo", "highlight": ["wr-h", "wr-y"]}},
+    {"text": "Against man coverage, the defender chases the receiver everywhere. Crossing routes make that hard. On Mesh, H and Y run right past each other in the middle. Their two defenders have to squeeze through the same spot, and the receiver who comes out first is open.", "diagram": {"playId": "mesh-vs-cover1", "highlight": ["wr-h", "wr-y", "will", "ss"]}},
+    {"text": "Catch the ball with your hands, not your body. Reach out for it. On a high ball, thumbs together. On a low ball, pinkies together. Watch the ball all the way into your hands. A ball trapped against the chest bounces off more often than a ball caught out front.", "diagram": {"playId": "mesh-vs-cover1", "highlight": ["wr-h", "qb"]}},
+    {"text": "The catch is not done until the ball is tucked. Right after the catch, pull the ball tight under your arm, high and against your ribs, with your hand over the tip. Defenders try to punch the ball out. A tucked ball stays with you.", "diagram": {"playId": "mesh-vs-cover1", "highlight": ["wr-h"]}}
+  ],
+  "quiz": [
+    {"type": "choice", "prompt": "What is press coverage?", "choices": ["A cornerback lined up right in the receiver's face", "A safety playing deep", "A zone defense"], "answer": 0, "explanation": "In press the defender stands close to jam the receiver at the line. Quick feet and a fake step beat it."},
+    {"type": "choice", "prompt": "What part of the receiver do defenders watch to guess his route?", "choices": ["His shoes", "His head and hips", "His jersey number"], "answer": 1, "explanation": "Hips show where a runner is really going. A receiver who keeps his hips pointed downfield makes the defender back up."},
+    {"type": "tap", "prompt": "Tap the receiver who makes a sharp break toward the sideline on this play.", "diagram": {"playId": "route-tree-demo"}, "target": "wr-h", "explanation": "H runs the out route. He sinks his hips, plants, and cuts to the sideline."},
+    {"type": "choice", "prompt": "How should a receiver catch a high ball?", "choices": ["Trap it against the chest", "Hands out front, thumbs together", "Wait for it to hit the ground"], "answer": 1, "explanation": "Hands out front with thumbs together makes a strong pocket. Balls trapped against the body bounce away."},
+    {"type": "choice", "prompt": "Right after the catch, what should the receiver do?", "choices": ["Hold the ball out to show the crowd", "Tuck the ball high and tight", "Throw it back to the quarterback"], "answer": 1, "explanation": "Defenders punch at the ball. Tucked tight against the ribs it stays with you."}
+  ]
+}

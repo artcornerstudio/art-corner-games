@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://football-iq/unit.schema.json",
+  "title": "Unit",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["id", "order", "title", "blurb", "badge"],
+    "properties": {
+      "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+      "order": { "type": "integer", "minimum": 1 },
+      "title": { "type": "string", "minLength": 1 },
+      "blurb": { "type": "string", "minLength": 1 },
+      "badge": { "type": "string", "minLength": 1 }
+    }
+  }
+}

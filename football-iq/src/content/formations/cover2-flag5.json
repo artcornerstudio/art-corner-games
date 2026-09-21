@@ -1,0 +1,14 @@
+{
+  "id": "cover2-flag5",
+  "name": "3-2 Zone (Flag 5v5)",
+  "variant": "flag5",
+  "side": "defense",
+  "description": "Three defenders cover short zones and two stay deep. The rusher starts 7 yards back and can chase the quarterback.",
+  "players": [
+    { "id": "rush", "position": "R", "x": 0, "y": 7 },
+    { "id": "d-left", "position": "D", "x": -9, "y": 5 },
+    { "id": "d-right", "position": "D", "x": 9, "y": 5 },
+    { "id": "s-left", "position": "S", "label": "S", "x": -6, "y": 13 },
+    { "id": "s-right", "position": "S", "label": "S", "x": 6, "y": 13 }
+  ]
+}

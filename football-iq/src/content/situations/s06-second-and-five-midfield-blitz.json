@@ -1,0 +1,6 @@
+{ "id": "second-and-five-midfield-blitz", "variant": "tackle11", "down": 2, "distance": 5, "yardLine": 50, "context": "The defense has blitzed on the last three plays.",
+  "options": [
+    { "playId": "rb-screen", "verdict": "best", "reason": "A blitzing defense runs itself right past a screen. Let the rushers through, toss it to the back, and he has blockers and open grass." },
+    { "playId": "outside-zone-left", "verdict": "ok", "reason": "A run can punish a blitz too, but the screen uses the defense's own speed against it." },
+    { "playId": "play-action-post", "verdict": "bad", "reason": "Play action needs a long drop and a lot of time. Against a blitz the quarterback gets hit before the post route is open." }
+  ] }

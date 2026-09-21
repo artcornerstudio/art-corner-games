@@ -1,0 +1,79 @@
+{
+  "id": "punt-tackle",
+  "name": "Punt Team",
+  "variant": "tackle11",
+  "side": "offense",
+  "description": "The long snapper and four linemen block, two wings guard the edges, the personal protector stands in front of the punter, and two gunners line up wide to race downfield.",
+  "players": [
+    {
+      "id": "ls",
+      "position": "LS",
+      "x": 0,
+      "y": -0.5
+    },
+    {
+      "id": "lg",
+      "position": "G",
+      "x": -2,
+      "y": -0.5,
+      "label": "LG"
+    },
+    {
+      "id": "rg",
+      "position": "G",
+      "x": 2,
+      "y": -0.5,
+      "label": "RG"
+    },
+    {
+      "id": "lt",
+      "position": "T",
+      "x": -4,
+      "y": -0.5,
+      "label": "LT"
+    },
+    {
+      "id": "rt",
+      "position": "T",
+      "x": 4,
+      "y": -0.5,
+      "label": "RT"
+    },
+    {
+      "id": "lw",
+      "position": "W",
+      "x": -6,
+      "y": -1.5
+    },
+    {
+      "id": "rw",
+      "position": "W",
+      "x": 6,
+      "y": -1.5
+    },
+    {
+      "id": "pp",
+      "position": "PP",
+      "x": -2,
+      "y": -7
+    },
+    {
+      "id": "p",
+      "position": "P",
+      "x": 0,
+      "y": -14
+    },
+    {
+      "id": "gn-l",
+      "position": "GN",
+      "x": -22,
+      "y": -0.5
+    },
+    {
+      "id": "gn-r",
+      "position": "GN",
+      "x": 22,
+      "y": -0.5
+    }
+  ]
+}

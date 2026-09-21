@@ -1,0 +1,21 @@
+{
+  "id": "flag7-formations",
+  "unitId": "flag7",
+  "order": 1,
+  "title": "7v7 formations",
+  "summary": "Seven players per side: a center, a quarterback, five receivers, and a defense with one rusher and six in coverage.",
+  "steps": [
+    { "text": "In 7v7 flag football, seven players are on the field for each team. Leagues do not all use the same rules, but a common setup looks like this: a center, a quarterback, and five receivers. Nobody blocks, so there is no offensive line.", "diagram": { "formationId": "trips-flag7" } },
+    { "text": "The center snaps the ball to the quarterback. Since there is no blocking, he does not stay put. After the snap the center is a receiver too. That gives the quarterback six players who can catch a pass.", "diagram": { "formationId": "trips-flag7", "highlight": ["c"] } },
+    { "text": "The receivers get letters, just like in tackle football. X and Z are the outside receivers. H and Y are the slot receivers, lined up inside them. The running back lines up next to the quarterback. This formation is called trips because three players, Y, Z, and the running back, are on the same side.", "diagram": { "formationId": "trips-flag7", "highlight": ["wr-y", "wr-z", "rb"] } },
+    { "text": "Now the defense. Seven defenders too. Only one is allowed to chase the quarterback: the rusher. He must start 7 yards back from the line of scrimmage, so the quarterback gets a moment to throw.", "diagram": { "formationId": "zone-flag7", "highlight": ["rush"] } },
+    { "text": "The other six defenders cover. In this zone setup, three play short, about 5 yards deep, and three play deep, 13 to 15 yards back. With no blockers to fight through, the defense can put almost everyone in coverage.", "diagram": { "formationId": "zone-flag7", "highlight": ["u-l", "u-m", "u-r", "d-l", "d-m", "d-r"] } }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "How many players per team are on the field in 7v7 flag?", "choices": ["5", "7", "11"], "answer": 1, "explanation": "Seven per side. That is two more than 5v5 flag and four fewer than tackle." },
+    { "type": "choice", "prompt": "What does the center do after he snaps the ball?", "choices": ["Blocks the rusher", "Runs a route", "Stays on the line and waits"], "answer": 1, "explanation": "There is no blocking, so the center becomes a receiver as soon as the ball is snapped." },
+    { "type": "tap", "prompt": "Tap the only defender who is allowed to chase the quarterback.", "diagram": { "formationId": "zone-flag7" }, "target": "rush", "explanation": "That is the rusher. He starts 7 yards back and goes after the quarterback." },
+    { "type": "choice", "prompt": "In this setup, how many players can catch a pass once the play starts?", "choices": ["5", "6", "7"], "answer": 1, "explanation": "Five receivers plus the center. The quarterback is the only one who cannot catch his own pass." },
+    { "type": "choice", "prompt": "Why is this offense called trips?", "choices": ["The players trip a lot", "Three players line up on the same side", "It uses three quarterbacks"], "answer": 1, "explanation": "Trips means three receivers to one side. It puts extra catchers where the defense has to deal with them." }
+  ]
+}

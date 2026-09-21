@@ -1,0 +1,6 @@
+{ "id": "fourth-and-twelve-own-30", "variant": "tackle11", "down": 4, "distance": 12, "yardLine": 30, "context": "Second quarter, tied game.",
+  "options": [
+    { "special": "punt", "verdict": "best", "reason": "Fourth and 12 from your own 30 is a punt every time. Kick it away and make the other team drive the whole field." },
+    { "playId": "four-verticals", "verdict": "bad", "reason": "If this fails, the other team gets the ball at your 30, already close to scoring. Way too risky." },
+    { "special": "field-goal", "verdict": "bad", "reason": "From your own 30 the kick would be over 85 yards. Nobody can make that." }
+  ] }

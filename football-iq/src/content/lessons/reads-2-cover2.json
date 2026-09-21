@@ -1,0 +1,22 @@
+{
+  "id": "reads-cover2",
+  "unitId": "reads",
+  "order": 2,
+  "title": "Cover 2: two deep halves",
+  "summary": "Two safeties split the deep field in half and the cornerbacks stay short. Strong near the sideline, but there is a soft spot behind the corner.",
+  "steps": [
+    { "text": "Cover 2 is a zone coverage. The number is two, so two defenders stay deep: the free safety and the strong safety. Each one guards half of the deep field. Anything thrown long on his side is his job.", "diagram": { "formationId": "cover2-tackle", "highlight": ["fs", "ss"] } },
+    { "text": "The cornerbacks do not go deep in Cover 2. They stay short and guard the flat, which is the short area out near the sideline. They also try to bump the receiver at the line to slow him down before he can get deep.", "diagram": { "formationId": "cover2-tackle", "highlight": ["lcb", "rcb"] } },
+    { "text": "The three linebackers drop back to guard the short zones in the middle. Five short defenders and two deep ones. That is a lot of players near the line, so quick passes and runs are hard to pull off.", "diagram": { "formationId": "cover2-tackle", "highlight": ["will", "mike", "sam"] } },
+    { "text": "How do you spot it? Two safeties are deep and even with each other, like bookends. The cornerbacks are close to the line, but at the snap they do not chase a receiver. They stay in the flat and watch the quarterback. Eyes on the quarterback means zone.", "diagram": { "formationId": "cover2-tackle", "highlight": ["fs", "ss", "lcb", "rcb"] } },
+    { "text": "Every coverage has a soft spot. In Cover 2 it is along the sideline, deeper than the corner but not as deep as the safety. The safety starts in the middle of his half, so he needs time to get all the way out to the sideline. A throw in that window beats him there.", "diagram": { "playId": "smash-vs-cover2", "highlight": ["rcb", "ss"] } },
+    { "text": "The play that attacks it is called Smash. The outside receiver runs a short hitch, which holds the corner in the flat. The inside receiver runs a corner route right over the top of him, toward the sideline. The ball lands in the gap between the corner and the safety.", "diagram": { "playId": "smash-vs-cover2", "highlight": ["wr-z", "wr-y"] } }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "In Cover 2, how many defenders stay deep?", "choices": ["One", "Two", "Four"], "answer": 1, "explanation": "The two safeties each take half of the deep field. That is where the name comes from." },
+    { "type": "tap", "prompt": "Tap the strong safety, labeled SS. He owns one deep half in Cover 2.", "diagram": { "formationId": "cover2-tackle" }, "target": "ss", "explanation": "In Cover 2 both safeties line up deep and even. The strong safety guards his half of the deep field." },
+    { "type": "choice", "prompt": "Where does a cornerback play in Cover 2?", "choices": ["Short, guarding the flat near the sideline", "Deep, guarding a third of the field", "Chasing one receiver everywhere"], "answer": 0, "explanation": "The corner stays short in the flat because the safety behind him has the deep half." },
+    { "type": "choice", "prompt": "Where is the soft spot in Cover 2?", "choices": ["Right over the middle at the line of scrimmage", "Along the sideline, between the corner and the safety", "Directly in front of the safety"], "answer": 1, "explanation": "The corner is short and the safety starts in the middle, so the deep sideline is open for a moment." },
+    { "type": "choice", "prompt": "Which pair of routes is the classic Cover 2 beater?", "choices": ["Two go routes", "A hitch and a corner route", "Two drags"], "answer": 1, "explanation": "That is Smash. The hitch holds the corner short and the corner route goes over him to the soft spot." }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "id": "i-form-tackle",
+  "name": "I-Form",
+  "variant": "tackle11",
+  "side": "offense",
+  "description": "The quarterback, fullback, and running back line up in a straight line like the letter I. The fullback leads the way on runs. A power formation.",
+  "players": [
+    { "id": "c", "position": "C", "x": 0, "y": -0.5 },
+    { "id": "lg", "position": "G", "label": "LG", "x": -2, "y": -0.5 },
+    { "id": "rg", "position": "G", "label": "RG", "x": 2, "y": -0.5 },
+    { "id": "lt", "position": "T", "label": "LT", "x": -4, "y": -0.5 },
+    { "id": "rt", "position": "T", "label": "RT", "x": 4, "y": -0.5 },
+    { "id": "te", "position": "TE", "x": 6, "y": -0.5 },
+    { "id": "qb", "position": "QB", "x": 0, "y": -1.5 },
+    { "id": "fb", "position": "FB", "x": 0, "y": -4.5 },
+    { "id": "rb", "position": "RB", "x": 0, "y": -7.5 },
+    { "id": "wr-x", "position": "WR", "label": "X", "x": -20, "y": -0.5 },
+    { "id": "wr-z", "position": "WR", "label": "Z", "x": 18, "y": -1.5 }
+  ]
+}

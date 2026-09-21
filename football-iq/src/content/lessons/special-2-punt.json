@@ -1,0 +1,22 @@
+{
+  "id": "special-punt",
+  "unitId": "special",
+  "order": 2,
+  "title": "Punt and the shield",
+  "summary": "Fourth down, the long snap, the wall in front of the punter, and the returner waiting deep.",
+  "steps": [
+    { "text": "It is fourth down and the offense is too far from the first-down line to risk it. If it fails, the other team gets the ball right there. So the offense punts: it kicks the ball far down the field on purpose and makes the other team start way back.", "diagram": { "playId": "punt-tackle" } },
+    { "text": "The punter stands about 14 yards behind the ball. The long snapper has one job: fire the ball back to him through his legs, 14 yards, fast and on target. The punter catches it, takes two steps, drops it, and kicks it before it hits the ground.", "diagram": { "formationId": "punt-tackle", "highlight": ["ls", "p"] } },
+    { "text": "The other team sends rushers to try to block the kick. The personal protector stands in front of the punter and calls out who blocks whom. Along with the linemen and the two wings on the edges, he forms the shield, a wall that keeps the rushers away for those two steps.", "diagram": { "formationId": "punt-tackle", "highlight": ["pp", "lw", "rw"] } },
+    { "text": "The two players lined up wide are the gunners. They do not block at all. The moment the ball is snapped they sprint down the sidelines to tackle the returner as soon as he catches the ball. The return team puts a jammer on each one to slow him down.", "diagram": { "formationId": "punt-tackle", "highlight": ["gn-l", "gn-r"] } },
+    { "text": "The punt returner waits deep, about 40 yards back. If he has room, he catches the ball and runs it back. If the gunners are right on top of him, he waves one arm over his head before the catch. That is a fair catch: nobody may tackle him, but he cannot run either. The play ends where he catches it.", "diagram": { "formationId": "punt-return-tackle", "highlight": ["pr"] } },
+    { "text": "Punters care about hang time, how long the ball stays in the air. A punt that hangs for four or five seconds gives the gunners time to get down the field. A long, low punt looks great but gives the returner room to run it right back." }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "On which down does a team usually punt?", "choices": ["First down", "Second down", "Fourth down"], "answer": 2, "explanation": "Fourth down is the last chance. Instead of risking a turnover on downs, the team kicks the ball away." },
+    { "type": "tap", "prompt": "Tap the punter.", "diagram": { "playId": "punt-tackle" }, "target": "p", "explanation": "He stands about 14 yards back so he has time to catch the snap and get the kick off." },
+    { "type": "choice", "prompt": "What is the shield?", "choices": ["The helmet the punter wears", "A wall of blockers that keeps rushers off the punter", "A rule that protects the returner"], "answer": 1, "explanation": "The personal protector, the linemen, and the wings form a wall so the punter gets his two steps and his kick." },
+    { "type": "choice", "prompt": "The punt returner waves one arm over his head before catching the ball. What does that mean?", "choices": ["He wants a teammate to catch it instead", "He is calling a fair catch: no tackle, but no return", "He is asking for a timeout"], "answer": 1, "explanation": "A fair catch protects him from a hit when the gunners are close. In return, he cannot run with the ball." },
+    { "type": "choice", "prompt": "Why do punters want a lot of hang time?", "choices": ["It gives the gunners time to get downfield", "A high kick is worth more yards", "It confuses the referee"], "answer": 0, "explanation": "The longer the ball is in the air, the closer the coverage is when the returner catches it. That means a short return or a fair catch." }
+  ]
+}

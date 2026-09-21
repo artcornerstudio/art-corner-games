@@ -1,0 +1,21 @@
+{
+  "id": "rules-flag",
+  "unitId": "rules",
+  "order": 5,
+  "title": "Flag vs tackle: what changes",
+  "summary": "Same game, smaller field, no tackling, and no blocking.",
+  "steps": [
+    { "text": "Flag football is the same game with one big change: nobody tackles. Every player wears a belt with two flags. A ball carrier is down when a defender pulls one of the flags off.", "diagram": { "playId": "trips-wheel-flag5" } },
+    { "text": "The field is smaller. A 5v5 flag field is 50 yards long plus 10-yard end zones, and only 30 yards wide. In this game the flag field counts up from 10 to 40 so you always know how far you have gone.", "diagram": { "formationId": "trips-flag5" } },
+    { "text": "Only 5 players per team are on the field, and in most youth leagues there is no blocking at all. That means everyone on offense is a receiver, even the center. He snaps the ball and then runs a route.", "diagram": { "formationId": "trips-flag5", "highlight": ["c"] } },
+    { "text": "Since nobody blocks, only one defender is allowed to chase the quarterback: the rusher. He has to start 7 yards back from the line of scrimmage. Everyone else covers receivers.", "diagram": { "formationId": "cover2-flag5", "highlight": ["rush"] } },
+    { "text": "A few more differences. The quarterback cannot run the ball past the line himself. There are no-run zones near the goal line, so teams must pass there. And a touchdown is still 6 points, so the goal is the same: get the ball in the end zone." }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "How is a ball carrier stopped in flag football?", "choices": ["He is tackled", "A defender pulls his flag", "He runs out of bounds"], "answer": 1, "explanation": "Pull the flag off the belt and the play is over. No tackling." },
+    { "type": "choice", "prompt": "How many players per team are on the field in 5v5 flag?", "choices": ["5", "7", "11"], "answer": 0, "explanation": "Five per side. Tackle football uses 11." },
+    { "type": "choice", "prompt": "In youth flag football, what is the center allowed to do after the snap?", "choices": ["Block the rusher", "Run a route and catch a pass", "Nothing, he stays put"], "answer": 1, "explanation": "There is no blocking, so the center becomes a receiver after the snap." },
+    { "type": "tap", "prompt": "Tap the only defender who is allowed to chase the quarterback.", "diagram": { "formationId": "cover2-flag5" }, "target": "rush", "explanation": "That is the rusher. He starts 7 yards back and is the only one who can go after the quarterback." },
+    { "type": "choice", "prompt": "How far back must the rusher start?", "choices": ["1 yard", "7 yards", "15 yards"], "answer": 1, "explanation": "Seven yards from the line of scrimmage. That gives the quarterback a moment to throw." }
+  ]
+}

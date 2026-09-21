@@ -1,0 +1,329 @@
+{
+  "id": "mesh-vs-cover1",
+  "name": "Mesh vs Cover 1",
+  "variant": "tackle11",
+  "type": "pass",
+  "tags": [
+    "pass",
+    "quick",
+    "beats-man"
+  ],
+  "formationId": "spread-tackle",
+  "defenseFormationId": "cover1-tackle",
+  "description": "Against man coverage, the two slot receivers run shallow crossing routes and pass right by each other. The defenders chasing them have to squeeze through the same spot at the same time.",
+  "why": "In Cover 1 every defender is following one receiver. When two receivers cross close together, their two defenders collide or have to slow down. The receiver who comes out of the mesh first is open.",
+  "assignments": [
+    {
+      "playerId": "qb",
+      "kind": "dropback",
+      "path": [
+        {
+          "x": 0,
+          "y": -7
+        }
+      ],
+      "speed": 4
+    },
+    {
+      "playerId": "wr-h",
+      "kind": "route",
+      "path": [
+        {
+          "x": -11,
+          "y": 4
+        },
+        {
+          "x": 10,
+          "y": 5
+        }
+      ],
+      "speed": 7
+    },
+    {
+      "playerId": "wr-y",
+      "kind": "route",
+      "path": [
+        {
+          "x": 11,
+          "y": 3
+        },
+        {
+          "x": -10,
+          "y": 4
+        }
+      ],
+      "speed": 7
+    },
+    {
+      "playerId": "wr-x",
+      "kind": "route",
+      "path": [
+        {
+          "x": -22,
+          "y": 10
+        },
+        {
+          "x": -26,
+          "y": 18
+        }
+      ],
+      "speed": 7.5
+    },
+    {
+      "playerId": "wr-z",
+      "kind": "route",
+      "path": [
+        {
+          "x": 22,
+          "y": 10
+        },
+        {
+          "x": 21,
+          "y": 9
+        }
+      ],
+      "speed": 7
+    },
+    {
+      "playerId": "rb",
+      "kind": "route",
+      "path": [
+        {
+          "x": 3,
+          "y": -4
+        },
+        {
+          "x": 12,
+          "y": -1
+        },
+        {
+          "x": 18,
+          "y": 1
+        }
+      ],
+      "speed": 6.5
+    },
+    {
+      "playerId": "c",
+      "kind": "block",
+      "path": [
+        {
+          "x": 0,
+          "y": -1.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "lg",
+      "kind": "block",
+      "path": [
+        {
+          "x": -2,
+          "y": -1.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "rg",
+      "kind": "block",
+      "path": [
+        {
+          "x": 2,
+          "y": -1.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "lt",
+      "kind": "block",
+      "path": [
+        {
+          "x": -4.5,
+          "y": -2.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "rt",
+      "kind": "block",
+      "path": [
+        {
+          "x": 4.5,
+          "y": -2.5
+        }
+      ],
+      "speed": 3
+    },
+    {
+      "playerId": "lde",
+      "kind": "rush",
+      "path": [
+        {
+          "x": -6,
+          "y": -1.5
+        }
+      ],
+      "speed": 3.5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "ldt",
+      "kind": "rush",
+      "path": [
+        {
+          "x": -2,
+          "y": -0.5
+        }
+      ],
+      "speed": 2.5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "rdt",
+      "kind": "rush",
+      "path": [
+        {
+          "x": 3,
+          "y": -0.5
+        }
+      ],
+      "speed": 2.5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "rde",
+      "kind": "rush",
+      "path": [
+        {
+          "x": 7.5,
+          "y": -1.5
+        }
+      ],
+      "speed": 3.5,
+      "delay": 0.1
+    },
+    {
+      "playerId": "lcb",
+      "kind": "cover",
+      "path": [
+        {
+          "x": -22,
+          "y": 10
+        },
+        {
+          "x": -25,
+          "y": 17
+        }
+      ],
+      "speed": 7,
+      "delay": 0.2
+    },
+    {
+      "playerId": "rcb",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 21,
+          "y": 9
+        },
+        {
+          "x": 20,
+          "y": 8
+        }
+      ],
+      "speed": 6.5,
+      "delay": 0.2
+    },
+    {
+      "playerId": "ss",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 11,
+          "y": 3
+        },
+        {
+          "x": -8,
+          "y": 4.5
+        }
+      ],
+      "speed": 6.5,
+      "delay": 0.3
+    },
+    {
+      "playerId": "will",
+      "kind": "cover",
+      "path": [
+        {
+          "x": -10,
+          "y": 4
+        },
+        {
+          "x": 9,
+          "y": 5.5
+        }
+      ],
+      "speed": 6.5,
+      "delay": 0.3
+    },
+    {
+      "playerId": "mike",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 3,
+          "y": -3
+        },
+        {
+          "x": 14,
+          "y": -1
+        }
+      ],
+      "speed": 6,
+      "delay": 0.3
+    },
+    {
+      "playerId": "sam",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 6,
+          "y": 6
+        }
+      ],
+      "speed": 4,
+      "delay": 0.3
+    },
+    {
+      "playerId": "fs",
+      "kind": "cover",
+      "path": [
+        {
+          "x": 0,
+          "y": 17
+        }
+      ],
+      "speed": 4,
+      "delay": 0.5
+    }
+  ],
+  "ball": {
+    "start": "c",
+    "events": [
+      {
+        "t": 0,
+        "to": "qb"
+      },
+      {
+        "t": 1.9,
+        "to": "wr-h",
+        "throw": true
+      }
+    ]
+  },
+  "hot": "wr-h"
+}

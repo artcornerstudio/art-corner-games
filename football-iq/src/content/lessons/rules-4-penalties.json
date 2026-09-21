@@ -1,0 +1,21 @@
+{
+  "id": "rules-penalties",
+  "unitId": "rules",
+  "order": 4,
+  "title": "Five penalties everyone should know",
+  "summary": "False start, offside, holding, pass interference, and face mask.",
+  "steps": [
+    { "text": "When a player breaks a rule, the referee throws a yellow flag and the team loses yards. Here are the five flags you will see most. First, false start: an offensive player moves before the snap. 5 yards against the offense. The offense has to be still, then go all at once.", "diagram": { "formationId": "singleback-tackle", "highlight": ["lt", "lg", "c", "rg", "rt"] } },
+    { "text": "Offside is the defense version. A defender is across the line of scrimmage when the ball is snapped. 5 yards against the defense.", "diagram": { "formationId": "base-43-tackle", "highlight": ["lde", "ldt", "rdt", "rde"] } },
+    { "text": "Holding is grabbing or hooking a player who does not have the ball to stop him. Blockers can push with their hands, but they cannot grab and hold. It costs the offense 10 yards. Defenders can hold too, and it costs them 5 yards plus a first down for the offense." },
+    { "text": "Pass interference is pushing, grabbing, or getting in the way of a player who is trying to catch a pass before the ball gets there. Both teams can be called for it. When the defense does it, the offense gets the ball at the spot of the foul, which can be a huge gain.", "diagram": { "playId": "slant-flat", "highlight": ["wr-x", "lcb"] } },
+    { "text": "Face mask is grabbing the bars on someone's helmet. It is dangerous, so it is a big one: 15 yards. Football has a lot of rules, but these five explain most of the flags you will see." }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "An offensive lineman jumps before the snap. What is the penalty?", "choices": ["Offside", "False start", "Holding"], "answer": 1, "explanation": "The offense moving early is a false start, 5 yards." },
+    { "type": "choice", "prompt": "A defensive end is across the line of scrimmage when the ball is snapped. What is it?", "choices": ["Offside", "False start", "Face mask"], "answer": 0, "explanation": "A defender across the line at the snap is offside, 5 yards." },
+    { "type": "choice", "prompt": "A blocker grabs a defender's jersey and hangs on to stop him. What is that?", "choices": ["Pass interference", "Holding", "A good block"], "answer": 1, "explanation": "Grabbing a player without the ball is holding. Blockers push, they do not grab." },
+    { "type": "choice", "prompt": "A defender shoves a receiver to the ground before the pass arrives. What is it?", "choices": ["Holding", "Pass interference", "Offside"], "answer": 1, "explanation": "Getting in the way of a receiver before the ball arrives is pass interference." },
+    { "type": "choice", "prompt": "Which penalty costs 15 yards because it is dangerous?", "choices": ["False start", "Offside", "Face mask"], "answer": 2, "explanation": "Grabbing the face mask is 15 yards. False start and offside are 5." }
+  ]
+}

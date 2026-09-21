@@ -1,0 +1,6 @@
+{ "id": "flag-first-and-ten-deep-zone", "variant": "flag5", "down": 1, "distance": 10, "yardLine": 15, "context": "Flag 5v5. Both deep defenders are backing way up before every snap.",
+  "options": [
+    { "playId": "flag-double-slant", "verdict": "best", "reason": "When the deep defenders back up, the middle of the field is empty. Two slants attack that empty space." },
+    { "playId": "flag-quick-outs", "verdict": "ok", "reason": "A safe choice, but with the defense so deep there is a bigger gain waiting in the middle." },
+    { "playId": "trips-wheel-flag5", "verdict": "bad", "reason": "The defenders are already deep. Running a deep wheel route sends your receiver straight at them." }
+  ] }

@@ -1,0 +1,80 @@
+{
+  "id": "base-43-tackle",
+  "name": "4-3 Defense",
+  "variant": "tackle11",
+  "side": "defense",
+  "description": "Four linemen up front and three linebackers behind them. Two cornerbacks cover the wide receivers and two safeties stay deep.",
+  "players": [
+    {
+      "id": "lde",
+      "position": "DE",
+      "x": -5.5,
+      "y": 1
+    },
+    {
+      "id": "ldt",
+      "position": "DT",
+      "x": -2,
+      "y": 1
+    },
+    {
+      "id": "rdt",
+      "position": "DT",
+      "x": 3,
+      "y": 1
+    },
+    {
+      "id": "rde",
+      "position": "DE",
+      "x": 7,
+      "y": 1
+    },
+    {
+      "id": "will",
+      "position": "LB",
+      "label": "W",
+      "x": -4.5,
+      "y": 4.5
+    },
+    {
+      "id": "mike",
+      "position": "LB",
+      "label": "M",
+      "x": 0,
+      "y": 4.5
+    },
+    {
+      "id": "sam",
+      "position": "LB",
+      "label": "S",
+      "x": 6,
+      "y": 4.5
+    },
+    {
+      "id": "lcb",
+      "position": "CB",
+      "x": -19,
+      "y": 6
+    },
+    {
+      "id": "rcb",
+      "position": "CB",
+      "x": 19,
+      "y": 6
+    },
+    {
+      "id": "fs",
+      "position": "S",
+      "label": "FS",
+      "x": -2,
+      "y": 13
+    },
+    {
+      "id": "ss",
+      "position": "S",
+      "label": "SS",
+      "x": 8,
+      "y": 10
+    }
+  ]
+}

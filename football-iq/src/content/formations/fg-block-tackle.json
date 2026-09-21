@@ -1,0 +1,79 @@
+{
+  "id": "fg-block-tackle",
+  "name": "Field Goal Block Team",
+  "variant": "tackle11",
+  "side": "defense",
+  "description": "Nine defenders crowd the line to push through and get a hand on the kick. Two stay back in case of a fake.",
+  "players": [
+    {
+      "id": "nt",
+      "position": "NT",
+      "x": 0,
+      "y": 1
+    },
+    {
+      "id": "ldt",
+      "position": "DT",
+      "x": -2,
+      "y": 1
+    },
+    {
+      "id": "rdt",
+      "position": "DT",
+      "x": 2,
+      "y": 1
+    },
+    {
+      "id": "ldt2",
+      "position": "DT",
+      "x": -4,
+      "y": 1
+    },
+    {
+      "id": "rdt2",
+      "position": "DT",
+      "x": 4,
+      "y": 1
+    },
+    {
+      "id": "lde",
+      "position": "DE",
+      "x": -6.5,
+      "y": 1
+    },
+    {
+      "id": "rde",
+      "position": "DE",
+      "x": 6.5,
+      "y": 1
+    },
+    {
+      "id": "le",
+      "position": "LB",
+      "x": -9,
+      "y": 1.5,
+      "label": "E"
+    },
+    {
+      "id": "re",
+      "position": "LB",
+      "x": 9,
+      "y": 1.5,
+      "label": "E"
+    },
+    {
+      "id": "bs-l",
+      "position": "S",
+      "x": -12,
+      "y": 8,
+      "label": "S"
+    },
+    {
+      "id": "bs-r",
+      "position": "S",
+      "x": 12,
+      "y": 8,
+      "label": "S"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "id": "special-onside",
+  "unitId": "special",
+  "order": 5,
+  "title": "The onside kick",
+  "summary": "A short kick on purpose, the 10-yard rule, and why it is a last-chance gamble.",
+  "steps": [
+    { "text": "A normal kickoff goes as far as possible. An onside kick is the opposite: the kicker taps a short, bouncing kick on purpose and his own team tries to grab the ball. If they recover it, they keep it and get to run their offense.", "diagram": { "playId": "onside-kick-tackle" } },
+    { "text": "There is one big rule. The kick must travel at least 10 yards before the kicking team is allowed to touch it. So the kicker aims for a spot just past 10 yards, and his front players sprint to that spot and dive for the ball.", "diagram": { "playId": "onside-kick-tackle", "highlight": ["k", "cv-l1", "cv-l2", "cv-r1", "cv-r2"] } },
+    { "text": "The return team sees it coming. Its front line of blockers stops backing up and goes after the ball too. They only have to get a hand on it first, and they are already standing right where it lands.", "diagram": { "playId": "onside-kick-tackle", "highlight": ["bl-1", "bl-2", "bl-3", "bl-4", "bl-5"] } },
+    { "text": "So why try it? Because a team that is losing late in the game needs the ball back. A normal kickoff hands the ball to the other team, and they can run the clock out. The onside kick is the only way to score and then get the ball right back." },
+    { "text": "It is a big gamble. Most onside kicks fail, and then the other team gets the ball near midfield with great field position. Coaches only try it when they are losing and the clock is almost gone, because at that point there is nothing left to lose." }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "How far must a kickoff travel before the kicking team can recover it?", "choices": ["5 yards", "10 yards", "20 yards"], "answer": 1, "explanation": "Ten yards. Touch it before then and the ball goes to the other team." },
+    { "type": "tap", "prompt": "Tap the kicker.", "diagram": { "playId": "onside-kick-tackle" }, "target": "k", "explanation": "On an onside kick he taps a short, bouncing ball just past 10 yards instead of booming it deep." },
+    { "type": "choice", "prompt": "When does a team usually try an onside kick?", "choices": ["To start the game", "When it is losing late and needs the ball back", "Every time it scores"], "answer": 1, "explanation": "A normal kickoff gives the ball away. When you are behind and the clock is almost out, an onside kick is the only way to keep it." },
+    { "type": "choice", "prompt": "What usually happens on an onside kick?", "choices": ["The kicking team recovers it", "The other team gets the ball with great field position", "It is a touchback"], "answer": 1, "explanation": "Most onside kicks fail. The other team recovers near midfield, much closer to scoring than after a normal kickoff." },
+    { "type": "choice", "prompt": "Your team is losing by 3 with 30 seconds left and just scored a field goal to tie. Should you try an onside kick?", "choices": ["Yes, always onside kick after scoring", "Probably not, the game is tied and a failed kick gives them a short field", "Yes, the ball goes back to you automatically"], "answer": 1, "explanation": "You are no longer losing, so the gamble is not worth it. A failed onside kick would hand them a short field to win it." }
+  ]
+}

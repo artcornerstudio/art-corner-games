@@ -1,0 +1,6 @@
+{ "id": "second-and-ten-own-20-nickel", "variant": "tackle11", "down": 2, "distance": 10, "yardLine": 20, "context": "The defense is in nickel with only six players in the box.",
+  "options": [
+    { "playId": "outside-zone-left", "verdict": "best", "reason": "Six in the box is a light box. Run the ball wide and make the small defensive backs tackle." },
+    { "playId": "slant-flat", "verdict": "ok", "reason": "A quick pass is fine, but a light box is an invitation to run." },
+    { "playId": "four-verticals", "verdict": "bad", "reason": "Nickel means five defensive backs deep. Four deep routes are running right into the strength of the defense." }
+  ] }

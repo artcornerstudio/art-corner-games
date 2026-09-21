@@ -1,0 +1,6 @@
+{ "id": "third-and-eight-own-40", "variant": "tackle11", "down": 3, "distance": 8, "yardLine": 40,
+  "options": [
+    { "playId": "mesh", "verdict": "best", "reason": "Third and 8 needs a pass that gets past the sticks. Mesh gets a receiver open across the middle right around 8 yards." },
+    { "playId": "four-verticals", "verdict": "ok", "reason": "It can work, but deep routes take time and the pass rush is coming. A shorter pass is more likely to get the 8." },
+    { "playId": "iso-lead", "verdict": "bad", "reason": "A run up the middle averages about 4 yards. On third and 8 you need to throw." }
+  ] }

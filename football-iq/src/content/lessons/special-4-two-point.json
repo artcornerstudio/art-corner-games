@@ -1,0 +1,21 @@
+{
+  "id": "special-two-point",
+  "unitId": "special",
+  "order": 4,
+  "title": "The two-point decision",
+  "summary": "Kick for 1 or run a play for 2, and how the score tells a coach which one to pick.",
+  "steps": [
+    { "text": "After a touchdown a team gets one bonus try. The easy choice is the extra point: kick it through the goal posts for 1 point. Kickers make almost every one, so it is close to a sure thing.", "diagram": { "playId": "extra-point-tackle" } },
+    { "text": "The other choice is to go for 2. The offense lines up at the 2-yard line and runs one regular play. Get the ball into the end zone and it is worth 2 points. Fail and you get nothing. It works less than half the time.", "diagram": { "playId": "two-point-slant-flat" } },
+    { "text": "Here the quarterback throws a quick slant. The receiver takes one step upfield and cuts inside. From the 2-yard line there is no time for a long route, so 2-point plays are fast and simple.", "diagram": { "playId": "two-point-slant-flat", "highlight": ["qb", "wr-x"] } },
+    { "text": "So when do teams take the gamble? When the score says they need it. Say you are down by 8 late in the game. A touchdown makes it a 2-point gap. Kicking the extra point leaves you down 1, and the game could end that way. Going for 2 and making it ties the game." },
+    { "text": "Coaches count in sevens and threes. Down by 14? Two touchdowns with two kicks ties it, so kick. Down by 15? Two touchdowns and two kicks leaves you 1 short, so at some point you need a 2. The rule is simple: if the sure 1 point is enough, kick. If it is not, go for 2." }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "Where does the offense line up for a 2-point try?", "choices": ["The 2-yard line", "The 15-yard line", "The 25-yard line"], "answer": 0, "explanation": "One play from the 2-yard line. Score and it is worth 2 points." },
+    { "type": "tap", "prompt": "Tap the quarterback who throws the quick slant on this 2-point play.", "diagram": { "playId": "two-point-slant-flat" }, "target": "qb", "explanation": "From the 2-yard line there is no time. The quarterback takes the snap and fires the slant right away." },
+    { "type": "choice", "prompt": "Your team is down by 8 late in the game and just scored a touchdown. Now you are down by 2. What should you do?", "choices": ["Kick the extra point to get within 1", "Go for 2 to tie the game", "Kick off and hope"], "answer": 1, "explanation": "Down by 2, the kick only gets you to 1 behind. Only a 2-point try can tie it." },
+    { "type": "choice", "prompt": "Your team scores a touchdown early in the game and now leads by 6. What should you usually do?", "choices": ["Go for 2", "Kick the extra point", "Skip the try"], "answer": 1, "explanation": "Early in the game, take the near-sure point. Save the gamble for when the score says you need it." },
+    { "type": "choice", "prompt": "Why is the extra point kick the usual choice?", "choices": ["It is worth more points", "Kickers make almost all of them, so it is nearly sure", "The rules require it"], "answer": 1, "explanation": "One nearly-sure point beats a 2-point try that fails more often than it works, unless you need the 2." }
+  ]
+}

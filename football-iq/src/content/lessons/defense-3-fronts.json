@@ -1,0 +1,21 @@
+{
+  "id": "defense-fronts",
+  "unitId": "defense",
+  "order": 3,
+  "title": "4-3 vs 3-4",
+  "summary": "The two base defenses, how to count them, and the nickel package for passing downs.",
+  "steps": [
+    { "text": "Defenses are named by counting the front. The first number is defensive linemen, the second is linebackers. A 4-3 has 4 linemen and 3 linebackers. That leaves 4 defensive backs: 2 corners and 2 safeties.", "diagram": { "formationId": "base-43-tackle", "highlight": ["lde", "ldt", "rdt", "rde", "will", "mike", "sam"] } },
+    { "text": "A 3-4 has 3 linemen and 4 linebackers. The lineman in the middle is the nose tackle, right over the center. The two outside linebackers stand on the edges. They can rush the quarterback or drop back, so the offense never knows which.", "diagram": { "formationId": "base-34-tackle", "highlight": ["nt", "lde", "rde", "lolb", "rolb", "lilb", "rilb"] } },
+    { "text": "Both add up to 7 in the box. The difference is who does the work. A 4-3 uses big linemen to win up front. A 3-4 uses fast linebackers and tries to confuse the offense about where the rush is coming from.", "diagram": { "formationId": "base-34-tackle", "highlight": ["nt"] } },
+    { "text": "When the offense spreads out with extra receivers, the defense swaps a linebacker for a fifth defensive back. That is the nickel package, named after the 5-cent coin. The extra defensive back is the nickel back.", "diagram": { "formationId": "nickel-tackle", "highlight": ["nb"] } },
+    { "text": "So count: 4-3 is four linemen and three linebackers. 3-4 is three and four. Nickel is five defensive backs. Match the defense to what the offense shows." }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "In a 4-3 defense, what does the 4 stand for?", "choices": ["4 linebackers", "4 defensive linemen", "4 safeties"], "answer": 1, "explanation": "The first number is linemen, the second is linebackers." },
+    { "type": "choice", "prompt": "How many linebackers are in a 3-4 defense?", "choices": ["3", "4", "5"], "answer": 1, "explanation": "3-4 means 3 linemen and 4 linebackers." },
+    { "type": "tap", "prompt": "Tap the nose tackle.", "diagram": { "formationId": "base-34-tackle" }, "target": "nt", "explanation": "The nose tackle lines up right over the center in a 3-4." },
+    { "type": "choice", "prompt": "What is the nickel package?", "choices": ["A defense with 5 defensive backs", "A defense with 5 linemen", "A defense with no linebackers"], "answer": 0, "explanation": "Nickel swaps a linebacker for a fifth defensive back to cover extra receivers." },
+    { "type": "choice", "prompt": "The offense comes out in Spread with four receivers. Which defense fits best?", "choices": ["Nickel", "4-3 base", "3-4 base"], "answer": 0, "explanation": "Four receivers need extra defensive backs, so the defense goes nickel." }
+  ]
+}

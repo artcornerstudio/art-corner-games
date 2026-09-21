@@ -1,0 +1,21 @@
+{
+  "id": "offense-routes",
+  "unitId": "offense",
+  "order": 5,
+  "title": "Six basic routes",
+  "summary": "Slant, out, curl, post, go, and drag: the shapes every receiver runs.",
+  "steps": [
+    { "text": "A route is the path a receiver runs. Each one has a shape and a name. Run this demo play and watch each receiver. X runs a go: straight down the field as fast as possible. It is the deep shot.", "diagram": { "playId": "route-tree-demo", "highlight": ["wr-x"] } },
+    { "text": "H runs an out: a few yards upfield, then a sharp cut toward the sideline. Good for a quick, safe throw near the sideline.", "diagram": { "playId": "route-tree-demo", "highlight": ["wr-h"] } },
+    { "text": "Y runs a curl: run upfield about 10 yards, then stop and turn back toward the quarterback. The defender keeps running past you.", "diagram": { "playId": "route-tree-demo", "highlight": ["wr-y"] } },
+    { "text": "Z runs a post: deep, then angle toward the middle of the field, toward the goal posts. The running back runs a drag: a shallow route across the middle, right behind the linemen.", "diagram": { "playId": "route-tree-demo", "highlight": ["wr-z", "rb"] } },
+    { "text": "The sixth route is the slant. Three steps upfield, then a sharp cut inside at an angle. It is quick and hard to stop. Watch X run it on Slant-Flat. Go, out, curl, post, drag, slant: six shapes to spot on any diagram.", "diagram": { "playId": "slant-flat", "highlight": ["wr-x"] } }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "Which route goes straight down the field as fast as possible?", "choices": ["Curl", "Go", "Out"], "answer": 1, "explanation": "The go route is the deep straight line." },
+    { "type": "choice", "prompt": "A receiver runs 10 yards, stops, and turns back to the quarterback. Which route?", "choices": ["Curl", "Post", "Drag"], "answer": 0, "explanation": "Stop and turn back is a curl." },
+    { "type": "tap", "prompt": "Tap the receiver running the post route, deep and then toward the middle.", "diagram": { "playId": "route-tree-demo" }, "target": "wr-z", "explanation": "Z runs the post: deep, then angled toward the goal posts." },
+    { "type": "choice", "prompt": "Which route cuts sharply toward the sideline?", "choices": ["Slant", "Out", "Post"], "answer": 1, "explanation": "The out route breaks toward the sideline. The slant breaks inside." },
+    { "type": "choice", "prompt": "Which route is a shallow path across the middle of the field?", "choices": ["Drag", "Go", "Curl"], "answer": 0, "explanation": "The drag runs across the field just past the line of scrimmage." }
+  ]
+}

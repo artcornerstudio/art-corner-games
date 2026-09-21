@@ -1,0 +1,190 @@
+{
+  "id": "route-tree-2-demo",
+  "name": "Route Tree Demo 2",
+  "variant": "tackle11",
+  "type": "pass",
+  "tags": [
+    "demo"
+  ],
+  "formationId": "spread-tackle",
+  "defenseFormationId": "nickel-tackle",
+  "description": "A second teaching play. The running back runs a flat, X runs a comeback, H runs a dig, Z runs a corner, and Y runs a slant. The defense stands still so you can watch the shapes.",
+  "why": "With these five plus the go, out, curl, post, and drag from the first demo, you know the whole route tree.",
+  "assignments": [
+    {
+      "playerId": "qb",
+      "kind": "dropback",
+      "path": [
+        {
+          "x": 0,
+          "y": -7
+        }
+      ],
+      "speed": 4
+    },
+    {
+      "playerId": "rb",
+      "kind": "route",
+      "path": [
+        {
+          "x": -8,
+          "y": -3
+        },
+        {
+          "x": -16,
+          "y": 1
+        }
+      ],
+      "speed": 6.5
+    },
+    {
+      "playerId": "wr-x",
+      "kind": "route",
+      "path": [
+        {
+          "x": -22,
+          "y": 14
+        },
+        {
+          "x": -24,
+          "y": 10
+        }
+      ],
+      "speed": 7.5
+    },
+    {
+      "playerId": "wr-h",
+      "kind": "route",
+      "path": [
+        {
+          "x": -12,
+          "y": 10
+        },
+        {
+          "x": 0,
+          "y": 10.5
+        }
+      ],
+      "speed": 7
+    },
+    {
+      "playerId": "wr-z",
+      "kind": "route",
+      "path": [
+        {
+          "x": 22,
+          "y": 10
+        },
+        {
+          "x": 27,
+          "y": 20
+        }
+      ],
+      "speed": 7.5
+    },
+    {
+      "playerId": "wr-y",
+      "kind": "route",
+      "path": [
+        {
+          "x": 12.5,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 8
+        }
+      ],
+      "speed": 7
+    },
+    {
+      "playerId": "c",
+      "kind": "stay",
+      "path": []
+    },
+    {
+      "playerId": "lg",
+      "kind": "stay",
+      "path": []
+    },
+    {
+      "playerId": "rg",
+      "kind": "stay",
+      "path": []
+    },
+    {
+      "playerId": "lt",
+      "kind": "stay",
+      "path": []
+    },
+    {
+      "playerId": "rt",
+      "kind": "stay",
+      "path": []
+    },
+    {
+      "playerId": "lde",
+      "kind": "stay",
+      "path": []
+    },
+    {
+      "playerId": "ldt",
+      "kind": "stay",
+      "path": []
+    },
+    {
+      "playerId": "rdt",
+      "kind": "stay",
+      "path": []
+    },
+    {
+      "playerId": "rde",
+      "kind": "stay",
+      "path": []
+    },
+    {
+      "playerId": "mike",
+      "kind": "stay",
+      "path": []
+    },
+    {
+      "playerId": "will",
+      "kind": "stay",
+      "path": []
+    },
+    {
+      "playerId": "lcb",
+      "kind": "stay",
+      "path": []
+    },
+    {
+      "playerId": "rcb",
+      "kind": "stay",
+      "path": []
+    },
+    {
+      "playerId": "nb",
+      "kind": "stay",
+      "path": []
+    },
+    {
+      "playerId": "fs",
+      "kind": "stay",
+      "path": []
+    },
+    {
+      "playerId": "ss",
+      "kind": "stay",
+      "path": []
+    }
+  ],
+  "ball": {
+    "start": "c",
+    "events": [
+      {
+        "t": 0,
+        "to": "qb"
+      }
+    ]
+  }
+}

@@ -1,0 +1,6 @@
+{ "id": "first-and-ten-opp-35-safeties-up", "variant": "tackle11", "down": 1, "distance": 10, "yardLine": 65, "context": "You have run the ball four times in a row. Both safeties are creeping up toward the line.",
+  "options": [
+    { "playId": "play-action-post", "verdict": "best", "reason": "The safeties are cheating up to stop the run. Fake the run, and the deep middle is wide open for the post." },
+    { "playId": "inside-zone-right", "verdict": "ok", "reason": "Runs have been working, but with the safeties up there are extra defenders in the box now." },
+    { "playId": "rb-screen", "verdict": "bad", "reason": "Screens beat a hard pass rush, not safeties crowding the line. This one would get swallowed up." }
+  ] }

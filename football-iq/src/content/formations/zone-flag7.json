@@ -1,0 +1,57 @@
+{
+  "id": "zone-flag7",
+  "name": "3-3 Zone (Flag 7v7)",
+  "variant": "flag7",
+  "side": "defense",
+  "description": "One rusher, three defenders in short zones, and three deep. Nobody covers a person; everyone guards a piece of the field.",
+  "players": [
+    {
+      "id": "rush",
+      "position": "R",
+      "x": 0,
+      "y": 7
+    },
+    {
+      "id": "u-l",
+      "position": "D",
+      "x": -8,
+      "y": 5,
+      "label": "D"
+    },
+    {
+      "id": "u-m",
+      "position": "D",
+      "x": 0,
+      "y": 5,
+      "label": "D"
+    },
+    {
+      "id": "u-r",
+      "position": "D",
+      "x": 8,
+      "y": 5,
+      "label": "D"
+    },
+    {
+      "id": "d-l",
+      "position": "S",
+      "x": -9,
+      "y": 13,
+      "label": "S"
+    },
+    {
+      "id": "d-m",
+      "position": "S",
+      "x": 0,
+      "y": 15,
+      "label": "S"
+    },
+    {
+      "id": "d-r",
+      "position": "S",
+      "x": 9,
+      "y": 13,
+      "label": "S"
+    }
+  ]
+}

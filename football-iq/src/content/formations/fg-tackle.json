@@ -1,0 +1,79 @@
+{
+  "id": "fg-tackle",
+  "name": "Field Goal Team",
+  "variant": "tackle11",
+  "side": "offense",
+  "description": "Seven blockers on the line, a wing on each side, the holder kneeling 7 yards back, and the kicker behind him. Everyone's job is to keep the rushers out for two seconds.",
+  "players": [
+    {
+      "id": "ls",
+      "position": "LS",
+      "x": 0,
+      "y": -0.5
+    },
+    {
+      "id": "lg",
+      "position": "G",
+      "x": -2,
+      "y": -0.5,
+      "label": "LG"
+    },
+    {
+      "id": "rg",
+      "position": "G",
+      "x": 2,
+      "y": -0.5,
+      "label": "RG"
+    },
+    {
+      "id": "lt",
+      "position": "T",
+      "x": -4,
+      "y": -0.5,
+      "label": "LT"
+    },
+    {
+      "id": "rt",
+      "position": "T",
+      "x": 4,
+      "y": -0.5,
+      "label": "RT"
+    },
+    {
+      "id": "lte",
+      "position": "TE",
+      "x": -6,
+      "y": -0.5
+    },
+    {
+      "id": "rte",
+      "position": "TE",
+      "x": 6,
+      "y": -0.5
+    },
+    {
+      "id": "lw",
+      "position": "W",
+      "x": -8,
+      "y": -1.5
+    },
+    {
+      "id": "rw",
+      "position": "W",
+      "x": 8,
+      "y": -1.5
+    },
+    {
+      "id": "h",
+      "position": "H",
+      "x": 0,
+      "y": -7
+    },
+    {
+      "id": "k",
+      "position": "K",
+      "x": -1.5,
+      "y": -9.5
+    }
+  ]
+}

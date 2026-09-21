@@ -1,0 +1,21 @@
+{
+  "id": "defense-positions",
+  "unitId": "defense",
+  "order": 1,
+  "title": "The 11 defensive positions",
+  "summary": "Linemen, linebackers, cornerbacks, and safeties, and what each group does.",
+  "steps": [
+    { "text": "The defense also has 11 players, in three groups. Up front is the defensive line. Defensive tackles are the big ones in the middle. Defensive ends are on the outside. They push through the blockers to stop runs and chase the quarterback.", "diagram": { "formationId": "base-43-tackle", "highlight": ["lde", "ldt", "rdt", "rde"] } },
+    { "text": "Behind the line are the linebackers. They are the tacklers. They stop runners who get through the line, cover short passes, and sometimes blitz, which means they rush the quarterback too. The one in the middle is called the Mike.", "diagram": { "formationId": "base-43-tackle", "highlight": ["will", "mike", "sam"] } },
+    { "text": "Cornerbacks line up out wide, across from the wide receivers. They are fast. Their job is to stay with the receiver and stop the catch.", "diagram": { "formationId": "base-43-tackle", "highlight": ["lcb", "rcb"] } },
+    { "text": "Safeties are the deepest players. They are the last line of defense. If a runner or receiver gets past everyone else, the safety has to make the tackle. The free safety plays deep middle. The strong safety plays closer, on the side with the tight end.", "diagram": { "formationId": "base-43-tackle", "highlight": ["fs", "ss"] } },
+    { "text": "Cornerbacks and safeties together are called the secondary, or the defensive backs. Line, linebackers, secondary: front, middle, back. That is the whole defense." }
+  ],
+  "quiz": [
+    { "type": "tap", "prompt": "Tap the middle linebacker, the Mike.", "diagram": { "formationId": "base-43-tackle" }, "target": "mike", "explanation": "The Mike stands in the middle behind the line and calls the defense." },
+    { "type": "choice", "prompt": "Which defenders line up across from the wide receivers?", "choices": ["Defensive tackles", "Cornerbacks", "Safeties"], "answer": 1, "explanation": "Cornerbacks cover the wide receivers out near the sidelines." },
+    { "type": "tap", "prompt": "Tap a safety, one of the deepest defenders.", "diagram": { "formationId": "base-43-tackle" }, "target": "fs", "explanation": "Safeties are the last line of defense. This is the free safety." },
+    { "type": "choice", "prompt": "What is a blitz?", "choices": ["A long pass", "A linebacker or defensive back rushing the quarterback", "A kick"], "answer": 1, "explanation": "A blitz sends extra defenders after the quarterback." },
+    { "type": "choice", "prompt": "Which group is called the secondary?", "choices": ["The defensive line", "The linebackers", "The cornerbacks and safeties"], "answer": 2, "explanation": "The defensive backs, cornerbacks and safeties, are the secondary." }
+  ]
+}

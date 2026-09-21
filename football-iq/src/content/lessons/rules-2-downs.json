@@ -1,0 +1,21 @@
+{
+  "id": "rules-downs",
+  "unitId": "rules",
+  "order": 2,
+  "title": "Downs and distance",
+  "summary": "Four tries to go 10 yards, and what happens on fourth down.",
+  "steps": [
+    { "text": "A down is one play. The offense gets 4 downs, four tries, to move the ball 10 yards. When you hear 1st and 10, that means first down with 10 yards to go.", "diagram": { "playId": "inside-zone-right" } },
+    { "text": "Say the running back gains 4 yards on first down. Now it is 2nd and 6: second down, 6 yards still to go. Gain 6 or more and you earn a brand new first down, and a fresh set of four tries.", "diagram": { "playId": "inside-zone-right" } },
+    { "text": "If the offense reaches 4th down and still has not gained the 10 yards, it has a choice. Go for it and risk giving the ball away right there. Punt the ball far down the field to the other team. Or, if close enough, kick a field goal for 3 points.", "diagram": { "playId": "slant-flat" } },
+    { "text": "If the offense goes for it on 4th down and does not make it, the other team gets the ball right at that spot. That is called a turnover on downs. That is why most teams punt from their own side of the field." },
+    { "text": "Keep this in your head every play: what down is it, and how many yards to go? That one question explains almost every decision a coach makes." }
+  ],
+  "quiz": [
+    { "type": "choice", "prompt": "How many downs does the offense get to gain 10 yards?", "choices": ["3", "4", "10"], "answer": 1, "explanation": "Four downs. Gain 10 yards within them and you get four more." },
+    { "type": "choice", "prompt": "It is 1st and 10. The offense gains 3 yards. What is it now?", "choices": ["2nd and 7", "2nd and 10", "1st and 7"], "answer": 0, "explanation": "One down used, 3 of the 10 yards gained, so 7 yards still to go: 2nd and 7." },
+    { "type": "choice", "prompt": "It is 3rd and 2. The offense gains 5 yards. What happens?", "choices": ["4th and 2", "It is a touchdown", "A new 1st and 10"], "answer": 2, "explanation": "They needed 2 yards and got 5, so they earned a new first down: 1st and 10 again." },
+    { "type": "choice", "prompt": "The offense is on its own 20-yard line on 4th and 8. What do most teams do?", "choices": ["Punt", "Go for it", "Kick a field goal"], "answer": 0, "explanation": "Deep in your own end, a failed 4th down hands the other team the ball close to your goal. Punting pushes them far away." },
+    { "type": "choice", "prompt": "What is a turnover on downs?", "choices": ["A fumble", "Failing to gain the yards on 4th down, so the other team gets the ball there", "A penalty for delay"], "answer": 1, "explanation": "Use all four downs without getting 10 yards and the ball goes to the other team at that spot." }
+  ]
+}

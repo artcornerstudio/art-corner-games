@@ -1,0 +1,6 @@
+{ "id": "fourth-and-one-opp-2", "variant": "tackle11", "down": 4, "distance": 2, "yardLine": 98, "context": "Fourth quarter, tied, 30 seconds left. Fourth and goal from the 2.",
+  "options": [
+    { "special": "field-goal", "verdict": "best", "reason": "Tied with 30 seconds left, a 20-yard field goal is almost automatic and wins the game. Take the sure points." },
+    { "playId": "iso-lead", "verdict": "ok", "reason": "Going for the touchdown from the 2 is tempting, but a stop leaves you with nothing. The kick wins the game." },
+    { "special": "punt", "verdict": "bad", "reason": "Punting from the 2-yard line would be one of the strangest calls ever made. You are already at the goal line." }
+  ] }

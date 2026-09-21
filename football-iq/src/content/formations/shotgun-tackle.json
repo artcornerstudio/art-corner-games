@@ -1,0 +1,82 @@
+{
+  "id": "shotgun-tackle",
+  "name": "Shotgun",
+  "variant": "tackle11",
+  "side": "offense",
+  "description": "The quarterback stands 5 yards behind the center and gets the snap in the air. Three receivers spread the defense out. Great for passing.",
+  "players": [
+    {
+      "id": "c",
+      "position": "C",
+      "x": 0,
+      "y": -0.5
+    },
+    {
+      "id": "lg",
+      "position": "G",
+      "label": "LG",
+      "x": -2,
+      "y": -0.5
+    },
+    {
+      "id": "rg",
+      "position": "G",
+      "label": "RG",
+      "x": 2,
+      "y": -0.5
+    },
+    {
+      "id": "lt",
+      "position": "T",
+      "label": "LT",
+      "x": -4,
+      "y": -0.5
+    },
+    {
+      "id": "rt",
+      "position": "T",
+      "label": "RT",
+      "x": 4,
+      "y": -0.5
+    },
+    {
+      "id": "te",
+      "position": "TE",
+      "x": 6,
+      "y": -0.5
+    },
+    {
+      "id": "qb",
+      "position": "QB",
+      "x": 0,
+      "y": -5
+    },
+    {
+      "id": "rb",
+      "position": "RB",
+      "x": 3,
+      "y": -5
+    },
+    {
+      "id": "wr-x",
+      "position": "WR",
+      "label": "X",
+      "x": -20,
+      "y": -0.5
+    },
+    {
+      "id": "wr-z",
+      "position": "WR",
+      "label": "Z",
+      "x": 20,
+      "y": -1.5
+    },
+    {
+      "id": "wr-y",
+      "position": "WR",
+      "label": "Y",
+      "x": 12,
+      "y": -1.5
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "id": "kickoff-return-tackle",
+  "name": "Kick Return Team",
+  "variant": "tackle11",
+  "side": "defense",
+  "description": "A front line of blockers, a second line behind them, two up-backs, and the returner standing deep. The blockers drop back and build a wall for the returner to run behind.",
+  "players": [
+    {
+      "id": "bl-1",
+      "position": "BL",
+      "x": -16,
+      "y": 10,
+      "label": "B"
+    },
+    {
+      "id": "bl-2",
+      "position": "BL",
+      "x": -8,
+      "y": 10,
+      "label": "B"
+    },
+    {
+      "id": "bl-3",
+      "position": "BL",
+      "x": 0,
+      "y": 10,
+      "label": "B"
+    },
+    {
+      "id": "bl-4",
+      "position": "BL",
+      "x": 8,
+      "y": 10,
+      "label": "B"
+    },
+    {
+      "id": "bl-5",
+      "position": "BL",
+      "x": 16,
+      "y": 10,
+      "label": "B"
+    },
+    {
+      "id": "bl-6",
+      "position": "BL",
+      "x": -10,
+      "y": 22,
+      "label": "B"
+    },
+    {
+      "id": "bl-7",
+      "position": "BL",
+      "x": 0,
+      "y": 22,
+      "label": "B"
+    },
+    {
+      "id": "bl-8",
+      "position": "BL",
+      "x": 10,
+      "y": 22,
+      "label": "B"
+    },
+    {
+      "id": "bl-9",
+      "position": "BL",
+      "x": -6,
+      "y": 38,
+      "label": "B"
+    },
+    {
+      "id": "bl-10",
+      "position": "BL",
+      "x": 6,
+      "y": 38,
+      "label": "B"
+    },
+    {
+      "id": "kr",
+      "position": "KR",
+      "x": 0,
+      "y": 60
+    }
+  ]
+}
