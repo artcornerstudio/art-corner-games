@@ -2,7 +2,7 @@
 
 A free browser game that teaches kids ages 6–12 real soccer smarts: **getting open, spreading out, and passing to the open teammate.**
 
-**▶️ Play it live:** https://artcornerstudio.github.io/art-corner-agents/
+**▶️ Play it live:** https://artcornerstudio.github.io/art-corner-games/
 *(live once GitHub Pages is switched on for this repo — see below)*
 
 ## What's in the game
