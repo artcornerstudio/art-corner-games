@@ -136,7 +136,8 @@
     display:flex; flex-direction:column; gap:12px; align-items:center;
     position:relative;
   }
-  .statRow{width:100%; display:flex; gap:10px; justify-content:space-between;}
+  .statRow{width:100%; display:flex; gap:10px; justify-content:space-between; flex-wrap:wrap;}
+  .statRow .statPill{flex:1 1 150px;}
   .statPill{
     flex:1 1 0; min-width:0; display:flex; align-items:center; gap:10px;
     background:rgba(4,22,48,.65); border-radius:14px; padding:8px 12px;
@@ -410,6 +411,7 @@
     <h1>⚽ Spread Out!</h1>
     <span class="chip" id="scoreChip" hidden><span class="lbl">SCORE </span><span id="scoreVal">0</span></span>
     <span class="chip" id="starChip">⭐ <span id="starVal">0</span></span>
+    <button class="iconbtn" id="voiceBtn" aria-label="Coach voice on or off">🗣️</button>
     <button class="iconbtn" id="muteBtn" aria-label="Sound on or off">🔊</button>
   </header>
 
@@ -428,6 +430,10 @@
         <button class="statPill cyan" id="muteBtnHome" aria-label="Sound on or off">
           <span class="statIcon" id="muteIconHome" aria-hidden="true">🔊</span>
           <span class="statTxt"><small>Sound</small><b id="muteLblHome">ON</b></span>
+        </button>
+        <button class="statPill cyan" id="voiceBtnHome" aria-label="Coach voice on or off">
+          <span class="statIcon" id="voiceIconHome" aria-hidden="true">🗣️</span>
+          <span class="statTxt"><small>Coach voice</small><b id="voiceLblHome">ON</b></span>
         </button>
       </div>
 
@@ -555,6 +561,9 @@
       When your team has it: get open and the pass comes to you. When the
       red team has it: run at the ball to steal it! Win a match to unlock
       the next one — each is a little tougher. 🏆</p>
+      <p><b>🗣️ Coach Voice</b> reads the tips, positions, and celebrations out
+      loud using the voice built into your device — great for kids who are
+      still learning to read. Turn it off any time with the mouth button.</p>
       <p>No account, no ads, nothing collected. Just soccer smarts. 💚</p>
     </details>
     <button class="modecard coachlink" id="openCoach">
@@ -580,7 +589,7 @@
     <p class="coachintro">Quick drills, field diagrams, and tips — perfect before practice.</p>
 
     <section class="ccard">
-      <h3>🏃 15-minute practice plan</h3>
+      <h3>🏃 15-minute practice plan <button class="playbtn noprint readBtn" data-read="planCard">🗣️ Read aloud</button></h3>
       <ol class="drills">
         <li><b>Warm-up (5 min):</b> Get Open! — sprint to space, escape the chasers. <button class="playbtn noprint" data-mode="getopen">▶ Play</button></li>
         <li><b>Soccer brains (4 min):</b> Pick the Pass! — look before you kick. <button class="playbtn noprint" data-mode="pickpass">▶ Play</button></li>
@@ -644,7 +653,7 @@
     </section>
 
     <section class="ccard">
-      <h3>🧠 All the coach tips</h3>
+      <h3>🧠 All the coach tips <button class="playbtn noprint readBtn" data-read="tipList">🗣️ Read aloud</button></h3>
       <ul id="tipList"></ul>
     </section>
 
@@ -844,10 +853,76 @@ function updateMuteBtn(){
   $('muteLblHome').textContent = muted ? 'OFF' : 'ON';
 }
 $('muteBtnHome').addEventListener('click',()=>$('muteBtn').click());
+
+/* ---------- Coach Voice: the device's built-in speech reads the coach aloud ----------
+   Nothing leaves the device; it's the same voice the phone uses to read screens. */
+const voice={
+  ok: ('speechSynthesis' in window) && ('SpeechSynthesisUtterance' in window),
+  on: store.get('sp_voice', true),
+  lastText:'', lastAt:0, v:null,
+  pickVoice(){
+    try{
+      const vs=speechSynthesis.getVoices(); if(!vs.length) return;
+      const en=vs.filter(x=>/^en/i.test(x.lang));
+      const pref=en.find(x=>/Samantha|Karen|Moira|Google US English|Google UK English Female|Aria|Jenny|Zira/i.test(x.name));
+      this.v = pref || en.find(x=>x.default) || en[0] || vs[0];
+    }catch(e){}
+  },
+  clean(t){
+    return String(t)
+      .replace(/[\p{Extended_Pictographic}️‍]/gu,' ')
+      .replace(/\s*[—–]\s*/g,', ').replace(/\.{3}|…/g,'.').replace(/\s+/g,' ').trim();
+  },
+  /* opt.priority: interrupt whatever is playing (new screen).
+     opt.queue: say it after the current line, no throttle (celebrations, prompts).
+     default: gentle throttle for streaming hints so the coach never chatters. */
+  say(text,opt){
+    opt=opt||{};
+    if(!this.ok) return false;
+    if(!opt.force && (!this.on||muted)) return false;
+    const t=this.clean(text); if(!t) return false;
+    const now=Date.now();
+    if(opt.priority){ try{ speechSynthesis.cancel(); }catch(e){} }
+    else if(opt.queue){ if(t===this.lastText && now-this.lastAt<3000) return false; }
+    else {
+      if(now-this.lastAt < (opt.gap||2500)) return false;
+      if(t===this.lastText && now-this.lastAt<10000) return false;
+      if(speechSynthesis.speaking) return false;
+    }
+    try{
+      const u=new SpeechSynthesisUtterance(t);
+      if(!this.v) this.pickVoice();
+      if(this.v) u.voice=this.v;
+      u.lang=(this.v&&this.v.lang)||'en-US'; u.rate=1.0; u.pitch=1.1; u.volume=1;
+      speechSynthesis.speak(u);
+      this.lastText=t; this.lastAt=now;
+      return true;
+    }catch(e){ return false; }
+  },
+  stop(){ try{ if(this.ok) speechSynthesis.cancel(); }catch(e){} }
+};
+if(voice.ok){ try{ voice.pickVoice(); speechSynthesis.addEventListener('voiceschanged',()=>voice.pickVoice()); }catch(e){} }
+function renderVoice(){
+  const on=voice.on&&voice.ok;
+  $('voiceBtn').textContent = on ? '🗣️' : '🤐';
+  $('voiceBtn').setAttribute('aria-pressed', on ? 'true' : 'false');
+  $('voiceIconHome').textContent = on ? '🗣️' : '🤐';
+  $('voiceLblHome').textContent = on ? 'ON' : 'OFF';
+  if(!voice.ok){ $('voiceBtn').hidden=true; $('voiceBtnHome').hidden=true; }
+}
+function toggleVoice(){
+  ensureAudio();
+  voice.on=!voice.on; store.set('sp_voice',voice.on); renderVoice(); sfx.ui();
+  if(voice.on) voice.say('Coach voice on! I will read the tips out loud.',{priority:true});
+  else voice.stop();
+}
+$('voiceBtn').addEventListener('click',toggleVoice);
+$('voiceBtnHome').addEventListener('click',toggleVoice);
+renderVoice();
 $('muteBtn').addEventListener('click',()=>{
   ensureAudio();
   muted=!muted; store.set('sp_muted',muted); updateMuteBtn();
-  if(muted) crowd.stop();
+  if(muted){ crowd.stop(); voice.stop(); }
   else {
     sfx.ui();
     if(state.mode==='match'&&modes.match.phase==='play') crowd.start();
@@ -1023,6 +1098,7 @@ function toast(txt,ms){
   const el=$('toast'); el.textContent=txt; el.hidden=false;
   clearTimeout(toastTimer);
   toastTimer=setTimeout(()=>{el.hidden=true;}, ms||1400);
+  voice.say(txt,{queue:true});                 // celebrations are always worth hearing
 }
 function hint(txt,good){
   const el=$('hint');
@@ -1030,6 +1106,7 @@ function hint(txt,good){
   el.hidden=false;
   if(el.textContent!==txt) el.textContent=txt;
   el.classList.toggle('good',!!good);
+  voice.say(txt);                              // throttled: hints change fast during play
 }
 
 const TIPS=[
@@ -1385,6 +1462,7 @@ const positions={
     this.prompt={role,side};
     this.hold=0; this.wrongTime=0; this.guide=false;
     this.ballDot = side ? {x: side==='left'?80:FIELD_W-80, y:rand(180,620)} : null;
+    voice.say(this.promptTip(),{queue:true});
   },
   promptTip(){
     const z=ZONES[this.prompt.role];
@@ -1478,6 +1556,8 @@ function showOverlay(title,bodyHTML,btnLabel,cb){
   $('ovBtn').textContent=btnLabel;
   ovCallback=cb;
   $('matchOverlay').hidden=false;
+  const spokenBody=String(bodyHTML).replace(/<br\s*\/?>/gi,'. ').replace(/<[^>]+>/g,'').replace(/\.\s*\./g,'.');
+  voice.say(title+'. '+spokenBody,{priority:true});
 }
 $('ovBtn').addEventListener('click',()=>{
   $('matchOverlay').hidden=true;
@@ -1880,6 +1960,17 @@ $('copyLink').addEventListener('click',async()=>{
   setTimeout(()=>{ $('copyMsg').textContent=''; },4000);
 });
 $('printBtn').addEventListener('click',()=>{ try{ window.print(); }catch(e){} });
+document.querySelectorAll('.readBtn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    ensureAudio();
+    const card=b.closest('.ccard');
+    const text=[...card.querySelectorAll('h3, li, p')]
+      .map(el=>[...el.childNodes].filter(n=>n.nodeType===3 || (n.nodeType===1 && n.tagName!=='BUTTON')).map(n=>n.textContent).join(' '))
+      .join('. ');
+    if(!voice.say(text,{priority:true,force:true})) toast('Sorry, this device has no reading voice.');
+  });
+});
+if(!voice.ok) document.querySelectorAll('.readBtn').forEach(b=>{ b.hidden=true; });
 
 /* ================= input ================= */
 function pt(e){
