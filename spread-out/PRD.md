@@ -129,6 +129,18 @@ button that continues the last game played. Built entirely in CSS + SVG so
 it stays sharp on every screen and adds no downloads. The in-game top bar
 now only appears inside games and Coach Corner.
 
+### ✅ Bonus update — Coach Voice (text-to-speech) (DONE)
+The coach can now talk. Using the speech voice built into every phone and
+browser (nothing leaves the device, works offline), Coach Voice reads
+aloud the coach hints, the position prompts ("You're a striker — run up
+top!"), the kickoff formation lesson, and celebrations like goals, stars,
+and level-ups. A throttle keeps it from chattering while hints change fast
+during play. There's a 🗣️ switch on the menu and in the in-game top bar
+(remembered on the device), mute silences it too, and Coach Corner has
+"Read aloud" buttons for the practice plan and tips. On a device with no
+speech voice, the switches simply hide. Made for kids who are still
+learning to read.
+
 ## 6. Testing checklist (we repeat this every phase)
 
 1. **Page loads with zero errors** (checked with an automated browser).
