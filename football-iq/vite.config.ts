@@ -32,6 +32,12 @@ export default defineConfig({
         // site, so without this list its "show index.html for any page"
         // fallback would hijack those games and serve Football IQ instead.
         navigateFallbackDenylist: [/\/spread-out(\/|$)/],
+        // The coach voice clips are too many to precache. Each one is kept after it is first played,
+        // so read-aloud keeps working offline for everything the listener has already heard.
+        runtimeCaching: [
+          { urlPattern: /\/voice\/[0-9a-f]{14}\.mp3$/, handler: "CacheFirst", options: { cacheName: "coach-voice", expiration: { maxEntries: 5000 }, cacheableResponse: { statuses: [200] } } },
+          { urlPattern: /\/voice\/manifest\.json$/, handler: "StaleWhileRevalidate", options: { cacheName: "coach-voice-list" } },
+        ],
       },
     }),
   ],

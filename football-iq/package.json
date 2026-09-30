@@ -11,7 +11,9 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "validate": "tsx scripts/validate-content.ts",
     "test": "vitest run",
-    "check": "npm run typecheck && npm run validate && npm run test"
+    "check": "npm run typecheck && npm run validate && npm run test",
+    "voice:units": "vite-node scripts/extract-voice-units.ts",
+    "voice:coverage": "node scripts/voice-coverage.mjs"
   },
   "dependencies": {
     "konva": "^9.3.16",
