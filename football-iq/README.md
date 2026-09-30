@@ -28,7 +28,8 @@ npm run build      # production build in dist/
 | `src/field/` | Field drawing, play animation math, the Konva play viewer |
 | `src/screens/` | Home, unit, lesson, quiz, and Play Lab screens (plain React) |
 | `src/progress.ts` | Progress and badges, saved in localStorage only |
-| `src/speech/` | Read-aloud: the browser's own speech engine reads lessons, questions, and answers |
+| `src/speech/` | Read-aloud: recorded coach clips for fixed lines, the browser's speech engine for the rest |
+| `voice/` | The sentence list, the clip recorder, and the voice audition |
 
 ## Adding a play
 
@@ -92,13 +93,14 @@ Safety rules, enforced in the Worker and the client:
 ## Read aloud
 
 The "Read aloud" switch on the home screen makes Coach read every lesson
-step, quiz question (with the choices), game prompt, result, and Coach answer
-out loud. Every one of those also has a speaker button for one-off replays.
-It uses the Web Speech API built into the browser, so it works offline, needs
-no key or account, and no text ever leaves the device. Rookie tier reads a
-little slower and brighter. Voices come from the device: iPad and Mac voices
-are the nicest, Chrome on Android is good, and some older desktop voices
-sound robotic, which is why the switch is off by default.
+step, quiz question (with the choices), game prompt, result, and position
+card out loud. Every one of those also has a speaker button for a replay.
+
+Fixed lines use a recorded male coach voice (Kokoro "Eric"), shipped as short
+clips and cached for offline play. Lines written while playing, such as the
+AI Coach's answers, use the device's own voice through the Web Speech API,
+which needs no key or account. Nothing is sent anywhere either way. The
+switch is off by default. See `voice/README.md` for how the clips are made.
 
 ## Content rules
 

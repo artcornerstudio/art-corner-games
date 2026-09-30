@@ -5,6 +5,8 @@
  * screen in the game already requires.
  */
 import type { Tier } from "../types/play";
+import { clipsReady, hasClips, loadManifest, missingClips, playClips, primeOnFirstTap, stopClips } from "./clips";
+import { unitsFor } from "./units";
 import { pickVoice, prosodyFor, readable } from "./voice";
 
 type Listener = () => void;
@@ -47,6 +49,19 @@ if (speechSupported()) {
   loadVoice();
   // Chrome and Safari fill the voice list asynchronously.
   synth()?.addEventListener?.("voiceschanged", loadVoice);
+  // The recorded coach voice: learn which clips exist, and unlock audio on the first tap.
+  void loadManifest();
+  primeOnFirstTap();
+}
+
+/** Test and debugging hook: set window.__voiceDebug to hear about every line and how it was spoken. */
+interface VoiceDebugEvent {
+  text: string;
+  voice: "coach" | "device";
+  missing: string[];
+}
+function debug(event: VoiceDebugEvent) {
+  (window as unknown as { __voiceDebug?: (e: VoiceDebugEvent) => void }).__voiceDebug?.(event);
 }
 
 /** The auto-read setting. Off by default; the speaker buttons work regardless. */
@@ -64,13 +79,41 @@ export function setSpeechTier(t: Tier) {
   tier = t;
 }
 
-/** Say something now, cutting off anything still being said. Returns false when speech is unavailable. */
+/**
+ * Say something now, cutting off anything still being said. Uses the recorded
+ * coach voice when every sentence of the line has a clip, and the device voice
+ * otherwise, so one line is never spoken by two different voices.
+ * Returns false when speech is unavailable.
+ */
 export function speak(text: string): boolean {
   const s = synth();
   if (!s || typeof SpeechSynthesisUtterance === "undefined") return false;
   const clean = readable(text);
   if (!clean) return false;
   stopSpeaking();
+  const units = unitsFor(clean);
+  const ids = units.map((u) => u.id);
+  if (clipsReady() && hasClips(ids)) {
+    const started = playClips(ids, {
+      start: () => setSpeaking(true),
+      end: () => setSpeaking(false),
+      fail: (playedAny) => {
+        setSpeaking(false);
+        if (!playedAny) speakWithDevice(clean);
+      },
+    });
+    if (started) {
+      debug({ text: clean, voice: "coach", missing: [] });
+      return true;
+    }
+  }
+  debug({ text: clean, voice: "device", missing: units.filter((_, i) => missingClips([ids[i]]).length > 0).map((u) => u.text) });
+  return speakWithDevice(clean);
+}
+
+function speakWithDevice(clean: string): boolean {
+  const s = synth();
+  if (!s) return false;
   const u = new SpeechSynthesisUtterance(clean);
   const { rate, pitch } = prosodyFor(tier);
   u.rate = rate;
@@ -106,6 +149,7 @@ export function autoSpeak(text: string): boolean {
 export function stopSpeaking() {
   const s = synth();
   current = null;
+  stopClips();
   if (s && (s.speaking || s.pending)) s.cancel();
   setSpeaking(false);
 }
