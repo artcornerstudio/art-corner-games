@@ -1,0 +1,65 @@
+name: Voice audition
+
+# Renders the same three coach lines in several free male voices (Kokoro and
+# Piper) and attaches them to the run as a downloadable "voice-audition" zip.
+#
+# Run it by hand: Actions tab, "Voice audition", "Run workflow".
+# It only reads the repository. It commits nothing and deploys nothing.
+# Delete this workflow once a voice is chosen.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: System packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y espeak-ng ffmpeg
+
+      - name: Install Kokoro (CPU only)
+        run: |
+          python -m pip install --upgrade pip
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install "kokoro>=0.9.4" soundfile numpy
+
+      # Piper lives in its own environment so its packages cannot disturb
+      # Kokoro's. If it fails to install, the audition still runs without it.
+      - name: Install Piper
+        id: piper
+        continue-on-error: true
+        run: |
+          python -m venv .piper-venv
+          .piper-venv/bin/pip install piper-tts
+
+      - name: Render the samples
+        run: |
+          PIPER=""
+          if [ "${{ steps.piper.outcome }}" = "success" ]; then PIPER="$PWD/.piper-venv/bin/python"; fi
+          python football-iq/voice/audition.py --out voice-audition --piper-python "$PIPER"
+
+      - name: List what was rendered
+        run: |
+          {
+            echo "### Voice audition"
+            echo
+            echo "Download the **voice-audition** artifact below. Open the zip, then play the clips in the clips folder (or open index.html on a computer)."
+            echo
+            python -c "import json; d=json.load(open('voice-audition/results.json')); print('Rendered: ' + ', '.join(v['engine'] + ' ' + v['label'] for v in d['voices'])); print(); print('Could not render: ' + (', '.join(f['engine'] + ' ' + f['voice'] for f in d['failed']) or 'none'))"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: voice-audition
+          path: voice-audition
