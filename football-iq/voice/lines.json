@@ -1,0 +1,17 @@
+[
+  {
+    "id": "lesson",
+    "title": "A lesson step",
+    "text": "A down is one play. The offense gets 4 downs, four tries, to move the ball 10 yards. When you hear 1st and 10, that means first down with 10 yards to go."
+  },
+  {
+    "id": "call",
+    "title": "A situation with choices",
+    "text": "1st and 10. Ball on the other team's 35. You have run the ball 4 times in a row. What is your call? Your choices are: Play Action Post, or Inside Zone Right, or Running Back Screen."
+  },
+  {
+    "id": "feedback",
+    "title": "Feedback after an answer",
+    "text": "Great call! The safeties are cheating up to stop the run. Fake the run, and the deep middle is wide open for the post."
+  }
+]
