@@ -27,6 +27,24 @@ const LOOK_TIP: Record<DefenseLook, string> = {
   "stacked-box": "Eight up front. Stops the run, weak vs the pass.",
 };
 
+/** What Coach reads aloud for the current moment of a season game. */
+function seasonSpeech(game: GameState): string {
+  const offense = onOffense(game);
+  const d = game.drive;
+  const last = d.log[d.log.length - 1];
+  return game.finished
+    ? joinForSpeech([game.yourPoints > game.theirPoints ? "You win!" : game.yourPoints < game.theirPoints ? "They got you this time." : "Tie game.", "Final score.", `You ${game.yourPoints}.`, `They ${game.theirPoints}.`])
+    : joinForSpeech([
+        last ? `${last.call}: ${game.last?.result ?? last.note}` : null,
+        last?.outcome?.story,
+        d.ended ? d.ended.summary : describeDownAndDistance(d),
+        d.ended ? null : offense ? "You have the ball." : `${game.opponent.name} have the ball.`,
+        d.ended ? null : `Ball on ${describeSpot(d.yardLine)}`,
+        !offense && !d.ended ? `Scouting report: ${game.opponent.tendency}` : null,
+        d.ended ? null : offense ? "Call your play." : "Call your defense.",
+      ]);
+}
+
 /** Four games. You call offense on your drives and the defensive look on theirs. */
 export function Season({ onBack }: Props) {
   const progress = useProgress();
@@ -85,6 +103,9 @@ export function Season({ onBack }: Props) {
     return p ? compilePlay(p, formationById(p.formationId), formationById(p.defenseFormationId)) : null;
   }, [yourPlay, theirPlay]);
 
+  // Must run before the early return below so every render calls the same hooks.
+  useReadAloud(game ? seasonSpeech(game) : "");
+
   if (!game) {
     const summary = seasonSummary(season);
     return (
@@ -133,17 +154,6 @@ export function Season({ onBack }: Props) {
   const d = game.drive;
   const fgDist = fieldGoalDistance(d.yardLine);
   const last = d.log[d.log.length - 1];
-  const gameSpeech = game.finished
-    ? joinForSpeech([game.yourPoints > game.theirPoints ? "You win!" : game.yourPoints < game.theirPoints ? "They got you this time." : "Tie game.", `${game.yourPoints} to ${game.theirPoints}.`])
-    : joinForSpeech([
-        last ? `${last.call}: ${game.last?.result ?? last.note}` : null,
-        last?.outcome?.story,
-        d.ended ? d.ended.summary : describeDownAndDistance(d),
-        d.ended ? null : `${offense ? "You have the ball" : `${game.opponent.name} have it`} on ${describeSpot(d.yardLine)}`,
-        !offense && !d.ended ? `They like to: ${game.opponent.tendency}` : null,
-        d.ended ? null : offense ? "Call your play." : "Call your defense.",
-      ]);
-  useReadAloud(gameSpeech);
 
   return (
     <main className="game season">
@@ -175,7 +185,7 @@ export function Season({ onBack }: Props) {
               </div>
               {!offense && !d.ended && <p className="situation-context">They like to: {game.opponent.tendency}</p>}
             </div>
-            <SpeakButton text={gameSpeech} label="Read the game situation aloud" />
+            <SpeakButton text={seasonSpeech(game)} label="Read the game situation aloud" />
           </section>
 
           {last && (
