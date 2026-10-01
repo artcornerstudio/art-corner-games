@@ -11,12 +11,13 @@ A free browser game that teaches kids ages 6–12 real soccer smarts: **getting 
 - **Where Do I Stand?** — learn striker/midfield/defense zones and sliding with the ball
 - **Mini Match!** — a real 3-on-3 game where good spacing wins
 - Player profiles, stars, jerseys, and a **Coach Corner** with a printable practice plan
+- **Coach Eric** reads every coach line out loud in the same recorded voice as Football IQ (see [`voice/README.md`](voice/README.md)); lines without a clip use the device's own voice
 
 See [`PRD.md`](PRD.md) for the full plan and phased roadmap.
 
 ## Privacy
 
-No accounts, no ads, no tracking. See [`privacy.html`](privacy.html) — everything the game remembers stays on your own device.
+No accounts, no ads, no tracking. See [`privacy.html`](privacy.html) — everything the game remembers stays on your own device. The coach's voice clips are plain files served from this site, and the fallback voice runs on the device itself.
 
 ## Running it locally
 

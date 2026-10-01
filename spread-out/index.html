@@ -562,8 +562,10 @@
       red team has it: run at the ball to steal it! Win a match to unlock
       the next one — each is a little tougher. 🏆</p>
       <p><b>🗣️ Coach Voice</b> reads the tips, positions, and celebrations out
-      loud using the voice built into your device — great for kids who are
-      still learning to read. Turn it off any time with the mouth button.</p>
+      loud in Coach Eric&rsquo;s voice (the same coach as Football IQ) — great
+      for kids who are still learning to read. Anything not recorded, like your
+      name, uses your device&rsquo;s own voice. Turn it off any time with the
+      mouth button.</p>
       <p>No account, no ads, nothing collected. Just soccer smarts. 💚</p>
     </details>
     <button class="modecard coachlink" id="openCoach">
@@ -714,6 +716,7 @@ const store = {
    thump = kick · pop = ball caught · whistle = ref · roar = crowd · sparkle = star */
 let audioCtx=null, muted=store.get('sp_muted', false), master=null, noiseBuf=null;
 function ensureAudio(){
+  voice.prime();                                        // a tap also unlocks Coach Eric's clips
   if(audioCtx){ if(audioCtx.state==='suspended'){ try{audioCtx.resume();}catch(e){} } return; }
   try{
     audioCtx=new (window.AudioContext||window.webkitAudioContext)();
@@ -854,25 +857,133 @@ function updateMuteBtn(){
 }
 $('muteBtnHome').addEventListener('click',()=>$('muteBtn').click());
 
-/* ---------- Coach Voice: the device's built-in speech reads the coach aloud ----------
-   Nothing leaves the device; it's the same voice the phone uses to read screens. */
+/* ---------- Coach Voice: Coach Eric reads the coach aloud ----------
+   Every fixed sentence the coach says is a recorded clip at voice/<id>.mp3, made
+   once with the free Kokoro "am_eric" voice (see voice/README.md). A line plays
+   in Eric's voice when every sentence in it has a clip; otherwise (a kid's name,
+   a brand-new line, clips not loaded yet) the whole line uses the device's own
+   speech, so one line is never read by two different voices.
+   Nothing leaves the device: clips come from this site, speech runs on the phone. */
+function hashText(text){                       // cyrb53: the same id in Node and in every browser
+  let h1=0xdeadbeef, h2=0x41c6ce57;
+  for(let i=0;i<text.length;i++){
+    const ch=text.charCodeAt(i);
+    h1=Math.imul(h1^ch,2654435761); h2=Math.imul(h2^ch,1597334677);
+  }
+  h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);
+  h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);
+  return (4294967296*(2097151&h2)+(h1>>>0)).toString(16).padStart(14,'0');
+}
+const SILENT_WAV='data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==';
 const voice={
-  ok: ('speechSynthesis' in window) && ('SpeechSynthesisUtterance' in window),
+  tts: ('speechSynthesis' in window) && ('SpeechSynthesisUtterance' in window),
+  ok: (('speechSynthesis' in window) && ('SpeechSynthesisUtterance' in window)) || (typeof Audio==='function'),
   on: store.get('sp_voice', true),
   lastText:'', lastAt:0, v:null,
-  pickVoice(){
+  known:null, loading:null, tries:0, el:null, primed:false, blobs:new Map(), run:0, playing:false, pending:[], cancelClip:null,
+  debug:null,                                  // tests set this: ({text, how:'clip'|'device', missing:[...]})
+  pickVoice(){                                 // device voice for lines with no clip: warm, clear English first
     try{
       const vs=speechSynthesis.getVoices(); if(!vs.length) return;
-      const en=vs.filter(x=>/^en/i.test(x.lang));
-      const pref=en.find(x=>/Samantha|Karen|Moira|Google US English|Google UK English Female|Aria|Jenny|Zira/i.test(x.name));
-      this.v = pref || en.find(x=>x.default) || en[0] || vs[0];
+      const en=vs.filter(x=>/^en/i.test(x.lang)); if(!en.length){ this.v=vs[0]; return; }
+      const PREF=['Samantha','Karen','Moira','Daniel','Google US English','Microsoft Aria','Microsoft Jenny','Microsoft Zira','Alex'];
+      for(const w of PREF){ const hit=en.find(x=>x.name.toLowerCase().startsWith(w.toLowerCase())); if(hit){ this.v=hit; return; } }
+      const us=en.filter(x=>x.lang.toLowerCase().replace('_','-')==='en-us');
+      this.v=(us.length?us:en).find(x=>x.localService) || en.find(x=>x.default) || en[0];
     }catch(e){}
   },
-  clean(t){
+  clean(t){                                    // what the coach actually says: no emoji, natural pauses
     return String(t)
       .replace(/[\p{Extended_Pictographic}️‍]/gu,' ')
-      .replace(/\s*[—–]\s*/g,', ').replace(/\.{3}|…/g,'.').replace(/\s+/g,' ').trim();
+      .replace(/\s*[—–]\s*/g,', ')
+      .replace(/(\.{3}|…)(?=\s+[a-z])/g,',').replace(/\.{3}|…/g,'.')
+      .replace(/\s=\s/g,' means ').replace(/\b(\d+) min\b/g,'$1 minutes')
+      .replace(/\s+/g,' ').replace(/\s+([.!?,])/g,'$1')
+      .replace(/([!?])\s*,/g,',').replace(/([!?])\.+/g,'$1').replace(/\.{2,}/g,'.').trim();
   },
+  units(t){                                    // one line -> its sentences, each with the id of its clip
+    const clean=this.clean(t); if(!clean) return [];
+    const out=[];
+    clean.replace(/([.!?]+)\s+/g,'$1\u0001').split('\u0001').forEach(sentence=>{
+      sentence.split(/:\s+/).forEach(p=>{ p=p.trim(); if(p) out.push(/[.!?:]$/.test(p)?p:p+'.'); });
+    });
+    return out.map(text=>({id:hashText(text),text}));
+  },
+  loadManifest(){                              // which clips exist (only over http(s); the game also runs from a file)
+    if(this.known||this.loading||this.tries>=3||typeof fetch!=='function'||!/^https?:$/.test(location.protocol)) return;
+    this.tries++;
+    this.loading=fetch('voice/manifest.json').then(r=>r.ok?r.json():null).then(m=>{
+      if(m&&Array.isArray(m.ids)&&m.ids.length) this.known=new Set(m.ids);
+    }).catch(()=>{}).then(()=>{ this.loading=null; });
+  },
+  element(){
+    if(!this.el && typeof Audio==='function'){ try{ this.el=new Audio(); this.el.preload='auto'; }catch(e){} }
+    return this.el;
+  },
+  prime(){                                     // unlock the shared audio element on a tap (iPad needs this)
+    const el=this.element(); if(!el||this.primed) return;
+    this.primed=true;
+    try{ el.src=SILENT_WAV; const p=el.play(); if(p&&p.catch) p.catch(()=>{}); }catch(e){}
+  },
+  loadClip(id){
+    let p=this.blobs.get(id);
+    if(!p){
+      p=fetch('voice/'+id+'.mp3').then(r=>{ if(!r.ok) throw new Error('clip '+id+': '+r.status); return r.blob(); }).then(b=>URL.createObjectURL(b));
+      this.blobs.set(id,p); p.catch(()=>this.blobs.delete(id));
+    }
+    return p;
+  },
+  trimCache(keep){
+    if(this.blobs.size<=150) return;
+    for(const [id,p] of this.blobs){ if(keep.includes(id)) continue; this.blobs.delete(id); p.then(u=>URL.revokeObjectURL(u)).catch(()=>{}); }
+  },
+  wait(ms){ return new Promise(res=>{ const t=setTimeout(res,ms); this.cancelClip=()=>{ clearTimeout(t); res(); }; }); },
+  playOne(url){
+    const el=this.el;
+    return new Promise((res,rej)=>{
+      const done=()=>{ el.removeEventListener('ended',onEnd); el.removeEventListener('error',onErr); this.cancelClip=null; };
+      const onEnd=()=>{ done(); res(); }, onErr=()=>{ done(); rej(new Error('audio error')); };
+      this.cancelClip=()=>{ done(); res(); };
+      el.addEventListener('ended',onEnd); el.addEventListener('error',onErr);
+      el.src=url;
+      const p=el.play(); if(p&&p.catch) p.catch(e=>{ done(); rej(e); });
+    });
+  },
+  playClips(ids,text){                         // Eric says the sentences in order; false = no audio on this device
+    if(!this.element()||!ids.length) return false;
+    if(this.playing){ if(this.pending.length<2) this.pending.push({ids,text}); return true; }
+    const token=++this.run; this.playing=true;
+    const loads=ids.map(id=>this.loadClip(id)); loads.forEach(p=>p.catch(()=>{}));
+    this.trimCache(ids);
+    (async()=>{
+      let played=0;
+      try{
+        for(let i=0;i<loads.length;i++){
+          const url=await loads[i]; if(token!==this.run) return;
+          await this.playOne(url); if(token!==this.run) return;
+          played++;
+          if(i<loads.length-1){ await this.wait(140); if(token!==this.run) return; }
+        }
+      }catch(e){
+        if(token===this.run && !played) this.speakDevice(text);   // a missing or broken clip: the device voice takes over
+      }finally{
+        if(token===this.run){ this.playing=false; const n=this.pending.shift(); if(n) this.playClips(n.ids,n.text); }
+      }
+    })();
+    return true;
+  },
+  speakDevice(t){
+    if(!this.tts) return false;
+    try{
+      const u=new SpeechSynthesisUtterance(t);
+      if(!this.v) this.pickVoice();
+      if(this.v) u.voice=this.v;
+      u.lang=(this.v&&this.v.lang)||'en-US'; u.rate=1.0; u.pitch=1.1; u.volume=1;
+      speechSynthesis.speak(u);
+      return true;
+    }catch(e){ return false; }
+  },
+  busy(){ return this.playing || (this.tts && speechSynthesis.speaking); },
   /* opt.priority: interrupt whatever is playing (new screen).
      opt.queue: say it after the current line, no throttle (celebrations, prompts).
      default: gentle throttle for streaming hints so the coach never chatters. */
@@ -882,26 +993,30 @@ const voice={
     if(!opt.force && (!this.on||muted)) return false;
     const t=this.clean(text); if(!t) return false;
     const now=Date.now();
-    if(opt.priority){ try{ speechSynthesis.cancel(); }catch(e){} }
+    if(opt.priority){ this.stop(); }
     else if(opt.queue){ if(t===this.lastText && now-this.lastAt<3000) return false; }
     else {
       if(now-this.lastAt < (opt.gap||2500)) return false;
       if(t===this.lastText && now-this.lastAt<10000) return false;
-      if(speechSynthesis.speaking) return false;
+      if(this.busy()) return false;
     }
-    try{
-      const u=new SpeechSynthesisUtterance(t);
-      if(!this.v) this.pickVoice();
-      if(this.v) u.voice=this.v;
-      u.lang=(this.v&&this.v.lang)||'en-US'; u.rate=1.0; u.pitch=1.1; u.volume=1;
-      speechSynthesis.speak(u);
-      this.lastText=t; this.lastAt=now;
-      return true;
-    }catch(e){ return false; }
+    this.lastText=t; this.lastAt=now;
+    this.loadManifest();
+    const units=this.units(t);
+    const missing=units.filter(u=>!(this.known&&this.known.has(u.id))).map(u=>u.text);
+    if(!missing.length && this.playClips(units.map(u=>u.id),t)){ if(this.debug) this.debug({text:t,how:'clip',missing:[]}); return true; }
+    if(this.debug) this.debug({text:t,how:'device',missing});
+    return this.speakDevice(t);
   },
-  stop(){ try{ if(this.ok) speechSynthesis.cancel(); }catch(e){} }
+  stop(){
+    this.run++; this.pending=[]; this.playing=false;
+    if(this.cancelClip){ try{ this.cancelClip(); }catch(e){} }
+    if(this.el && !this.el.paused){ try{ this.el.pause(); }catch(e){} }
+    if(this.tts){ try{ speechSynthesis.cancel(); }catch(e){} }
+  }
 };
-if(voice.ok){ try{ voice.pickVoice(); speechSynthesis.addEventListener('voiceschanged',()=>voice.pickVoice()); }catch(e){} }
+if(voice.tts){ try{ voice.pickVoice(); speechSynthesis.addEventListener('voiceschanged',()=>voice.pickVoice()); }catch(e){} }
+voice.loadManifest();
 function renderVoice(){
   const on=voice.on&&voice.ok;
   $('voiceBtn').textContent = on ? '🗣️' : '🤐';
@@ -913,7 +1028,7 @@ function renderVoice(){
 function toggleVoice(){
   ensureAudio();
   voice.on=!voice.on; store.set('sp_voice',voice.on); renderVoice(); sfx.ui();
-  if(voice.on) voice.say('Coach voice on! I will read the tips out loud.',{priority:true});
+  if(voice.on) voice.say(SAY.voiceOn,{priority:true});
   else voice.stop();
 }
 $('voiceBtn').addEventListener('click',toggleVoice);
@@ -984,11 +1099,11 @@ refreshBest();
 /* stars (per player, saved on device) */
 function renderStars(){ $('starVal').textContent=P.stars; $('starValHome').textContent=P.stars; }
 renderStars();
-function addStar(msg,x,y){
+function addStar(msg,x,y,spoken){
   P.stars++; saveProfiles(); renderStars();
   burst(x||FIELD_W/2, y||FIELD_H/2, 46);
   sfx.star();
-  toast(msg||'⭐ Star earned!',1900);
+  toast(msg||SAY.star,1900,spoken);
 }
 
 /* jersey customization (per player, saved on device) */
@@ -1094,11 +1209,11 @@ function drawConfetti(){
 
 /* toast + hint */
 let toastTimer=null;
-function toast(txt,ms){
+function toast(txt,ms,spoken){             // spoken: what the coach says when it differs from the screen
   const el=$('toast'); el.textContent=txt; el.hidden=false;
   clearTimeout(toastTimer);
   toastTimer=setTimeout(()=>{el.hidden=true;}, ms||1400);
-  voice.say(txt,{queue:true});                 // celebrations are always worth hearing
+  voice.say(spoken||txt,{queue:true});         // celebrations are always worth hearing
 }
 function hint(txt,good){
   const el=$('hint');
@@ -1109,6 +1224,61 @@ function hint(txt,good){
   voice.say(txt);                              // throttled: hints change fast during play
 }
 
+/* ---------- Everything the coach can say ----------
+   Fixed lines live here (plus TIPS and the ZONES tips) so voice/extract-units.mjs
+   can list every sentence for recording. Lines with numbers are built by the
+   small helpers below; the voice/ scripts record the common values. */
+const SAY={
+  voiceOn:'Coach voice on! I will read the tips out loud.',
+  star:'⭐ Star earned!',
+  // Get Open!
+  goIntro:'🏃 Find open space!', goDrag:'Drag your gold player to open grass!',
+  goCheers:['🎉 Great job getting open!','🙌 Perfect pass!','💚 Nice spacing!'],
+  goTooClose:'Too close! Spread out, move away from the ball!',
+  goChaser:'A chaser is hunting you! Sprint away! 💨', goCovered:'You’re covered! Run to open grass!',
+  goLane:'A blocker guards the lane! Move sideways!', goOpen:'You’re OPEN! Hold your spot…',
+  goCatch:'Pass is coming… catch it! ⚽',
+  // Pick the Pass!
+  ppIntro:'🎯 Tap the OPEN teammate!', ppLook:'Look before you kick — who is open?',
+  ppCheers:['🎉 Great pass!','🙌 Perfect choice!','⚽ What a pass!'],
+  ppStolen:'🧤 Stolen! That one was covered.', ppRed:'Red lines = blocked. Try the GREEN lane!',
+  ppAgain:'Now tap the open teammate!', ppEyes:'Great eyes! 👀', ppUhOh:'Uh oh…',
+  // Where Do I Stand?
+  posIntro:'🗺️ Run to your position!', posHold:'Perfect spot! Hold it…',
+  posCheers:['🎉 That’s your spot!','🙌 Great positioning!','💚 Just like a pro!'],
+  posLevel2:'⭐ LEVEL 2! Now slide with the ball!',
+  // Mini Match!
+  mShape:'Today’s team shape: <b>TRIANGLE 🔺</b><br>Defender low, YOU in the middle, striker high.<br>A triangle always gives your team <b>two ways to pass</b>!',
+  mKick:'Spread out! Get open, pass smart, score up top! 🥅',
+  mBlocked:'Blocked! Pass around defenders next time!',
+  mTheyScored:'😅 They scored. Win it back!', mClose:'So close! 😮',
+  mToYou:'The pass is coming to YOU! ⚽', mPoked:'They poked it away! Chase it! 💨',
+  mIntercepted:'Intercepted! That lane was blocked — look first! 👀',
+  mShoot:'You’re close — tap their goal to SHOOT! 🥅', mDribble:'Dribble up the field, or tap a teammate to pass!',
+  mOpen:'You’re OPEN! The pass is coming…', mGetOpen:'Get OPEN — run to space so they can pass to you!',
+  mDefend:'Defend! Run at the ball and steal it! 💪', mLoose:'Loose ball — go get it! 🏃',
+  mSteal:'💪 Great steal!', mNicePass:'Nice pass! Now run to open space!',
+  mWin:'🏆 You win!', mWinBody:'Spreading out and smart passes did that!<br>The next team is a little tougher…',
+  mDraw:'🤝 It’s a draw!', mDrawBody:'Tip: when your team has the ball, sprint to open grass — passes find open players!',
+  mLoss:'😮 They got us this time!', mLossBody:'Tip: steal the ball by running right at it, then pass to your striker up high!',
+  mWinStar:'You win! Star earned!'
+};
+const levelLine=n=>'⭐ LEVEL '+n+'! Star earned!';
+const streakLine=n=>'🔥 '+n+' in a row! +1 ⭐';
+const streakSpoken=n=>n+' in a row! Star earned!';
+const sideLine=side=>' Ball is '+side.toUpperCase()+' — slide over!';
+const scoreSpoken=(a,b)=>'Us '+a+', them '+b+'.';
+const goalLine=(a,b)=>'⚽ GOOOOAL!!! '+a+' – '+b;
+const goalSpoken=(a,b)=>'GOAL! '+scoreSpoken(a,b);
+const winStarLine=(a,b)=>'🏆 YOU WIN '+a+'–'+b+'! +1 ⭐';
+const finalBody=(a,b,tip)=>'Final score: <b>US '+a+' – '+b+' THEM</b>.<br>'+tip;
+const finalSpoken=(a,b,tip)=>'Final score. '+scoreSpoken(a,b)+' '+bodySpoken(tip);
+function bodySpoken(html){ return String(html).replace(/<br\s*\/?>/gi,'. ').replace(/<[^>]+>/g,'').replace(/\.\s*\./g,'.'); }
+function cardText(card){                     // what "Read aloud" reads: the card's headings and lines, not its buttons
+  return [...card.querySelectorAll('h3, li, p')]
+    .map(el=>[...el.childNodes].filter(n=>n.nodeType===3 || (n.nodeType===1 && n.tagName!=='BUTTON')).map(n=>n.textContent).join(' '))
+    .join('. ');
+}
 const TIPS=[
   '🧠 Tip: a bunched-up team is easy to guard. Spread out!',
   '🧠 Tip: open grass = easy pass. Look for space!',
@@ -1179,8 +1349,8 @@ const getopen={
     setScore(0);
     this.player={x:FIELD_W/2,y:FIELD_H-140,tx:FIELD_W/2,ty:FIELD_H-140};
     this.newRound(true);
-    toast('🏃 Find open space!');
-    hint('Drag your gold player to open grass!');
+    toast(SAY.goIntro);
+    hint(SAY.goDrag);
   },
   defCount(){ return Math.min(2+ (state.level-1), 5); },
   defSpeed(){ return 42 + state.level*10; },
@@ -1204,16 +1374,16 @@ const getopen={
   openness(){
     const p=this.player, c=this.carrier;
     const dCarrier=dist(p,c);
-    if(dCarrier<170) return {ok:false, why:'Too close! Spread out, move away from the ball!'};
+    if(dCarrier<170) return {ok:false, why:SAY.goTooClose};
     let nearest=1e9, laneMin=1e9, nearType='blocker';
     for(const d of this.defs){
       const dd=dist(d,p);
       if(dd<nearest){ nearest=dd; nearType=d.type; }
       laneMin=Math.min(laneMin,distToSeg(d,c,p).d);
     }
-    if(nearest<95) return {ok:false, why: nearType==='chaser' ? 'A chaser is hunting you! Sprint away! 💨' : 'You’re covered! Run to open grass!'};
-    if(laneMin<55) return {ok:false, why:'A blocker guards the lane! Move sideways!'};
-    return {ok:true, why:'You’re OPEN! Hold your spot…'};
+    if(nearest<95) return {ok:false, why: nearType==='chaser' ? SAY.goChaser : SAY.goCovered};
+    if(laneMin<55) return {ok:false, why:SAY.goLane};
+    return {ok:true, why:SAY.goOpen};
   },
   update(dt){
     const p=this.player;
@@ -1254,10 +1424,10 @@ const getopen={
         state.round++;
         if(state.round>this.roundsPerLevel){
           state.round=1; state.level++;
-          addStar('⭐ LEVEL '+state.level+'! Star earned!',p.x,p.y);
+          addStar(levelLine(state.level),p.x,p.y);
           setTimeout(()=>{ if(state.mode==='getopen') toast(pick(TIPS),2600); },2000);
         } else {
-          toast(pick(['🎉 Great job getting open!','🙌 Perfect pass!','💚 Nice spacing!']));
+          toast(pick(SAY.goCheers));
         }
         this.newRound();
       }
@@ -1272,7 +1442,7 @@ const getopen={
     if(this.meter>=OPEN_NEED){
       this.ballFly={from:{x:c.x,y:c.y},t:0,dur:0.5};
       sfx.kick();
-      hint('Pass is coming… catch it! ⚽',true);
+      hint(SAY.goCatch,true);
       this.meter=0;
     }
   },
@@ -1308,8 +1478,8 @@ const pickpass={
     state.level=1; state.round=1; state.streak=0;
     setScore(0);
     this.newScenario();
-    toast('🎯 Tap the OPEN teammate!');
-    hint('Look before you kick — who is open?');
+    toast(SAY.ppIntro);
+    hint(SAY.ppLook);
   },
   mateOpen(m){
     for(const d of this.defs){
@@ -1365,8 +1535,8 @@ const pickpass={
           setScore(state.score+1);
           state.streak++;
           burst(f.to.x,f.to.y,30); sfx.pop(); sfx.cheer();
-          if(state.streak>0 && state.streak%3===0) addStar('🔥 '+state.streak+' in a row! +1 ⭐',f.to.x,f.to.y);
-          else toast(pick(['🎉 Great pass!','🙌 Perfect choice!','⚽ What a pass!']));
+          if(state.streak>0 && state.streak%3===0) addStar(streakLine(state.streak),f.to.x,f.to.y,streakSpoken(state.streak));
+          else toast(pick(SAY.ppCheers));
           state.round++;
           this.locked=true;
           setTimeout(()=>{ if(state.mode==='pickpass') this.newScenario(); },900);
@@ -1374,12 +1544,12 @@ const pickpass={
           sfx.whoops();
           state.streak=0;
           burst(f.to.x,f.to.y,10);
-          toast('🧤 Stolen! That one was covered.',1600);
-          hint('Red lines = blocked. Try the GREEN lane!');
+          toast(SAY.ppStolen,1600);
+          hint(SAY.ppRed);
           this.showLanes=2.2;
           this.lastWrong=f.mate;
           this.locked=true;
-          setTimeout(()=>{ if(state.mode==='pickpass'){ this.locked=false; hint('Now tap the open teammate!'); } },1200);
+          setTimeout(()=>{ if(state.mode==='pickpass'){ this.locked=false; hint(SAY.ppAgain); } },1200);
         }
       }
     }
@@ -1434,7 +1604,7 @@ const pickpass={
       }
     }
     this.ballFly={to,t:0,dur:0.45,good,mate:target};
-    hint(good?'Great eyes! 👀':'Uh oh…');
+    hint(good?SAY.ppEyes:SAY.ppUhOh);
   }
 };
 
@@ -1452,7 +1622,7 @@ const positions={
     setScore(0);
     this.player={x:FIELD_W/2,y:FIELD_H/2,tx:FIELD_W/2,ty:FIELD_H/2};
     this.newPrompt();
-    toast('🗺️ Run to your position!');
+    toast(SAY.posIntro);
   },
   newPrompt(){
     let role=pick(['striker','mid','defender']);
@@ -1466,7 +1636,7 @@ const positions={
   },
   promptTip(){
     const z=ZONES[this.prompt.role];
-    return z.tip + (this.prompt.side ? (' Ball is '+this.prompt.side.toUpperCase()+' — slide over!') : '');
+    return z.tip + (this.prompt.side ? sideLine(this.prompt.side) : '');
   },
   inTarget(){
     const z=ZONES[this.prompt.role], p=this.player;
@@ -1488,16 +1658,16 @@ const positions={
     if(this.inTarget()){
       if(!this.wasIn){ this.wasIn=true; sfx.pop(); }
       this.hold+=dt; this.wrongTime=0;
-      hint('Perfect spot! Hold it…',true);
+      hint(SAY.posHold,true);
       if(this.hold>=HOLD_NEED){
         setScore(state.score+1);
         burst(p.x,p.y,30); sfx.cheer();
         state.round++;
         if(state.round>this.roundsPerLevel){
           state.round=1; state.level++;
-          addStar(state.level===2 ? '⭐ LEVEL 2! Now slide with the ball!' : '⭐ LEVEL '+state.level+'! Star earned!', p.x, p.y);
+          addStar(state.level===2 ? SAY.posLevel2 : levelLine(state.level), p.x, p.y);
         } else {
-          toast(pick(['🎉 That’s your spot!','🙌 Great positioning!','💚 Just like a pro!']));
+          toast(pick(SAY.posCheers));
         }
         this.newPrompt();
       }
@@ -1549,15 +1719,14 @@ const positions={
 /* ================= mode: Mini Match! ================= */
 const GOAL_W=150, GOAL_X=FIELD_W/2;
 let ovCallback=null;
-function showOverlay(title,bodyHTML,btnLabel,cb){
+function showOverlay(title,bodyHTML,btnLabel,cb,spoken){
   $('ovTitle').textContent=title;
   $('ovBody').innerHTML=bodyHTML;
   $('ovBadges').textContent = best.match>0 ? '🏆'.repeat(Math.min(best.match,10)) : '';
   $('ovBtn').textContent=btnLabel;
   ovCallback=cb;
   $('matchOverlay').hidden=false;
-  const spokenBody=String(bodyHTML).replace(/<br\s*\/?>/gi,'. ').replace(/<[^>]+>/g,'').replace(/\.\s*\./g,'.');
-  voice.say(title+'. '+spokenBody,{priority:true});
+  voice.say(spoken||(title+'. '+bodySpoken(bodyHTML)),{priority:true});
 }
 $('ovBtn').addEventListener('click',()=>{
   $('matchOverlay').hidden=true;
@@ -1578,16 +1747,12 @@ const match={
     setScore(0);
     this.kickoff(true);
     $('matchHud').hidden=false; this.updateHud();
-    showOverlay('Match '+this.num(),
-      'Today’s team shape: <b>TRIANGLE 🔺</b><br>'+
-      'Defender low, YOU in the middle, striker high.<br>'+
-      'A triangle always gives your team <b>two ways to pass</b>!',
-      '⚽ Kick off!',
+    showOverlay('Match '+this.num(), SAY.mShape, '⚽ Kick off!',
       ()=>{
         clearTimeout(this.crowdStopT);
         this.phase='play';
         sfx.whistleKickoff(); crowd.start();
-        hint('Spread out! Get open, pass smart, score up top! 🥅');
+        hint(SAY.mKick);
       });
   },
   kickoff(weStart){
@@ -1644,19 +1809,19 @@ const match={
     if(f.blocked){
       sfx.blocked();
       b.state='loose'; b.vx=rand(-120,120); b.vy=(f.team==='us')?rand(60,140):rand(-140,-60);
-      if(f.team==='us') hint('Blocked! Pass around defenders next time!');
+      if(f.team==='us') hint(SAY.mBlocked);
       return;
     }
     if(f.goal){
       if(f.team==='us'){
         this.scoreUs++; setScore(this.scoreUs);
         burst(f.to.x,f.to.y,50); sfx.goal();
-        toast('⚽ GOOOOAL!!! '+this.scoreUs+' – '+this.scoreThem,1900);
+        toast(goalLine(this.scoreUs,this.scoreThem),1900,goalSpoken(this.scoreUs,this.scoreThem));
         this.nextStartUs=false;
       } else {
         this.scoreThem++;
         sfx.aww();
-        toast('😅 They scored. Win it back!',1700);
+        toast(SAY.mTheyScored,1700);
         this.nextStartUs=true;
       }
       this.updateHud();
@@ -1666,7 +1831,7 @@ const match={
       b.state='loose';
       b.x=f.to.x; b.y=clamp(f.to.y,40,FIELD_H-40);
       b.vx=rand(-100,100); b.vy=(f.team==='us')?rand(80,150):rand(-150,-80);
-      if(f.team==='us') toast('So close! 😮');
+      if(f.team==='us') toast(SAY.mClose);
     }
   },
   openFor(target,from){
@@ -1706,7 +1871,7 @@ const match={
         this.decideT=0;
         if(c.y<270){ this.shoot(c,'us'); return; }
         const other=(c===mateD)?mateS:mateD;
-        if(this.openFor(kid,c) && kid.y<c.y+120){ this.pass(c,kid); hint('The pass is coming to YOU! ⚽',true); }
+        if(this.openFor(kid,c) && kid.y<c.y+120){ this.pass(c,kid); hint(SAY.mToYou,true); }
         else if(this.openFor(other,c) && other.y<c.y){ this.pass(c,other); }
       }
     }
@@ -1760,7 +1925,7 @@ const match={
           b.vx=rand(-160,160); b.vy=rand(-160,160);
           this.protect=kid; this.protectT=0.8;
           sfx.bounce();
-          hint('They poked it away! Chase it! 💨');
+          hint(SAY.mPoked);
         }
       } else this.tackleT=0;
     } else this.tackleT=0;
@@ -1777,7 +1942,7 @@ const match={
         for(const e of (f.receiver.team==='us'?this.them:this.us)){
           if(dist(e,b)<24){
             this.give(e); sfx.steal();
-            if(f.receiver.team==='us') hint('Intercepted! That lane was blocked — look first! 👀');
+            if(f.receiver.team==='us') hint(SAY.mIntercepted);
             return;
           }
         }
@@ -1799,16 +1964,14 @@ const match={
     this.hintT=2.4;
     const b=this.ball;
     if(b.holder===this.kid){
-      hint(this.kid.y<310 ? 'You’re close — tap their goal to SHOOT! 🥅'
-                          : 'Dribble up the field, or tap a teammate to pass!');
+      hint(this.kid.y<310 ? SAY.mShoot : SAY.mDribble);
     } else if(b.holder&&b.holder.team==='us'){
-      hint(this.openFor(this.kid,b.holder) ? 'You’re OPEN! The pass is coming…'
-                                           : 'Get OPEN — run to space so they can pass to you!',
+      hint(this.openFor(this.kid,b.holder) ? SAY.mOpen : SAY.mGetOpen,
            this.openFor(this.kid,b.holder));
     } else if(b.holder){
-      hint('Defend! Run at the ball and steal it! 💪');
+      hint(SAY.mDefend);
     } else {
-      hint('Loose ball — go get it! 🏃');
+      hint(SAY.mLoose);
     }
   },
   endMatch(){
@@ -1820,18 +1983,12 @@ const match={
     this.crowdStopT=setTimeout(()=>crowd.stop(),2300);
     if(a>b){
       best.match++; saveProfiles(); refreshBest();
-      addStar('🏆 YOU WIN '+a+'–'+b+'! +1 ⭐');
-      showOverlay('🏆 You win!',
-        'Final score: <b>US '+a+' – '+b+' THEM</b>.<br>Spreading out and smart passes did that!<br>The next team is a little tougher…',
-        'Next match ▶', ()=>this.start());
+      addStar(winStarLine(a,b),undefined,undefined,SAY.mWinStar);
+      showOverlay(SAY.mWin, finalBody(a,b,SAY.mWinBody), 'Next match ▶', ()=>this.start(), SAY.mWin+'. '+finalSpoken(a,b,SAY.mWinBody));
     } else if(a===b){
-      showOverlay('🤝 It’s a draw!',
-        'Final score: <b>US '+a+' – '+b+' THEM</b>.<br>Tip: when your team has the ball, sprint to open grass — passes find open players!',
-        'Play again 🔄', ()=>this.start());
+      showOverlay(SAY.mDraw, finalBody(a,b,SAY.mDrawBody), 'Play again 🔄', ()=>this.start(), SAY.mDraw+'. '+finalSpoken(a,b,SAY.mDrawBody));
     } else {
-      showOverlay('😮 They got us this time!',
-        'Final score: <b>US '+a+' – '+b+' THEM</b>.<br>Tip: steal the ball by running right at it, then pass to your striker up high!',
-        'Rematch! 🔄', ()=>this.start());
+      showOverlay(SAY.mLoss, finalBody(a,b,SAY.mLossBody), 'Rematch! 🔄', ()=>this.start(), SAY.mLoss+'. '+finalSpoken(a,b,SAY.mLossBody));
     }
   },
   update(dt){
@@ -1854,7 +2011,7 @@ const match={
     // kid steals on touch
     const b=this.ball;
     if(b.holder&&b.holder.team==='them'&&dist(kid,b.holder)<30&&!(this.protect===b.holder&&this.protectT>0)){
-      this.give(kid); toast('💪 Great steal!'); sfx.steal();
+      this.give(kid); toast(SAY.mSteal); sfx.steal();
     }
     this.aiUs(dt); this.aiThem(dt); this.ballUpdate(dt); this.hints(dt);
   },
@@ -1892,7 +2049,7 @@ const match={
       for(const m of this.us){
         if(m!==this.kid&&Math.hypot(m.x-x,m.y-y)<60){
           this.pass(this.kid,m);
-          hint('Nice pass! Now run to open space!');
+          hint(SAY.mNicePass);
           return;
         }
       }
@@ -1963,10 +2120,7 @@ $('printBtn').addEventListener('click',()=>{ try{ window.print(); }catch(e){} })
 document.querySelectorAll('.readBtn').forEach(b=>{
   b.addEventListener('click',()=>{
     ensureAudio();
-    const card=b.closest('.ccard');
-    const text=[...card.querySelectorAll('h3, li, p')]
-      .map(el=>[...el.childNodes].filter(n=>n.nodeType===3 || (n.nodeType===1 && n.tagName!=='BUTTON')).map(n=>n.textContent).join(' '))
-      .join('. ');
+    const text=cardText(b.closest('.ccard'));
     if(!voice.say(text,{priority:true,force:true})) toast('Sorry, this device has no reading voice.');
   });
 });
@@ -2068,7 +2222,18 @@ function boot(saved){
   } else show('home');
   requestAnimationFrame(t=>{last=t;requestAnimationFrame(frame);});
 }
-window.__debug={state,modes,get best(){return best;},get P(){return P;},get profiles(){return profiles;},get audio(){return audioCtx?audioCtx.state:'none';},get crowdOn(){return crowd.on;}};   // used by automated tests only
+window.__debug={state,modes,voice,get best(){return best;},get P(){return P;},get profiles(){return profiles;},get audio(){return audioCtx?audioCtx.state:'none';},get crowdOn(){return crowd.on;},
+  voiceLines(){                                        // every fixed line the coach can say (voice/extract-units.mjs records these)
+    const L=[]; const add=x=>{ if(Array.isArray(x)) x.forEach(add); else if(typeof x==='string' && !x.includes('<')) L.push(x); };
+    Object.values(SAY).forEach(add); TIPS.forEach(add);
+    Object.values(ZONES).forEach(z=>{ add(z.tip); add(z.tip+sideLine('left')); add(z.tip+sideLine('right')); });
+    for(let n=1;n<=30;n++){ add('Match '+n); add(levelLine(n)); }
+    for(let n=3;n<=30;n+=3) add(streakSpoken(n));
+    for(let a=0;a<=7;a++) for(let b=0;b<=7;b++){ add(goalSpoken(a,b)); add(finalSpoken(a,b,'')); }
+    add(bodySpoken(SAY.mShape)); add(bodySpoken(SAY.mWinBody)); add(bodySpoken(SAY.mDrawBody)); add(bodySpoken(SAY.mLossBody));
+    document.querySelectorAll('.readBtn').forEach(b=>add(cardText(b.closest('.ccard'))));
+    return L;
+  }};   // used by automated tests and the voice scripts only
 try{
   if(window.claude&&window.claude.hot){
     window.claude.hot.snapshot(()=>({mode:state.mode,score:state.score,level:state.level}));
