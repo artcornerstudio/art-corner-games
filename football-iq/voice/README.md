@@ -26,8 +26,10 @@ read by two different voices. A missing or broken clip also falls back.
 
 1. `npm run voice:units` after changing lesson text or adding spoken lines.
    Commit `voice/units.json`. A unit test fails until you do.
-2. On GitHub: Actions tab, **Voice clips**, **Run workflow**. It records only
-   sentences that have no clip yet, then pushes the `voice-clips` branch.
+2. On GitHub: Actions tab, **Voice clips**, **Run workflow** (game:
+   football-iq, the default). It records only sentences that have no clip
+   yet, then pushes the `voice-clips` branch. The same workflow records
+   Spread Out! when the game is set to spread-out; see `spread-out/voice/`.
    It never touches `main` and never deploys.
 3. Open a pull request from `voice-clips` into `main` and merge it.
 

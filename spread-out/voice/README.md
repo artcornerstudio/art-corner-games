@@ -38,9 +38,10 @@ The recorder itself is shared with Football IQ: `football-iq/voice/render_clips.
 2. From the repository root run `node spread-out/voice/extract-units.mjs`
    (needs `npm ci` in `football-iq` once, for the headless browser). Commit the
    new `units.json`.
-3. Push the branch, then on GitHub: Actions tab, **Spread Out voice clips**,
-   **Run workflow**, choose that branch. It records only the sentences that
-   have no clip yet and commits the clips to the same branch.
+3. Push the branch, then on GitHub: Actions tab, **Voice clips**,
+   **Run workflow**, choose that branch and set the game to **spread-out**.
+   It records only the sentences that have no clip yet and commits the clips
+   to the same branch (it refuses to run on main).
 4. Merge the branch through a pull request as usual. The site deploy picks the
    clips up automatically.
 
