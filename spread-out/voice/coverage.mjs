@@ -6,6 +6,7 @@
  *   node spread-out/voice/coverage.mjs        (from the repository root)
  *
  * Clips are stood in for by a silent mp3, so this checks coverage, not sound.
+ * With REAL=1 it plays the committed clips, which proves they load and decode.
  * Lines with a player's name are expected to use the device voice.
  * Needs football-iq's node_modules for playwright-core (npm ci there).
  */
@@ -39,8 +40,11 @@ const APP = `http://127.0.0.1:${server.address().port}/spread-out/`;
 
 const browser = await chromium.launch({ executablePath: CHROME, args: ["--autoplay-policy=no-user-gesture-required"] });
 const ctx = await browser.newContext({ viewport: { width: 420, height: 860 }, serviceWorkers: "block" });
-await ctx.route("**/voice/manifest.json", (r) => r.fulfill({ json: { voice: "am_eric", count: units.length, ids: units.map((u) => u.id) } }));
-await ctx.route(/\/voice\/[0-9a-f]{14}\.mp3$/, (r) => r.fulfill({ body: SILENT_MP3, contentType: "audio/mpeg" }));
+if (!process.env.REAL) {
+  // Stand-ins, so the check covers sentences not yet recorded. REAL=1 plays the committed clips instead.
+  await ctx.route("**/voice/manifest.json", (r) => r.fulfill({ json: { voice: "am_eric", count: units.length, ids: units.map((u) => u.id) } }));
+  await ctx.route(/\/voice\/[0-9a-f]{14}\.mp3$/, (r) => r.fulfill({ body: SILENT_MP3, contentType: "audio/mpeg" }));
+}
 const collected = [];
 await ctx.exposeFunction("__collect", (e) => collected.push(e));
 await ctx.addInitScript(() => {
