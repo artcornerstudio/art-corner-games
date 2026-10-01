@@ -1,7 +1,7 @@
 // Spread Out! service worker — lets the game open with no internet
 // after the first visit. Bump CACHE_NAME whenever the app shell files change
 // so old installs pick up the new version.
-const CACHE_NAME = 'spread-out-v1';
+const CACHE_NAME = 'spread-out-v2';
 const SHELL = [
   './',
   'index.html',
@@ -49,7 +49,21 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Everything else (icons, manifest): cache first, then network as backup.
+  // The list of Coach Eric clips changes when new lines are recorded, so
+  // check the network first and keep the last good copy for offline play.
+  if (req.url.endsWith('/voice/manifest.json')) {
+    event.respondWith(
+      fetch(req).then((res) => {
+        const copy = res.clone();
+        caches.open(CACHE_NAME).then((c) => c.put(req, copy)).catch(() => {});
+        return res;
+      }).catch(() => caches.match(req))
+    );
+    return;
+  }
+
+  // Everything else (icons, manifest, voice clips): cache first, then network
+  // as backup. Clip files never change (their name is a hash of the words).
   event.respondWith(
     caches.match(req).then((cached) => cached || fetch(req).then((res) => {
       const copy = res.clone();

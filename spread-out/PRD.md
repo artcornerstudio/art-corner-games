@@ -129,6 +129,18 @@ button that continues the last game played. Built entirely in CSS + SVG so
 it stays sharp on every screen and adds no downloads. The in-game top bar
 now only appears inside games and Coach Corner.
 
+### ✅ Bonus update — Coach Eric (recorded coach voice) (DONE)
+The coach now speaks in **Coach Eric's** voice, the same recorded coach as
+Football IQ. Every fixed sentence (233 of them, about 5 minutes of speech)
+is recorded once on GitHub's computers with the free Kokoro "am_eric" voice
+and shipped with the game as tiny MP3 clips (about 15 KB each). When the
+coach talks, the game plays Eric's clips sentence by sentence. Anything not
+recorded, like a player's name, falls back to the device's own voice, so
+nothing is ever silent. Clips are cached by the offline helper after the
+first listen. Adding a new coach line is a documented three-step job
+(`spread-out/voice/README.md`), and a coverage script proves every line in
+every mode has a clip.
+
 ### ✅ Bonus update — Coach Voice (text-to-speech) (DONE)
 The coach can now talk. Using the speech voice built into every phone and
 browser (nothing leaves the device, works offline), Coach Voice reads

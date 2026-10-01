@@ -1,0 +1,934 @@
+[
+ {
+  "id": "03ecfa5daf90e0",
+  "text": "12 in a row!"
+ },
+ {
+  "id": "002a064c9113b3",
+  "text": "15 in a row!"
+ },
+ {
+  "id": "167c84b4a1610b",
+  "text": "15-minute practice plan."
+ },
+ {
+  "id": "1e400a49cd70f3",
+  "text": "18 in a row!"
+ },
+ {
+  "id": "0ad2583097cc86",
+  "text": "21 in a row!"
+ },
+ {
+  "id": "091927f835cabb",
+  "text": "24 in a row!"
+ },
+ {
+  "id": "1546a6fc47c88f",
+  "text": "27 in a row!"
+ },
+ {
+  "id": "01d0783c242365",
+  "text": "3 in a row!"
+ },
+ {
+  "id": "121d77b4756618",
+  "text": "30 in a row!"
+ },
+ {
+  "id": "03917b77aeaf57",
+  "text": "6 in a row!"
+ },
+ {
+  "id": "12effb3e923005",
+  "text": "9 in a row!"
+ },
+ {
+  "id": "1e86d99a0b6c3a",
+  "text": "A blocker guards the lane!"
+ },
+ {
+  "id": "1367ad4af50274",
+  "text": "a bunched-up team is easy to guard."
+ },
+ {
+  "id": "1256ac8fe12423",
+  "text": "A chaser is hunting you!"
+ },
+ {
+  "id": "05d5322a4b5e87",
+  "text": "A triangle always gives your team two ways to pass!"
+ },
+ {
+  "id": "026c1cec357640",
+  "text": "All the coach tips."
+ },
+ {
+  "id": "043298a3afa4cf",
+  "text": "Ball is LEFT, slide over!"
+ },
+ {
+  "id": "1e2a61498616db",
+  "text": "Ball is RIGHT, slide over!"
+ },
+ {
+  "id": "07277b01073b06",
+  "text": "Blocked!"
+ },
+ {
+  "id": "0979de0557fed5",
+  "text": "Chase it!"
+ },
+ {
+  "id": "06821717df1f58",
+  "text": "Coach voice on!"
+ },
+ {
+  "id": "1b82977271eaba",
+  "text": "Defend!"
+ },
+ {
+  "id": "1a2eb8e34b4219",
+  "text": "Defender low, YOU in the middle, striker high."
+ },
+ {
+  "id": "0c0be440866f66",
+  "text": "Defender."
+ },
+ {
+  "id": "1920a8cf2b2f4a",
+  "text": "don’t chase the ball, be where it’s going!"
+ },
+ {
+  "id": "017c3f7210adfd",
+  "text": "Drag your gold player to open grass!"
+ },
+ {
+  "id": "05cfd4fbc40cfb",
+  "text": "Dribble up the field, or tap a teammate to pass!"
+ },
+ {
+  "id": "175c2f92ff7d5b",
+  "text": "Final score."
+ },
+ {
+  "id": "1a8dbc0335ad52",
+  "text": "Find open space!"
+ },
+ {
+  "id": "11acc6e892d7dc",
+  "text": "Game time (3 minutes)."
+ },
+ {
+  "id": "16b95621e97b1e",
+  "text": "Get open, pass smart, score up top!"
+ },
+ {
+  "id": "1dcc60902524d5",
+  "text": "Get OPEN, run to space so they can pass to you!"
+ },
+ {
+  "id": "0c5f095af9384b",
+  "text": "Get Open, sprint to space, escape the chasers."
+ },
+ {
+  "id": "053d4494bc310f",
+  "text": "GOAL!"
+ },
+ {
+  "id": "005ea1ad9aba4e",
+  "text": "Great eyes!"
+ },
+ {
+  "id": "0f435d1379dd38",
+  "text": "Great job getting open!"
+ },
+ {
+  "id": "027724987dd773",
+  "text": "Great pass!"
+ },
+ {
+  "id": "082241cf5590a1",
+  "text": "Great positioning!"
+ },
+ {
+  "id": "0e3066333b4aa1",
+  "text": "Great steal!"
+ },
+ {
+  "id": "0371b2001d768e",
+  "text": "guard our goal!"
+ },
+ {
+  "id": "0ebda109c17b80",
+  "text": "Hold it."
+ },
+ {
+  "id": "097dc8bca7b664",
+  "text": "hold the middle!"
+ },
+ {
+  "id": "00f0e0faef98f9",
+  "text": "Hold your spot."
+ },
+ {
+  "id": "0a0ddd5fa9b329",
+  "text": "I will read the tips out loud."
+ },
+ {
+  "id": "0fcd4957ebbb7b",
+  "text": "Intercepted!"
+ },
+ {
+  "id": "0009da5e3b2a32",
+  "text": "It’s a draw!"
+ },
+ {
+  "id": "140ade3b279777",
+  "text": "Just like a pro!"
+ },
+ {
+  "id": "11522233db0019",
+  "text": "LEVEL 1!"
+ },
+ {
+  "id": "1c9c498b49a4c5",
+  "text": "LEVEL 10!"
+ },
+ {
+  "id": "184f430f1a243f",
+  "text": "LEVEL 11!"
+ },
+ {
+  "id": "143af76874484d",
+  "text": "LEVEL 12!"
+ },
+ {
+  "id": "184f202c17246e",
+  "text": "LEVEL 13!"
+ },
+ {
+  "id": "0f75135694acbf",
+  "text": "LEVEL 14!"
+ },
+ {
+  "id": "14f7411364a58b",
+  "text": "LEVEL 15!"
+ },
+ {
+  "id": "1c222c0c59d511",
+  "text": "LEVEL 16!"
+ },
+ {
+  "id": "12a0f1bca48fae",
+  "text": "LEVEL 17!"
+ },
+ {
+  "id": "039fd3aa7af464",
+  "text": "LEVEL 18!"
+ },
+ {
+  "id": "06743c313e8f68",
+  "text": "LEVEL 19!"
+ },
+ {
+  "id": "09d9585dc2f15e",
+  "text": "LEVEL 2!"
+ },
+ {
+  "id": "15a09dec804773",
+  "text": "LEVEL 20!"
+ },
+ {
+  "id": "125c0245e7cd98",
+  "text": "LEVEL 21!"
+ },
+ {
+  "id": "1fd996c48fd6d4",
+  "text": "LEVEL 22!"
+ },
+ {
+  "id": "1b3bd229b1425f",
+  "text": "LEVEL 23!"
+ },
+ {
+  "id": "0f34c16a14dbf1",
+  "text": "LEVEL 24!"
+ },
+ {
+  "id": "1f759825c4e7ab",
+  "text": "LEVEL 25!"
+ },
+ {
+  "id": "08fe1c9cd80327",
+  "text": "LEVEL 26!"
+ },
+ {
+  "id": "19aa35f580a921",
+  "text": "LEVEL 27!"
+ },
+ {
+  "id": "150d32eeab2dbe",
+  "text": "LEVEL 28!"
+ },
+ {
+  "id": "116b9a756dd0ed",
+  "text": "LEVEL 29!"
+ },
+ {
+  "id": "1a6d1cccbeec4b",
+  "text": "LEVEL 3!"
+ },
+ {
+  "id": "1d2d8c21d6d0c6",
+  "text": "LEVEL 30!"
+ },
+ {
+  "id": "18d70c820845c6",
+  "text": "LEVEL 4!"
+ },
+ {
+  "id": "1cabc9e71da17e",
+  "text": "LEVEL 5!"
+ },
+ {
+  "id": "0efe39899ada81",
+  "text": "LEVEL 6!"
+ },
+ {
+  "id": "11a4f4b9031832",
+  "text": "LEVEL 7!"
+ },
+ {
+  "id": "0a149a068d58c5",
+  "text": "LEVEL 8!"
+ },
+ {
+  "id": "029db7309b7622",
+  "text": "LEVEL 9!"
+ },
+ {
+  "id": "0193b6bde76511",
+  "text": "Look before you kick, who is open?"
+ },
+ {
+  "id": "168f418532c060",
+  "text": "look BEFORE you kick."
+ },
+ {
+  "id": "17159a6725a538",
+  "text": "Look for space!"
+ },
+ {
+  "id": "19ac1e369fab73",
+  "text": "Loose ball, go get it!"
+ },
+ {
+  "id": "1582dc8858064f",
+  "text": "Match 1."
+ },
+ {
+  "id": "167287f6ff8d5c",
+  "text": "Match 10."
+ },
+ {
+  "id": "0ade6ed1de4314",
+  "text": "Match 11."
+ },
+ {
+  "id": "1679744e848568",
+  "text": "Match 12."
+ },
+ {
+  "id": "0e7b5a7510a71c",
+  "text": "Match 13."
+ },
+ {
+  "id": "13e1f684c64c54",
+  "text": "Match 14."
+ },
+ {
+  "id": "18b700a3f69688",
+  "text": "Match 15."
+ },
+ {
+  "id": "17b5986b37b7fa",
+  "text": "Match 16."
+ },
+ {
+  "id": "062043791a2509",
+  "text": "Match 17."
+ },
+ {
+  "id": "06284b54795091",
+  "text": "Match 18."
+ },
+ {
+  "id": "09bd8bedb98d3c",
+  "text": "Match 19."
+ },
+ {
+  "id": "0e858413f7d01f",
+  "text": "Match 2."
+ },
+ {
+  "id": "112de09ed0041f",
+  "text": "Match 20."
+ },
+ {
+  "id": "0c4f7b510869dc",
+  "text": "Match 21."
+ },
+ {
+  "id": "102a4353ab778f",
+  "text": "Match 22."
+ },
+ {
+  "id": "03e2dfc757758f",
+  "text": "Match 23."
+ },
+ {
+  "id": "1e934a73c4aa84",
+  "text": "Match 24."
+ },
+ {
+  "id": "1e8cb03b2db245",
+  "text": "Match 25."
+ },
+ {
+  "id": "1b13dd825cd0e5",
+  "text": "Match 26."
+ },
+ {
+  "id": "022970e43d89e7",
+  "text": "Match 27."
+ },
+ {
+  "id": "06dab33e517667",
+  "text": "Match 28."
+ },
+ {
+  "id": "0fccc0fa23912c",
+  "text": "Match 29."
+ },
+ {
+  "id": "0bfa4fa88d843d",
+  "text": "Match 3."
+ },
+ {
+  "id": "177098c0a42d2d",
+  "text": "Match 30."
+ },
+ {
+  "id": "085eda73d2e718",
+  "text": "Match 4."
+ },
+ {
+  "id": "18f1df87c41e29",
+  "text": "Match 5."
+ },
+ {
+  "id": "0a38fbd84aee00",
+  "text": "Match 6."
+ },
+ {
+  "id": "0f5c0d7c905875",
+  "text": "Match 7."
+ },
+ {
+  "id": "1b5bde21f2e25d",
+  "text": "Match 8."
+ },
+ {
+  "id": "1982e618a6781b",
+  "text": "Match 9."
+ },
+ {
+  "id": "0280b61deb286c",
+  "text": "Midfielder."
+ },
+ {
+  "id": "0d02a640cb4a5e",
+  "text": "Mini Match, put it all together."
+ },
+ {
+  "id": "1672d5460d2d71",
+  "text": "move sideways to sneak out of a defender’s shadow!"
+ },
+ {
+  "id": "1d090112e5f1b4",
+  "text": "Move sideways!"
+ },
+ {
+  "id": "1e986a6d50585f",
+  "text": "Nice pass!"
+ },
+ {
+  "id": "047079f319d7d2",
+  "text": "Nice spacing!"
+ },
+ {
+  "id": "0d1f8dcf3d350c",
+  "text": "Now run to open space!"
+ },
+ {
+  "id": "0aa049d8c9f81e",
+  "text": "Now slide with the ball!"
+ },
+ {
+  "id": "05c77077dfc5a5",
+  "text": "Now tap the open teammate!"
+ },
+ {
+  "id": "1a77b41b7d16da",
+  "text": "open grass means easy pass."
+ },
+ {
+  "id": "092c859de99b96",
+  "text": "Pass around defenders next time!"
+ },
+ {
+  "id": "1f29f9022cae37",
+  "text": "Pass is coming, catch it!"
+ },
+ {
+  "id": "1bc84954c758c1",
+  "text": "Perfect choice!"
+ },
+ {
+  "id": "1e9806a5a97c1a",
+  "text": "Perfect pass!"
+ },
+ {
+  "id": "11b60c9eaa6e39",
+  "text": "Perfect spot!"
+ },
+ {
+  "id": "1d3eae5bc7d1c1",
+  "text": "Pick the Pass, look before you kick."
+ },
+ {
+  "id": "19f03dd205387f",
+  "text": "Red lines means blocked."
+ },
+ {
+  "id": "075e8feef9e031",
+  "text": "Run at the ball and steal it!"
+ },
+ {
+  "id": "084bfe88298321",
+  "text": "Run to open grass!"
+ },
+ {
+  "id": "10b257fc261359",
+  "text": "Run to your position!"
+ },
+ {
+  "id": "1cddde11cb5621",
+  "text": "run up top!"
+ },
+ {
+  "id": "00f521d93fb0a6",
+  "text": "So close!"
+ },
+ {
+  "id": "0b33d79e27359f",
+  "text": "Soccer brains (4 minutes)."
+ },
+ {
+  "id": "028ab973f99a13",
+  "text": "Spread out, move away from the ball!"
+ },
+ {
+  "id": "1dcd828380dea5",
+  "text": "Spread out!"
+ },
+ {
+  "id": "0d80343d416f98",
+  "text": "Spreading out and smart passes did that!"
+ },
+ {
+  "id": "0535f39411b97e",
+  "text": "Sprint away!"
+ },
+ {
+  "id": "020ba9e8b349ae",
+  "text": "Star earned!"
+ },
+ {
+  "id": "0122c96afee9d4",
+  "text": "steal the ball by running right at it, then pass to your striker up high!"
+ },
+ {
+  "id": "135aa8ffe7dff2",
+  "text": "Stolen!"
+ },
+ {
+  "id": "1404c5ae25d043",
+  "text": "Striker."
+ },
+ {
+  "id": "1217fcfa65b3db",
+  "text": "Tap the OPEN teammate!"
+ },
+ {
+  "id": "061298b07d6c20",
+  "text": "Team shape (3 minutes)."
+ },
+ {
+  "id": "0b9f051b3eda95",
+  "text": "That lane was blocked, look first!"
+ },
+ {
+  "id": "196a90e17684a6",
+  "text": "That one was covered."
+ },
+ {
+  "id": "128ac94dd6eac9",
+  "text": "That’s your spot!"
+ },
+ {
+  "id": "0b49c3312c9db8",
+  "text": "The next team is a little tougher."
+ },
+ {
+  "id": "1881749b22c5aa",
+  "text": "The pass is coming to YOU!"
+ },
+ {
+  "id": "0fa14ae17532ad",
+  "text": "The pass is coming."
+ },
+ {
+  "id": "1ba071cd6fa99e",
+  "text": "They got us this time!"
+ },
+ {
+  "id": "192823dbd97724",
+  "text": "They poked it away!"
+ },
+ {
+  "id": "1f2c5441049749",
+  "text": "They scored."
+ },
+ {
+  "id": "064243979aa49c",
+  "text": "Tip."
+ },
+ {
+  "id": "1d7a12772111d8",
+  "text": "Today’s team shape."
+ },
+ {
+  "id": "106d00c443d4bd",
+  "text": "Too close!"
+ },
+ {
+  "id": "1baa36fb351b38",
+  "text": "TRIANGLE."
+ },
+ {
+  "id": "140ff73dd9ba45",
+  "text": "Try the GREEN lane!"
+ },
+ {
+  "id": "108bff07e47ee9",
+  "text": "Uh oh."
+ },
+ {
+  "id": "07861c942c509b",
+  "text": "Us 0, them 0."
+ },
+ {
+  "id": "0ed1c10761dd7f",
+  "text": "Us 0, them 1."
+ },
+ {
+  "id": "1e369b140737cc",
+  "text": "Us 0, them 2."
+ },
+ {
+  "id": "0d7c0688b28120",
+  "text": "Us 0, them 3."
+ },
+ {
+  "id": "0ae3c390f4ee62",
+  "text": "Us 0, them 4."
+ },
+ {
+  "id": "068ccf3aba3afa",
+  "text": "Us 0, them 5."
+ },
+ {
+  "id": "0db1f6730ac309",
+  "text": "Us 0, them 6."
+ },
+ {
+  "id": "07dde4ab104178",
+  "text": "Us 0, them 7."
+ },
+ {
+  "id": "01d606f339a504",
+  "text": "Us 1, them 0."
+ },
+ {
+  "id": "1257284f729987",
+  "text": "Us 1, them 1."
+ },
+ {
+  "id": "060fd4345956fa",
+  "text": "Us 1, them 2."
+ },
+ {
+  "id": "15b5ef63ce5b6d",
+  "text": "Us 1, them 3."
+ },
+ {
+  "id": "0428e8691ac755",
+  "text": "Us 1, them 4."
+ },
+ {
+  "id": "0ddd1b2b03f218",
+  "text": "Us 1, them 5."
+ },
+ {
+  "id": "13b757f9b9100b",
+  "text": "Us 1, them 6."
+ },
+ {
+  "id": "0ac8739a7668d2",
+  "text": "Us 1, them 7."
+ },
+ {
+  "id": "07c83eea5ed978",
+  "text": "Us 2, them 0."
+ },
+ {
+  "id": "066dde71b0bd05",
+  "text": "Us 2, them 1."
+ },
+ {
+  "id": "11269e35ecc688",
+  "text": "Us 2, them 2."
+ },
+ {
+  "id": "09ad6898d0ca90",
+  "text": "Us 2, them 3."
+ },
+ {
+  "id": "123a1b249aef85",
+  "text": "Us 2, them 4."
+ },
+ {
+  "id": "161403b07c3555",
+  "text": "Us 2, them 5."
+ },
+ {
+  "id": "1b9229b3cdd827",
+  "text": "Us 2, them 6."
+ },
+ {
+  "id": "0a40a3ea9c2f9f",
+  "text": "Us 2, them 7."
+ },
+ {
+  "id": "103a4bdd58ce9e",
+  "text": "Us 3, them 0."
+ },
+ {
+  "id": "0589a5e9050054",
+  "text": "Us 3, them 1."
+ },
+ {
+  "id": "0b2a8eccf59814",
+  "text": "Us 3, them 2."
+ },
+ {
+  "id": "1e195f87e0d024",
+  "text": "Us 3, them 3."
+ },
+ {
+  "id": "13afd4d677fa41",
+  "text": "Us 3, them 4."
+ },
+ {
+  "id": "13305e6b177dda",
+  "text": "Us 3, them 5."
+ },
+ {
+  "id": "1e753171feee75",
+  "text": "Us 3, them 6."
+ },
+ {
+  "id": "0861292f447313",
+  "text": "Us 3, them 7."
+ },
+ {
+  "id": "1ade59cb0f13ad",
+  "text": "Us 4, them 0."
+ },
+ {
+  "id": "0cdaad26b697fe",
+  "text": "Us 4, them 1."
+ },
+ {
+  "id": "05040e2e7bcb08",
+  "text": "Us 4, them 2."
+ },
+ {
+  "id": "06634dd4845222",
+  "text": "Us 4, them 3."
+ },
+ {
+  "id": "19f8536ba602d5",
+  "text": "Us 4, them 4."
+ },
+ {
+  "id": "03323d9f544e24",
+  "text": "Us 4, them 5."
+ },
+ {
+  "id": "1e38171880613c",
+  "text": "Us 4, them 6."
+ },
+ {
+  "id": "1800ae8e3b0a41",
+  "text": "Us 4, them 7."
+ },
+ {
+  "id": "08ddbf726a2a68",
+  "text": "Us 5, them 0."
+ },
+ {
+  "id": "0d339458cd4f83",
+  "text": "Us 5, them 1."
+ },
+ {
+  "id": "02672c77abdd26",
+  "text": "Us 5, them 2."
+ },
+ {
+  "id": "1a6ae25c66056b",
+  "text": "Us 5, them 3."
+ },
+ {
+  "id": "1a048c7b89b19f",
+  "text": "Us 5, them 4."
+ },
+ {
+  "id": "175fc1aad697ef",
+  "text": "Us 5, them 5."
+ },
+ {
+  "id": "004a8d020a8faf",
+  "text": "Us 5, them 6."
+ },
+ {
+  "id": "1508776158eb91",
+  "text": "Us 5, them 7."
+ },
+ {
+  "id": "1979c37b0fc7aa",
+  "text": "Us 6, them 0."
+ },
+ {
+  "id": "1a45ef4b241923",
+  "text": "Us 6, them 1."
+ },
+ {
+  "id": "109e7f2480e758",
+  "text": "Us 6, them 2."
+ },
+ {
+  "id": "108aa61cd6a92b",
+  "text": "Us 6, them 3."
+ },
+ {
+  "id": "122efd803a6622",
+  "text": "Us 6, them 4."
+ },
+ {
+  "id": "1d7101d9956812",
+  "text": "Us 6, them 5."
+ },
+ {
+  "id": "121d2477b812af",
+  "text": "Us 6, them 6."
+ },
+ {
+  "id": "06abac9f5b670c",
+  "text": "Us 6, them 7."
+ },
+ {
+  "id": "1e8f9312b26cd9",
+  "text": "Us 7, them 0."
+ },
+ {
+  "id": "1bcb29dae5e11b",
+  "text": "Us 7, them 1."
+ },
+ {
+  "id": "015437489ababc",
+  "text": "Us 7, them 2."
+ },
+ {
+  "id": "04d2df21f4ec38",
+  "text": "Us 7, them 3."
+ },
+ {
+  "id": "12071bd6dc42c7",
+  "text": "Us 7, them 4."
+ },
+ {
+  "id": "016cdafd4e816e",
+  "text": "Us 7, them 5."
+ },
+ {
+  "id": "024f12be70c38f",
+  "text": "Us 7, them 6."
+ },
+ {
+  "id": "127daf56e74e4c",
+  "text": "Us 7, them 7."
+ },
+ {
+  "id": "1503f326132a88",
+  "text": "Warm-up (5 minutes)."
+ },
+ {
+  "id": "076e62c7ec0759",
+  "text": "What a pass!"
+ },
+ {
+  "id": "0aa09d904c3706",
+  "text": "when your team has the ball, sprint to open grass, passes find open players!"
+ },
+ {
+  "id": "0515167c5668a9",
+  "text": "Where Do I Stand, zones and sliding with the ball."
+ },
+ {
+  "id": "0627359b0c03d5",
+  "text": "Who is open?"
+ },
+ {
+  "id": "0fac8a5192d738",
+  "text": "Win it back!"
+ },
+ {
+  "id": "008a42d685556d",
+  "text": "You win!"
+ },
+ {
+  "id": "09152cf7f8d09a",
+  "text": "You’re close, tap their goal to SHOOT!"
+ },
+ {
+  "id": "0787e15ffb8bc5",
+  "text": "You’re covered!"
+ },
+ {
+  "id": "19b23dc18eb5a5",
+  "text": "You’re OPEN!"
+ }
+]
