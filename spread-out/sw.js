@@ -1,7 +1,7 @@
 // Spread Out! service worker — lets the game open with no internet
 // after the first visit. Bump CACHE_NAME whenever the app shell files change
 // so old installs pick up the new version.
-const CACHE_NAME = 'spread-out-v2';
+const CACHE_NAME = 'spread-out-v3';
 const SHELL = [
   './',
   'index.html',
@@ -35,6 +35,8 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
+  // The purchase API and the premium script are decided by the server every time.
+  if (/\/(api|premium)\//.test(new URL(req.url).pathname)) return;
 
   // Page navigations: try the network first so updates show up right away,
   // fall back to the cached shell when there's no connection.

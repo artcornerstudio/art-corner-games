@@ -1,0 +1,19 @@
+{
+  "name": "spread-out-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Backend for Spread Out!: serves the game, sells the one-time unlock with Stripe Checkout, and gates the premium files behind a signed session cookie.",
+  "main": "server.js",
+  "engines": { "node": ">=22.13" },
+  "scripts": {
+    "start": "node --no-warnings=ExperimentalWarning server.js",
+    "dev": "node --no-warnings=ExperimentalWarning --watch server.js",
+    "test": "node --no-warnings=ExperimentalWarning --test test/*.test.js"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "stripe": "^18.0.0"
+  }
+}
