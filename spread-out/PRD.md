@@ -129,6 +129,22 @@ button that continues the last game played. Built entirely in CSS + SVG so
 it stays sharp on every screen and adds no downloads. The in-game top bar
 now only appears inside games and Coach Corner.
 
+### ✅ Bonus update — Full-game unlock (paywall) (DONE, not switched on)
+Built, tested, and documented in `spread-out-server/`: a small Node.js server
+that serves the game, sells a one-time unlock through Stripe Checkout, and
+keeps the premium parts (Where Do I Stand?, Mini Match!, unlimited levels,
+Coach Corner, Coach Eric's clips) on the server until a purchase is proven.
+Nothing in the browser decides who paid: the free page simply does not
+contain the premium code, and the server sends it only with a signed,
+httpOnly cookie that is checked against the purchase record every time (so
+a refund locks every device at once). A license code unlocks a second
+device. A retro-arcade paywall overlay shows the price, the feature list and
+a Buy now button when the demo ends or a locked mode is tapped. The free
+GitHub Pages copy is untouched: with no server config the paywall stays off.
+Going live is a decision (hosting with HTTPS and a persistent disk, live
+Stripe keys, turning the public copy into the demo, making the repository
+private); the step-by-step plan is in `spread-out-server/README.md`.
+
 ### ✅ Bonus update — Coach Eric (recorded coach voice) (DONE)
 The coach now speaks in **Coach Eric's** voice, the same recorded coach as
 Football IQ. Every fixed sentence (233 of them, about 5 minutes of speech)

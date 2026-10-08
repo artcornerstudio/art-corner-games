@@ -15,6 +15,13 @@ A free browser game that teaches kids ages 6–12 real soccer smarts: **getting 
 
 See [`PRD.md`](PRD.md) for the full plan and phased roadmap.
 
+## Selling the full game (optional)
+
+`../spread-out-server/` is a small Node.js server that serves this game with a
+free demo and sells a one-time unlock through Stripe Checkout; the premium modes
+are served only to verified buyers. This free copy does not use it. See
+[`../spread-out-server/README.md`](../spread-out-server/README.md).
+
 ## Privacy
 
 No accounts, no ads, no tracking. See [`privacy.html`](privacy.html) — everything the game remembers stays on your own device. The coach's voice clips are plain files served from this site, and the fallback voice runs on the device itself.

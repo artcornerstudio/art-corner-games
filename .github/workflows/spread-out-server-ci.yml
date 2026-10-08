@@ -1,0 +1,27 @@
+name: Spread Out server CI
+
+# Runs the purchase-flow tests whenever the server or the game file changes
+# (the server cuts the premium regions out of spread-out/index.html, so a
+# change to the game can break the split).
+on:
+  push:
+    branches: ["**"]
+    paths: ["spread-out-server/**", "spread-out/index.html", ".github/workflows/spread-out-server-ci.yml"]
+  pull_request:
+    paths: ["spread-out-server/**", "spread-out/index.html", ".github/workflows/spread-out-server-ci.yml"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: spread-out-server
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: spread-out-server/package-lock.json
+      - run: npm ci
+      - run: npm test
