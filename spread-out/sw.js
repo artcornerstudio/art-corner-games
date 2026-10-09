@@ -1,11 +1,13 @@
 // Spread Out! service worker — lets the game open with no internet
 // after the first visit. Bump CACHE_NAME whenever the app shell files change
 // so old installs pick up the new version.
-const CACHE_NAME = 'spread-out-v4';
+const CACHE_NAME = 'spread-out-v5';
 const SHELL = [
   './',
   'index.html',
   'manifest.json',
+  'art/stadium-tall.webp',
+  'art/stadium-wide.webp',
   'icons/icon-192.png',
   'icons/icon-512.png',
   'icons/icon-512-maskable.png',
