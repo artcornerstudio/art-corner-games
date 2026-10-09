@@ -80,11 +80,13 @@ jobs:
 
   commit:
     needs: [ref, record]
-    if: always() && needs.ref.result == 'success'
+    # not when a newer run replaced this one; otherwise keep whatever the recorders finished
+    if: ${{ !cancelled() && needs.ref.result == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref }}" }   # the branch as it is now, not as it was when the run started
       - uses: actions/download-artifact@v4
         with: { path: dl }
       - uses: actions/setup-python@v5
@@ -111,5 +113,5 @@ jobs:
           git add spread-out/voice
           git diff --cached --quiet && { echo "Nothing new"; exit 0; }
           git commit -m "Record Spread Out! coach lines (Qwen3-TTS, Coach Eric)"
-          git pull --rebase -q || true
+          git pull --rebase -q -X theirs || true   # if the branch moved, this run's new takes win
           git push
