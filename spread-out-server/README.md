@@ -147,6 +147,21 @@ npm test
 5. Buy it once yourself with a real card, then refund it, to see the live
    webhook and the lock/unlock both work.
 
+## Your Stripe setup (test mode)
+
+Created on the artcornerstudio.net Stripe account, test mode, so no real money
+moves until the live keys are used:
+
+| What | Id |
+| --- | --- |
+| Product "Spread Out! Full Game" | `prod_VPFkR0k1HhnwmY` |
+| One-time price, $4.99 USD | `price_1UORF3JMJd2TdRXlcf6CpEbm` (use as `STRIPE_PRICE_ID`) |
+
+Ids are not secrets. The secret key and the webhook signing secret must still
+be copied from the Dashboard into `.env` and never committed. When the game
+goes live, make the same product in live mode (ids will differ) and add the
+production webhook endpoint.
+
 ## Endpoints
 
 | Method and path | What it does |
