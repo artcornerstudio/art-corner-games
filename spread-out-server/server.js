@@ -228,7 +228,9 @@ function createApp(opts = {}) {
 if (require.main === module) {
   const { app, cfg } = createApp();
   const port = Number(process.env.PORT ?? 3000);
-  app.listen(port, () => console.log(`Spread Out! server on port ${port} (public URL ${cfg.publicUrl}, ${cfg.production ? "production" : "development"})`));
+  // HOST=127.0.0.1 keeps the app reachable only through the HTTPS proxy in front of it (the VPS installer sets this).
+  const host = process.env.HOST || undefined;
+  app.listen(port, host, () => console.log(`Spread Out! server on ${host ?? "all interfaces"}:${port} (public URL ${cfg.publicUrl}, ${cfg.production ? "production" : "development"})`));
 }
 
 module.exports = { createApp, COOKIE, PRODUCT };
