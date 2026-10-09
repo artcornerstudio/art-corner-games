@@ -7,8 +7,9 @@ name: Spread Out! coach voice
 #
 # It runs by itself when units.json or the recorder changes on a branch, and can
 # be started by hand: Actions tab, "Spread Out! coach voice", "Run workflow".
-# Clips already in the repository are skipped, so only new or edited sentences
-# are recorded. It never runs on main.
+# Clips already in the repository are kept when a speech recognizer hears the
+# right words in them; new sentences, and any clip that fails that check, are
+# recorded (each new take is checked the same way). It never runs on main.
 on:
   push:
     branches-ignore: [main]
@@ -62,9 +63,9 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y ffmpeg sox libsox-dev
       - run: |
           pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
-          pip install -U qwen-tts soundfile numpy
+          pip install -U qwen-tts soundfile numpy faster-whisper
       - name: Record shard ${{ matrix.shard }} of 10
-        run: python spread-out/voice/render_qwen.py --out clips --shard ${{ matrix.shard }}/10 --skip-dir spread-out/voice --ref ref/coach-ref.flac
+        run: python spread-out/voice/render_qwen.py --out clips --shard ${{ matrix.shard }}/10 --skip-dir spread-out/voice --ref ref/coach-ref.flac --verify --recheck
       - uses: actions/upload-artifact@v4
         if: always()
         with: { name: "clips-${{ matrix.shard }}", path: clips, if-no-files-found: ignore }
@@ -86,6 +87,16 @@ jobs:
           cp -n dl/coach-ref/coach-ref.flac spread-out/voice/coach-ref.flac || true
           for d in dl/clips-*; do [ -d "$d" ] && cp "$d"/*.mp3 spread-out/voice/ 2>/dev/null || true; done
           cat dl/clips-*/failed-shard-*.json 2>/dev/null || true
+          python - <<'PY' | tee -a "$GITHUB_STEP_SUMMARY"
+          import glob, json
+          rows = [r for f in sorted(glob.glob("dl/clips-*/check-shard-*.json")) for r in json.load(open(f))]
+          print("### Coach voice check\n")
+          print(f"{len(rows)} sentences recorded or re-recorded.\n")
+          print("| Sentence | Heard | Score | Old take heard |\n| --- | --- | --- | --- |")
+          for r in rows:
+              if "score" in r:
+                  print(f"| {r['text']} | {r.get('heard','')} | {r['score']} | {r.get('old','')} |")
+          PY
           python spread-out/voice/render_qwen.py --out spread-out/voice --manifest-only || true
           git config user.name "github-actions[bot]"
           git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
