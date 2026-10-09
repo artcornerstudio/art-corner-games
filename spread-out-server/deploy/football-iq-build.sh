@@ -18,19 +18,21 @@ git sparse-checkout add football-iq
 cd football-iq
 
 say "installing build tools"
-PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 npm ci --no-audit --no-fund --loglevel=error
+# The server runs with NODE_ENV=production, which would skip the build tools (typescript, vite).
+PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 npm ci --include=dev --no-audit --no-fund --loglevel=error
+[ -x node_modules/.bin/tsc ] && [ -x node_modules/.bin/vite ] || { say "build tools missing after install"; exit 1; }
 
 mkdir -p "$OUT"
 rm -rf "$OUT/demo.next" "$OUT/full.next"
 export VITE_BASE=/football-iq/
 
 say "type check"
-npx tsc --noEmit
+node_modules/.bin/tsc -p tsconfig.json --noEmit
 
 say "building the free demo"
-VITE_EDITION=demo npx vite build --outDir "$OUT/demo.next" --emptyOutDir --logLevel warn
+VITE_EDITION=demo node_modules/.bin/vite build --outDir "$OUT/demo.next" --emptyOutDir --logLevel warn
 say "building the full game"
-VITE_EDITION=full npx vite build --outDir "$OUT/full.next" --emptyOutDir --logLevel warn
+VITE_EDITION=full node_modules/.bin/vite build --outDir "$OUT/full.next" --emptyOutDir --logLevel warn
 
 # Coach Eric's clips are served from the checkout, with a per-buyer list; no copies in the builds.
 rm -rf "$OUT/demo.next/voice" "$OUT/full.next/voice"
