@@ -202,6 +202,7 @@
   .statTxt b{font-family:var(--display); font-size:1.15rem; letter-spacing:.03em; color:#FFFFFF;}
   .statPill.gold .statTxt b{color:var(--accent);}
   .statPill.cyan .statTxt b{color:var(--neon-2);}
+  .statTxt b.long{font-size:.82rem; line-height:1.15; white-space:nowrap;}
   .heroBall{width:min(66%, 300px); margin:-6px 0 -10px;}
   @media (max-width:520px){
     .statPill{padding:7px 8px; gap:6px;}
@@ -876,7 +877,7 @@ const store = {
 let audioCtx=null, muted=store.get('sp_muted', false), master=null, noiseBuf=null;
 function ensureAudio(){
   voice.prime();                                        // a tap also unlocks Coach Eric's clips
-  if(audioCtx){ if(audioCtx.state==='suspended'){ try{audioCtx.resume();}catch(e){} } return; }
+  if(audioCtx){ if(audioCtx.state==='suspended'){ try{audioCtx.resume();}catch(e){} } try{ music.sync(); }catch(e){} return; }
   try{
     audioCtx=new (window.AudioContext||window.webkitAudioContext)();
     const comp=audioCtx.createDynamicsCompressor();     // gentle limiter so nothing blares
@@ -888,7 +889,39 @@ function ensureAudio(){
     let last=0;
     for(let i=0;i<len;i++){ const w=Math.random()*2-1; last=(last+0.02*w)/1.02; d[i]=last*3.5; }
   }catch(e){}
+  samples.load();
+  try{ music.sync(); }catch(e){}
 }
+/* recorded sounds: real kicks, bounces, the ref's whistle and a stadium crowd
+   (sfx/, Creative Commons 0 recordings from Freesound, listed in sfx/README.md).
+   They load in the background after the first tap; until a clip has loaded, or if
+   it cannot load, the built-in sound for that moment plays instead. */
+const SAMPLE_NAMES=['kick','bounce','whistle','whistle-long','crowd','cheer','goal','aww'];
+const samples={
+  buf:{}, started:false,
+  load(){
+    if(this.started||!audioCtx) return; this.started=true;
+    SAMPLE_NAMES.forEach(n=>{
+      fetch('sfx/'+n+'.mp3').then(r=>r.ok?r.arrayBuffer():Promise.reject(new Error(n)))
+        .then(a=>new Promise((res,rej)=>audioCtx.decodeAudioData(a,res,rej)))
+        .then(b=>{ this.buf[n]=b; }).catch(()=>{});
+    });
+  },
+  has(n){ return !!this.buf[n]; },
+  play(n,o){                                   // o: {vol, rate, t, loop, dest}
+    o=o||{}; const b=this.buf[n];
+    if(!b||muted||!audioCtx) return null;
+    try{
+      const src=audioCtx.createBufferSource(); src.buffer=b; src.loop=!!o.loop;
+      src.playbackRate.value=o.rate||1;
+      const g=audioCtx.createGain(); g.gain.value=o.vol==null?1:o.vol;
+      src.connect(g); g.connect(o.dest||master);
+      src.start(audioCtx.currentTime+(o.t||0));
+      return {src,g};
+    }catch(e){ return null; }
+  }
+};
+const vary=(a)=>1+(Math.random()*2-1)*a;          // small random pitch change so repeats sound natural
 function tone(o){ /* {f, f2?, t?, dur, type?, vol?, attack?} */
   if(muted||!audioCtx) return;
   try{
@@ -943,15 +976,24 @@ function whistle(t,dur){ /* referee whistle with the "pea rattle" trill */
 /* stadium crowd: quiet murmur during Mini Match, roars on goals */
 const crowd={
   on:false, src:null, gain:null,
+  base:0.026,
   start(){
     if(muted||!audioCtx||!noiseBuf||this.on) return;
     try{
-      this.src=audioCtx.createBufferSource(); this.src.buffer=noiseBuf; this.src.loop=true;
-      const f=audioCtx.createBiquadFilter(); f.type='bandpass'; f.frequency.value=650; f.Q.value=0.5;
       this.gain=audioCtx.createGain(); this.gain.gain.value=0.0001;
-      this.src.connect(f); f.connect(this.gain); this.gain.connect(master);
-      this.src.start();
-      this.gain.gain.exponentialRampToValueAtTime(0.026,audioCtx.currentTime+1.2);
+      this.src=audioCtx.createBufferSource(); this.src.loop=true;
+      if(samples.has('crowd')){                   // the real stadium
+        this.src.buffer=samples.buf.crowd; this.base=0.32;
+        this.src.connect(this.gain);
+        this.src.start(0, Math.random()*samples.buf.crowd.duration);
+      } else {                                    // stand-in: filtered noise
+        this.src.buffer=noiseBuf; this.base=0.026;
+        const f=audioCtx.createBiquadFilter(); f.type='bandpass'; f.frequency.value=650; f.Q.value=0.5;
+        this.src.connect(f); f.connect(this.gain);
+        this.src.start();
+      }
+      this.gain.connect(master);
+      this.gain.gain.exponentialRampToValueAtTime(this.base,audioCtx.currentTime+1.2);
       this.on=true;
     }catch(e){}
   },
@@ -960,9 +1002,10 @@ const crowd={
     try{
       const t0=audioCtx.currentTime;
       this.gain.gain.cancelScheduledValues(t0);
-      this.gain.gain.setValueAtTime(Math.max(this.gain.gain.value,0.02),t0);
-      this.gain.gain.exponentialRampToValueAtTime(v,t0+0.12);
-      this.gain.gain.exponentialRampToValueAtTime(0.026,t0+dur);
+      const k=this.base/0.026;                    // swell sizes were tuned for the stand-in
+      this.gain.gain.setValueAtTime(Math.max(this.gain.gain.value,0.0002),t0);
+      this.gain.gain.exponentialRampToValueAtTime(Math.min(v*k,1),t0+0.12);
+      this.gain.gain.exponentialRampToValueAtTime(this.base,t0+dur);
     }catch(e){}
   },
   stop(){
@@ -978,10 +1021,16 @@ const crowd={
 };
 const sfx={
   ui(){ tone({f:520,f2:660,dur:0.06,type:'sine',vol:0.07}); },
-  kick(){ tone({f:200,f2:70,dur:0.12,type:'sine',vol:0.3}); noiseHit({dur:0.07,vol:0.12,from:1800,to:600,q:0.8}); },
-  shoot(){ tone({f:240,f2:60,dur:0.16,type:'sine',vol:0.38}); noiseHit({dur:0.1,vol:0.16,from:2200,to:500,q:0.7}); },
+  kick(){
+    if(samples.play('kick',{vol:0.9,rate:vary(0.06)})) return;
+    tone({f:200,f2:70,dur:0.12,type:'sine',vol:0.3}); noiseHit({dur:0.07,vol:0.12,from:1800,to:600,q:0.8});
+  },
+  shoot(){
+    if(samples.play('kick',{vol:1.25,rate:0.86*vary(0.04)})) return;
+    tone({f:240,f2:60,dur:0.16,type:'sine',vol:0.38}); noiseHit({dur:0.1,vol:0.16,from:2200,to:500,q:0.7});
+  },
   pop(){ tone({f:330,f2:520,dur:0.07,type:'sine',vol:0.16}); },
-  bounce(){ tone({f:150,f2:88,dur:0.1,type:'sine',vol:0.18}); },
+  bounce(){ if(samples.play('bounce',{vol:0.8,rate:vary(0.08)})) return; tone({f:150,f2:88,dur:0.1,type:'sine',vol:0.18}); },
   blocked(){ tone({f:220,dur:0.1,type:'square',vol:0.11}); tone({f:110,dur:0.18,type:'square',vol:0.11,t:0.02}); },
   steal(){ noiseHit({dur:0.14,vol:0.13,from:900,to:2600,q:1.2}); tone({f:440,f2:680,dur:0.1,type:'triangle',vol:0.1,t:0.04}); },
   lost(){ tone({f:392,f2:370,dur:0.18,type:'sawtooth',vol:0.06}); tone({f:311,f2:277,dur:0.32,type:'sawtooth',vol:0.06,t:0.18}); },
@@ -990,6 +1039,7 @@ const sfx={
   cheer(){
     tone({f:784,dur:0.12,type:'triangle',vol:0.11});
     tone({f:1047,dur:0.22,type:'triangle',vol:0.11,t:0.09});
+    if(samples.play('cheer',{vol:0.45,rate:vary(0.04)})) return;
     noiseHit({dur:0.7,vol:0.055,from:600,to:1000,q:0.6,fadeIn:0.05});
   },
   star(){
@@ -1004,15 +1054,151 @@ const sfx={
     });
   },
   levelup(){ this.fanfare(); },
-  goal(){ crowd.swell(0.14,2.2); noiseHit({dur:1.6,vol:0.1,from:500,to:1200,q:0.5,fadeIn:0.08}); this.fanfare(0.15); },
-  aww(){ crowd.swell(0.06,1.2); noiseHit({dur:1.1,vol:0.06,from:700,to:300,q:0.6,fadeIn:0.06}); },
-  whistleKickoff(){ whistle(0,0.35); },
-  whistleFull(){ whistle(0,0.3); whistle(0.4,0.3); whistle(0.8,0.6); }
+  goal(){
+    crowd.swell(0.14,2.2); this.fanfare(0.15);
+    if(samples.play('goal',{vol:0.85})) return;
+    noiseHit({dur:1.6,vol:0.1,from:500,to:1200,q:0.5,fadeIn:0.08});
+  },
+  aww(){
+    crowd.swell(0.06,1.2);
+    if(samples.play('aww',{vol:0.75})) return;
+    noiseHit({dur:1.1,vol:0.06,from:700,to:300,q:0.6,fadeIn:0.06});
+  },
+  whistleKickoff(){ if(samples.play('whistle',{vol:0.55})) return; whistle(0,0.35); },
+  whistleFull(){
+    if(samples.has('whistle')&&samples.has('whistle-long')){ samples.play('whistle',{vol:0.5}); samples.play('whistle',{vol:0.5,t:0.45}); samples.play('whistle-long',{vol:0.55,t:0.9}); return; }
+    whistle(0,0.3); whistle(0.4,0.3); whistle(0.8,0.6);
+  }
 };
+/* ================= music =================
+   An original tune played live by the browser (there are no music files):
+   a bright, bouncy theme on the menu and a softer groove without the melody
+   during practice. Mini Match has the stadium crowd instead. The music dips
+   while Coach Eric is talking so every word stays clear. */
+let musicOn=store.get('sp_music', true);
+const midi=n=>440*Math.pow(2,(n-69)/12);
+const SONG={
+  bpm:118,
+  chords:[[60,64,67],[59,62,67],[57,60,64],[57,60,65]],     // C  G  Am  F
+  bass:[36,43,45,41],
+  hook:[                                                     // [step, note, length in steps]
+    [[0,76,2],[2,79,2],[4,81,3],[8,79,2],[10,76,2],[12,74,4]],
+    [[0,74,2],[2,76,2],[4,79,3],[8,76,2],[10,74,2],[12,71,4]],
+    [[0,72,2],[2,76,2],[4,81,3],[8,79,2],[10,81,2],[12,84,4]],
+    [[0,81,3],[4,79,2],[6,77,2],[8,76,2],[10,74,2],[12,72,4]]
+  ]
+};
+const music={
+  track:null, bus:null, duck:null, echo:null, timer:null, step:0, nextT:0, ducked:false,
+  setup(){
+    if(this.bus||!audioCtx) return;
+    this.bus=audioCtx.createGain(); this.bus.gain.value=0.0001;
+    this.duck=audioCtx.createGain(); this.duck.gain.value=1;
+    this.bus.connect(this.duck); this.duck.connect(master);
+    // a soft echo for the melody
+    const d=audioCtx.createDelay(1), fb=audioCtx.createGain(), wet=audioCtx.createGain();
+    d.delayTime.value=60/SONG.bpm*0.75; fb.gain.value=0.28; wet.gain.value=0.22;
+    d.connect(fb); fb.connect(d); d.connect(wet); wet.connect(this.bus);
+    this.echo=d;
+  },
+  // which tune fits the screen right now (or none)
+  wanted(){
+    if(!audioCtx||muted||!musicOn||document.hidden) return null;
+    if(state.screen==='game') return state.mode==='match' ? null : 'game';
+    return 'menu';
+  },
+  sync(){
+    const w=this.wanted();
+    if(w===this.track) return;
+    if(!w){ this.stop(); return; }
+    this.setup();
+    const t0=audioCtx.currentTime, vol= w==='menu' ? 0.34 : 0.2;
+    this.bus.gain.cancelScheduledValues(t0);
+    this.bus.gain.setValueAtTime(Math.max(this.bus.gain.value,0.0001),t0);
+    this.bus.gain.exponentialRampToValueAtTime(vol,t0+0.8);
+    if(!this.track){ this.step=0; this.nextT=t0+0.08; this.timer=setInterval(()=>this.tick(),25); }
+    this.track=w;
+  },
+  stop(){
+    if(!this.track) return;
+    this.track=null;
+    try{
+      const t0=audioCtx.currentTime;
+      this.bus.gain.cancelScheduledValues(t0);
+      this.bus.gain.setValueAtTime(Math.max(this.bus.gain.value,0.0001),t0);
+      this.bus.gain.exponentialRampToValueAtTime(0.0001,t0+0.5);
+    }catch(e){}
+    clearInterval(this.timer); this.timer=null;      // notes already queued finish under the fade
+  },
+  tick(){
+    if(!audioCtx||!this.track) return;
+    const talk=voice.busy();
+    if(talk!==this.ducked){ this.ducked=talk; try{ this.duck.gain.setTargetAtTime(talk?0.3:1,audioCtx.currentTime,0.08); }catch(e){} }
+    const sd=60/SONG.bpm/4;
+    while(this.nextT<audioCtx.currentTime+0.15){ this.play(this.step,this.nextT,sd); this.nextT+=sd; this.step=(this.step+1)%64; }
+  },
+  play(step,t,sd){
+    const bar=step>>4, s=step&15, full=this.track==='menu';
+    // drums
+    if(s===0||s===8||(full&&(s===6||s===10))) this.kick(t, s===6||s===10 ? 0.5 : 1);
+    if(s===4||s===12) this.clap(t);
+    if(s%2===0) this.hat(t, s===14 ? 0.11 : 0.035, s===14 ? 0.05 : 0.035);
+    // bass: root, with an octave jump
+    if([0,3,6,8,10,12,14].includes(s)){ const n=SONG.bass[bar]+(s===6||s===14?12:0); this.bassNote(t,midi(n),sd*(s===14?2:1.6)); }
+    // offbeat chord stabs
+    if(s===2||s===6||s===10||s===14) SONG.chords[bar].forEach(n=>this.stab(t,midi(n),sd*1.4));
+    // melody on the menu
+    if(full) SONG.hook[bar].forEach(([st,n,len])=>{ if(st===s) this.lead(t,midi(n),sd*len); });
+  },
+  env(g,t,peak,a,dur){ g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(peak,t+a); g.gain.exponentialRampToValueAtTime(0.0001,t+dur); },
+  kick(t,v){
+    const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+    o.type='sine'; o.frequency.setValueAtTime(140,t); o.frequency.exponentialRampToValueAtTime(42,t+0.16);
+    this.env(g,t,0.55*v,0.004,0.22); o.connect(g); g.connect(this.bus); o.start(t); o.stop(t+0.25);
+  },
+  noise(t,type,freq,q,peak,dur){
+    if(!noiseBuf) return;
+    const src=audioCtx.createBufferSource(); src.buffer=noiseBuf;
+    const f=audioCtx.createBiquadFilter(); f.type=type; f.frequency.value=freq; f.Q.value=q;
+    const g=audioCtx.createGain(); this.env(g,t,peak,0.002,dur);
+    src.connect(f); f.connect(g); g.connect(this.bus);
+    src.start(t, Math.random()*1.5); src.stop(t+dur+0.02);
+  },
+  clap(t){ this.noise(t,'bandpass',1700,0.9,0.32,0.13); this.noise(t+0.012,'bandpass',2300,1.2,0.18,0.09); },
+  hat(t,dur,v){ this.noise(t,'highpass',7500,0.7,v*2.2,dur); },
+  bassNote(t,f,dur){
+    const o=audioCtx.createOscillator(), lp=audioCtx.createBiquadFilter(), g=audioCtx.createGain();
+    o.type='sawtooth'; o.frequency.value=f;
+    lp.type='lowpass'; lp.frequency.setValueAtTime(900,t); lp.frequency.exponentialRampToValueAtTime(220,t+dur); lp.Q.value=4;
+    this.env(g,t,0.2,0.006,dur); o.connect(lp); lp.connect(g); g.connect(this.bus); o.start(t); o.stop(t+dur+0.05);
+  },
+  stab(t,f,dur){
+    const g=audioCtx.createGain(), lp=audioCtx.createBiquadFilter();
+    lp.type='lowpass'; lp.frequency.setValueAtTime(3200,t); lp.frequency.exponentialRampToValueAtTime(700,t+dur);
+    this.env(g,t,0.045,0.004,dur); lp.connect(g); g.connect(this.bus);
+    [-6,6].forEach(c=>{ const o=audioCtx.createOscillator(); o.type='square'; o.frequency.value=f; o.detune.value=c; o.connect(lp); o.start(t); o.stop(t+dur+0.05); });
+  },
+  lead(t,f,dur){
+    const o=audioCtx.createOscillator(), o2=audioCtx.createOscillator(), lp=audioCtx.createBiquadFilter(), g=audioCtx.createGain();
+    const vib=audioCtx.createOscillator(), vg=audioCtx.createGain();
+    o.type='square'; o2.type='triangle'; o.frequency.value=f; o2.frequency.value=f*2; o2.detune.value=4;
+    vib.frequency.value=5.5; vg.gain.value=f*0.006; vib.connect(vg); vg.connect(o.frequency); vg.connect(o2.frequency);
+    lp.type='lowpass'; lp.frequency.value=2600;
+    g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.07,t+0.015);
+    g.gain.setValueAtTime(0.07,t+dur*0.7); g.gain.exponentialRampToValueAtTime(0.0001,t+dur*1.15);
+    o.connect(lp); o2.connect(lp); lp.connect(g); g.connect(this.bus); g.connect(this.echo);
+    [o,o2,vib].forEach(x=>{ x.start(t); x.stop(t+dur*1.2); });
+  }
+};
+document.addEventListener('visibilitychange',()=>music.sync());
 function updateMuteBtn(){
-  $('muteBtn').textContent = muted ? '🔇' : '🔊';
-  $('muteIconHome').textContent = muted ? '🔇' : '🔊';
-  $('muteLblHome').textContent = muted ? 'OFF' : 'ON';
+  const icon = muted ? '🔇' : musicOn ? '🔊' : '🔉';
+  $('muteBtn').textContent = icon;
+  $('muteIconHome').textContent = icon;
+  $('muteLblHome').textContent = muted ? 'OFF' : musicOn ? 'ON' : 'NO MUSIC';
+  $('muteLblHome').classList.toggle('long', !muted && !musicOn);
+  const lbl = muted ? 'Sound is off. Tap to turn sound and music on.' : musicOn ? 'Sound and music are on. Tap to turn the music off.' : 'Sound is on, music is off. Tap to turn all sound off.';
+  $('muteBtn').setAttribute('aria-label', lbl); $('muteBtnHome').setAttribute('aria-label', lbl);
 }
 $('muteBtnHome').addEventListener('click',()=>$('muteBtn').click());
 
@@ -1288,7 +1474,12 @@ $('voiceBtnHome').addEventListener('click',toggleVoice);
 renderVoice();
 $('muteBtn').addEventListener('click',()=>{
   ensureAudio();
-  muted=!muted; store.set('sp_muted',muted); updateMuteBtn();
+  // one button, three steps: sound + music -> sound only -> silent -> back to sound + music
+  if(muted){ muted=false; musicOn=true; }
+  else if(musicOn){ musicOn=false; }
+  else { muted=true; }
+  store.set('sp_muted',muted); store.set('sp_music',musicOn); updateMuteBtn();
+  music.sync();
   if(muted){ crowd.stop(); voice.stop(); }
   else {
     sfx.ui();
@@ -2338,6 +2529,7 @@ function show(screen){
     const key=(saved&&MODE_NAMES[saved]) ? saved : 'getopen';
     $('playNowSub').textContent=(saved ? 'Continue: ' : 'Start with: ')+MODE_NAMES[key];
   }
+  try{ music.sync(); }catch(e){}
   if(screen==='game'){ resize(); }
   else {
     hint(null); $('toast').hidden=true; confetti=[];
