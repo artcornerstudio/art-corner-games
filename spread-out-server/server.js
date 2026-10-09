@@ -45,7 +45,8 @@ function limiter(max, windowMs) {
 function createApp(opts = {}) {
   const env = process.env;
   const cfg = {
-    publicUrl: (opts.publicUrl ?? env.PUBLIC_URL ?? "http://localhost:3000").replace(/\/$/, ""),
+    // Render sets RENDER_EXTERNAL_URL to the service's https address, so PUBLIC_URL can stay unset there.
+    publicUrl: (opts.publicUrl ?? (env.PUBLIC_URL || env.RENDER_EXTERNAL_URL || "http://localhost:3000")).replace(/\/$/, ""),
     jwtSecret: opts.jwtSecret ?? env.JWT_SECRET,
     stripeSecretKey: opts.stripeSecretKey ?? env.STRIPE_SECRET_KEY,
     webhookSecret: opts.webhookSecret ?? env.STRIPE_WEBHOOK_SECRET,
