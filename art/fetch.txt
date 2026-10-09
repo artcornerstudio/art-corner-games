@@ -1,3 +1,1 @@
 # Add lines here and push: <OpenArt image URL> <path ending in .webp> <width>
-https://cdn.openart.ai/openart-ai/production/2026-10/create-image/5Fhmr0S1cK59o7KpmUov/image_1791554262969_bad3fc41_1791554263528_3fa617db.png spread-out/art/stadium-wide.webp 2400
-https://cdn.openart.ai/openart-ai/production/2026-10/create-image/5Fhmr0S1cK59o7KpmUov/image_1791554266360_405b257d_1791554266902_9b8f238a.png spread-out/art/stadium-tall.webp 1300
