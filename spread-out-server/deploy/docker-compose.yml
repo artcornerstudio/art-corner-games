@@ -1,33 +1,40 @@
 # Spread Out! server for Hostinger's VPS Docker Manager (VPS image "Ubuntu 24.04 with Docker").
-#
-#   app    built straight from GitHub (spread-out-server/Dockerfile at BRANCH),
-#          runs the game server inside the Docker network on port 3000.
-#   caddy  the HTTPS front door on ports 80/443: gets and renews the
-#          certificate for DOMAIN automatically and forwards to app.
-#
+# No image build is needed (the Docker Manager cannot build from GitHub):
+#   app    the stock node:22 image; on every start it downloads or updates the
+#          spread-out folders of BRANCH from GitHub into the "code" volume and
+#          runs deploy/docker-start.sh, which installs and starts the server.
+#   caddy  the HTTPS front door on ports 80/443: automatic certificates for
+#          DOMAIN, forwarding to app inside the Docker network.
 # Settings (the project's environment, KEY=value per line):
-#   STRIPE_SECRET_KEY      required  sk_/rk_ test or live key
-#   STRIPE_WEBHOOK_SECRET  required  whsec_ of the endpoint https://DOMAIN/api/stripe/webhook
-#   STRIPE_PRICE_ID        optional  defaults to the $4.99 test-mode price
-#   DOMAIN                 optional  defaults to play.artcornerstudio.cloud
-#   BRANCH                 optional  defaults to main
+#   STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET   required
+#   STRIPE_PRICE_ID, DOMAIN, BRANCH            optional
 # The purchase database and the signing secret live in the "purchases" volume.
-# Update to the latest code: update the project (it rebuilds from GitHub).
+# Update to the latest code: restart the project.
 services:
   app:
-    build:
-      context: https://github.com/artcornerstudio/art-corner-games.git#${BRANCH:-main}
-      dockerfile: spread-out-server/Dockerfile
-    image: spread-out-server:local
-    pull_policy: build
+    image: node:22-bookworm
     restart: unless-stopped
+    working_dir: /srv
     environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: "3000"
+      DB_PATH: /data/purchases.sqlite
       PUBLIC_URL: https://${DOMAIN:-play.artcornerstudio.cloud}
       STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:?Set STRIPE_SECRET_KEY}
       STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:?Set STRIPE_WEBHOOK_SECRET}
       STRIPE_PRICE_ID: ${STRIPE_PRICE_ID:-price_1UORF3JMJd2TdRXlcf6CpEbm}
     volumes:
       - purchases:/data
+      - code:/srv
+    command:
+      - sh
+      - -c
+      - >-
+        (git -C app fetch -q --depth 1 origin ${BRANCH:-main} && git -C app reset -q --hard FETCH_HEAD
+        || git clone -q --depth 1 --branch ${BRANCH:-main} --filter=blob:none --sparse https://github.com/artcornerstudio/art-corner-games.git app)
+        && git -C app sparse-checkout set spread-out spread-out-server
+        && exec sh app/spread-out-server/deploy/docker-start.sh
 
   caddy:
     image: caddy:2
@@ -45,5 +52,6 @@ services:
 
 volumes:
   purchases:
+  code:
   caddy_data:
   caddy_config:
