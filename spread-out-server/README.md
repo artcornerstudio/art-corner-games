@@ -178,6 +178,23 @@ If the installer stops because something else uses ports 80/443, the VPS runs a
 control panel or another website; the installer changes nothing in that case.
 If Hostinger's VPS **Firewall** page has rules, allow TCP 80 and 443.
 
+### 5a. The Docker way (what play.artcornerstudio.cloud runs)
+
+`deploy/docker-compose.yml` runs the same server with no terminal needed, for
+Hostinger's VPS **Docker Manager** (VPS image "Ubuntu 24.04 with Docker"). It
+has two containers: `app` (Node 22; on every start it downloads the latest
+`main`, installs it and runs the server inside the Docker network) and `caddy`
+(ports 80/443, automatic HTTPS for `DOMAIN`). Settings go in the project's
+environment box: `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, and optionally
+`STRIPE_PRICE_ID`, `DOMAIN`, `BRANCH`. `JWT_SECRET` is generated on the first
+start and kept in the `purchases` volume with the database.
+
+| Job | How |
+| --- | --- |
+| Update to the latest `main` | Docker Manager → the project → Restart |
+| Read the logs | Docker Manager → the project → Logs |
+| Change Stripe keys | edit the project's environment, then restart |
+
 ### 5b. Alternative: Render (instead of the VPS)
 
 

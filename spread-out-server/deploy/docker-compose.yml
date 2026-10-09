@@ -1,0 +1,85 @@
+# Spread Out! server for Hostinger's VPS Docker Manager (or any Docker host).
+#
+# Two containers:
+#   app    Node 22. On every start it downloads the latest spread-out code from
+#          GitHub (main), installs it, and runs the game server on port 3000
+#          inside the Docker network only.
+#   caddy  The HTTPS front door on ports 80/443. Gets and renews the
+#          certificate for DOMAIN automatically and forwards to app.
+#
+# Settings (the Docker Manager's "environment" box, KEY=value per line):
+#   STRIPE_SECRET_KEY      required  sk_test_... or sk_live_...
+#   STRIPE_WEBHOOK_SECRET  required  whsec_... of the endpoint https://DOMAIN/api/stripe/webhook
+#   STRIPE_PRICE_ID        optional  defaults to the $4.99 test-mode price
+#   DOMAIN                 optional  defaults to play.artcornerstudio.cloud
+#   BRANCH                 optional  defaults to main
+# JWT_SECRET is generated on first start and kept in the purchases volume, so
+# sign-ins and license codes survive restarts and updates.
+#
+# Update to the latest code: restart the project.
+services:
+  app:
+    image: node:22-bookworm
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: "3000"
+      PUBLIC_URL: https://${DOMAIN:-play.artcornerstudio.cloud}
+      DB_PATH: /data/purchases.sqlite
+      BRANCH: ${BRANCH:-main}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:?Set STRIPE_SECRET_KEY}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:?Set STRIPE_WEBHOOK_SECRET}
+      STRIPE_PRICE_ID: ${STRIPE_PRICE_ID:-price_1UORF3JMJd2TdRXlcf6CpEbm}
+    volumes:
+      - purchases:/data
+      - code:/srv
+    entrypoint: ["bash", "-c"]
+    command:
+      - |
+        set -e
+        REPO=https://github.com/artcornerstudio/art-corner-games.git
+        if [ -d /srv/app/.git ]; then
+          echo "Updating the game code ($$BRANCH)"
+          git -C /srv/app fetch -q --depth 1 origin "$$BRANCH" && git -C /srv/app reset -q --hard FETCH_HEAD || echo "Update failed; starting the code already here."
+        else
+          echo "Downloading the game code ($$BRANCH)"
+          rm -rf /srv/app
+          git clone -q --depth 1 --branch "$$BRANCH" --filter=blob:none --sparse "$$REPO" /srv/app
+          git -C /srv/app sparse-checkout set spread-out spread-out-server
+        fi
+        echo "Version: $$(git -C /srv/app log -1 --format='%h %cd' --date=short)"
+        cd /srv/app/spread-out-server
+        npm ci --omit=dev --no-audit --no-fund --loglevel=error
+        if [ -z "$${JWT_SECRET:-}" ]; then
+          [ -s /data/jwt_secret ] || node -e "require('fs').writeFileSync('/data/jwt_secret', require('crypto').randomBytes(32).toString('hex'), { mode: 0o600 })"
+          JWT_SECRET="$$(cat /data/jwt_secret)"
+          export JWT_SECRET
+        fi
+        exec node --no-warnings=ExperimentalWarning server.js
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/me',{headers:{'x-forwarded-proto':'https'}}).then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 180s
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    command: caddy reverse-proxy --from ${DOMAIN:-play.artcornerstudio.cloud} --to app:3000
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  purchases:
+  code:
+  caddy_data:
+  caddy_config:
