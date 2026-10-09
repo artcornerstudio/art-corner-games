@@ -64,7 +64,9 @@ def num_words(n: int) -> str:
 def words(text: str) -> list[str]:
     t = text.lower().replace("\u2019", "'").replace("-", " ")
     t = re.sub(r"\d+", lambda m: " " + num_words(int(m.group())) + " ", t)
-    return re.findall(r"[a-z']+", t)
+    # words that sound the same count as the same (the recognizer hears "Us 1" as "us won")
+    same = {"won": "one", "to": "two", "too": "two", "for": "four", "ate": "eight"}
+    return [same.get(w, w) for w in re.findall(r"[a-z']+", t)]
 
 
 def heard_right(expected: str, heard: str) -> float:

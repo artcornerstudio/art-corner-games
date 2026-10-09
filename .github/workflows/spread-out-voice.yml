@@ -60,7 +60,15 @@ jobs:
         with: { python-version: "3.12" }
       - uses: actions/download-artifact@v4
         with: { name: coach-ref, path: ref }
-      - run: sudo apt-get update && sudo apt-get install -y ffmpeg sox libsox-dev
+      - name: System packages (retried, so one slow mirror cannot stall the run)
+        timeout-minutes: 15
+        run: |
+          for i in 1 2 3; do
+            timeout 240 sudo apt-get update -o Acquire::Retries=3 \
+              && timeout 300 sudo apt-get install -y -o Acquire::Retries=3 ffmpeg sox libsox-dev && break
+            echo "apt try $i failed"; sleep 5
+          done
+          command -v ffmpeg
       - run: |
           pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
           pip install -U qwen-tts soundfile numpy faster-whisper
