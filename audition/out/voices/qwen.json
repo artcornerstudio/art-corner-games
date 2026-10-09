@@ -1,0 +1,29 @@
+{
+ "lines": [
+  "GOAL! Perfect pass!",
+  "A chaser is hunting you! Sprint away!",
+  "You win! Spreading out and smart passes did that!",
+  "A triangle always gives your team two ways to pass!"
+ ],
+ "voices": [
+  {
+   "key": "qwen-ryan",
+   "label": "Qwen3-TTS, Ryan (coach style)",
+   "note": "Qwen3-TTS's built-in Ryan voice, told to sound like an upbeat kids' coach.",
+   "seconds": 130.5
+  },
+  {
+   "key": "qwen-aiden",
+   "label": "Qwen3-TTS, Aiden (coach style)",
+   "note": "Qwen3-TTS's built-in Aiden voice, told to sound like an upbeat kids' coach.",
+   "seconds": 72.2
+  },
+  {
+   "key": "qwen-eric",
+   "label": "Qwen3-TTS, Eric's voice",
+   "note": "Qwen3-TTS copying Coach Eric's voice.",
+   "seconds": 131.1
+  }
+ ],
+ "failed": []
+}
