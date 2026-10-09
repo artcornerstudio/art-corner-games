@@ -685,7 +685,7 @@
       red team has it: run at the ball to steal it! Win a match to unlock
       the next one — each is a little tougher. 🏆</p>
       <p><b>🗣️ Coach Voice</b> reads the tips, positions, and celebrations out
-      loud in Coach Eric&rsquo;s voice (the same coach as Football IQ) — great
+      loud in Coach Eric&rsquo;s voice — great
       for kids who are still learning to read. Anything not recorded, like your
       name, uses your device&rsquo;s own voice. Turn it off any time with the
       mouth button.</p>
@@ -892,11 +892,11 @@ function ensureAudio(){
   samples.load();
   try{ music.sync(); }catch(e){}
 }
-/* recorded sounds: real kicks, bounces, the ref's whistle and a stadium crowd
+/* recorded sounds: a real kick, the ref's whistle and a stadium crowd
    (sfx/, Creative Commons 0 recordings from Freesound, listed in sfx/README.md).
    They load in the background after the first tap; until a clip has loaded, or if
    it cannot load, the built-in sound for that moment plays instead. */
-const SAMPLE_NAMES=['kick','bounce','whistle','whistle-long','crowd','cheer','goal','aww'];
+const SAMPLE_NAMES=['kick','whistle','crowd','goal','aww'];
 const samples={
   buf:{}, started:false,
   load(){
@@ -913,6 +913,7 @@ const samples={
     if(!b||muted||!audioCtx) return null;
     try{
       const src=audioCtx.createBufferSource(); src.buffer=b; src.loop=!!o.loop;
+      if(o.loop){ src.loopStart=0.1; src.loopEnd=b.duration-0.1; }   // loop files carry 0.1 s of wrapped audio at each end
       src.playbackRate.value=o.rate||1;
       const g=audioCtx.createGain(); g.gain.value=o.vol==null?1:o.vol;
       src.connect(g); g.connect(o.dest||master);
@@ -982,10 +983,11 @@ const crowd={
     try{
       this.gain=audioCtx.createGain(); this.gain.gain.value=0.0001;
       this.src=audioCtx.createBufferSource(); this.src.loop=true;
-      if(samples.has('crowd')){                   // the real stadium
-        this.src.buffer=samples.buf.crowd; this.base=0.32;
+      if(samples.has('crowd')){                   // the real stadium, looping seamlessly
+        const b=samples.buf.crowd; this.base=0.4;
+        this.src.buffer=b; this.src.loopStart=0.1; this.src.loopEnd=b.duration-0.1;
         this.src.connect(this.gain);
-        this.src.start(0, Math.random()*samples.buf.crowd.duration);
+        this.src.start(0, 0.1+Math.random()*(b.duration-0.3));
       } else {                                    // stand-in: filtered noise
         this.src.buffer=noiseBuf; this.base=0.026;
         const f=audioCtx.createBiquadFilter(); f.type='bandpass'; f.frequency.value=650; f.Q.value=0.5;
@@ -1022,15 +1024,15 @@ const crowd={
 const sfx={
   ui(){ tone({f:520,f2:660,dur:0.06,type:'sine',vol:0.07}); },
   kick(){
-    if(samples.play('kick',{vol:0.9,rate:vary(0.06)})) return;
+    if(samples.play('kick',{vol:0.75,rate:vary(0.06)})) return;
     tone({f:200,f2:70,dur:0.12,type:'sine',vol:0.3}); noiseHit({dur:0.07,vol:0.12,from:1800,to:600,q:0.8});
   },
   shoot(){
-    if(samples.play('kick',{vol:1.25,rate:0.86*vary(0.04)})) return;
+    if(samples.play('kick',{vol:1,rate:0.86*vary(0.04)})) return;
     tone({f:240,f2:60,dur:0.16,type:'sine',vol:0.38}); noiseHit({dur:0.1,vol:0.16,from:2200,to:500,q:0.7});
   },
   pop(){ tone({f:330,f2:520,dur:0.07,type:'sine',vol:0.16}); },
-  bounce(){ if(samples.play('bounce',{vol:0.8,rate:vary(0.08)})) return; tone({f:150,f2:88,dur:0.1,type:'sine',vol:0.18}); },
+  bounce(){ tone({f:150,f2:88,dur:0.1,type:'sine',vol:0.18}); },
   blocked(){ tone({f:220,dur:0.1,type:'square',vol:0.11}); tone({f:110,dur:0.18,type:'square',vol:0.11,t:0.02}); },
   steal(){ noiseHit({dur:0.14,vol:0.13,from:900,to:2600,q:1.2}); tone({f:440,f2:680,dur:0.1,type:'triangle',vol:0.1,t:0.04}); },
   lost(){ tone({f:392,f2:370,dur:0.18,type:'sawtooth',vol:0.06}); tone({f:311,f2:277,dur:0.32,type:'sawtooth',vol:0.06,t:0.18}); },
@@ -1039,7 +1041,6 @@ const sfx={
   cheer(){
     tone({f:784,dur:0.12,type:'triangle',vol:0.11});
     tone({f:1047,dur:0.22,type:'triangle',vol:0.11,t:0.09});
-    if(samples.play('cheer',{vol:0.45,rate:vary(0.04)})) return;
     noiseHit({dur:0.7,vol:0.055,from:600,to:1000,q:0.6,fadeIn:0.05});
   },
   star(){
@@ -1056,17 +1057,17 @@ const sfx={
   levelup(){ this.fanfare(); },
   goal(){
     crowd.swell(0.14,2.2); this.fanfare(0.15);
-    if(samples.play('goal',{vol:0.85})) return;
+    if(samples.play('goal',{vol:0.7})) return;
     noiseHit({dur:1.6,vol:0.1,from:500,to:1200,q:0.5,fadeIn:0.08});
   },
   aww(){
     crowd.swell(0.06,1.2);
-    if(samples.play('aww',{vol:0.75})) return;
+    if(samples.play('aww',{vol:0.6})) return;
     noiseHit({dur:1.1,vol:0.06,from:700,to:300,q:0.6,fadeIn:0.06});
   },
-  whistleKickoff(){ if(samples.play('whistle',{vol:0.55})) return; whistle(0,0.35); },
-  whistleFull(){
-    if(samples.has('whistle')&&samples.has('whistle-long')){ samples.play('whistle',{vol:0.5}); samples.play('whistle',{vol:0.5,t:0.45}); samples.play('whistle-long',{vol:0.55,t:0.9}); return; }
+  whistleKickoff(){ if(samples.play('whistle',{vol:0.35})) return; whistle(0,0.35); },
+  whistleFull(){                               // three blasts = full time, like a real ref
+    if(samples.has('whistle')){ samples.play('whistle',{vol:0.32}); samples.play('whistle',{vol:0.32,t:0.6}); samples.play('whistle',{vol:0.38,t:1.2,rate:0.96}); return; }
     whistle(0,0.3); whistle(0.4,0.3); whistle(0.8,0.6);
   }
 };

@@ -1,14 +1,16 @@
 # Coach Eric's voice
 
-Spread Out! reads its coach lines out loud in **Coach Eric's** voice, the same
-recorded coach that Football IQ uses. Every fixed sentence the coach can say is
-recorded once and shipped with the game as a tiny MP3 clip in this folder.
+Spread Out! reads its coach lines out loud in **Coach Eric's** voice. Every fixed
+sentence the coach can say is recorded once and shipped with the game as a tiny MP3 clip in this folder.
 Anything that is not recorded (a kid's name, a brand-new line) falls back to the
 voice built into the phone or computer.
 
-**The voice:** Kokoro `am_eric` (Kokoro-82M, Apache-2.0). It is recorded on
-GitHub's computers, not on a phone, so playing the game never contacts any
-outside service.
+**The voice:** Qwen3-TTS (`Qwen/Qwen3-TTS-12Hz-1.7B-Base`, Apache-2.0) copying
+Coach Eric from `coach-ref.flac`, a short pep talk read by Kokoro's `am_eric`
+(Kokoro-82M, Apache-2.0). It was chosen by ear in the October 2026 sound check
+("Voice G") because it sounds more natural than plain Kokoro. Football IQ still uses
+plain Kokoro `am_eric`. Clips are recorded on GitHub's computers, not on a phone, so
+playing the game never contacts any outside service.
 
 ## What is in this folder
 
@@ -19,8 +21,13 @@ outside service.
 | `<id>.mp3` | One recorded sentence (about 15 KB each) |
 | `extract-units.mjs` | Rebuilds `units.json` by asking the game for every line it can say |
 | `coverage.mjs` | Plays through every game mode and reports lines that would still use the device voice |
+| `coach-ref.flac` | The voice the recorder copies, and `render_qwen.py` holds its exact words |
+| `render_qwen.py` | The recorder (run by the "Spread Out! coach voice" GitHub workflow) |
 
-The recorder itself is shared with Football IQ: `football-iq/voice/render_clips.py`.
+Recording runs by itself on GitHub (`.github/workflows/spread-out-voice.yml`)
+whenever `units.json` or the recorder changes on a branch, and commits the new
+clips to that branch. Each clip is checked for a sensible length and recorded
+again if the model rambles or cuts off.
 
 ## How the game uses it
 

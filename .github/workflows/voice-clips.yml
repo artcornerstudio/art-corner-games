@@ -20,7 +20,7 @@ on:
       game:
         description: Which game to record
         type: choice
-        options: [football-iq, spread-out]
+        options: [football-iq]   # Spread Out! has its own voice now: spread-out-voice.yml
         default: football-iq
 
 permissions:
