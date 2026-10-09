@@ -264,6 +264,17 @@ moves until the live keys are used:
 | Webhook endpoint (test mode) | `we_1UORThJMJd2TdRXltvgFThB3` → `https://play.artcornerstudio.cloud/api/stripe/webhook` |
 | Reusable test checkout link (preview only; the game makes its own) | https://buy.stripe.com/test_00w7sM0gs1MI6rY0Macs800 |
 
+Live mode (what play.artcornerstudio.cloud sells with):
+
+| What | Id |
+| --- | --- |
+| Product "Spread Out! Full Game" | `prod_VPJtJ55YYjpUTf` |
+| One-time price, $4.99 USD | `price_1UOVFdJMJd2TdRXlpqiu6UVb` |
+| Webhook endpoint | `we_1UOVFiJMJd2TdRXlOSaTMugB` → `https://play.artcornerstudio.cloud/api/stripe/webhook` |
+
+The live server key must be a restricted key with **Checkout Sessions: Write**
+(the server only creates and reads Checkout Sessions).
+
 Ids are not secrets. The secret key and the webhook signing secret must still
 be copied from the Dashboard into `.env` and never committed. When the game
 goes live, make the same product in live mode (ids will differ) and add the
