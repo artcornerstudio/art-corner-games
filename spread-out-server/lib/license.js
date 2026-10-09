@@ -36,16 +36,17 @@ function fromBase32(str) {
   return Buffer.from(bytes);
 }
 
-function mac(secret, id) {
-  return crypto.createHmac("sha256", secret).update(`spread-out-license:${id}`).digest().subarray(0, MAC_BYTES);
+/** Each product signs its codes under its own label, so a code from one game never unlocks another. */
+function mac(secret, id, product) {
+  return crypto.createHmac("sha256", secret).update(`${product}-license:${id}`).digest().subarray(0, MAC_BYTES);
 }
 
 /** Build the code for purchase row `id`. */
-function makeCode(secret, id) {
+function makeCode(secret, id, product = "spread-out") {
   if (!Number.isInteger(id) || id < 1 || id > 0xffffffff) throw new Error("bad purchase id");
   const idBuf = Buffer.alloc(ID_BYTES);
   idBuf.writeUInt32BE(id);
-  const raw = toBase32(Buffer.concat([idBuf, mac(secret, id)]));
+  const raw = toBase32(Buffer.concat([idBuf, mac(secret, id, product)]));
   return raw.match(/.{1,4}/g).join("-");
 }
 
@@ -55,14 +56,14 @@ function normalise(input) {
 }
 
 /** The purchase id a code names, or null when the code is not genuine. Constant-time on the MAC. */
-function parseCode(secret, input) {
+function parseCode(secret, input, product = "spread-out") {
   const clean = normalise(input);
   if (clean.length !== 16) return null;
   const buf = fromBase32(clean); // null when a character is outside the alphabet (the alphabet is public, so that is no secret)
   if (!buf || buf.length < ID_BYTES + MAC_BYTES) return null;
   const id = buf.readUInt32BE(0);
   const given = buf.subarray(ID_BYTES, ID_BYTES + MAC_BYTES);
-  const want = id >= 1 ? mac(secret, id) : Buffer.alloc(MAC_BYTES, 0xff);
+  const want = id >= 1 ? mac(secret, id, product) : Buffer.alloc(MAC_BYTES, 0xff);
   return crypto.timingSafeEqual(given, want) && id >= 1 ? id : null;
 }
 

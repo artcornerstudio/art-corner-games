@@ -9,13 +9,14 @@ import { CallThePlay } from "./screens/CallThePlay";
 import { DriveSimulator } from "./screens/DriveSimulator";
 import { PlayDesigner } from "./screens/PlayDesigner";
 import { FourthDown } from "./screens/FourthDown";
-import { Home } from "./screens/Home";
+import { GAMES, Home } from "./screens/Home";
 import { HotRead } from "./screens/HotRead";
 import { SpotThePosition } from "./screens/SpotThePosition";
 import { LessonScreen } from "./screens/LessonScreen";
 import { PlayLab } from "./screens/PlayLab";
 import { UnitScreen } from "./screens/UnitScreen";
-import { lessonById } from "./content";
+import { lessonById, unitById } from "./content";
+import { PaywallDialog, bootPaywall, featureLocked, gameLocked, showPaywall, unitLocked, usePaywall, type Reason } from "./paywall";
 import { useProgress } from "./progress";
 import { setSoundEnabled } from "./sound";
 import { setReadAloud, setSpeechTier, stopSpeaking } from "./speech/engine";
@@ -37,20 +38,63 @@ type Screen =
   | { name: "print-cards" }
   | { name: "import-playbook"; payload: string };
 
+const FEATURE_TITLES: Record<string, string> = {
+  "coach-view": "Coach view",
+  "print-cards": "Printable play cards",
+  "import-playbook": "Shared playbooks",
+};
+
+/** Why a screen is closed to this browser, or null when it can open. The free demo opens the first unit and Spot the Position. */
+function lockReason(screen: Screen): Reason | null {
+  switch (screen.name) {
+    case "unit":
+      return unitLocked(screen.unitId) ? { kind: "unit", title: unitById(screen.unitId).title } : null;
+    case "lesson": {
+      try {
+        const unitId = lessonById(screen.lessonId).unitId;
+        return unitLocked(unitId) ? { kind: "unit", title: unitById(unitId).title } : null;
+      } catch {
+        return { kind: "menu" }; // a lesson that is not in this edition
+      }
+    }
+    case "coach-view":
+    case "print-cards":
+    case "import-playbook":
+      return featureLocked() ? { kind: "feature", title: FEATURE_TITLES[screen.name] } : null;
+    case "home":
+    case "playlab":
+      return null;
+    default:
+      return gameLocked(screen.name) ? { kind: "game", title: GAMES.find((g) => g.id === screen.name)?.title ?? "This game" } : null;
+  }
+}
+
 export default function App() {
   const [screen, setScreen] = useState<Screen>(() => {
     const payload = payloadFromLocation();
     if (payload) {
       clearShareHash();
+      if (featureLocked()) return { name: "home" };
       return { name: "import-playbook", payload };
     }
     return { name: "home" };
   });
   const go = (next: Screen) => {
+    const why = lockReason(next);
+    if (why) {
+      showPaywall(why);
+      return;
+    }
     stopSpeaking();
     setScreen(next);
     window.scrollTo({ top: 0 });
   };
+
+  // Coming back from checkout, or opening an old offline copy after buying.
+  useEffect(() => {
+    void bootPaywall();
+  }, []);
+  usePaywall(); // re-render when the purchase state changes
 
   // Keep the sound and speech engines in step with the saved settings.
   const progress = useProgress();
@@ -60,50 +104,59 @@ export default function App() {
     setSpeechTier(progress.tier ?? "rookie");
   }, [progress.sound, progress.readAloud, progress.tier]);
 
-  switch (screen.name) {
-    case "playlab":
-      return <PlayLab onBack={() => go({ name: "home" })} />;
-    case "call-the-play":
-      return <CallThePlay onBack={() => go({ name: "home" })} />;
-    case "spot-the-position":
-      return <SpotThePosition onBack={() => go({ name: "home" })} />;
-    case "beat-the-coverage":
-      return <BeatTheCoverage onBack={() => go({ name: "home" })} />;
-    case "hot-read":
-      return <HotRead onBack={() => go({ name: "home" })} />;
-    case "fourth-down":
-      return <FourthDown onBack={() => go({ name: "home" })} />;
-    case "drive-simulator":
-      return <DriveSimulator onBack={() => go({ name: "home" })} />;
-    case "play-designer":
-      return <PlayDesigner onBack={() => go({ name: "home" })} />;
-    case "season":
-      return <Season onBack={() => go({ name: "home" })} />;
-    case "coach-view":
-      return <CoachView onBack={() => go({ name: "home" })} onPrintCards={() => go({ name: "print-cards" })} />;
-    case "print-cards":
-      return <PrintCards onBack={() => go({ name: "coach-view" })} />;
-    case "import-playbook":
-      return <ImportPlaybook payload={screen.payload} onDone={() => go({ name: "play-designer" })} />;
-    case "unit":
-      return <UnitScreen unitId={screen.unitId} onBack={() => go({ name: "home" })} onOpenLesson={(lessonId) => go({ name: "lesson", lessonId })} />;
-    case "lesson":
-      return (
-        <LessonScreen
-          key={screen.lessonId}
-          lessonId={screen.lessonId}
-          onBack={() => go({ name: "unit", unitId: lessonById(screen.lessonId).unitId })}
-          onNextLesson={(lessonId) => go({ name: "lesson", lessonId })}
-        />
-      );
-    default:
-      return (
-        <Home
-          onOpenPlayLab={() => go({ name: "playlab" })}
-          onOpenUnit={(unitId) => go({ name: "unit", unitId })}
-          onOpenGame={(game) => go({ name: game })}
-          onOpenCoachView={() => go({ name: "coach-view" })}
-        />
-      );
+  return (
+    <>
+      {renderScreen()}
+      <PaywallDialog />
+    </>
+  );
+
+  function renderScreen() {
+    switch (screen.name) {
+      case "playlab":
+        return <PlayLab onBack={() => go({ name: "home" })} />;
+      case "call-the-play":
+        return <CallThePlay onBack={() => go({ name: "home" })} />;
+      case "spot-the-position":
+        return <SpotThePosition onBack={() => go({ name: "home" })} />;
+      case "beat-the-coverage":
+        return <BeatTheCoverage onBack={() => go({ name: "home" })} />;
+      case "hot-read":
+        return <HotRead onBack={() => go({ name: "home" })} />;
+      case "fourth-down":
+        return <FourthDown onBack={() => go({ name: "home" })} />;
+      case "drive-simulator":
+        return <DriveSimulator onBack={() => go({ name: "home" })} />;
+      case "play-designer":
+        return <PlayDesigner onBack={() => go({ name: "home" })} />;
+      case "season":
+        return <Season onBack={() => go({ name: "home" })} />;
+      case "coach-view":
+        return <CoachView onBack={() => go({ name: "home" })} onPrintCards={() => go({ name: "print-cards" })} />;
+      case "print-cards":
+        return <PrintCards onBack={() => go({ name: "coach-view" })} />;
+      case "import-playbook":
+        return <ImportPlaybook payload={screen.payload} onDone={() => go({ name: "play-designer" })} />;
+      case "unit":
+        return <UnitScreen unitId={screen.unitId} onBack={() => go({ name: "home" })} onOpenLesson={(lessonId) => go({ name: "lesson", lessonId })} />;
+      case "lesson":
+        return (
+          <LessonScreen
+            key={screen.lessonId}
+            lessonId={screen.lessonId}
+            onBack={() => go({ name: "unit", unitId: lessonById(screen.lessonId).unitId })}
+            onNextLesson={(lessonId) => go({ name: "lesson", lessonId })}
+          />
+        );
+      default:
+        return (
+          <Home
+            onOpenPlayLab={() => go({ name: "playlab" })}
+            onOpenUnit={(unitId) => go({ name: "unit", unitId })}
+            onOpenGame={(game) => go({ name: game })}
+            onOpenCoachView={() => go({ name: "coach-view" })}
+          />
+        );
+    }
   }
 }

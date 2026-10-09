@@ -13,6 +13,8 @@
 import { readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { formations, plays, positions as positionBook } from "../src/content";
+import { freePlayIds } from "../vite.edition";
+import edition from "../src/content/edition.json";
 import { CALL_LABEL, FOURTH_DOWN_SCENARIOS, judge, scoreboardLine, type FourthDownCall } from "../src/games/fourthDown";
 import { LOOK_LABEL, matchupNote, resolvePlay } from "../src/games/outcome";
 import { COVERAGE_LOOKS, COVERAGE_OPTION_LABEL } from "../src/games/reads";
@@ -31,14 +33,23 @@ function readDir<T>(dir: string): T[] {
     .map((f) => JSON.parse(readFileSync(join(content, dir, f), "utf8")) as T);
 }
 
-const units = new Map<string, string>(); // id -> text
+/** id -> text, and whether the sentence only ever appears in paid content. */
+const units = new Map<string, { text: string; paid: boolean }>();
 
-function add(line: string | undefined | null) {
-  if (!line) return;
-  for (const text of splitUnits(joinForSpeech([line]))) units.set(hashText(text), text);
+function put(text: string, paid: boolean) {
+  const id = hashText(text);
+  const had = units.get(id);
+  // A sentence that is also in free content is free: the demo needs its clip.
+  units.set(id, { text, paid: had ? had.paid && paid : paid });
 }
 
-function addChoices(choices: string[]) {
+/** Paid until proven free: lines from paid lessons, plays, and situations. */
+function add(line: string | undefined | null, paid = false) {
+  if (!line) return;
+  for (const text of splitUnits(joinForSpeech([line]))) put(text, paid);
+}
+
+function addChoices(choices: string[], paid = false) {
   const line = choicesForSpeech(choices);
   const made = splitUnits(line);
   // Every choice must come out as its own unit, or the list reading would be wrong.
@@ -48,21 +59,23 @@ function addChoices(choices: string[]) {
       throw new Error(`Choice did not survive splitting as its own unit: "${c}"`);
     }
   }
-  for (const text of made) units.set(hashText(text), text);
+  for (const text of made) put(text, paid);
 }
 
-interface Lesson { title: string; steps: { text: string }[]; quiz: { prompt: string; explanation: string; choices?: string[] }[] }
-interface Play { name: string; description?: string; why?: string }
+interface Lesson { unitId: string; title: string; steps: { text: string }[]; quiz: { prompt: string; explanation: string; choices?: string[] }[] }
+interface Play { id: string; name: string; description?: string; why?: string }
 interface Situation { context?: string; options: { reason: string }[] }
 
+const freeUnits = new Set<string>(edition.freeUnits);
 for (const lesson of readDir<Lesson>("lessons")) {
-  add(lesson.title);
-  for (const s of lesson.steps) add(s.text);
+  const paid = !freeUnits.has(lesson.unitId);
+  add(lesson.title, paid);
+  for (const s of lesson.steps) add(s.text, paid);
   lesson.quiz.forEach((_, i) => add(`Question ${i + 1}.`));
   for (const q of lesson.quiz) {
-    add(q.prompt);
-    add(q.explanation);
-    if (q.choices) addChoices(q.choices);
+    add(q.prompt, paid);
+    add(q.explanation, paid);
+    if (q.choices) addChoices(q.choices, paid);
   }
 }
 const positions = JSON.parse(readFileSync(join(content, "positions.json"), "utf8")) as Record<string, { name: string; job: string }>;
@@ -70,14 +83,16 @@ for (const p of Object.values(positions)) {
   add(p.name);
   add(p.job);
 }
+const freePlays = freePlayIds();
 for (const p of readDir<Play>("plays")) {
-  add(p.name);
-  add(p.description);
-  add(p.why);
+  const paid = !freePlays.has(p.id);
+  add(p.name, paid);
+  add(p.description, paid);
+  add(p.why, paid);
 }
 for (const s of readDir<Situation>("situations")) {
-  add(s.context);
-  for (const o of s.options) add(o.reason);
+  add(s.context, true);
+  for (const o of s.options) add(o.reason, true);
 }
 
 // ---- Lines with numbers the game builds while playing
@@ -126,7 +141,7 @@ const SPOTS = [25, 50, 75, 90, 97].map((yardLine) => ({ id: "s", variant: "tackl
 for (const play of plays) {
   for (const look of LOOKS) {
     add(`${play.name} vs ${LOOK_LABEL[look]}`);
-    add(matchupNote(play, look));
+    add(matchupNote(play, look), true);
     add(LOOK_LABEL[look]);
     for (let seed = 0; seed < 60; seed++) for (const situation of SPOTS) add(resolvePlay({ play, look, seed, situation }).story);
   }
@@ -136,19 +151,19 @@ void allLooks;
 
 // ---- Beat the Coverage and Hot Read
 for (const r of COVERAGE_LOOKS) {
-  add(`This was ${r.name}.`);
-  add(r.tell);
-  add(r.why);
-  add(`Hint: ${r.tell}`);
-  add(`${COVERAGE_OPTION_LABEL[r.answerPlayId]} beats it.`);
-  add(`Not quite. ${COVERAGE_OPTION_LABEL[r.answerPlayId]} beats it.`);
+  add(`This was ${r.name}.`, true);
+  add(r.tell, true);
+  add(r.why, true);
+  add(`Hint: ${r.tell}`, true);
+  add(`${COVERAGE_OPTION_LABEL[r.answerPlayId]} beats it.`, true);
+  add(`Not quite. ${COVERAGE_OPTION_LABEL[r.answerPlayId]} beats it.`, true);
 }
-for (const label of Object.values(COVERAGE_OPTION_LABEL)) add(label);
-addChoices(Object.values(COVERAGE_OPTION_LABEL));
+for (const label of Object.values(COVERAGE_OPTION_LABEL)) add(label, true);
+addChoices(Object.values(COVERAGE_OPTION_LABEL), true);
 for (const f of formations) {
   for (const p of f.players) {
     const pos = positionBook[p.position];
-    if (pos) add(`The hot read is ${p.label ?? p.position}, the ${pos.name.toLowerCase()}.`);
+    if (pos) add(`The hot read is ${p.label ?? p.position}, the ${pos.name.toLowerCase()}.`, true);
   }
 }
 
@@ -163,16 +178,15 @@ for (const pos of Object.values(positionBook)) {
 const FOURTH_CALLS: FourthDownCall[] = ["go", "punt", "field-goal"];
 addChoices(FOURTH_CALLS.map((c) => CALL_LABEL[c]));
 for (const s of FOURTH_DOWN_SCENARIOS) {
-  add(scoreboardLine(s));
-  add(s.note);
-  add(downLabel(4, s.distance, s.yardLine).replace(/^4th/, "4th"));
-  for (const c of FOURTH_CALLS) add(judge(s, c).reason);
+  add(scoreboardLine(s), true);
+  add(s.note, true);
+  for (const c of FOURTH_CALLS) add(judge(s, c).reason, true);
 }
 
 // ---- Season
 for (const o of OPPONENTS) {
-  add(`${o.name} have the ball.`);
-  add(`Scouting report: ${o.tendency}`);
+  add(`${o.name} have the ball.`, true);
+  add(`Scouting report: ${o.tendency}`, true);
 }
 for (const f of FOURTH_CALLS) void f;
 
@@ -180,7 +194,10 @@ for (const f of FOURTH_CALLS) void f;
 const extra = JSON.parse(readFileSync(join(root, "voice", "extra-lines.json"), "utf8")) as string[];
 for (const line of extra) add(line);
 
-const list = [...units.entries()].map(([id, text]) => ({ id, text })).sort((a, b) => a.text.localeCompare(b.text));
+const list = [...units.entries()]
+  .map(([id, u]) => (u.paid ? { id, text: u.text, p: 1 } : { id, text: u.text }))
+  .sort((a, b) => a.text.localeCompare(b.text));
+const paidCount = list.filter((u) => "p" in u).length;
 writeFileSync(join(root, "voice", "units.json"), JSON.stringify(list, null, 1) + "\n");
 const chars = list.reduce((n, u) => n + u.text.length, 0);
-console.log(`${list.length} sentences to record, ${chars} characters, about ${Math.round(chars / 15 / 60)} minutes of speech.`);
+console.log(`${list.length} sentences to record, ${chars} characters, about ${Math.round(chars / 15 / 60)} minutes of speech. ${paidCount} are paid-only, ${list.length - paidCount} are free.`);

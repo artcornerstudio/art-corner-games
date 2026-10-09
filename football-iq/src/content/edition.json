@@ -1,0 +1,7 @@
+{
+  "_note": "What the free demo contains. Everything else is the paid full game. The demo build leaves the paid lessons, situations, and plays out of the page entirely, so there is nothing to unlock by editing the browser.",
+  "freeUnits": ["rules"],
+  "freeGames": ["spot-the-position"],
+  "freePlays": ["inside-zone-right", "slant-flat", "play-action-post", "trips-wheel-flag5"],
+  "spotRounds": 5
+}

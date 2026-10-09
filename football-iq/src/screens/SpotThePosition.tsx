@@ -4,6 +4,7 @@ import { compileFormations } from "../field/animation";
 import { Diagram } from "../field/Diagram";
 import { buildRounds, roundPrompt, SPOT_ROUNDS, VARSITY_SECONDS } from "../games/spotThePosition";
 import { recordGame, useTier } from "../progress";
+import { SPOT_DEMO_ROUNDS, paywallOn, showPaywall, usePaywall } from "../paywall";
 import { playSound } from "../sound";
 import { SpeakButton } from "../speech/SpeakButton";
 import { useReadAloud } from "../speech/useReadAloud";
@@ -23,7 +24,11 @@ export function SpotThePosition({ onBack }: Props) {
   const tier = useTier();
   const [variant, setVariant] = useState<Variant>("tackle11");
   const [seed, setSeed] = useState(0);
-  const rounds = useMemo(() => buildRounds(variant), [variant, seed]);
+  const pw = usePaywall();
+  // The free demo plays the first few rounds. The full game plays all ten.
+  const limited = paywallOn() && !pw.premium;
+  const rounds = useMemo(() => buildRounds(variant).slice(0, limited ? SPOT_DEMO_ROUNDS : SPOT_ROUNDS), [variant, seed, limited]);
+  const total = rounds.length;
   const [index, setIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [phase, setPhase] = useState<Phase>({ kind: "asking" });
@@ -42,7 +47,7 @@ export function SpotThePosition({ onBack }: Props) {
   };
 
   const finish = (finalScore: number, timedOut: boolean) => {
-    const entry = recordGame(`spot-the-position-${variant}`, finalScore, SPOT_ROUNDS);
+    const entry = recordGame(`spot-the-position-${variant}`, finalScore, total);
     setFinished({ best: entry.best, timedOut });
   };
 
@@ -108,9 +113,14 @@ export function SpotThePosition({ onBack }: Props) {
       {finished ? (
         <section className="card result">
           <p className="eyebrow">{finished.timedOut ? "Time's up" : "Game over"}</p>
-          <h2>{score} of {SPOT_ROUNDS}</h2>
-          <p>{score === SPOT_ROUNDS ? "Perfect. You know every spot on the field." : score >= 7 ? "Strong. A few more reps and it is automatic." : "Keep going. Every position has a home on the field."}</p>
-          <p className="muted">Best on this device: {finished.best} of {SPOT_ROUNDS}</p>
+          <h2>{score} of {total}</h2>
+          <p>{score === total ? "Perfect. You know every spot on the field." : score >= 7 ? "Strong. A few more reps and it is automatic." : "Keep going. Every position has a home on the field."}</p>
+          <p className="muted">Best on this device: {finished.best} of {total}</p>
+          {limited && (
+            <p>
+              That was the free round set. <button type="button" className="link-button" onClick={() => showPaywall({ kind: "rounds" })}>Unlock the full game</button> for more rounds and every other game.
+            </p>
+          )}
           <div className="controls">
             <button type="button" className="btn btn-primary" onClick={() => restart(variant)}>Play again</button>
             <button type="button" className="btn" onClick={onBack}>Home</button>
@@ -119,7 +129,7 @@ export function SpotThePosition({ onBack }: Props) {
       ) : round && compiled ? (
         <>
           <p className="eyebrow">
-            Round {index + 1} of {SPOT_ROUNDS} · {score} right{timed && <> · <span className={secondsLeft <= 10 ? "clock clock-low" : "clock"}>{secondsLeft}s</span></>}
+            Round {index + 1} of {total} · {score} right{timed && <> · <span className={secondsLeft <= 10 ? "clock clock-low" : "clock"}>{secondsLeft}s</span></>}
           </p>
           <div className="speak-row">
             <h2 className="prompt">{roundPrompt(round)}</h2>
