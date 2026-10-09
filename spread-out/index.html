@@ -718,7 +718,6 @@
         <li>⚽ Mini Match! — real 3-on-3 games and the match journey</li>
         <li>🗺️ Where Do I Stand? — zones and team-shape drills</li>
         <li>🏃 Unlimited levels in Get Open! and Pick the Pass!</li>
-        <li>🗣️ Coach Eric's recorded voice for every tip</li>
         <li>🧑‍🏫 Coach Corner: printable practice plan and diagrams</li>
       </ul>
       <button class="pwBuy" id="pwBuy">▶ Buy now</button>
@@ -958,7 +957,6 @@ const paywall={
     try{ const r=await fetch('api/me',{credentials:'same-origin',cache:'no-store'}); const j=await r.json(); this.premium=!!j.premium; }
     catch(e){ this.premium=false; }
     if(this.premium){ try{ await this.loadPremium(); }catch(e){ this.premium=false; } }
-    if(this.premium) voice.loadManifest();          // returning buyers: fetch Coach Eric's clip list now, before the first line is spoken
     this.render();
   },
   loadPremium(){                                     // the premium modes arrive only with a valid cookie
@@ -1078,7 +1076,6 @@ const voice={
   },
   loadManifest(){                              // which clips exist (only over http(s); the game also runs from a file)
     if(this.known||this.loading||this.tries>=3||typeof fetch!=='function'||!/^https?:$/.test(location.protocol)) return;
-    if(paywall.on&&!paywall.premium) return;      // the clips are part of the full game
     this.tries++;
     this.loading=fetch('voice/manifest.json').then(r=>r.ok?r.json():null).then(m=>{
       if(m&&Array.isArray(m.ids)&&m.ids.length) this.known=new Set(m.ids);
