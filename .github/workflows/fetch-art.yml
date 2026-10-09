@@ -1,0 +1,59 @@
+name: Fetch art
+
+# Brings pictures made with OpenArt into the repository. The coding sandbox
+# cannot reach OpenArt's image server, but GitHub can.
+#
+# How to use it: add lines to art/fetch.txt and push. Each line is
+#   <OpenArt image URL> <where to save it, ending in .webp> <width in pixels>
+# The run downloads each picture, shrinks it to that width as WebP, saves it,
+# empties fetch.txt and commits the result to the same branch.
+# Only cdn.openart.ai pictures, saved inside a game's art folder, are accepted.
+on:
+  push:
+    paths: ["art/fetch.txt"]
+    branches-ignore: [main]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fetch-art-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install WebP tools
+        run: sudo apt-get update && sudo apt-get install -y webp
+
+      - name: Download and convert
+        run: |
+          set -eu
+          n=0
+          while read -r url dest width; do
+            case "$url" in ''|'#'*) continue ;; esac
+            case "$url" in https://cdn.openart.ai/*) ;; *) echo "::error::Not an OpenArt URL: $url"; exit 1 ;; esac
+            case "$dest" in spread-out/art/*.webp|football-iq/public/art/*.webp) ;; *) echo "::error::Bad destination: $dest"; exit 1 ;; esac
+            case "$dest" in *..*) echo "::error::Bad destination: $dest"; exit 1 ;; esac
+            case "$width" in ''|*[!0-9]*) echo "::error::Bad width: $width"; exit 1 ;; esac
+            mkdir -p "$(dirname "$dest")"
+            curl -fsSL --max-time 120 -o /tmp/art-src "$url"
+            cwebp -quiet -q 82 -m 6 -resize "$width" 0 /tmp/art-src -o "$dest"
+            echo "Saved $dest ($(stat -c %s "$dest") bytes)"
+            n=$((n+1))
+          done < art/fetch.txt
+          echo "Fetched $n picture(s)"
+          printf '# Add lines here and push: <OpenArt image URL> <path ending in .webp> <width>\n' > art/fetch.txt
+
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add -A spread-out/art football-iq/public/art art/fetch.txt
+          git diff --cached --quiet && { echo "Nothing new"; exit 0; }
+          git commit -m "Fetch art from OpenArt"
+          git push

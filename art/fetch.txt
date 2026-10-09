@@ -1,0 +1,1 @@
+# Add lines here and push: <OpenArt image URL> <path ending in .webp> <width>
