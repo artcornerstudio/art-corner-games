@@ -2,7 +2,10 @@
 
 A free browser game that teaches kids ages 6–12 real soccer smarts: **getting open, spreading out, and passing to the open teammate.**
 
-**▶️ Play it live:** https://artcornerstudio.github.io/art-corner-games/spread-out/
+**▶️ Play it live:** https://play.artcornerstudio.cloud/ (free demo; the full game is a one-time $4.99 with a 30-day money-back guarantee)
+
+The old address, https://artcornerstudio.github.io/art-corner-games/spread-out/, now shows a landing page
+(`../spread-out-pages/`) that points to the new one.
 
 ## What's in the game
 
@@ -36,7 +39,7 @@ python3 -m http.server 8000
 
 ## How it gets published
 
-This game lives in the shared **art-corner-games** website alongside Football IQ. The repository's "Deploy to GitHub Pages" workflow copies this `spread-out/` folder into the site whenever changes to it land on `main`, so it's served at `/art-corner-games/spread-out/`. No build step is needed for this game — every file in this folder is published as-is.
+The game is served by `../spread-out-server/` on a Hostinger VPS at play.artcornerstudio.cloud (see that folder's README). The repository's "Deploy to GitHub Pages" workflow publishes only the landing page from `../spread-out-pages/` plus this folder's privacy page and icons at `/art-corner-games/spread-out/`.
 
 ## License
 
