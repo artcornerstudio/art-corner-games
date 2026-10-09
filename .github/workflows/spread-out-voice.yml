@@ -1,0 +1,117 @@
+name: Spread Out! coach voice
+
+# Records every fixed sentence Spread Out!'s coach says (spread-out/voice/units.json)
+# with Qwen3-TTS copying Coach Eric (spread-out/voice/render_qwen.py), and commits
+# the clips and manifest.json to the same branch, so they ride along in that
+# branch's pull request.
+#
+# It runs by itself when units.json or the recorder changes on a branch, and can
+# be started by hand: Actions tab, "Spread Out! coach voice", "Run workflow".
+# Clips already in the repository are kept when a speech recognizer hears the
+# right words in them; new sentences, and any clip that fails that check, are
+# recorded (each new take is checked the same way). It never runs on main.
+on:
+  push:
+    branches-ignore: [main]
+    paths: ["spread-out/voice/units.json", "spread-out/voice/render_qwen.py", ".github/workflows/spread-out-voice.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: spread-out-voice-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # The voice to copy. Made once (Kokoro am_eric reading a short pep talk, the same
+  # take used in the sound check) and kept in the repository as coach-ref.flac.
+  ref:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use the reference in the repository, or bring in the sound-check take
+        id: have
+        run: |
+          if [ -f spread-out/voice/coach-ref.flac ]; then echo "found=yes" >> "$GITHUB_OUTPUT"; else echo "found=no" >> "$GITHUB_OUTPUT"; fi
+      - if: steps.have.outputs.found == 'no'
+        uses: actions/download-artifact@v4
+        with: { name: voices-kokoro, path: sc, run-id: "37951367991", github-token: "${{ github.token }}" }
+      - if: steps.have.outputs.found == 'no'
+        run: |
+          sudo apt-get update && sudo apt-get install -y ffmpeg
+          ffmpeg -y -loglevel error -i sc/ref-eric.wav -c:a flac spread-out/voice/coach-ref.flac
+      - uses: actions/upload-artifact@v4
+        with: { name: coach-ref, path: spread-out/voice/coach-ref.flac }
+
+  record:
+    needs: ref
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - uses: actions/download-artifact@v4
+        with: { name: coach-ref, path: ref }
+      - name: System packages (retried, so one slow mirror cannot stall the run)
+        timeout-minutes: 15
+        run: |
+          for i in 1 2 3; do
+            timeout 240 sudo apt-get update -o Acquire::Retries=3 \
+              && timeout 300 sudo apt-get install -y -o Acquire::Retries=3 ffmpeg sox libsox-dev && break
+            echo "apt try $i failed"; sleep 5
+          done
+          command -v ffmpeg
+      - run: |
+          pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+          pip install -U qwen-tts soundfile numpy faster-whisper
+      - name: Record shard ${{ matrix.shard }} of 10
+        run: python spread-out/voice/render_qwen.py --out clips --shard ${{ matrix.shard }}/10 --skip-dir spread-out/voice --ref ref/coach-ref.flac --verify --recheck
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: "clips-${{ matrix.shard }}", path: clips, if-no-files-found: ignore }
+
+  commit:
+    needs: [ref, record]
+    # not when a newer run replaced this one; otherwise keep whatever the recorders finished
+    if: ${{ !cancelled() && needs.ref.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref }}" }   # the branch as it is now, not as it was when the run started
+      - uses: actions/download-artifact@v4
+        with: { path: dl }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Add the clips, write the manifest, commit
+        run: |
+          set -u
+          cp -n dl/coach-ref/coach-ref.flac spread-out/voice/coach-ref.flac || true
+          for d in dl/clips-*; do [ -d "$d" ] && cp "$d"/*.mp3 spread-out/voice/ 2>/dev/null || true; done
+          cat dl/clips-*/failed-shard-*.json 2>/dev/null || true
+          python - <<'PY' | tee -a "$GITHUB_STEP_SUMMARY"
+          import glob, json
+          rows = [r for f in sorted(glob.glob("dl/clips-*/check-shard-*.json")) for r in json.load(open(f))]
+          print("### Coach voice check\n")
+          print(f"{len(rows)} sentences recorded or re-recorded.\n")
+          print("| Sentence | Heard | Score | Old take heard |\n| --- | --- | --- | --- |")
+          for r in rows:
+              if "score" in r:
+                  print(f"| {r['text']} | {r.get('heard','')} | {r['score']} | {r.get('old','')} |")
+          PY
+          python spread-out/voice/render_qwen.py --out spread-out/voice --manifest-only || true
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add spread-out/voice
+          git diff --cached --quiet && { echo "Nothing new"; exit 0; }
+          git commit -m "Record Spread Out! coach lines (Qwen3-TTS, Coach Eric)"
+          git pull --rebase -q -X theirs || true   # if the branch moved, this run's new takes win
+          git push
