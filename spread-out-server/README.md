@@ -129,7 +129,57 @@ real webhook signatures:
 npm test
 ```
 
-### 5. Hosting it on Render (test mode first)
+### 5. Hosting it on your own VPS (Hostinger), test mode first
+
+`deploy/install.sh` turns a fresh Ubuntu or Debian VPS into the game server in
+one command. It installs Node.js 22 and Caddy (which gets and renews the HTTPS
+certificate by itself), copies only the `spread-out` folders of this repository
+to `/opt/spread-out/app`, asks for the Stripe keys once and keeps them in
+`/etc/spread-out/env` (root only), generates `JWT_SECRET` once and never
+changes it, stores purchases in `/var/lib/spread-out/purchases.sqlite`, and
+runs everything as a locked-down service called `spread-out` that starts on
+boot. The app listens only on 127.0.0.1; Caddy is the only way in.
+
+1. **Point the address at the VPS.** Hostinger hPanel → **Domains** →
+   artcornerstudio.cloud → **DNS / Nameservers** → **DNS records** → add:
+   Type `A`, Name `play`, Points to *your VPS IP address* (hPanel → **VPS** →
+   Overview shows it), TTL default. Leave other records alone.
+2. **Open a terminal on the VPS.** hPanel → **VPS** → **Browser terminal**
+   (or `ssh root@YOUR-VPS-IP` with the root password from the VPS settings).
+3. **Run the installer** and paste the Stripe keys when it asks (the secret
+   ones don't show while you paste; that's normal):
+
+   ```bash
+   curl -fsSL https://raw.githubusercontent.com/artcornerstudio/art-corner-games/main/spread-out-server/deploy/install.sh | bash -s -- play.artcornerstudio.cloud
+   ```
+
+   - Stripe secret key: Dashboard → Developers → API keys → Secret key (test
+     mode, `sk_test_...`).
+   - Webhook signing secret: Dashboard → Developers → Webhooks → the endpoint
+     `https://play.artcornerstudio.cloud/api/stripe/webhook` → Signing secret →
+     Reveal (`whsec_...`).
+   - Price id: press Enter to keep the $4.99 test price.
+4. Open https://play.artcornerstudio.cloud. The locks should be on. Run the full
+   test purchase from step 4: Buy now, the `4242` card, the unlocked panel, the
+   code on a second device, then a refund from the Stripe dashboard that locks
+   it again.
+
+Day-to-day:
+
+| Job | Command (on the VPS) |
+| --- | --- |
+| Update to the latest `main` | run the install command again, without the address |
+| Change Stripe keys (test → live) | the install command with `--reconfigure` |
+| See what the server is doing | `journalctl -u spread-out -f` |
+| Restart it | `systemctl restart spread-out` |
+| HTTPS problems | `journalctl -u caddy -n 50` |
+
+If the installer stops because something else uses ports 80/443, the VPS runs a
+control panel or another website; the installer changes nothing in that case.
+If Hostinger's VPS **Firewall** page has rules, allow TCP 80 and 443.
+
+### 5b. Alternative: Render (instead of the VPS)
+
 
 The repository root has a `render.yaml` blueprint that describes the server:
 Node 22, the `spread-out-server` folder, a 1 GB disk at `/data` for the purchase
@@ -148,8 +198,8 @@ filled in. `PUBLIC_URL` is not needed on Render (the server reads
      created) → **Reveal** signing secret (starts with `whsec_`).
 3. Click **Apply**. The first deploy takes a few minutes. The game is then at
    https://spread-out-game.onrender.com with the locks on.
-   If Render gave the service a different address (the name was taken), update
-   the webhook endpoint's URL in Stripe to match.
+   The Stripe webhook currently points at the VPS address; if you use Render,
+   change its URL in Stripe to `https://<your-render-address>/api/stripe/webhook`.
 4. Run the full test purchase from step 4 against that address: Buy now, the
    `4242` card, the unlocked panel, the code on a second device, then a refund
    from the Stripe dashboard that locks it again.
@@ -165,7 +215,9 @@ filled in. `PUBLIC_URL` is not needed on Render (the server reads
    `spread-out/` there (remove it from `.github/workflows/deploy-pages.yml`) and
    link to the Render address instead, or keep a landing page that points to
    the paid game. Then make the repository private so the premium code is not
-   readable on GitHub.
+   readable on GitHub. (The VPS installer downloads the code from GitHub: once
+   the repository is private, set up a read-only deploy key on the VPS first,
+   or updates will stop working.)
 4. Buy it once yourself with a real card, then refund it, to see the live
    webhook and the lock/unlock both work.
 
@@ -178,7 +230,7 @@ moves until the live keys are used:
 | --- | --- |
 | Product "Spread Out! Full Game" | `prod_VPFkR0k1HhnwmY` |
 | One-time price, $4.99 USD | `price_1UORF3JMJd2TdRXlcf6CpEbm` (use as `STRIPE_PRICE_ID`) |
-| Webhook endpoint for the Render server | `we_1UORThJMJd2TdRXltvgFThB3` → `https://spread-out-game.onrender.com/api/stripe/webhook` |
+| Webhook endpoint (test mode) | `we_1UORThJMJd2TdRXltvgFThB3` → `https://play.artcornerstudio.cloud/api/stripe/webhook` |
 | Reusable test checkout link (preview only; the game makes its own) | https://buy.stripe.com/test_00w7sM0gs1MI6rY0Macs800 |
 
 Ids are not secrets. The secret key and the webhook signing secret must still
