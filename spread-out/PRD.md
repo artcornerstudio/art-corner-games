@@ -133,7 +133,7 @@ now only appears inside games and Coach Corner.
 Built, tested, and documented in `spread-out-server/`: a small Node.js server
 that serves the game, sells a one-time unlock through Stripe Checkout, and
 keeps the premium parts (Where Do I Stand?, Mini Match!, unlimited levels,
-Coach Corner, Coach Eric's clips) on the server until a purchase is proven.
+Coach Corner) on the server until a purchase is proven.
 Nothing in the browser decides who paid: the free page simply does not
 contain the premium code, and the server sends it only with a signed,
 httpOnly cookie that is checked against the purchase record every time (so

@@ -174,8 +174,10 @@ function createApp(opts = {}) {
     res.set("Cache-Control", "private, no-store");
     res.type("application/javascript").send(game.premium);
   });
-  app.use("/voice", requirePremium, (req, res, next) => {
-    res.set("Cache-Control", "private, max-age=31536000"); // clip names are content hashes
+  // Coach Eric's voice is part of the free demo too. Clip names are content hashes, so they
+  // can be cached for a year; voice/manifest.json is set to no-cache by express.static below.
+  app.use("/voice", (req, res, next) => {
+    res.set("Cache-Control", "public, max-age=31536000, immutable");
     next();
   });
   app.use(express.static(cfg.gameDir, { index: false, dotfiles: "ignore", setHeaders: (res, file) => {

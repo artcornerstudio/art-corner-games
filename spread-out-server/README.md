@@ -5,8 +5,8 @@ This small Node.js server does three jobs:
 1. **Serves the game** at `/` with the premium parts cut out.
 2. **Sells the one-time unlock** through [Stripe Checkout](https://stripe.com/payments/checkout)
    and records paid purchases from Stripe's webhook.
-3. **Gates the premium files** (`premium/premium.js`, the Coach Eric voice
-   clips) behind a signed, httpOnly session cookie that is checked on every
+3. **Gates the premium files** (`premium/premium.js`, the paid game modes)
+   behind a signed, httpOnly session cookie that is checked on every
    request against the purchase record.
 
 The free copy on GitHub Pages does not use this server and stays exactly as it
@@ -18,8 +18,7 @@ is. This server is for a paid copy hosted on its own address.
 | --- | --- |
 | Get Open! levels 1 to 2 | Unlimited levels in Get Open! and Pick the Pass! |
 | Pick the Pass! first 6 rounds | Where Do I Stand? |
-| Device voice for the coach | Mini Match! and the match journey |
-| | Coach Eric's recorded voice |
+| Coach Eric's recorded voice | Mini Match! and the match journey |
 | | Coach Corner (practice plan, diagrams, print) |
 
 The demo limits live in `createApp()` (`demo`) and are sent to the browser as
@@ -34,7 +33,7 @@ part of the config. The premium split is decided by two comment markers in
 `localStorage.isPremium = true`, edit `paywall.premium`, or delete the demo
 counters, and nothing happens, because the premium modes are **not in the page**.
 They exist only in `premium/premium.js`, and the server sends that file only
-when the request carries a valid cookie. The same gate covers the voice clips.
+when the request carries a valid cookie. Coach Eric's voice clips are free for everyone.
 
 - **Cookie:** `so_session`, a JWT (HS256, signed with `JWT_SECRET`) holding the
   purchase id, 1 year, `httpOnly` (scripts cannot read it), `Secure` on https,
@@ -264,6 +263,17 @@ moves until the live keys are used:
 | Webhook endpoint (test mode) | `we_1UORThJMJd2TdRXltvgFThB3` → `https://play.artcornerstudio.cloud/api/stripe/webhook` |
 | Reusable test checkout link (preview only; the game makes its own) | https://buy.stripe.com/test_00w7sM0gs1MI6rY0Macs800 |
 
+Live mode (what play.artcornerstudio.cloud sells with):
+
+| What | Id |
+| --- | --- |
+| Product "Spread Out! Full Game" | `prod_VPJtJ55YYjpUTf` |
+| One-time price, $4.99 USD | `price_1UOVFdJMJd2TdRXlpqiu6UVb` |
+| Webhook endpoint | `we_1UOVFiJMJd2TdRXlOSaTMugB` → `https://play.artcornerstudio.cloud/api/stripe/webhook` |
+
+The live server key must be a restricted key with **Checkout Sessions: Write**
+(the server only creates and reads Checkout Sessions).
+
 Ids are not secrets. The secret key and the webhook signing secret must still
 be copied from the Dashboard into `.env` and never committed. When the game
 goes live, make the same product in live mode (ids will differ) and add the
@@ -275,7 +285,7 @@ production webhook endpoint.
 | --- | --- |
 | `GET /` | The game with premium parts removed and the paywall config injected |
 | `GET /premium/premium.js` | The premium modes. Needs the cookie (401 otherwise) |
-| `GET /voice/...` | Coach Eric's clips. Needs the cookie |
+| `GET /voice/...` | Coach Eric's clips (free; clips cached a year, the list never) |
 | `POST /api/checkout` | Creates a Stripe Checkout Session, returns its URL |
 | `POST /api/stripe/webhook` | Stripe calls this; records purchases and refunds |
 | `POST /api/claim` `{session_id}` | After checkout: confirms with Stripe, sets the cookie, returns the license code |

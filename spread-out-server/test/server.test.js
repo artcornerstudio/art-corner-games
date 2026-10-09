@@ -71,8 +71,10 @@ test("free shell: premium code is cut out, config and paywall are in", async () 
 test("premium files need the cookie", async () => {
   const t = await start();
   assert.equal((await t.f("/premium/premium.js")).status, 401);
-  assert.equal((await t.f("/voice/manifest.json")).status, 401);
-  assert.equal((await t.f("/voice/00000000000000.mp3")).status, 401);
+  // Coach Eric's voice is free for everyone: the clip list is served without a cookie and never cached stale
+  const manifest = await t.f("/voice/manifest.json");
+  assert.equal(manifest.status, 200);
+  assert.equal(manifest.headers.get("cache-control"), "no-cache");
   const me = await (await t.f("/api/me")).json();
   assert.deepEqual(me, { premium: false });
   // a forged cookie signed with the wrong secret
