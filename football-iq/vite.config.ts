@@ -32,7 +32,7 @@ export default defineConfig({
       },
       workbox: {
         // Everything the app needs is precached, so it works offline after the first visit.
-        globPatterns: ["**/*.{js,css,html,svg,png,webmanifest}"],
+        globPatterns: ["**/*.{js,css,html,svg,png,webp,webmanifest}"],
         // The shared GitHub Pages site also hosts other games in sibling
         // folders (e.g. /spread-out/). This worker's scope covers the whole
         // site, so without this list its "show index.html for any page"

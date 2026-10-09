@@ -63,10 +63,6 @@ export function Home({ onOpenPlayLab, onOpenUnit, onOpenGame, onOpenCoachView }:
 
   return (
     <main className="home stadium">
-      <div className="floodlights" aria-hidden="true">
-        <span className="flood flood-l" />
-        <span className="flood flood-r" />
-      </div>
       <header className="hero hero-with-mascot">
         <div className="hero-text">
           <p className="eyebrow">Football IQ</p>
@@ -75,10 +71,7 @@ export function Home({ onOpenPlayLab, onOpenUnit, onOpenGame, onOpenCoachView }:
           <span className="sparkle sparkle-b" aria-hidden="true">✦</span>
           <p className="lede">Learn the X's and O's. Watch a play, call a play, earn a badge.</p>
         </div>
-        <div className="mascot-stand" aria-hidden="true">
-          <img className="mascot" src="./art/mascot.png" alt="" width={215} height={215} onError={(e) => (e.currentTarget.style.display = "none")} />
-          <span className="mascot-turf" />
-        </div>
+        <img className="mascot-hero" src="./art/mascot-hero.png" alt="" aria-hidden="true" width={320} height={295} onError={(e) => (e.currentTarget.style.display = "none")} />
       </header>
 
       {demo && (
@@ -102,7 +95,7 @@ export function Home({ onOpenPlayLab, onOpenUnit, onOpenGame, onOpenCoachView }:
             return (
               <button key={u.id} type="button" className={`ucard ucard-${theme}${locked ? " ucard-locked" : ""}`} onClick={() => onOpenUnit(u.id)}>
                 <span className="ucard-art" aria-hidden="true">
-                  <img src={`./art/badge-${u.id}.png`} alt="" width={100} height={100} onError={(e) => { e.currentTarget.style.display = "none"; e.currentTarget.nextElementSibling?.removeAttribute("hidden"); }} />
+                  <img src={`./art/unit-${u.id}.png`} alt="" width={120} height={120} onError={(e) => { e.currentTarget.style.display = "none"; e.currentTarget.nextElementSibling?.removeAttribute("hidden"); }} />
                   <span className="ucard-emblem" hidden>★</span>
                 </span>
                 <span className="ucard-body">
