@@ -20,8 +20,8 @@ export default defineConfig({
         name: "Football IQ: Flag and Field",
         short_name: "Football IQ",
         description: "Learn the X's and O's of football with animated plays and quick games.",
-        theme_color: "#1b5e20",
-        background_color: "#f6f7f4",
+        theme_color: "#0b1220",
+        background_color: "#0b1220",
         display: "standalone",
         orientation: "portrait",
         icons: [

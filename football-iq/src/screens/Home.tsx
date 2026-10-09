@@ -63,14 +63,20 @@ export function Home({ onOpenPlayLab, onOpenUnit, onOpenGame, onOpenCoachView }:
 
   return (
     <main className="home stadium">
+      <div className="floodlights" aria-hidden="true">
+        <span className="flood flood-l" />
+        <span className="flood flood-r" />
+      </div>
       <header className="hero hero-with-mascot">
         <div className="hero-text">
           <p className="eyebrow">Football IQ</p>
-          <h1 className="display">Flag and Field<span className="sparkle" aria-hidden="true">✦</span></h1>
+          <h1 className="display">Flag and Field</h1>
+          <span className="sparkle sparkle-a" aria-hidden="true">✦</span>
+          <span className="sparkle sparkle-b" aria-hidden="true">✦</span>
           <p className="lede">Learn the X's and O's. Watch a play, call a play, earn a badge.</p>
         </div>
         <div className="mascot-stand" aria-hidden="true">
-          <img className="mascot" src="./art/mascot.png" alt="" width={140} height={140} onError={(e) => (e.currentTarget.style.display = "none")} />
+          <img className="mascot" src="./art/mascot.png" alt="" width={215} height={215} onError={(e) => (e.currentTarget.style.display = "none")} />
           <span className="mascot-turf" />
         </div>
       </header>
@@ -96,7 +102,8 @@ export function Home({ onOpenPlayLab, onOpenUnit, onOpenGame, onOpenCoachView }:
             return (
               <button key={u.id} type="button" className={`ucard ucard-${theme}${locked ? " ucard-locked" : ""}`} onClick={() => onOpenUnit(u.id)}>
                 <span className="ucard-art" aria-hidden="true">
-                  <img src={`./art/badge-${u.id}.png`} alt="" width={72} height={72} onError={(e) => (e.currentTarget.style.visibility = "hidden")} />
+                  <img src={`./art/badge-${u.id}.png`} alt="" width={100} height={100} onError={(e) => { e.currentTarget.style.display = "none"; e.currentTarget.nextElementSibling?.removeAttribute("hidden"); }} />
+                  <span className="ucard-emblem" hidden>★</span>
                 </span>
                 <span className="ucard-body">
                   <span className="ucard-title">{u.title}</span>
