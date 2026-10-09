@@ -4,7 +4,7 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const Stripe = require("stripe");
-const { createApp, COOKIE } = require("../server");
+const { createApp, secretFromFile, COOKIE } = require("../server");
 const { openStore } = require("../lib/store");
 const { splitGame } = require("../lib/shell");
 const { makeCode, parseCode } = require("../lib/license");
@@ -188,4 +188,18 @@ test("splitGame cuts every marked region and injects the config", () => {
 test("refuses to start without secrets", () => {
   assert.throws(() => createApp({ jwtSecret: "short", webhookSecret: WHSEC, priceId: "p", stripe: fakeStripe(), store: openStore(":memory:") }), /JWT_SECRET/);
   assert.throws(() => createApp({ jwtSecret: SECRET, webhookSecret: WHSEC, priceId: "p", stripe: fakeStripe(), store: openStore(":memory:"), production: true, publicUrl: "http://plain" }), /https/);
+});
+
+test("JWT_SECRET_FILE: created once, then reused", () => {
+  const fs = require("node:fs");
+  const os = require("node:os");
+  const path = require("node:path");
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "so-secret-"));
+  const file = path.join(dir, "nested", "jwt_secret");
+  const a = secretFromFile(file);
+  assert.match(a, /^[0-9a-f]{64}$/);
+  assert.equal(fs.statSync(file).mode & 0o777, 0o600);
+  assert.equal(secretFromFile(file), a);
+  assert.equal(secretFromFile(undefined), undefined);
+  fs.rmSync(dir, { recursive: true, force: true });
 });

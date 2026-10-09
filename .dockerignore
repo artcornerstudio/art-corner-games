@@ -1,0 +1,7 @@
+# Docker builds only need the Spread Out! game and its server (spread-out-server/Dockerfile).
+*
+!spread-out/
+!spread-out-server/
+spread-out-server/node_modules/
+spread-out-server/data/
+spread-out-server/.env

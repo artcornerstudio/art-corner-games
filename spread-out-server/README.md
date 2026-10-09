@@ -180,20 +180,29 @@ If Hostinger's VPS **Firewall** page has rules, allow TCP 80 and 443.
 
 ### 5a. The Docker way (what play.artcornerstudio.cloud runs)
 
-`deploy/docker-compose.yml` runs the same server with no terminal needed, for
-Hostinger's VPS **Docker Manager** (VPS image "Ubuntu 24.04 with Docker"). It
-has two containers: `app` (Node 22; on every start it downloads the latest
-`main`, installs it and runs the server inside the Docker network) and `caddy`
-(ports 80/443, automatic HTTPS for `DOMAIN`). Settings go in the project's
-environment box: `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, and optionally
-`STRIPE_PRICE_ID`, `DOMAIN`, `BRANCH`. `JWT_SECRET` is generated on the first
-start and kept in the `purchases` volume with the database.
+`deploy/docker-compose.yml` runs the server with no terminal needed, for
+Hostinger's VPS **Docker Manager** (VPS image "Ubuntu 24.04 with Docker"):
+
+- `app` is built straight from GitHub with `spread-out-server/Dockerfile`
+  (Node 22, production dependencies only, runs as the unprivileged `node`
+  user, health check on `/api/me`). The purchase database and the signing
+  secret (created on first start, never changed) live in the `purchases`
+  volume.
+- `caddy` is the HTTPS front door on ports 80/443 with automatic
+  certificates for `DOMAIN`, forwarding to `app` inside the Docker network.
+
+Settings go in the project's environment: `STRIPE_SECRET_KEY`,
+`STRIPE_WEBHOOK_SECRET`, and optionally `STRIPE_PRICE_ID`, `DOMAIN`, `BRANCH`
+(the branch to build; `main` by default).
 
 | Job | How |
 | --- | --- |
-| Update to the latest `main` | Docker Manager → the project → Restart |
+| Update to the latest code | Docker Manager → the project → Update (rebuilds from GitHub) |
 | Read the logs | Docker Manager → the project → Logs |
-| Change Stripe keys | edit the project's environment, then restart |
+| Change Stripe keys | edit the project's environment, then update |
+
+Test the image locally from the repository root:
+`docker build -f spread-out-server/Dockerfile -t spread-out-server .`
 
 ### 5b. Alternative: Render (instead of the VPS)
 
