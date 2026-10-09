@@ -42,12 +42,31 @@ function limiter(max, windowMs) {
   };
 }
 
+/**
+ * The signing secret from JWT_SECRET_FILE: read it, or create it on first start.
+ * It must never change once buyers exist (it signs their cookies and license
+ * codes), so it lives on the persistent disk next to the purchase database.
+ */
+function secretFromFile(file) {
+  if (!file) return undefined;
+  try {
+    const s = fs.readFileSync(file, "utf8").trim();
+    if (s) return s;
+  } catch (err) {
+    if (err.code !== "ENOENT") throw err;
+  }
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  const s = crypto.randomBytes(32).toString("hex");
+  fs.writeFileSync(file, s + "\n", { mode: 0o600, flag: "wx" });
+  return s;
+}
+
 function createApp(opts = {}) {
   const env = process.env;
   const cfg = {
     // Render sets RENDER_EXTERNAL_URL to the service's https address, so PUBLIC_URL can stay unset there.
     publicUrl: (opts.publicUrl ?? (env.PUBLIC_URL || env.RENDER_EXTERNAL_URL || "http://localhost:3000")).replace(/\/$/, ""),
-    jwtSecret: opts.jwtSecret ?? env.JWT_SECRET,
+    jwtSecret: opts.jwtSecret ?? (env.JWT_SECRET || secretFromFile(env.JWT_SECRET_FILE)),
     stripeSecretKey: opts.stripeSecretKey ?? env.STRIPE_SECRET_KEY,
     webhookSecret: opts.webhookSecret ?? env.STRIPE_WEBHOOK_SECRET,
     priceId: opts.priceId ?? env.STRIPE_PRICE_ID,
@@ -233,4 +252,4 @@ if (require.main === module) {
   app.listen(port, host, () => console.log(`Spread Out! server on ${host ?? "all interfaces"}:${port} (public URL ${cfg.publicUrl}, ${cfg.production ? "production" : "development"})`));
 }
 
-module.exports = { createApp, COOKIE, PRODUCT };
+module.exports = { createApp, secretFromFile, COOKIE, PRODUCT };
