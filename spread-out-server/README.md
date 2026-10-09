@@ -181,28 +181,33 @@ If Hostinger's VPS **Firewall** page has rules, allow TCP 80 and 443.
 ### 5a. The Docker way (what play.artcornerstudio.cloud runs)
 
 `deploy/docker-compose.yml` runs the server with no terminal needed, for
-Hostinger's VPS **Docker Manager** (VPS image "Ubuntu 24.04 with Docker"):
+Hostinger's VPS **Docker Manager** (VPS image "Ubuntu 24.04 with Docker"). It
+uses ready-made images only, because the Docker Manager does not build images
+from GitHub:
 
-- `app` is built straight from GitHub with `spread-out-server/Dockerfile`
-  (Node 22, production dependencies only, runs as the unprivileged `node`
-  user, health check on `/api/me`). The purchase database and the signing
+- `app` is the stock `node:22-bookworm` image. On every start it downloads (or
+  updates) the `spread-out` folders of `BRANCH` from GitHub into the `code`
+  volume and runs `deploy/docker-start.sh`, which installs the server and
+  starts it inside the Docker network. The purchase database and the signing
   secret (created on first start, never changed) live in the `purchases`
   volume.
-- `caddy` is the HTTPS front door on ports 80/443 with automatic
-  certificates for `DOMAIN`, forwarding to `app` inside the Docker network.
+- `caddy` is the HTTPS front door on ports 80/443 with automatic Let's Encrypt
+  certificates for `DOMAIN`, forwarding to `app`.
 
 Settings go in the project's environment: `STRIPE_SECRET_KEY`,
 `STRIPE_WEBHOOK_SECRET`, and optionally `STRIPE_PRICE_ID`, `DOMAIN`, `BRANCH`
-(the branch to build; `main` by default).
+(`main` by default).
 
 | Job | How |
 | --- | --- |
-| Update to the latest code | Docker Manager → the project → Update (rebuilds from GitHub) |
+| Update to the latest code | Docker Manager → the project → Restart |
 | Read the logs | Docker Manager → the project → Logs |
-| Change Stripe keys | edit the project's environment, then update |
+| Change Stripe keys | edit the project's environment, then restart |
 
-Test the image locally from the repository root:
-`docker build -f spread-out-server/Dockerfile -t spread-out-server .`
+Hosts that can build images can use `spread-out-server/Dockerfile` instead
+(Node 22 slim, production dependencies, non-root, health check on `/api/me`):
+`docker build -f spread-out-server/Dockerfile -t spread-out-server .` from the
+repository root.
 
 ### 5b. Alternative: Render (instead of the VPS)
 
