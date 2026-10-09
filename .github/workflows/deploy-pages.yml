@@ -1,13 +1,13 @@
 name: Deploy to GitHub Pages
 
 # Publishes the shared games site from main: the Football IQ app at the
-# site root, and Spread Out! (a static folder, no build step) at
-# /spread-out/. Enable Pages with source "GitHub Actions" in the
+# site root, and a Spread Out! landing page at /spread-out/ that points to
+# the game at play.artcornerstudio.cloud. Enable Pages with source "GitHub Actions" in the
 # repository settings for this to go live.
 on:
   push:
     branches: [main]
-    paths: ["football-iq/**", "spread-out/**", ".github/workflows/deploy-pages.yml"]
+    paths: ["football-iq/**", "spread-out/**", "spread-out-pages/**", ".github/workflows/deploy-pages.yml"]
   workflow_dispatch:
 
 permissions:
@@ -36,10 +36,15 @@ jobs:
       - run: npm run build
         env:
           VITE_BASE: /${{ github.event.repository.name }}/
-      - name: Add Spread Out! (static, served at /spread-out/)
+      - name: Add the Spread Out! landing page (served at /spread-out/)
+        # The game itself is sold and played at play.artcornerstudio.cloud
+        # (spread-out-server/). This address only shows a page pointing there,
+        # plus the privacy page and icons. sw.js retires old offline copies.
         run: |
           mkdir -p dist/spread-out
-          cp -R ../spread-out/. dist/spread-out/
+          cp -R ../spread-out/icons dist/spread-out/icons
+          cp ../spread-out/privacy.html dist/spread-out/privacy.html
+          cp ../spread-out-pages/index.html ../spread-out-pages/sw.js dist/spread-out/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: football-iq/dist
