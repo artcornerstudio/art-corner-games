@@ -1,5 +1,6 @@
 import { lessonsForUnit, units } from "../content";
 import { resetProgress, setReadAloudSetting, setSound, setTier, useProgress } from "../progress";
+import { featureLocked, gameLocked, paywallOn, showPaywall, unitLocked, usePaywall } from "../paywall";
 import { speak, speechSupported } from "../speech/engine";
 import type { Tier } from "../types/play";
 
@@ -12,7 +13,7 @@ interface Props {
   onOpenCoachView: () => void;
 }
 
-const GAMES: { id: GameId; title: string; blurb: string; key: string }[] = [
+export const GAMES: { id: GameId; title: string; blurb: string; key: string }[] = [
   { id: "call-the-play", title: "Call the Play", blurb: "Read the down, distance, and situation. Pick the play. Watch it happen.", key: "call-the-play-tackle11" },
   { id: "spot-the-position", title: "Spot the Position", blurb: "Ten rounds. Tap the position named before you forget where it lives.", key: "spot-the-position-tackle11" },
   { id: "beat-the-coverage", title: "Beat the Coverage", blurb: "Read the safeties before the snap and pick the play that beats the shell.", key: "beat-the-coverage" },
@@ -44,6 +45,8 @@ export function BadgeIcon({ unitId, earned, size = 36 }: { unitId: string; earne
 
 export function Home({ onOpenPlayLab, onOpenUnit, onOpenGame, onOpenCoachView }: Props) {
   const progress = useProgress();
+  const pw = usePaywall();
+  const demo = paywallOn() && !pw.premium;
   const tier: Tier = progress.tier ?? "rookie";
   const sound = progress.sound ?? true;
   const readAloud = progress.readAloud ?? false;
@@ -72,6 +75,15 @@ export function Home({ onOpenPlayLab, onOpenUnit, onOpenGame, onOpenCoachView }:
         </div>
       </header>
 
+      {demo && (
+        <section className="unlock-bar" aria-label="Full game">
+          <p>
+            <strong>You are playing the free demo.</strong> The first unit and a few plays are free. Unlock all {units.length} units, all {GAMES.length} games, and Coach Eric's voice.
+          </p>
+          <button type="button" className="btn btn-primary" onClick={() => showPaywall({ kind: "menu" })}>Unlock the full game</button>
+        </section>
+      )}
+
       <section aria-labelledby="units-heading">
         <h2 id="units-heading" className="banner">Game plan: the units</h2>
         <div className="grid">
@@ -80,8 +92,9 @@ export function Home({ onOpenPlayLab, onOpenUnit, onOpenGame, onOpenCoachView }:
             const passed = lessons.filter((l) => progress.lessons[l.id]?.passed).length;
             const earned = Boolean(progress.badges[u.id]);
             const theme = THEMES[i % THEMES.length];
+            const locked = unitLocked(u.id);
             return (
-              <button key={u.id} type="button" className={`ucard ucard-${theme}`} onClick={() => onOpenUnit(u.id)}>
+              <button key={u.id} type="button" className={`ucard ucard-${theme}${locked ? " ucard-locked" : ""}`} onClick={() => onOpenUnit(u.id)}>
                 <span className="ucard-art" aria-hidden="true">
                   <img src={`./art/badge-${u.id}.png`} alt="" width={72} height={72} onError={(e) => (e.currentTarget.style.visibility = "hidden")} />
                 </span>
@@ -91,12 +104,18 @@ export function Home({ onOpenPlayLab, onOpenUnit, onOpenGame, onOpenCoachView }:
                 </span>
                 <span className="ucard-foot">
                   <span className="ucard-progress">
-                    <span className="segments" aria-hidden="true">
-                      {lessons.map((l, k) => (
-                        <span key={l.id} className={k < passed ? "seg-fill on" : "seg-fill"} />
-                      ))}
-                    </span>
-                    <span className="ucard-count">Lessons: {passed} of {lessons.length}</span>
+                    {locked ? (
+                      <span className="ucard-count"><span aria-hidden="true">🔒</span> Full game</span>
+                    ) : (
+                      <>
+                        <span className="segments" aria-hidden="true">
+                          {lessons.map((l, k) => (
+                            <span key={l.id} className={k < passed ? "seg-fill on" : "seg-fill"} />
+                          ))}
+                        </span>
+                        <span className="ucard-count">Lessons: {passed} of {lessons.length}</span>
+                      </>
+                    )}
                   </span>
                   <span className={earned ? "badge-slot badge-slot-on" : "badge-slot"} title={earned ? `${u.badge}: earned` : `${u.badge}: finish every lesson`}>
                     {earned ? <BadgeIcon unitId={u.id} earned size={40} /> : <span className="shield" aria-hidden="true" />}
@@ -115,11 +134,11 @@ export function Home({ onOpenPlayLab, onOpenUnit, onOpenGame, onOpenCoachView }:
             const best = progress.games?.[g.key];
             const theme = THEMES[(i + 2) % THEMES.length];
             return (
-              <button key={g.id} type="button" className={`gcard gcard-${theme}`} onClick={() => onOpenGame(g.id)}>
+              <button key={g.id} type="button" className={`gcard gcard-${theme}${gameLocked(g.id) ? " gcard-locked" : ""}`} onClick={() => onOpenGame(g.id)}>
                 <span className="gcard-title">{g.title}</span>
                 <span className="gcard-blurb">{g.blurb}</span>
                 <span className="pill">
-                  {g.id === "play-designer" ? "Create" : g.id === "season" ? (progress.season?.games.length ? `${progress.season.games.filter((x) => x.won).length}-${progress.season.games.filter((x) => !x.won && x.yourPoints !== x.theirPoints).length} so far` : "Not played yet") : best ? `Best: ${best.best} of ${best.total}` : "Not played yet"}
+                  {gameLocked(g.id) ? "🔒 Full game" : g.id === "play-designer" ? "Create" : g.id === "season" ? (progress.season?.games.length ? `${progress.season.games.filter((x) => x.won).length}-${progress.season.games.filter((x) => !x.won && x.yourPoints !== x.theirPoints).length} so far` : "Not played yet") : best ? `Best: ${best.best} of ${best.total}` : "Not played yet"}
                 </span>
               </button>
             );
@@ -176,9 +195,13 @@ export function Home({ onOpenPlayLab, onOpenUnit, onOpenGame, onOpenCoachView }:
       </section>
 
       <footer className="footer">
-        <p>No accounts, no ads, nothing leaves your device. Progress is saved in this browser only.</p>
+        {paywallOn() ? (
+          <p>No ads and no tracking. Progress is saved in this browser only. A grown-up's email is kept only if you buy the full game. <a href="./privacy.html">Privacy and refunds</a></p>
+        ) : (
+          <p>No accounts, no ads, nothing leaves your device. Progress is saved in this browser only.</p>
+        )}
         <div className="controls">
-          <button type="button" className="btn btn-small" onClick={onOpenCoachView}>Coach view (grown-ups)</button>
+          <button type="button" className="btn btn-small" onClick={onOpenCoachView}>Coach view (grown-ups){featureLocked() ? " 🔒" : ""}</button>
           <button type="button" className="btn btn-ghost btn-small" onClick={reset}>Reset progress</button>
         </div>
       </footer>

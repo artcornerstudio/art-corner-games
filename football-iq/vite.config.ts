@@ -1,11 +1,17 @@
 import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
+import { editionPlugin } from "./vite.edition";
 
 // VITE_BASE lets the GitHub Pages workflow serve the app from /<repo>/ while
 // local dev and other hosts keep the root path.
+// VITE_EDITION=demo builds the free edition without the paid content. Anything else is the full game.
+const edition = process.env.VITE_EDITION ?? "full";
+
 export default defineConfig({
+  define: { "import.meta.env.VITE_EDITION": JSON.stringify(edition) },
   plugins: [
+    editionPlugin(edition),
     react(),
     VitePWA({
       registerType: "autoUpdate",

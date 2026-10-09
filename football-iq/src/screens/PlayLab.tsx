@@ -5,6 +5,7 @@ import { Diagram } from "../field/Diagram";
 import { loadPlaybook } from "../games/designer";
 import { CoachPanel } from "../coach/CoachPanel";
 import { coachContextFor } from "../coach/context";
+import { paywallOn, showPaywall, usePaywall } from "../paywall";
 import { useTier } from "../progress";
 import type { Formation, Play, Variant } from "../types/play";
 
@@ -15,6 +16,7 @@ interface Props {
 const VARIANTS: Variant[] = ["tackle11", "flag5"];
 
 export function PlayLab({ onBack }: Props) {
+  const pw = usePaywall();
   const [variant, setVariant] = useState<Variant>("tackle11");
   const tier = useTier();
   const custom = useMemo(() => loadPlaybook().filter((s) => s.play.variant === variant), [variant]);
@@ -80,6 +82,14 @@ export function PlayLab({ onBack }: Props) {
             <h3>{compiled.defense.name}</h3>
             <p>{compiled.defense.description}</p>
           </section>
+
+          {paywallOn() && !pw.premium && (
+            <section className="card unlock-card">
+              <h3>More plays in the full game</h3>
+              <p>The demo shows a few plays. The full game has the whole playbook, from screens to four verticals, for tackle and flag.</p>
+              <button type="button" className="btn btn-primary" onClick={() => showPaywall({ kind: "feature", title: "The full playbook" })}>Unlock the full game</button>
+            </section>
+          )}
         </>
       )}
     </main>

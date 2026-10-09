@@ -4,6 +4,9 @@
  *
  *   npm start                         (reads .env when started with --env-file=.env)
  *
+ * Football IQ: Flag and Field is sold by the same server under /football-iq/ (lib/footballIq.js),
+ * with its own purchases, cookie, and license codes. Spread Out! below is unchanged by it.
+ *
  * How entitlement works (nothing in the browser is trusted):
  *   1. "Buy now" -> POST /api/checkout -> Stripe Checkout (Stripe's page, Stripe's HTTPS).
  *   2. Stripe calls POST /api/stripe/webhook (signature-checked) -> the purchase is recorded.
@@ -22,6 +25,7 @@ const jwt = require("jsonwebtoken");
 const Stripe = require("stripe");
 const { openStore } = require("./lib/store");
 const { splitGame } = require("./lib/shell");
+const { createFootballIq, BASE: FIQ_BASE } = require("./lib/footballIq");
 const { makeCode, parseCode } = require("./lib/license");
 
 const COOKIE = "so_session";
@@ -85,12 +89,16 @@ function createApp(opts = {}) {
 
   const stripe = opts.stripe ?? new Stripe(cfg.stripeSecretKey);
   const store = opts.store ?? openStore(cfg.dbPath);
+  // Football IQ keeps its purchases in a file next to Spread Out!'s (or in memory when tests give us a store).
+  const fiqStore = opts.fiqStore ?? openStore(opts.store ? ":memory:" : path.join(path.dirname(cfg.dbPath), "football-iq.sqlite"));
   const game = splitGame(fs.readFileSync(path.join(cfg.gameDir, "index.html"), "utf8"), {
     paywall: true,
     price: cfg.priceLabel,
     demo: cfg.demo,
   });
   const secureCookie = cfg.publicUrl.startsWith("https://");
+  cfg.fiq = opts.fiq;
+  const fiq = createFootballIq({ cfg, stripe, store: fiqStore, limiter, secureCookie });
 
   // ---- session cookie helpers
   function setSession(res, purchaseId) {
@@ -156,11 +164,16 @@ function createApp(opts = {}) {
       default:
         break; // other events are fine to ignore; Stripe only needs the 200
     }
+    // Football IQ's purchases and refunds arrive on the same endpoint; it ignores Spread Out!'s and the reverse.
+    fiq.handleEvent(event);
     res.json({ received: true });
   });
 
   app.use(cookieParser());
   app.use(express.json({ limit: "10kb" }));
+
+  // ---- Football IQ, under its own path
+  app.use(FIQ_BASE, fiq.router);
 
   // ---- the game itself
   const sendShell = (req, res) => {
@@ -243,7 +256,7 @@ function createApp(opts = {}) {
     res.status(500).json({ ok: false, error: "server error" });
   });
 
-  return { app, cfg, store, stripe };
+  return { app, cfg, store, stripe, fiq, fiqStore };
 }
 
 if (require.main === module) {

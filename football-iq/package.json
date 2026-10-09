@@ -13,7 +13,10 @@
     "test": "vitest run",
     "check": "npm run typecheck && npm run validate && npm run test",
     "voice:units": "vite-node scripts/extract-voice-units.ts",
-    "voice:coverage": "node scripts/voice-coverage.mjs"
+    "voice:coverage": "node scripts/voice-coverage.mjs",
+    "build:demo": "tsc --noEmit && VITE_EDITION=demo vite build --outDir dist-demo --emptyOutDir",
+    "build:full": "tsc --noEmit && VITE_EDITION=full vite build --outDir dist-full --emptyOutDir",
+    "build:editions": "npm run build:demo && npm run build:full && node scripts/check-editions.mjs"
   },
   "dependencies": {
     "konva": "^9.3.16",
