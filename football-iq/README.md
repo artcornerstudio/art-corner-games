@@ -102,8 +102,28 @@ AI Coach's answers, use the device's own voice through the Web Speech API,
 which needs no key or account. Nothing is sent anywhere either way. The
 switch is off by default. See `voice/README.md` for how the clips are made.
 
+## Free demo and full game
+
+The game can be sold as a free demo plus a one-time unlock. `src/content/edition.json` says what is
+free: the first unit, five rounds of Spot the Position, and four sample plays. Everything else is the
+full game.
+
+```
+npm run build:editions    # builds dist-demo and dist-full, then checks the demo holds none of the paid content
+```
+
+The demo build is made without the paid lessons, situations, plays, and paid game screens (see
+`vite.edition.ts`), so there is nothing in the page to unlock. `src/paywall/` holds the unlock dialog
+and the calls to the server. The server that sells it, and how it is deployed, is described in
+[`../spread-out-server/README.md`](../spread-out-server/README.md#football-iq-on-this-server).
+`npm run build` with no edition still makes the plain, fully open game, which is what the free GitHub
+Pages copy used to be.
+
+When you add a paid lesson, nothing else is needed: units not listed in `freeUnits` are paid. Run
+`npm run voice:units` after changing lesson text so the voice list marks it paid or free.
+
 ## Content rules
 
 - Kid language: short sentences, no jargon without a one-line explanation.
 - Fictional teams only. No league, team, or player names or logos.
-- Nothing leaves the device: no analytics, no accounts, no third-party scripts.
+- No analytics, no accounts for kids, no third-party scripts. In the paid edition a grown-up's checkout email is the only personal data, and the privacy page says so.

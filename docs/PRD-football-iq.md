@@ -193,6 +193,32 @@ Decisions made 2026-09-20:
 
 Open questions: access to a test group of kids; coaches as a Phase 1 audience (Canva play cards) or Phase 2; a real team playbook to mirror.
 
+## Selling the full game (added October 2026)
+
+Football IQ is now sold the way Spread Out! is: a free demo and a one-time unlock, from the same server on the same Hostinger VPS, at `https://play.artcornerstudio.cloud/football-iq/`.
+
+**Price: $9.99, one time.** No subscription, no ads. A license code unlocks any other device; a 30-day money-back guarantee backs it. How the number was chosen:
+
+| Consideration | What it points to |
+| --- | --- |
+| Spread Out! sells at $4.99 for 4 modes and one skill. Football IQ has 9 units, 39 lessons, 195 quiz questions, 8 games, tackle and both flag formats, a play designer, a season mode, printable coach cards, and a recorded coach voice | Roughly twice the content, so roughly twice the price |
+| One-time kids' learning apps tend to sit between about $3 and $10, with the deepest ones at the top. This is my judgment from general app-store pricing, not research done for this document | $9.99 is the top of that range, not above it |
+| Parents and youth coaches compare it to a $10 book or a single practice-gear item, not to a subscription | A one-time price under $10 feels like an easy yes |
+| A first purchase is mostly a trust decision | The free demo, the 30-day refund, and the license code carry it. Price is not the barrier |
+| Teams buying for several players | Stripe promotion codes are switched on at checkout, so a coach can be given a team discount without changing the price |
+
+If sales or feedback say the price is wrong, make a new Stripe price and change the id in `spread-out-server/lib/football-iq.config.json`. Prices cannot be edited in Stripe, only replaced.
+
+**What is free (the demo).** The first unit, Field and rules (5 lessons, 25 questions); five rounds of Spot the Position; four sample plays in the Play Lab; Coach Eric's voice for those lines. Enough that a parent and a child can judge it in one sitting.
+
+**What is paid.** Units 2 to 9, the other seven games, the full playbook, Coach view and printable cards, and the voice for every paid lesson.
+
+**How it is protected.** The app is built twice. The demo build is made without the paid lessons, situations, plays, and without the paid game screens, so none of that text is in the page, and a script checks it on every build. A browser with a valid purchase is served the full build; everyone else gets the demo. The server decides, from a signed cookie that is checked against the purchase record on every request, so a refund locks every device at once. Nothing the browser says about itself is trusted.
+
+**Honest limits.** A buyer can save what they download, as with any web game. And the source of both builds is in this public repository, so a determined person can build the full game themselves. The paywall protects the convenience and the polish for the many, not the content from the few. Making the repository private would close that gap but also stops the VPS from pulling code without a key and ends free GitHub Pages hosting, so it is a decision for the owner, not a default.
+
+**Privacy.** A grown-up's checkout email is the one piece of personal information the game receives, and only on purchase. `football-iq/public/privacy.html` says exactly that, includes the refund policy, and is linked from the unlock dialog and the footer.
+
 ## Sources
 
 See the linked review doc for the full source list with links to every project, dataset, API, MCP server, library, design paper, comparable product, compliance page, and asset pack cited above.

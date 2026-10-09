@@ -80,7 +80,8 @@ export async function retireOfflineCopy(): Promise<void> {
     // Only this game's own worker. Other games on this address have their own.
     await Promise.all(regs.filter((r) => r.scope === scope).map((r) => r.unregister()));
     const names = await caches.keys();
-    await Promise.all(names.filter((n) => n.startsWith("workbox-precache") && n.includes(scope)).map((n) => caches.delete(n)));
+    // The page files, and the clip list (a stale demo list would hide a buyer's paid clips). The clips themselves stay.
+    await Promise.all(names.filter((n) => (n.startsWith("workbox-precache") && n.includes(scope)) || n === "coach-voice-list").map((n) => caches.delete(n)));
   } catch {
     /* no service worker support: nothing to retire */
   }

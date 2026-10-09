@@ -74,12 +74,23 @@ export function paidFiles(): PaidFiles {
   };
 }
 
-/** Adds "!./folder/file.json" patterns to the content globs when building the demo. */
+/** The paid screens. The demo build swaps each for an empty stand-in. */
+const PAID_SCREENS = ["BeatTheCoverage", "CallThePlay", "CoachView", "DriveSimulator", "FourthDown", "HotRead", "PlayDesigner", "PrintCards", "Season", "SharePlaybook"];
+const STUB = join(__dirname, "src", "paywall", "PaidScreenStub.tsx");
+
+/**
+ * When building the demo: leave the paid content files out of the content globs, and replace the
+ * paid screens with empty stand-ins so their game text never reaches the page.
+ */
 export function editionPlugin(edition: string): Plugin {
   const paid = edition === "demo" ? paidFiles() : null;
+  const screenImport = new RegExp(`^(\\.\\.?/)+(screens/)?(${PAID_SCREENS.join("|")})$`);
   return {
     name: "football-iq-edition",
     enforce: "pre",
+    resolveId(source) {
+      return paid && screenImport.test(source) ? STUB : null;
+    },
     transform(code, id) {
       if (!paid || !id.replace(/\\/g, "/").endsWith("/src/content/index.ts")) return null;
       let out = code;

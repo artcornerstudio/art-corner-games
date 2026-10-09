@@ -53,6 +53,19 @@ for (const name of readdirSync(lessonsDir).filter((f) => f.endsWith(".json"))) {
   }
 }
 
+// Game text that lives in the program code of the paid games. The demo build replaces those screens, so it must be gone.
+const CODE_SENTINELS = [
+  "Riverside Rockets", // Season: team names and scouting reports
+  "Two safeties deep, splitting the field in half.", // Beat the Coverage: the tells
+  "Halftime is 40 seconds away.", // Fourth-Down Decision: scenario notes
+  "Run, run, run. Power football on first and second down.", // Season: tendencies
+];
+for (const text of CODE_SENTINELS) {
+  paidChecked++;
+  if (demo.includes(text)) { console.error(`DEMO build LEAKS paid game text: ${text}`); problems++; }
+  if (!full.includes(text)) { console.error(`FULL build is missing game text: ${text}`); problems++; }
+}
+
 // Paid situations and paid plays must not be in the demo either.
 for (const dir of ["situations"]) {
   for (const name of readdirSync(join(root, "src/content", dir)).filter((f) => f.endsWith(".json"))) {

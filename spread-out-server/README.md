@@ -1,5 +1,9 @@
 # Spread Out! server: the full-game unlock
 
+> **This server also sells Football IQ: Flag and Field** at `/football-iq/`. See
+> [Football IQ on this server](#football-iq-on-this-server) at the end. Everything below
+> about Spread Out! is unchanged.
+
 This small Node.js server does three jobs:
 
 1. **Serves the game** at `/` with the premium parts cut out.
@@ -310,3 +314,59 @@ production webhook endpoint.
   with the row id, and send it to the buyer.
 - **Refund outside Stripe's dashboard:** refunds made in Stripe lock the game
   automatically through the webhook.
+
+## Football IQ on this server
+
+Football IQ: Flag and Field is sold from the same server, the same address, the same HTTPS front
+door, and the same Stripe webhook, under `/football-iq/`. The code is `lib/footballIq.js`; Spread
+Out!'s routes were not changed.
+
+| | Spread Out! | Football IQ |
+| --- | --- | --- |
+| Address | `https://play.artcornerstudio.cloud/` | `https://play.artcornerstudio.cloud/football-iq/` |
+| Price | $4.99 one time | $9.99 one time |
+| Cookie | `so_session` (path `/`) | `fiq_session` (path `/football-iq`) |
+| Purchases | `purchases.sqlite` | `football-iq.sqlite`, same disk |
+| License code | signed `spread-out-license` | signed `football-iq-license`, so a code works for one game only |
+| What the server holds back | the premium script | the whole full build, and the clips that read paid lessons |
+
+**How a request is answered.** Two builds of the app sit on disk (`/srv/football-iq/demo` and
+`/srv/football-iq/full`). A browser with a valid purchase is served the full build, everyone else
+the demo, which was built without the paid lessons, situations, plays, and paid game screens. The
+checkout, claim, restore, `me`, and logout calls work as for Spread Out!, under `/football-iq/api/`.
+The Stripe webhook at `/api/stripe/webhook` is shared: each event is filed under the game named in
+its `metadata.product`, and a refund revokes the purchase in whichever game owns it.
+
+**How it gets onto the VPS.** The live Docker project is not edited. It already downloads `main`
+on every start and runs `deploy/docker-start.sh`. That script now also starts
+`deploy/football-iq-build.sh` in the background, after Spread Out! is already running, so a build
+problem can never keep Spread Out! from starting. The build installs the tools, type checks, builds
+both editions, runs the check that the demo contains none of the paid content, and swaps the new
+build in. Until the first build finishes, `/football-iq/` says "getting ready".
+
+To deploy a change: merge to `main`, then restart the project (Docker Manager, or the Hostinger
+connector's `vps_docker_restart`). The first start after this feature lands takes a few minutes
+longer in the background; Spread Out! itself is back as quickly as before. The build log is in the
+container log and in `/data/football-iq-build.log`.
+
+**Stripe.** Same account as Spread Out! (artcornerstudio.net), the same webhook endpoint and the
+same server key, which only needs Checkout Sessions: Write.
+
+| Mode | Product | Price ($9.99 one time) |
+| --- | --- | --- |
+| Test | `prod_VPQ18UXwFxzrAx` | `price_1UObBYJMJd2TdRXlBeOz7K2c` |
+| Live | `prod_VPQ1U0ox1QdvmC` | `price_1UObBgJMJd2TdRXlrTBeYryV` |
+
+The server picks the live price when the secret key starts with `sk_live_` or `rk_live_` and the test
+price otherwise (`FIQ_PRICE_ID` overrides). To change the price, make a new price in Stripe and put
+its id in `lib/football-iq.config.json`.
+
+**Trying it without Stripe.** `node test/dev-fake-stripe.js` runs the real server on
+`http://127.0.0.1:3100` with a pretend Stripe whose checkout page is a Pay button. Point
+`FIQ_DEMO_DIR` and `FIQ_FULL_DIR` at the two builds. `football-iq/scripts/e2e-paywall.mjs` plays the
+whole purchase in a browser against it: demo locks, buying, the license code on a second device, a
+refund, and Spread Out! still working.
+
+**Before the first real sale.** Buy it once yourself with a real card, check the full game opens and
+the license code works on a second device, then refund it in the Stripe dashboard and check both
+devices lock.
