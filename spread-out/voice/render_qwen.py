@@ -150,7 +150,11 @@ def main() -> int:
         asr = WhisperModel("small.en", device="cpu", compute_type="int8")
 
     def hear(path) -> str:
-        segs, _ = asr.transcribe(str(path), language="en", beam_size=5, vad_filter=False)
+        # decode with ffmpeg ourselves (faster-whisper's own decoder breaks with newer PyAV)
+        import numpy as np
+        raw = subprocess.run([FFMPEG, "-v", "error", "-i", str(path), "-ac", "1", "-ar", "16000", "-f", "f32le", "-"],
+                             capture_output=True, check=True).stdout
+        segs, _ = asr.transcribe(np.frombuffer(raw, dtype=np.float32), language="en", beam_size=5, vad_filter=False)
         return " ".join(s.text for s in segs).strip()
 
     report = []
