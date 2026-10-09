@@ -1,13 +1,15 @@
 name: Deploy to GitHub Pages
 
-# Publishes the shared games site from main: the Football IQ app at the
-# site root, and a Spread Out! landing page at /spread-out/ that points to
-# the game at play.artcornerstudio.cloud. Enable Pages with source "GitHub Actions" in the
+# Publishes the shared games site from main: a Football IQ landing page at the
+# site root and a Spread Out! landing page at /spread-out/. Both point to the games,
+# which are sold and played at play.artcornerstudio.cloud (the free full copy of
+# Football IQ that used to live here is gone; the landing page's sw.js clears it from
+# devices that saved it). Enable Pages with source "GitHub Actions" in the
 # repository settings for this to go live.
 on:
   push:
     branches: [main]
-    paths: ["football-iq/**", "spread-out/**", "spread-out-pages/**", ".github/workflows/deploy-pages.yml"]
+    paths: ["football-iq/**", "football-iq-pages/**", "spread-out/**", "spread-out-pages/**", ".github/workflows/deploy-pages.yml"]
   workflow_dispatch:
 
 permissions:
@@ -27,15 +29,13 @@ jobs:
         working-directory: football-iq
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-          cache-dependency-path: football-iq/package-lock.json
-      - run: npm ci
-      - run: npm run build
-        env:
-          VITE_BASE: /${{ github.event.repository.name }}/
+      - name: Football IQ landing page (the game itself is at play.artcornerstudio.cloud/football-iq/)
+        # dist is just a folder to assemble the site in; nothing is built or bundled.
+        run: |
+          mkdir -p dist/art dist/icons dist/spread-out
+          cp ../football-iq-pages/index.html ../football-iq-pages/sw.js public/privacy.html public/favicon.svg dist/
+          cp public/art/mascot.png dist/art/
+          cp public/icons/icon-192.png dist/icons/
       - name: Add the Spread Out! landing page (served at /spread-out/)
         # The game itself is sold and played at play.artcornerstudio.cloud
         # (spread-out-server/). This address only shows a page pointing there,
