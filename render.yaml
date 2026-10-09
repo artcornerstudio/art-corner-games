@@ -1,0 +1,35 @@
+# Render blueprint for the Spread Out! server (the paid copy of the game).
+# On render.com: New -> Blueprint -> pick this repository -> Apply. Render reads
+# this file, creates the web service with a 1 GB disk for the purchase database,
+# generates JWT_SECRET, and asks for the two Stripe secrets.
+services:
+  - type: web
+    name: spread-out-game
+    runtime: node
+    rootDir: spread-out-server
+    plan: starter            # disks need a paid plan; starter is the smallest
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/me
+    autoDeploy: true         # redeploys when main changes
+    disk:
+      name: purchases
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NODE_ENV
+        value: production
+      - key: DB_PATH
+        value: /data/purchases.sqlite
+      - key: PRICE_LABEL
+        value: $4.99
+      - key: STRIPE_PRICE_ID
+        value: price_1UORF3JMJd2TdRXlcf6CpEbm   # test-mode price; swap for the live one when going live
+      - key: JWT_SECRET
+        generateValue: true  # Render makes a long random value
+      - key: STRIPE_SECRET_KEY
+        sync: false          # you paste this at deploy time (Dashboard -> Developers -> API keys)
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false          # you paste this at deploy time (Dashboard -> Developers -> Webhooks -> the endpoint)
