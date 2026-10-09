@@ -958,6 +958,7 @@ const paywall={
     try{ const r=await fetch('api/me',{credentials:'same-origin',cache:'no-store'}); const j=await r.json(); this.premium=!!j.premium; }
     catch(e){ this.premium=false; }
     if(this.premium){ try{ await this.loadPremium(); }catch(e){ this.premium=false; } }
+    if(this.premium) voice.loadManifest();          // returning buyers: fetch Coach Eric's clip list now, before the first line is spoken
     this.render();
   },
   loadPremium(){                                     // the premium modes arrive only with a valid cookie
