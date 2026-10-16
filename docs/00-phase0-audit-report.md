@@ -21,17 +21,20 @@ Environment: **Claude Code, remote (cloud) session** on claude.ai/code. This is 
 | Document generation (docx/xlsx/pptx/pdf) | **LIVE** | Available to any agent session for deliverable packaging |
 | Google Drive (read/write) | **LIVE (connected)** | Available as asset/document store if Jean chooses it |
 | Scheduled sessions (Routines / triggers) | **READY FOR APPROVAL** | Can schedule recurring digest-compilation sessions; Jean should approve cadence before enabling |
-| Email sending / inbox | **NEEDS CONNECTION** | No email connector attached. All email work is DRAFT-only until connected |
+| Email sending / inbox | **LIVE (connected 2026-10-16)** | Gmail connector verified (read + draft + send tools). Sends remain Jean-gated per the Authority Matrix; approved items become Gmail drafts or gated sends |
 | Calendar / scheduling | **NEEDS CONNECTION** | Scheduling agents PREPARE bookings; Jean or a connected calendar confirms |
-| CRM / customer database | **NEEDS CONNECTION** | Interim ledger: version-controlled files in `/ops` convention (spec in Customer Relations agent) |
-| Social media posting | **NEEDS CONNECTION** | Content agents DRAFT and queue; publishing is manual until connected |
+| CRM / customer database | **NEEDS CONNECTION** | Interim ledger: version-controlled files in `/ops` convention (spec in Customer Relations agent). Apollo.io connector is attached (sales-CRM tooling) — adoption is Jean's call |
+| Social media posting | **LIVE (connected 2026-10-16)** | Metricool connector attached (scheduling + analytics). Publishing stays Jean-gated per item until a Tier-4 policy exists |
 | E-commerce platform (listings, inventory) | **NEEDS CONNECTION** | Listing packages prepared as files |
-| Website (artcorner.net on Hostinger) deployment | **NEEDS CONNECTION** | Copy prepared as files; Jean publishes |
+| Website (artcorner.net on Hostinger) deployment | **LIVE (connected 2026-10-16)** | Hostinger connector attached. Site changes remain Jean-gated (external publish) |
 | Payments / spending | **BLOCKED (by policy)** | Never automated; Jean-only |
 | Always-on background multi-agent runtime | **DESIGN-ONLY** | Agents here are complete, portable operating prompts activated per session (Claude Code, Projects, or Cowork). No fake background automation is claimed. |
 | Credential storage | **PROHIBITED** | No raw passwords requested or stored, ever |
 
 **Honesty statement:** nothing in this package silently sends, publishes, spends, or commits externally. Every agent is a complete, portable system prompt plus SOPs; where a connector is missing, the portable specification exists anyway so it can go live the day the connection is made.
+
+### Connector update — 2026-10-16
+Jean connected additional services: **Gmail** (verified live, read-only check), **Hostinger** (artcorner.net host), **Metricool** (social scheduling), **Apollo.io** (sales/CRM), **OpenArt** and **HeyGen HyperFrames** (AI image/video generation), **Indeed**, **Claude Docs**. Two governance notes: (1) a connection changes *capability*, never *authority* — all external sends/publishes/site changes remain gated until Jean grants written Tier-4 policies; (2) the AI image/video connectors are bound by the brand rule that agent-generated imagery is never presented as Jean's hand, and AI-assisted children's content remains PROPOSED under full Safety governance.
 
 ## 3. Knowledge Capsule reconciliation
 
