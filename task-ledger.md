@@ -34,6 +34,10 @@ Maintained across all build phases. Status values: DONE, IN PROGRESS, PENDING, B
 | 7.2 | Ops | First inbox triage (artcorner101@gmail.com) | DONE | 0 open customer inquiries in past year; 8 threads labeled (4 security, 2 decisions, 2 relationships); 0 drafts; nothing sent |
 | 7.3 | Ops | Locate the real business inbox | AWAITING JEAN | Sent mail forwards to jeanesther@artcorner.net — likely where inquiries arrive |
 
+| 7.4 | Ops | Website audit (Hostinger, read-only) | DONE | `docs/09-website-audit-2026-10-16.md`; page copy not reviewable from this environment |
+| 7.5 | Ops | 10th & Green reconnection email | DONE (draft) | Gmail draft for Jean; NOT sent (external-send gate) |
+| 7.6 | Ops | Truth Ledger corrections L1–L3 (domain, live game, The Way URL) | AWAITING JEAN | Proposed in `docs/09` §3; ledger untouched |
+
 ## Items awaiting Jean (not blockers to the build)
 - Approve pricing matrix inputs (UNKNOWN — never fabricated; catalog ships with placeholder rules requiring his numbers).
 - Approve first live workflows for pilot (recommendations in README).
