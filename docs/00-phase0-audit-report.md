@@ -21,7 +21,7 @@ Environment: **Claude Code, remote (cloud) session** on claude.ai/code. This is 
 | Document generation (docx/xlsx/pptx/pdf) | **LIVE** | Available to any agent session for deliverable packaging |
 | Google Drive (read/write) | **LIVE (connected)** | Available as asset/document store if Jean chooses it |
 | Scheduled sessions (Routines / triggers) | **READY FOR APPROVAL** | Can schedule recurring digest-compilation sessions; Jean should approve cadence before enabling |
-| Email sending / inbox | **LIVE (connected 2026-10-16)** | Gmail connector verified (read + draft + send tools). Sends remain Jean-gated per the Authority Matrix; approved items become Gmail drafts or gated sends |
+| Email sending / inbox | **LIVE (connected 2026-10-16)** | Business address: jeanesther@artcornerstudio.net (Hostinger Mail), forwarded into artcorner101@gmail.com, where the Gmail connector reads it. Gmail connector verified (read + draft + send tools). Sends remain Jean-gated per the Authority Matrix; approved items become Gmail drafts or gated sends |
 | Calendar / scheduling | **NEEDS CONNECTION** | Scheduling agents PREPARE bookings; Jean or a connected calendar confirms |
 | CRM / customer database | **NEEDS CONNECTION** | Interim ledger: version-controlled files in `/ops` convention (spec in Customer Relations agent). Apollo.io connector is attached (sales-CRM tooling) — adoption is Jean's call |
 | Social media posting | **LIVE (connected 2026-10-16)** | Metricool connector attached (scheduling + analytics). Publishing stays Jean-gated per item until a Tier-4 policy exists |
