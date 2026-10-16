@@ -45,7 +45,7 @@ The operating constitution of the ArtCorner Agent Organization. Every agent prom
 
 | Date | Agent | Authorized action | Bounds | Reversible? | Review |
 |---|---|---|---|---|---|
-| — | — | *(none yet — everything external is PREPARE until Jean grants policies)* | | | |
+| 2026-10-16 | Customer Relations (11) | Read the artcorner101@gmail.com inbox and apply `ArtCorner/*` Gmail labels for triage (granted by Jean: "Start the inbox triage!") | Read + label only. No sending, replying, archiving, deleting, mark-read, or spam actions. Message contents and customer details never written to the repo | Yes (labels removable) | After first 30 days |
 
 Recommended first grants (Jean's call): (a) Customer Relations may auto-send the approved inquiry-acknowledgment template within 1 business day; (b) Asset Manager may organize internal files per its SOP; (c) Orchestrator may compile and deliver the daily digest.
 

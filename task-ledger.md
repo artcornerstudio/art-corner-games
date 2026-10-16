@@ -30,6 +30,10 @@ Maintained across all build phases. Status values: DONE, IN PROGRESS, PENDING, B
 | 6.3 | 6 | Pilot recommendations + decisions for Jean | DONE | README §"First live workflows" + decision digest |
 | 6.4 | 6 | Commit and push build package | DONE | Pushed to `claude/artcorner-ai-agents-b1pzx8` |
 
+| 7.1 | Ops | Gmail connected and verified | DONE | 2026-10-16; audit `docs/00` updated |
+| 7.2 | Ops | First inbox triage (artcorner101@gmail.com) | DONE | 0 open customer inquiries in past year; 8 threads labeled (4 security, 2 decisions, 2 relationships); 0 drafts; nothing sent |
+| 7.3 | Ops | Locate the real business inbox | AWAITING JEAN | Sent mail forwards to jeanesther@artcorner.net — likely where inquiries arrive |
+
 ## Items awaiting Jean (not blockers to the build)
 - Approve pricing matrix inputs (UNKNOWN — never fabricated; catalog ships with placeholder rules requiring his numbers).
 - Approve first live workflows for pilot (recommendations in README).
