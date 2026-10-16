@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ArtCorner Contact Page</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --ground:#F4F5F7; --surface:#FFFFFF; --ink:#1B2130; --ink2:#566074; --line:#D8DCE3;
+    --accent:#0E6B6B; --accent-ink:#FFFFFF; --mark:#F2B632; --mark-soft:#FBEBC4;
+    --draft:#7A4E00; --draft-soft:#FBEBC4;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#13171F; --surface:#1C222D; --ink:#E9ECF1; --ink2:#9AA3B3; --line:#313949;
+      --accent:#4FC2BE; --accent-ink:#082222; --mark:#F2B632; --mark-soft:#3A2F14;
+      --draft:#F2C25E; --draft-soft:#3A2F14;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#13171F; --surface:#1C222D; --ink:#E9ECF1; --ink2:#9AA3B3; --line:#313949;
+    --accent:#4FC2BE; --accent-ink:#082222; --mark:#F2B632; --mark-soft:#3A2F14;
+    --draft:#F2C25E; --draft-soft:#3A2F14;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:'Instrument Sans',system-ui,sans-serif;font-size:16px;line-height:1.6}
+  .banner{background:var(--draft-soft);color:var(--draft);font-size:.82rem;font-weight:600;text-align:center;padding:8px 16px;letter-spacing:.02em}
+  nav{display:flex;align-items:center;gap:20px;max-width:1040px;margin:0 auto;padding:18px 16px;flex-wrap:wrap}
+  .logo{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.25rem;letter-spacing:-.01em}
+  nav .links{margin-left:auto;display:flex;gap:18px;align-items:center;font-size:.92rem;color:var(--ink2);flex-wrap:wrap}
+  .btn{display:inline-block;background:var(--accent);color:var(--accent-ink);border:0;border-radius:6px;padding:10px 18px;font:600 .95rem 'Instrument Sans',sans-serif;text-decoration:none;cursor:pointer}
+  .btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  main{max-width:1040px;margin:0 auto;padding:24px 16px 72px}
+  .hero{display:grid;gap:16px;padding:40px 0 32px;max-width:720px}
+  h1{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(2.2rem,6vw,3.6rem);line-height:1.02;letter-spacing:-.025em;margin:0;text-wrap:balance}
+  h1 .under{background:linear-gradient(transparent 62%,var(--mark-soft) 62%)}
+  .lede{font-size:1.15rem;color:var(--ink2);margin:0;max-width:62ch}
+  .direct{font-size:1rem;margin:0}
+  .direct a{color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+  h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1.5rem;letter-spacing:-.01em;margin:0 0 16px;text-wrap:balance}
+  .ways{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:24px 0 56px}
+  .way{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px}
+  .way h3{font-family:'Bricolage Grotesque',sans-serif;font-size:1.15rem;margin:0 0 6px}
+  .way p{margin:0;color:var(--ink2);font-size:.95rem}
+  .split{display:grid;grid-template-columns:1fr 1.4fr;gap:40px;align-items:start}
+  @media (max-width:760px){.split{grid-template-columns:1fr}}
+  ol.steps{list-style:none;margin:0;padding:0;display:grid;gap:18px;counter-reset:s}
+  ol.steps li{counter-increment:s;display:grid;grid-template-columns:36px 1fr;gap:12px}
+  ol.steps li::before{content:counter(s);width:32px;height:32px;border-radius:50%;background:var(--mark);color:#1B2130;font:700 .95rem 'Bricolage Grotesque',sans-serif;display:grid;place-items:center}
+  ol.steps b{display:block}
+  ol.steps span{color:var(--ink2);font-size:.95rem}
+  form{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px;display:grid;gap:16px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media (max-width:520px){.row{grid-template-columns:1fr}}
+  label{display:grid;gap:6px;font-weight:600;font-size:.9rem}
+  label small{font-weight:400;color:var(--ink2)}
+  input,select,textarea{font:inherit;font-size:.95rem;color:var(--ink);background:var(--ground);border:1px solid var(--line);border-radius:6px;padding:10px 12px;width:100%}
+  textarea{min-height:120px;resize:vertical}
+  .req{color:var(--accent)}
+  .fine{font-size:.82rem;color:var(--ink2);margin:0}
+  .sent{display:none;background:var(--mark-soft);border-radius:8px;padding:14px;font-weight:600}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="banner">Draft preview of the Contact page. Build it in Hostinger Website Builder with your theme. The form here doesn't send.</div>
+
+<nav>
+  <span class="logo">ArtCorner</span>
+  <span class="links"><span>Murals</span><span>Classes</span><span>Shop</span><a class="btn" href="#form">Contact / Book</a></span>
+</nav>
+
+<main>
+  <section class="hero">
+    <h1>Let's make <span class="under">something together</span></h1>
+    <p class="lede">Whether you're picturing a mural for a blank wall, a portrait of someone you love, or a class for a curious young artist, it starts with a message. Jean Esther reads every inquiry personally and will reply with next steps.</p>
+    <p class="direct">Prefer email? Write to <a href="mailto:jeanesther@artcornerstudio.net">jeanesther@artcornerstudio.net</a><br>Studio in Antietam, PA, serving Reading and Berks County.</p>
+  </section>
+
+  <section class="ways" aria-label="Ways we work">
+    <div class="way"><h3>Create and Learn</h3><p>Private lessons, senior classes, art parties, workshops, and caricatures at your event.</p></div>
+    <div class="way"><h3>Transform a Place</h3><p>Custom murals, public art, microcement walls, and projection mapping for homes, businesses, and communities.</p></div>
+    <div class="way"><h3>Build an Artist Life</h3><p>Consulting and artist development for emerging and established artists, rooted in <i>How to Be a Successful Artist</i>.</p></div>
+  </section>
+
+  <section class="split">
+    <div>
+      <h2>What happens next</h2>
+      <ol class="steps">
+        <li><div><b>We read your message.</b><span>Every inquiry goes to Jean.</span></div></li>
+        <li><div><b>We ask what we need to know.</b><span>For a mural that's usually wall size, surface, and a few photos; for a class, the student's age group and experience.</span></div></li>
+        <li><div><b>Jean proposes a plan.</b><span>You'll get a clear scope and quote before anything is scheduled.</span></div></li>
+      </ol>
+    </div>
+
+    <form id="form" onsubmit="event.preventDefault();document.querySelector('.sent').style.display='block';">
+      <h2 style="margin:0">Tell us about your project</h2>
+      <div class="row">
+        <label>Your name <span class="req" aria-hidden="true">*</span><input required autocomplete="name"></label>
+        <label>Email <span class="req" aria-hidden="true">*</span><input type="email" required autocomplete="email"></label>
+      </div>
+      <div class="row">
+        <label>Phone <small>Only if you'd like a call back</small><input type="tel" autocomplete="tel"></label>
+        <label>What can we help with? <span class="req" aria-hidden="true">*</span>
+          <select required>
+            <option value="">Choose one</option>
+            <option>Mural or wall art</option>
+            <option>Commission (portrait, logo, fine art, pinstriping, sculpture)</option>
+            <option>Classes or private lessons</option>
+            <option>School or youth program</option>
+            <option>Art party, workshop, or event</option>
+            <option>Consulting or artist development</option>
+            <option>Books, The Way, or Meta Sabian</option>
+            <option>Something else</option>
+          </select>
+        </label>
+      </div>
+      <div class="row">
+        <label>Where? <small>Town, venue, or address of the wall</small><input></label>
+        <label>When are you hoping for this? <small>A date, a season, or "flexible"</small><input></label>
+      </div>
+      <label>Tell us about your project <span class="req" aria-hidden="true">*</span>
+        <small>Murals: wall size, surface, inside or outside. Classes: age group and experience. Events: date, number of guests, and ages.</small>
+        <textarea required></textarea>
+      </label>
+      <label>How did you hear about us?<input></label>
+      <button class="btn" type="submit">Send to Jean</button>
+      <p class="sent" role="status">Thank you — your message is on its way to Jean. Watch your inbox (and spam folder) for a reply.</p>
+      <p class="fine">We use your details only to reply to this inquiry and never share them. If your request involves children, please have a parent, guardian, or school staff member send it.</p>
+    </form>
+  </section>
+</main>
+</body>
+</html>
