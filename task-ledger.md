@@ -31,7 +31,7 @@ Maintained across all build phases. Status values: DONE, IN PROGRESS, PENDING, B
 | 6.4 | 6 | Commit and push build package | DONE | Pushed to `claude/artcorner-ai-agents-b1pzx8` |
 | 7.1 | Ops | Gmail connected and verified | DONE | 2026-10-16; audit `docs/00` updated |
 | 7.2 | Ops | First inbox triage (artcorner101@gmail.com) | DONE | 0 open customer inquiries in past year; 8 threads labeled (4 security, 2 decisions, 2 relationships); 0 drafts; nothing sent |
-| 7.3 | Ops | Locate the real business inbox | DONE | Business email is jeanesther@artcornerstudio.net (Hostinger Mail, 1 seat). Forwarder to artcorner101@gmail.com created 2026-10-16 (keeps copy) — active once Jean clicks Hostinger's confirmation link |
+| 7.3 | Ops | Locate the real business inbox | DONE | Business email is jeanesther@artcornerstudio.net (Hostinger Mail, 1 seat). Forwarder to artcorner101@gmail.com created 2026-10-16 (keeps copy) — confirmed and verified end-to-end 2026-10-17 (test inquiry arrived in Hostinger, forwarded to Gmail, labeled ArtCorner/Business Inbox) |
 | 7.4 | Ops | Website audit (Hostinger, read-only) | DONE | `docs/09-website-audit-2026-10-16.md`; page copy not reviewable from this environment |
 | 7.5 | Ops | 10th & Green reconnection email | DONE (draft) | Gmail draft for Jean; NOT sent (external-send gate) |
 | 7.6 | Ops | Truth Ledger corrections L1–L3 (domain, live game, The Way URL) | AWAITING JEAN | Proposed in `docs/09` §3; ledger untouched |
