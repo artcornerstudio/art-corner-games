@@ -54,6 +54,31 @@ PROPOSED (not sellable, research only): ArtCorner Arcade, AI-assisted children's
 - **Payment:** paid at the lesson — before or after class, same day. No deposit.
 - **Cancellation:** students cancel at least **30 minutes before class**. A later cancellation or a no-show is charged **half the lesson rate**.
 
+### S1 — Murals & Public Art (rules approved by Jean 2026-10-17; rates awaiting)
+
+Benchmark research (reference only, not rates): `docs/research/mural-pricing-benchmarks-2026-10.md`.
+
+| Item | Unit | Rate |
+|---|---|---|
+| Painting, simple design (color-blocking) | per sq ft | `[AWAITING JEAN]` |
+| Painting, detailed illustration or lettering | per sq ft | `[AWAITING JEAN]` |
+| Painting, photorealism or portraiture | per sq ft | `[AWAITING JEAN]` |
+| Outdoor wall premium | added per sq ft | `[AWAITING JEAN]` |
+| Minimum project price | per project | `[AWAITING JEAN]` |
+| Design fee | flat | `[AWAITING JEAN]` |
+| Extra revisions | per hour | `[AWAITING JEAN]` |
+| Free travel radius | miles from studio | `[AWAITING JEAN]` |
+| Municipal / public-art / grant-funded | per project | Quoted per project; Jean approves line by line |
+
+**Mural terms (approved by Jean, 2026-10-17)**
+- **Design fee** is billed separately from painting and is owed even if the client does not proceed to painting.
+- **Revisions:** 2 rounds of minor revisions included in the design fee; further rounds or major conceptual changes billed at the extra-revision hourly rate.
+- **Materials:** standard paint and sundries included in the per-sq-ft rate. Specialty items (metallic paint, gold leaf, anti-graffiti clear coat) billed as separate line items at cost.
+- **Equipment:** scaffolding and lifts billed to the client at cost.
+- **Wall prep** (cleaning, patching, scraping, priming) billed extra; the client may instead prep the wall to Jean's written specifications.
+- **Travel:** free within the travel radius; beyond it, round-trip mileage at the **current-year IRS rate** (look up at quote time; never assume). Lodging billed if the site is more than 90 minutes' drive each way.
+- **Payment:** projects up to $3,000 — 50% before work begins, 50% on completion. Projects over $3,000 — 33% non-refundable deposit to book and start design, 33% on the first on-site painting day, 34% on completion and final walkthrough.
+
 ### All other service families (S1, S2, S4–S9)
 
 | Service | Unit | Base rate | Cost pass-throughs | Deposit | Terms |
