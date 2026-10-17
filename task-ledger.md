@@ -37,6 +37,7 @@ Maintained across all build phases. Status values: DONE, IN PROGRESS, PENDING, B
 | 7.6 | Ops | Truth Ledger corrections L1–L3 (domain, live game, The Way URL) | AWAITING JEAN | Proposed in `docs/09` §3; ledger untouched |
 | 7.9 | Ops | Disconnect jeanesther@ from agents | DONE | Forwarder deleted 2026-10-17 at Jean's request; jeanesther@ is Jean's private mailbox. Mail already forwarded stays in Gmail |
 | 7.10 | Ops | S3 class pricing & terms | DONE | Set by Jean 2026-10-17 in `docs/02` §3; group classes not offered yet |
+| 7.11 | Ops | S1 mural pricing & terms | DONE | Set by Jean 2026-10-17 in `docs/02` §3 |
 | 7.8 | Ops | Customer inbox hello@artcornerstudio.net | DONE | Created by Jean 2026-10-17 (2nd seat). Forwarder confirmed; verified end-to-end 2026-10-17 (test to hello@ arrived in Gmail, labeled ArtCorner/Customer Inbox (hello@)); contact page draft now uses hello@ |
 | 7.7 | Ops | Contact / Book page draft | DONE (draft) | `website/contact-page-draft.md` + preview; awaiting Jean to build in Website Builder (external-publish gate) |
 

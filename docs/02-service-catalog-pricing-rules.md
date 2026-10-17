@@ -1,6 +1,6 @@
 # ArtCorner Service/Product Catalog & Pricing Rules
 
-Status: **PARTIALLY POPULATED** — S3 class rates and terms set by Jean 2026-10-17 (complete; group classes not offered yet); all other prices AWAITING JEAN and never invented.
+Status: **PARTIALLY POPULATED** — S3 classes and S1 murals set by Jean 2026-10-17 (group classes not offered yet); all other prices AWAITING JEAN and never invented.
 
 ## 1. Active service catalog
 
@@ -54,20 +54,20 @@ PROPOSED (not sellable, research only): ArtCorner Arcade, AI-assisted children's
 - **Payment:** paid at the lesson — before or after class, same day. No deposit.
 - **Cancellation:** students cancel at least **30 minutes before class**. A later cancellation or a no-show is charged **half the lesson rate**.
 
-### S1 — Murals & Public Art (rules approved by Jean 2026-10-17; rates awaiting)
+### S1 — Murals & Public Art (rates and terms set by Jean, 2026-10-17)
 
 Benchmark research (reference only, not rates): `docs/research/mural-pricing-benchmarks-2026-10.md`.
 
 | Item | Unit | Rate |
 |---|---|---|
-| Painting, simple design (color-blocking) | per sq ft | `[AWAITING JEAN]` |
-| Painting, detailed illustration or lettering | per sq ft | `[AWAITING JEAN]` |
-| Painting, photorealism or portraiture | per sq ft | `[AWAITING JEAN]` |
-| Outdoor wall premium | added per sq ft | `[AWAITING JEAN]` |
-| Minimum project price | per project | `[AWAITING JEAN]` |
-| Design fee | flat | `[AWAITING JEAN]` |
-| Extra revisions | per hour | `[AWAITING JEAN]` |
-| Free travel radius | miles from studio | `[AWAITING JEAN]` |
+| Painting, simple design (color-blocking) | per sq ft | **$11.00** |
+| Painting, detailed illustration or lettering | per sq ft | **$20.00** |
+| Painting, photorealism or portraiture | per sq ft | **$45.00** |
+| Outdoor wall premium | added per sq ft | **+$5.00** |
+| Minimum project price | per project | **$800.00** |
+| Design fee | flat | **$250.00** |
+| Extra revisions | per hour | **$45.00** |
+| Free travel radius | miles from studio | **25 miles** |
 | Municipal / public-art / grant-funded | per project | Quoted per project; Jean approves line by line |
 
 **Mural terms (approved by Jean, 2026-10-17)**
