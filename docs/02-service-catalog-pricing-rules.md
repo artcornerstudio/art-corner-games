@@ -1,6 +1,6 @@
 # ArtCorner Service/Product Catalog & Pricing Rules
 
-Status: **READY FOR APPROVAL** (catalog structure live; all prices AWAITING JEAN — pricing is UNKNOWN in the Truth Ledger and is never invented).
+Status: **PARTIALLY POPULATED** — private-lesson rates set by Jean 2026-10-17; all other prices AWAITING JEAN and never invented.
 
 ## 1. Active service catalog
 
@@ -33,8 +33,21 @@ PROPOSED (not sellable, research only): ArtCorner Arcade, AI-assisted children's
 
 ## 3. Approved pricing matrix
 
-> **[AWAITING JEAN — intentionally empty]**
-> This section is the only place prices may live. Jean populates rates per service family (unit, base rate, cost pass-throughs, deposit %, terms). Until then, every quote is PREPARE-tier and blocked from sending.
+> This section is the only place prices may live. Every number below was supplied by Jean directly; nothing was estimated. Rows or cells marked `[AWAITING JEAN]` block any quote that needs them.
+
+### S3 — Instruction & Education (set by Jean, 2026-10-17)
+
+| Service | Student | Unit | Rate | Materials | Packages | Deposit / payment | Cancellation |
+|---|---|---|---|---|---|---|---|
+| Private art lesson | Children | 1 session, 1 hr 30 min | **$35.00** | Not included `[AWAITING JEAN: student brings own, or a fee?]` | None yet | `[AWAITING JEAN]` | `[AWAITING JEAN]` |
+| Private art lesson | Teens | 1 session, 1 hr 30 min | **$35.00** | Not included (as above) | None yet | `[AWAITING JEAN]` | `[AWAITING JEAN]` |
+| Private art lesson | Adults | 1 session, 1 hr 30 min | **$40.00** | Not included (as above) | None yet | `[AWAITING JEAN]` | `[AWAITING JEAN]` |
+| Private art lesson | Seniors | 1 session, 1 hr 30 min | `[AWAITING JEAN]` | | | | |
+| Group classes (kids / teens / adults) | | `[AWAITING JEAN]` | `[AWAITING JEAN]` | | | | |
+| Senior classes | | `[AWAITING JEAN]` | `[AWAITING JEAN]` | | | | |
+| School / youth programs | | Per program | Quoted per program; Jean approves line by line | | | | |
+
+### All other service families (S1, S2, S4–S9)
 
 | Service | Unit | Base rate | Cost pass-throughs | Deposit | Terms |
 |---|---|---|---|---|---|
