@@ -87,6 +87,19 @@ Benchmark research (reference only, not rates): `docs/research/mural-pricing-ben
 
 ## 4. Capacity rules
 
-- Jean's production hours are the scarce resource. Finance & Capacity maintains a simple weekly capacity ledger (hours committed vs. available, set by Jean; default assumption: **unknown until Jean states it** — agents must not assume availability).
+### Jean's bookable hours (set by Jean, 2026-10-17)
+
+| Days | Window | Hours |
+|---|---|---|
+| Monday–Friday | 5:30 pm – 7:00 pm | 1.5 hr × 5 = 7.5 hr |
+| Saturday–Sunday | 11:00 am – 12:30 pm | 1.5 hr × 2 = 3 hr |
+| **Weekly total available** | | **10.5 hr** |
+
+- **Weekly booking cap:** 12 hours (Jean). Because the windows total 10.5 hours, the windows are the binding limit.
+- **Never book outside these windows** (Jean: "don't book off hours"). No agent may propose, hold, or confirm any time outside them. Work that cannot fit (e.g., multi-day mural painting, events, on-site senior-home sessions at the venue's preferred time) is routed to Jean as a scheduling exception in the digest — never squeezed in or pre-offered.
+- Each window fits exactly one 1 hr 30 min lesson → **7 lesson slots per week** maximum.
+
+
+- Jean's production hours are the scarce resource. Finance & Capacity maintains a simple weekly capacity ledger (hours committed vs. the windows above; agents never assume availability beyond them).
 - No agent may commit delivery dates. Dates are proposed from the capacity ledger and confirmed only by Jean or a Jean-approved policy.
 - Over-capacity qualified leads are not declined by agents — they are queued with a recommendation (waitlist / refer / decline) for Jean.
