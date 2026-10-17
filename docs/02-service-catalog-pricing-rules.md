@@ -1,6 +1,6 @@
 # ArtCorner Service/Product Catalog & Pricing Rules
 
-Status: **PARTIALLY POPULATED** — private-lesson rates set by Jean 2026-10-17; all other prices AWAITING JEAN and never invented.
+Status: **PARTIALLY POPULATED** — private-lesson and senior-class rates set by Jean 2026-10-17; all other prices AWAITING JEAN and never invented.
 
 ## 1. Active service catalog
 
@@ -44,7 +44,8 @@ PROPOSED (not sellable, research only): ArtCorner Arcade, AI-assisted children's
 | Private art lesson | Adults | 1 session, 1 hr 30 min | **$40.00** | Not included (as above) | None yet | `[AWAITING JEAN]` | `[AWAITING JEAN]` |
 | Private art lesson | Seniors | 1 session, 1 hr 30 min | `[AWAITING JEAN]` | | | | |
 | Group classes (kids / teens / adults) | | `[AWAITING JEAN]` | `[AWAITING JEAN]` | | | | |
-| Senior classes | | `[AWAITING JEAN]` | `[AWAITING JEAN]` | | | | |
+| Senior classes (group format) | Seniors | Per person, per class (length `[AWAITING JEAN]`) | **$20.00** — this *is* the senior discount rate (Jean, 2026-10-17) | `[AWAITING JEAN]` | | `[AWAITING JEAN]` | `[AWAITING JEAN]` |
+| Senior classes on-site (senior home, small group) | Seniors | Per session, paid by the venue | `[AWAITING JEAN]` — max group size, materials, and travel also awaiting | | | | |
 | School / youth programs | | Per program | Quoted per program; Jean approves line by line | | | | |
 
 ### All other service families (S1, S2, S4–S9)
