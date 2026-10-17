@@ -1,6 +1,6 @@
 # ArtCorner Service/Product Catalog & Pricing Rules
 
-Status: **PARTIALLY POPULATED** — S3 class rates and terms set by Jean 2026-10-17 (group classes pending); all other prices AWAITING JEAN and never invented.
+Status: **PARTIALLY POPULATED** — S3 class rates and terms set by Jean 2026-10-17 (complete; group classes not offered yet); all other prices AWAITING JEAN and never invented.
 
 ## 1. Active service catalog
 
@@ -44,15 +44,15 @@ PROPOSED (not sellable, research only): ArtCorner Arcade, AI-assisted children's
 | Private art lesson | Adults | 1 session, 1 hr 30 min | **$40.00** | |
 | Private art lesson | Seniors | 1 session, 1 hr 30 min | **$35.00** | $5 senior discount off the adult rate |
 | Senior group class (studio) | Seniors | Per person, per class, 1 hr 30 min | **$20.00** | This is the senior discount rate |
-| Senior class on-site (senior home) | Seniors, max **8** | Per session, paid by the venue | **$100.00** | Travel charge `[AWAITING JEAN]` |
-| Group classes (kids / teens / adults) | | `[AWAITING JEAN]` | `[AWAITING JEAN]` | |
+| Senior class on-site (senior home) | Seniors, max **8** | Per session, paid by the venue | **$100.00** | Travel included |
+| Group classes (kids / teens / adults) | | — | — | **Not offered yet** (Jean, 2026-10-17). Do not quote or advertise; log demand for the Offering Architect |
 | School / youth programs | | Per program | Quoted per program | Jean approves every quote line by line |
 
 **Terms for all classes (Jean, 2026-10-17)**
 - **Materials:** students bring their own. Not included in any rate.
 - **Packages:** none yet.
 - **Payment:** paid at the lesson — before or after class, same day. No deposit.
-- **Cancellation:** students cancel at least **30 minutes before class**. What happens on a later cancellation or no-show: `[AWAITING JEAN]`.
+- **Cancellation:** students cancel at least **30 minutes before class**. A later cancellation or a no-show is charged **half the lesson rate**.
 
 ### All other service families (S1, S2, S4–S9)
 
