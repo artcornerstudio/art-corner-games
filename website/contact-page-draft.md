@@ -12,8 +12,8 @@ Rules this draft follows: no prices (pricing matrix is empty), no response-time 
 1. **Pages → Add page → Blank** — name it `Contact`, URL `/contact`.
 2. Add a **"Contact / Book" button** to the site header (navigation) linking to `/contact`. Also add one at the bottom of the homepage.
 3. Add the sections below in order. Use your existing theme's fonts and colors.
-4. Add a **Contact form** element; in its settings, set **"Send submissions to": `jeanesther@artcornerstudio.net`**.
-5. Make the email address a link: select the text → link → **Email** → `jeanesther@artcornerstudio.net`.
+4. Add a **Contact form** element; in its settings, set **"Send submissions to": `hello@artcornerstudio.net`**.
+5. Make the email address a link: select the text → link → **Email** → `hello@artcornerstudio.net`.
 6. Publish, then send a test inquiry to yourself. It should appear in the Hostinger mailbox and in Gmail (via the forwarder).
 
 ---
@@ -27,7 +27,7 @@ Rules this draft follows: no prices (pricing matrix is empty), no response-time 
 Whether you're picturing a mural for a blank wall, a portrait of someone you love, or a class for a curious young artist, it starts with a message. Jean Esther reads every inquiry personally and will reply with next steps.
 
 ### Direct contact line
-Prefer email? Write to **jeanesther@artcornerstudio.net**
+Prefer email? Write to **hello@artcornerstudio.net**
 Studio in Antietam, PA, serving Reading and Berks County.
 
 ### Three ways we work (three columns or cards)
@@ -78,6 +78,6 @@ Each dropdown option maps to an intake lane the Orchestrator already routes: mur
 
 ## 4. Notes for Jean before publishing
 
-- **Reply address:** until you add `jeanesther@artcornerstudio.net` under Gmail **Settings → Accounts → "Send mail as"**, replies drafted in Gmail will come from artcorner101@gmail.com. Customers may be confused by a different address.
+- **Reply address:** until you add `hello@artcornerstudio.net` under Gmail **Settings → Accounts → "Send mail as"**, replies drafted in Gmail will come from artcorner101@gmail.com. Customers may be confused by a different address.
 - **Phone number:** not on record, so it's left out. Add one to the direct contact line if you want calls.
 - **Studio address:** intentionally not published (not on record; also a privacy choice). "Antietam, PA" matches the Truth Ledger.

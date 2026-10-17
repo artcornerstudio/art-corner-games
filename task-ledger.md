@@ -35,6 +35,7 @@ Maintained across all build phases. Status values: DONE, IN PROGRESS, PENDING, B
 | 7.4 | Ops | Website audit (Hostinger, read-only) | DONE | `docs/09-website-audit-2026-10-16.md`; page copy not reviewable from this environment |
 | 7.5 | Ops | 10th & Green reconnection email | DONE (draft) | Gmail draft for Jean; NOT sent (external-send gate) |
 | 7.6 | Ops | Truth Ledger corrections L1–L3 (domain, live game, The Way URL) | AWAITING JEAN | Proposed in `docs/09` §3; ledger untouched |
+| 7.8 | Ops | Customer inbox hello@artcornerstudio.net | IN PROGRESS | Created by Jean 2026-10-17 (2nd seat). Forwarder to Gmail created, awaiting Jean's confirmation click; contact page draft now uses hello@ |
 | 7.7 | Ops | Contact / Book page draft | DONE (draft) | `website/contact-page-draft.md` + preview; awaiting Jean to build in Website Builder (external-publish gate) |
 
 ## Items awaiting Jean (not blockers to the build)
