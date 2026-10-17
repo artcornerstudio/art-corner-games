@@ -64,7 +64,7 @@ Benchmark research (reference only, not rates): `docs/research/mural-pricing-ben
 | Painting, detailed illustration or lettering | per sq ft | **$20.00** |
 | Painting, photorealism or portraiture | per sq ft | **$45.00** |
 | Outdoor wall premium | added per sq ft | **+$5.00** |
-| Minimum project price | per project | **$800.00** |
+| Minimum project price | per project | **$800.00 total, design fee included** — if design + painting comes to less than $800, the project total is $800 (Jean, 2026-10-17) |
 | Design fee | flat | **$250.00** |
 | Extra revisions | per hour | **$45.00** |
 | Free travel radius | miles from studio | **25 miles** |
